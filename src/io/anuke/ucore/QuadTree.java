@@ -88,7 +88,7 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
         obj.getBoundingBox(tmp);
         if (!bounds.overlaps(tmp)) {
             // New object not in quad tree, ignoring
-            // TODO: throw an exception?
+            // throw an exception?
             return;
         }
 

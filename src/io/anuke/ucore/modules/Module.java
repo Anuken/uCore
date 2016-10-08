@@ -6,7 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 
 public abstract class Module<T extends ModuleController<T>> extends InputAdapter{
 	public T t;
-	public abstract void update();
+	public void update(){}
 	public void init(){}
 	public void pause(){}
 	public void resume(){}

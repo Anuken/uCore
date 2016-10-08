@@ -2,7 +2,6 @@ package io.anuke.ucore.spritesystem;
 
 public enum SortProviders implements SortProvider{
 	tile{
-		@Override
 		public int compare(Renderable a, Renderable b){
 			if(b.provider instanceof SortProviders){
 				if(b.provider == SortProviders.tile){
@@ -16,7 +15,6 @@ public enum SortProviders implements SortProvider{
 		}
 	},
 	object{
-		@Override
 		public int compare(Renderable a, Renderable b){
 			if(a.provider instanceof SortProviders && b.provider instanceof SortProviders){
 				if(b.provider == SortProviders.object){

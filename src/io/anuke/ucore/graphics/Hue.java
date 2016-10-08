@@ -1,11 +1,14 @@
 package io.anuke.ucore.graphics;
 
+import static java.lang.Math.abs;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Hue{
+	static private float[] hsv = new float[3];
 	
 	public static void clearScreen(Color color){
 		Gdx.gl.glClearColor(color.r, color.g, color.b, 1);
@@ -21,6 +24,33 @@ public class Hue{
 		color.g = (int)(color.g/amount) * amount;
 		color.b = (int)(color.b/amount) * amount;
 		return color;
+	}
+	
+	/**Returns the closest color in the array calculated by hue.*/
+	public static int closest(Color input, Color[] colors){
+		
+		float bh = RGBtoHSB(input, hsv)[0];
+		float bs = hsv[1];
+		
+		int index = 0;
+		float cd = 360;
+		for(int i = 0; i < colors.length; i ++){
+			RGBtoHSB(colors[i], hsv);
+			float cr = abs(bh -hsv[0]) + abs(bs -hsv[1]);
+			if(cr < cd){
+				index = i;
+				cd = cr;
+			}
+		}
+		return index;
+	}
+	
+	public float min(float a, float b, float c){
+		return Math.min(Math.min(a,b), c);
+	}
+	
+	public static float diff(Color a, Color b){
+		return Math.abs(a.r - b.r) + Math.abs(a.g - b.g) + Math.abs(a.b - b.b);
 	}
 	
 	public static Color fromHSB(float hue, float saturation, float brightness){
@@ -105,6 +135,10 @@ public class Hue{
         hsbvals[2] = brightness;
         return hsbvals;
     }
+	
+	public static float[] RGBtoHSB(Color color, float[] hsbvals){
+		return RGBtoHSB((int)(color.r*255),(int)(color.g*255),(int)(color.b*255),hsbvals);
+	}
 
 	
 	public static Color blend(int r1, int g1, int b1, int r2, int g2, int b2, float s){

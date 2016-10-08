@@ -1,12 +1,12 @@
 package io.anuke.ucore.spritesystem;
 
-import io.anuke.ucore.graphics.Atlas;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+
+import io.anuke.ucore.graphics.Atlas;
 
 public class SpriteRenderable extends Renderable{
 	public final Sprite sprite;
@@ -45,6 +45,11 @@ public class SpriteRenderable extends Renderable{
 		return this.centerX().centerY();
 	}
 	
+	public SpriteRenderable translate(float x, float y){
+		sprite.translate(x, y);
+		return this;
+	}
+	
 	public SpriteRenderable setLayer(float layer){
 		layerSet = true;
 		this.layer = layer;
@@ -57,7 +62,7 @@ public class SpriteRenderable extends Renderable{
 	}
 	
 	public SpriteRenderable generateShadow(Atlas atlas){
-		return new SpriteRenderable(atlas.findRegion("shadow" + (int)(sprite.getRegionWidth() * 0.9f / 2f) * 2))
+		return new SpriteRenderable(atlas.findRegion("shadow" + (int)(sprite.getRegionWidth() * 0.9f / 2f + Math.pow(sprite.getRegionWidth(), 1.5f)/200f) * 2))
 		.setPosition(sprite.getX() + sprite.getWidth()/2, sprite.getY(), true)
 		.setColor(new Color(0,0,0,1f))
 		.setLayer(-999999);
@@ -70,6 +75,11 @@ public class SpriteRenderable extends Renderable{
 	
 	public SpriteRenderable addShadow(RenderableList list, Atlas atlas){
 		list.add(generateShadow(atlas));
+		return this;
+	}
+	
+	public SpriteRenderable addShadow(RenderableList list, Atlas atlas, float offset){
+		list.add(generateShadow(atlas).translate(0, offset));
 		return this;
 	}
 
