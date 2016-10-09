@@ -45,8 +45,8 @@ public class Hue{
 		return index;
 	}
 	
-	public float min(float a, float b, float c){
-		return Math.min(Math.min(a,b), c);
+	public static float sum(Color color){
+		return color.r + color.g + color.b;
 	}
 	
 	public static float diff(Color a, Color b){

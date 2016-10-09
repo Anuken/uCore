@@ -46,8 +46,8 @@ public final class Noise {
 		return  (Math.pow ((noise((x)/scale,y/scale)*mag),(exp) )); 
 	}
     
-    public static double normalNoise (int x, int y, float scale, float mag){
-		return  ((noise((x)/scale,y/scale)*mag)); 
+    public static float normalNoise (int x, int y, float scale, float mag){
+		return  (float)((noise((x)/scale,y/scale)*mag)); 
 	}
 
     public static double noise(double x, double y) {
