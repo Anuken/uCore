@@ -3,6 +3,8 @@ package io.anuke.ucore;
 import java.lang.reflect.Field;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 
 public class UCore {
 	
@@ -36,6 +38,11 @@ public class UCore {
 		if(i < min) i = min;
 		if(i > max) i = max;
 		return i;
+	}
+	
+	public static void clearScreen(Color color){
+		Gdx.gl.glClearColor(color.r, color.g, color.b, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 	
 	/** Requires LWJGL3. */

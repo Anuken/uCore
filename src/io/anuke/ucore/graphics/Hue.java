@@ -2,18 +2,11 @@ package io.anuke.ucore.graphics;
 
 import static java.lang.Math.abs;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Hue{
 	static private float[] hsv = new float[3];
-	
-	public static void clearScreen(Color color){
-		Gdx.gl.glClearColor(color.r, color.g, color.b, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	}
 	
 	public static boolean approximate(Color a, Color b, float r){
 		return MathUtils.isEqual(a.r, b.r, r) && MathUtils.isEqual(a.g, b.g, r) && MathUtils.isEqual(a.b, b.b, r);
