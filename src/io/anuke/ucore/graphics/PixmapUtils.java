@@ -3,8 +3,10 @@ package io.anuke.ucore.graphics;
 import java.nio.ByteBuffer;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -48,7 +50,7 @@ public class PixmapUtils{
 
 	public static Pixmap resize(Pixmap input, int width, int height){
 		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
-		pixmap.drawPixmap(input, width / 2 - input.getHeight() / 2, height / 2 - input.getWidth() / 2);
+		pixmap.drawPixmap(input, width / 2 - input.getWidth() / 2, height / 2 - input.getHeight() / 2);
 
 		return pixmap;
 	}

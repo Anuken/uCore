@@ -4,9 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class Entity{
 	private static long lastid;
-	public final long id;
 	public static SpriteBatch batch;
 	public static float delta;
+	
+	public final long id;
+	public float x,y;
 	
 	public abstract void update();
 	public abstract void draw();
@@ -17,9 +19,10 @@ public abstract class Entity{
 		init();
 	}
 	
-	public Entity add(){
+	@SuppressWarnings("unchecked")
+	public <T extends Entity> T add(){
 		EntityController.instance().entitiesToAdd.add(this);
-		return this;
+		return (T)this;
 	}
 	
 	public Entity remove(){
