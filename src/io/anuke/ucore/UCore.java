@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 
 public class UCore{
-	/**The screen pixel density scale. Yes, this is a one letter variable, it's inteded to be used a lot.*/
+	/**The screen pixel density scale. Yes, this is a one letter variable, it's intended to be used a lot.*/
 	public static final float s = (Gdx.app.getType() == ApplicationType.Desktop ? 1f : Gdx.graphics.getDensity() / 1.5f);
 
 	public static <T> boolean inBounds(int x, int y, T[][] array){
