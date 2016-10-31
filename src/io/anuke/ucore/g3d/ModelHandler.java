@@ -2,13 +2,12 @@ package io.anuke.ucore.g3d;
 
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.utils.Array;
 
 public class ModelHandler{
 	private static ModelHandler instance;
 	
-	private Array<ModelInstance> models = new Array<ModelInstance>();
+	private Array<ModelRenderable> models = new Array<ModelRenderable>();
 	private Environment environment;
 	
 	private ModelHandler(){}
@@ -22,21 +21,25 @@ public class ModelHandler{
 		this.environment = env;
 	}
 	
-	public void render(ModelBatch batch){
-		for(ModelInstance model : models)
-			batch.render(model, environment);
+	public Environment environment(){
+		return environment;
 	}
 	
-	public void add(ModelInstance model){
+	public void render(ModelBatch batch){
+		for(ModelRenderable model : models)
+			model.render(batch);
+	}
+	
+	public void add(ModelRenderable model){
 		models.add(model);
 	}
 	
-	public void remove(ModelInstance model){
+	public void remove(ModelRenderable model){
 		models.removeValue(model, true);
 	}
 	
-	public void remove(Iterable<? extends ModelInstance> list){
-		for(ModelInstance r : list)
+	public void remove(Iterable<? extends ModelRenderable> list){
+		for(ModelRenderable r : list)
 			remove(r);
 	}
 	

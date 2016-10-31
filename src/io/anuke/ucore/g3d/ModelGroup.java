@@ -3,13 +3,14 @@ package io.anuke.ucore.g3d;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class ModelGroup{
-	public ObjectMap<String, ModelTransform> models = new ObjectMap<String, ModelTransform>();
+	public ObjectMap<String, ModelRenderable> models = new ObjectMap<String, ModelRenderable>();
 	
 	public void add(String name, ModelTransform t){
+		t.add();
 		models.put(name, t);
 	}
 	
-	public ModelTransform get(String name){
+	public ModelRenderable get(String name){
 		return models.get(name);
 	}
 	
