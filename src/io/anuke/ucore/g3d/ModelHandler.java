@@ -9,6 +9,7 @@ public class ModelHandler{
 	
 	private Array<ModelRenderable> models = new Array<ModelRenderable>();
 	private Environment environment;
+	private int peak;
 	
 	private ModelHandler(){}
 	
@@ -25,7 +26,16 @@ public class ModelHandler{
 		return environment;
 	}
 	
+	public int count(){
+		return models.size;
+	}
+	
+	public int peak(){
+		return peak;
+	}
+	
 	public void render(ModelBatch batch){
+		peak = Math.max(peak, models.size);
 		for(ModelRenderable model : models)
 			model.render(batch);
 	}

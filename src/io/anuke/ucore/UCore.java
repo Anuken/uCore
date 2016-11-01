@@ -52,6 +52,17 @@ public class UCore{
 		Gdx.gl.glClearColor(color.r, color.g, color.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 	}
+	
+	public static Object getPrivate(Object object, String name){
+		try{
+			Field field = object.getClass().getDeclaredField(name);
+			field.setAccessible(true);
+			return field.get(object);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	/** Requires LWJGL3. */
 	public static void maximizeWindow(){
