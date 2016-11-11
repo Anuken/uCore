@@ -82,6 +82,18 @@ public class PixmapUtils{
 		
 		return pixmap;
 	}
+	
+	public static void traverse(Pixmap input, PixmapTraverser t){
+		for(int x = 0;x < input.getWidth();x ++){
+			for(int y = 0;y < input.getHeight();y ++){
+				t.traverse(x, y);
+			}
+		}
+	}
+	
+	public static interface PixmapTraverser{
+		public void traverse(int x, int y);
+	}
 
 	public static Pixmap huePixmap(int width, int height){
 		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
