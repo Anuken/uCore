@@ -14,11 +14,9 @@ public class RidgedPerlin{
 	float lacunarity = 1.0f;
 	double[] spectralWeights = new double[20];
 
-	private static final VectorTable vectorTable = new VectorTable();
-
 	public RidgedPerlin(int seed, int octaves, float falloff) {
 		this.octaves = octaves;
-
+		this.seed = seed;
 		double h = 1.0;
 
 		double frequency = 1.0;
@@ -42,17 +40,11 @@ public class RidgedPerlin{
 		double value = 0.0;
 		double weight = 1.0;
 
-		// These parameters should be user-defined; they may be exposed in a
-		// future version of libnoise.
 		double offset = 1.0;
 		double gain = 2.0;
 
 		for(int curOctave = 0; curOctave < octaves; curOctave++){
 
-			// Make sure that these floating-point values have the same range as
-			// a 32-
-			// bit integer so that we can pass them to the coherent-noise
-			// functions.
 			double nx, ny, nz;
 			nx = MakeInt32Range(x1);
 			ny = MakeInt32Range(y1);
@@ -174,9 +166,9 @@ public class RidgedPerlin{
 		vectorIndex ^= (vectorIndex >> SHIFT_NOISE_GEN);
 		vectorIndex &= 0xff;
 
-		double xvGradient = vectorTable.getRandomVectors(vectorIndex, 0);
-		double yvGradient = vectorTable.getRandomVectors(vectorIndex, 1);
-		double zvGradient = vectorTable.getRandomVectors(vectorIndex, 2);
+		double xvGradient = VectorTable.getRandomVectors(vectorIndex, 0);
+		double yvGradient = VectorTable.getRandomVectors(vectorIndex, 1);
+		double zvGradient = VectorTable.getRandomVectors(vectorIndex, 2);
 		// array size too large when using this original, changed to above for
 		// all 3
 		// double zvGradient = vectorTable.getRandomVectors(vectorIndex << 2,

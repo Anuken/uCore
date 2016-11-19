@@ -1,4 +1,4 @@
-package io.anuke.ucore;
+package io.anuke.ucore.util;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ObjectMap;

@@ -1,9 +1,8 @@
 package io.anuke.ucore.noise;
 
-public class VectorTable
-{
+public class VectorTable{
   
-   double[][] randomVectors = {
+   static double[][] randomVectors = {
      {-0.763874, -0.596439, -0.246489, 0.0},
      {0.396055, 0.904518, -0.158073, 0.0},
      {-0.499004, -0.8665, -0.0131631, 0.0},
@@ -262,13 +261,8 @@ public class VectorTable
      {0.0337884, -0.979891, -0.196654, 0.0}
    };
 
-   public VectorTable()
-   {
-      
-   }
 
-   public double getRandomVectors(int a, int b)
-   {
+   public static double getRandomVectors(int a, int b){
       return randomVectors[a][b];
    }
    

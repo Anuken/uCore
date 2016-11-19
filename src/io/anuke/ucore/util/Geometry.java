@@ -1,4 +1,4 @@
-package io.anuke.ucore;
+package io.anuke.ucore.util;
 
 import java.awt.geom.PathIterator;
 

@@ -16,9 +16,7 @@ public class Interp{
       /// The alpha value should range from 0.0 to 1.0.  If the alpha value is
       /// 0.0, this function returns @a n1.  If the alpha value is 1.0, this
       /// function returns @a n2.
-      public static double cubicInterp (double n0, double n1, double n2, double n3,
-            double a)
-      {
+      public static double cubicInterp (double n0, double n1, double n2, double n3, double a){
          double p = (n3 - n2) - (n0 - n1);
          double q = (n0 - n1) - p;
          double r = n2 - n0;
@@ -37,8 +35,7 @@ public class Interp{
       /// The alpha value should range from 0.0 to 1.0.  If the alpha value is
       /// 0.0, this function returns @a n0.  If the alpha value is 1.0, this
       /// function returns @a n1.
-      public static double linearInterp (double n0, double n1, double a)
-      {
+      public static double linearInterp (double n0, double n1, double a){
         return ((1.0 - a) * n0) + (a * n1);
       }
 
@@ -52,8 +49,7 @@ public class Interp{
       ///
       /// The derivative of a cubic S-curve is zero at @a a = 0.0 and @a a =
       /// 1.0
-      public static double SCurve3 (double a)
-      {
+      public static double SCurve3 (double a) {
         return (a * a * (3.0 - 2.0 * a));
       }
 
@@ -70,8 +66,7 @@ public class Interp{
       ///
       /// The second derivative of a quintic S-curve is zero at @a a = 0.0 and
       /// @a a = 1.0
-      static double SCurve5 (double a)
-      {
+      static double SCurve5 (double a){
         double a3 = a * a * a;
         double a4 = a3 * a;
         double a5 = a4 * a;

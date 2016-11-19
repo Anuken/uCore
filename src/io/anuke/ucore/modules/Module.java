@@ -34,6 +34,10 @@ public abstract class Module<T extends ModuleController<T>> extends InputAdapter
 		UCore.clearScreen(color);
 	}
 	
+	public void log(String message){
+		System.out.println(message);
+	}
+	
 	public void clearScreen(float r, float g, float b){
 		Gdx.gl.glClearColor(r, g, b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
