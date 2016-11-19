@@ -88,6 +88,30 @@ public class Geometry{
 		}
 	}
 	
+	public static void iteratePolySegments(float[] vertices, SegmentConsumer it){
+		for(int i = 0; i < vertices.length; i += 2){
+			float x = vertices[i];
+			float y = vertices[i+1];
+			float x2 = 0, y2 = 0;
+			if(i == vertices.length-2){
+				x2 = vertices[0];
+				y2 = vertices[1];
+			}else{
+				x2 = vertices[i+2];
+				y2 = vertices[i+3];
+			}
+			it.consume(x, y, x2, y2);
+		}
+	}
+	
+	public static void iteratePolygon(PathConsumer path, float[] vertices){
+		for(int i = 0; i < vertices.length; i += 2){
+			float x = vertices[i];
+			float y = vertices[i+1];
+			path.consume(x, y);
+		}
+	}
+	
 	public static void iterate(PathIterator path, PathConsumer c){
 		float[] floats = new float[2];
 		while(!path.isDone()){
@@ -108,6 +132,10 @@ public class Geometry{
 		});
 		
 		return array.toArray();
+	}
+	
+	public interface SegmentConsumer{
+		public void consume(float x, float y, float x2, float y2);
 	}
 	
 	public interface PathConsumer{

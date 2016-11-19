@@ -22,6 +22,10 @@ public abstract class Module<T extends ModuleController<T>> extends InputAdapter
 		return (N)(t.getModule((Class<? extends Module<T>>)c));
 	}
 	
+	public void maximize(){
+		UCore.maximizeWindow();
+	}
+	
 	public void clearScreen(){
 		clearScreen(Color.BLACK);
 	}

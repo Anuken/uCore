@@ -39,6 +39,11 @@ public class UCore{
 			i = max;
 		return i;
 	}
+	
+	/**Clamps to [0,1]*/
+	public static float clamp(double i){
+		return clamp((float)i,0,1);
+	}
 
 	public static int clamp(int i, int min, int max){
 		if(i < min)
@@ -47,6 +52,8 @@ public class UCore{
 			i = max;
 		return i;
 	}
+	
+	
 
 	public static void clearScreen(Color color){
 		Gdx.gl.glClearColor(color.r, color.g, color.b, 1);

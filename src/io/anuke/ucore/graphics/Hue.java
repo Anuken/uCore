@@ -4,7 +4,6 @@ import static java.lang.Math.abs;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
-
 public class Hue{
 	static private float[] hsv = new float[3];
 	
@@ -149,6 +148,17 @@ public class Hue{
 	public static Color blend(Color a, Color b, float s){
 		float i = 1f - s;
 		return new Color(a.r*i + b.r*s, a.g*i + b.g*s, a.b*i + b.b*s, 1f);
+	}
+	
+	/**d---c
+	 * |   |
+	 * |   |
+	 * a---b
+	 */
+	public static Color blend2d(Color a, Color b, Color c, Color d, float x, float y){
+		return new Color(( b.r*y + a.r*(1-y) ) * (x)  +  ( d.r*y + c.r*(1-y) ) * (1-x),
+				( b.g*y + a.g*(1-y) ) * (x)  +  ( d.g*y + c.g*(1-y) ) * (1-x),
+				( b.b*y + a.b*(1-y) ) * (x)  +  ( d.b*y + c.b*(1-y) ) * (1-x), 1f).clamp();
 	}
 	
 	public static Color rgb(int r, int g, int b){

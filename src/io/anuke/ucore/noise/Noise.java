@@ -1,4 +1,4 @@
-package io.anuke.ucore;
+package io.anuke.ucore.noise;
 
 public final class Noise {
 
@@ -49,6 +49,14 @@ public final class Noise {
     public static float normalNoise (int x, int y, float scale, float mag){
 		return  (float)((noise((x)/scale,y/scale)*mag)); 
 	}
+    
+    public static float nnoise(int x, int y , float scale, float mag){
+    	return (float)(normalNoise(x,y,scale,mag) / 2.0);
+    }
+    
+    public static float nnoise(int x, int y , float scale, float mag, float xp){
+    	return (float)(normalNoise(x,y,scale,mag, xp) / 2.0);
+    }
 
     public static double noise(double x, double y) {
 

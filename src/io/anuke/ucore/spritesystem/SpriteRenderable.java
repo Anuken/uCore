@@ -17,6 +17,11 @@ public class SpriteRenderable extends Renderable{
 		sprite = new Sprite(region);
 	}
 	
+	public SpriteRenderable setRegion(TextureRegion region){
+		sprite.setRegion(region);
+		return this;
+	}
+	
 	public SpriteRenderable setPosition(float x, float y){
 		if(!MathUtils.isEqual(y, sprite.getY(), 0.001f))
 			RenderableHandler.getInstance().requestSort();
@@ -62,10 +67,14 @@ public class SpriteRenderable extends Renderable{
 	}
 	
 	public SpriteRenderable generateShadow(Atlas atlas){
-		return new SpriteRenderable(atlas.findRegion("shadow" + (int)(sprite.getRegionWidth() * 0.9f / 2f + Math.pow(sprite.getRegionWidth(), 1.5f)/200f) * 2))
+		return new SpriteRenderable(atlas.findRegion("shadow" + (int)(sprite.getRegionWidth() * 0.8f / 2f + Math.pow(sprite.getRegionWidth(), 1.5f)/200f) * 2))
 		.setPosition(sprite.getX() + sprite.getWidth()/2, sprite.getY(), true)
 		.setColor(new Color(0,0,0,1f))
 		.setLayer(-999999);
+	}
+	
+	public SpriteRenderable setAsShadow(){
+		return setLayer(-999999);
 	}
 	
 	public SpriteRenderable addShadow(RenderableGroup group, Atlas atlas){
