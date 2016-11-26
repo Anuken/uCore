@@ -37,12 +37,12 @@ public class SpriteRenderable extends Renderable{
 	}
 	
 	public SpriteRenderable centerX(){
-		sprite.translateX(-sprite.getWidth()/2);
+		sprite.translateX((int)(-sprite.getWidth()/2));
 		return this;
 	}
 	
 	public SpriteRenderable centerY(){
-		sprite.translateY(-sprite.getHeight()/2);
+		sprite.translateY((int)(-sprite.getHeight()/2));
 		return this;
 	}
 	
@@ -66,9 +66,14 @@ public class SpriteRenderable extends Renderable{
 		return this;
 	}
 	
+	public SpriteRenderable setColor(float r, float g, float b){
+		sprite.setColor(r,g,b,1f);
+		return this;
+	}
+	
 	public SpriteRenderable generateShadow(Atlas atlas){
 		return new SpriteRenderable(atlas.findRegion("shadow" + (int)(sprite.getRegionWidth() * 0.8f / 2f + Math.pow(sprite.getRegionWidth(), 1.5f)/200f) * 2))
-		.setPosition(sprite.getX() + sprite.getWidth()/2, sprite.getY(), true)
+		.setPosition(sprite.getX() + (int)(sprite.getWidth()/2), sprite.getY(), true)
 		.setColor(new Color(0,0,0,1f))
 		.setLayer(-999999);
 	}

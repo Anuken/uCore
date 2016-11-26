@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import io.anuke.ucore.UCore;
+
 public class PixmapUtils{
 	private static ByteBuffer bytes = ByteBuffer.allocateDirect(4);
 
@@ -63,8 +65,6 @@ public class PixmapUtils{
 	
 	public static Pixmap rotate(Pixmap input, float angle){
 		Vector2 vector = new Vector2();
-		//vector.set(input.getWidth(), input.getHeight());
-		//vector.rotate(angle);
 		Pixmap pixmap = new Pixmap(input.getHeight(), input.getWidth(), Format.RGBA8888);
 	
 
@@ -72,8 +72,6 @@ public class PixmapUtils{
 			for(int y = 0;y < input.getHeight();y ++){
 				vector.set(x - input.getWidth() / 2f + 0.5f, y - input.getHeight() / 2f);
 				vector.rotate(-angle);
-				//vector.sub(input.getWidth()/2, input.getHeight()/2);
-				//vector.add(pixmap.getWidth()/2, pixmap.getHeight()/2);
 				int px = (int)(vector.x + input.getWidth() / 2f+0.01f);
 				int py = (int)(vector.y + input.getHeight() / 2f+0.01f);
 				pixmap.drawPixel(px - input.getWidth()/2 + pixmap.getWidth()/2, py - input.getHeight()/2 + pixmap.getHeight()/2, input.getPixel(x,y));
@@ -81,6 +79,10 @@ public class PixmapUtils{
 		}
 		
 		return pixmap;
+	}
+	
+	public static boolean isDisposed(Pixmap pix){
+		return (Boolean)UCore.getPrivate(pix, "disposed");
 	}
 	
 	public static void traverse(Pixmap input, PixmapTraverser t){
