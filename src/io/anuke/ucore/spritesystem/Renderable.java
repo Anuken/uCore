@@ -1,10 +1,12 @@
 package io.anuke.ucore.spritesystem;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.utils.Pool.Poolable;
 
-public abstract class Renderable implements Comparable<Renderable>{
-	public abstract void draw(Batch batch);
+public abstract class Renderable implements Comparable<Renderable>, Poolable{
 	public SortProvider provider = SortProviders.tile;
+	
+	public abstract void draw(Batch batch);
 	
 	public abstract Renderable setPosition(float x, float y);
 	

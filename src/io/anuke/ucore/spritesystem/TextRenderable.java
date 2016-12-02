@@ -51,4 +51,15 @@ public class TextRenderable extends Renderable{
 	public float layer(){
 		return y;
 	}
+
+	@Override
+	public void reset(){
+		font = null;
+		x = 0;
+		y = 0;
+		text = "";
+		color = Color.WHITE;
+		centerx = false;
+		centery = false;
+	}
 }

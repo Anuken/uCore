@@ -150,6 +150,11 @@ public class Hue{
 		return new Color(a.r*i + b.r*s, a.g*i + b.g*s, a.b*i + b.b*s, 1f);
 	}
 	
+	public static Color blend(Color a, Color b, float s, Color to){
+		float i = 1f - s;
+		return to.set(a.r*i + b.r*s, a.g*i + b.g*s, a.b*i + b.b*s, 1f);
+	}
+	
 	/**d---c
 	 * |   |
 	 * |   |
