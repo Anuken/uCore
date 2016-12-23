@@ -25,12 +25,13 @@ public abstract class Renderable implements Comparable<Renderable>, Poolable{
 		group.add(name, this);
 	}
 	
-	public void add(){
-		RenderableHandler.getInstance().add(this);
+	public <T extends Renderable> T  add(){
+		RenderableHandler.instance().add(this);
+		return (T)this;
 	}
 	
 	public void remove(){
-		RenderableHandler.getInstance().remove(this);
+		RenderableHandler.instance().remove(this);
 	}
 	
 	public SpriteRenderable sprite(){

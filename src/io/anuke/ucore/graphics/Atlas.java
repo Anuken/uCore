@@ -30,6 +30,11 @@ public class Atlas extends TextureAtlas{
 		}
 		error = findRegion("error");
 	}
+	
+	public Pixmap getPixmapOf(String name){
+		return getPixmapOf(findRegion(name));
+	}
+	
 	/**
 	 * Used for getting the pixmap of a certain region.
 	 * Note that it is internally stored and disposed when needed.
@@ -80,8 +85,8 @@ public class Atlas extends TextureAtlas{
 	 * 
 	 * @return whether or not the specified region is found.
 	 */
-	public boolean regionFound(String s){
-		return findRegion(s).equals(error);
+	public boolean hasRegion(String s){
+		return !findRegion(s).equals(error);
 	}
 	
 	public void dispose(){

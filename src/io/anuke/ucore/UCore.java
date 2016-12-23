@@ -31,6 +31,18 @@ public class UCore{
 	public static <T> boolean inBounds(int x, int y, int width, int height){
 		return x >= 0 && y >= 0 && x < width && y < height;
 	}
+	
+	public static boolean inRect(float x, float y, float bx, float by, float tx, float ty){
+		return x > bx && y > by && x < tx && y < ty;
+	}
+	
+	public static float round(float a, float b){
+		return (int)(a/b)*b;
+	}
+	
+	public static int scl(float a, float b){
+		return (int)(a/b);
+	}
 
 	public static float clamp(float i, float min, float max){
 		if(i < min)
@@ -53,7 +65,16 @@ public class UCore{
 		return i;
 	}
 	
-	
+	public static String parseException(Exception e){
+		StringBuilder build = new StringBuilder();
+		
+		build.append(e.getClass().getName() + ": " +e.getMessage());
+		
+		for(StackTraceElement s : e.getStackTrace()){
+			build.append("\n"+s.toString());
+		}
+		return build.toString();
+	}
 
 	public static void clearScreen(Color color){
 		Gdx.gl.glClearColor(color.r, color.g, color.b, 1);

@@ -1,17 +1,15 @@
 package io.anuke.ucore.entities;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 public abstract class Entity{
 	private static long lastid;
-	public static SpriteBatch batch;
 	public static float delta;
 	
 	public final long id;
 	public float x,y;
 	
-	public abstract void update();
-	public abstract void draw();
+	public void update(){}
+	public void draw(){}
+	public void removed(){}
 	public void init(){}
 	
 	public Entity(){
@@ -19,14 +17,14 @@ public abstract class Entity{
 		init();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T extends Entity> T add(){
-		EntityController.instance().entitiesToAdd.add(this);
+		EntityHandler.instance().entitiesToAdd.add(this);
 		return (T)this;
 	}
 	
 	public Entity remove(){
-		EntityController.instance().entitiesToRemove.add(id);
+		EntityHandler.instance().entitiesToRemove.add(id);
+		removed();
 		return this;
 	}
 }

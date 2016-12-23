@@ -26,12 +26,22 @@ public class SpriteRenderable extends Renderable{
 		sprite.setSize(region.getRegionWidth(), region.getRegionHeight());
 		return this;
 	}
+	
+	public SpriteRenderable scaleBy(float x, float y){
+		sprite.setSize(sprite.getWidth() + x, sprite.getHeight()+y);
+		return this;
+	}
 
 	public SpriteRenderable setPosition(float x, float y){
 		if(!MathUtils.isEqual(y, sprite.getY(), 0.001f))
-			RenderableHandler.getInstance().requestSort();
+			RenderableHandler.instance().requestSort();
 
 		sprite.setPosition(x, y);
+		return this;
+	}
+	
+	public SpriteRenderable setSize(float x, float y){
+		sprite.setSize(x, y);
 		return this;
 	}
 
@@ -105,6 +115,10 @@ public class SpriteRenderable extends Renderable{
 	public SpriteRenderable setLight(){
 		return setLayer(999999);
 	}
+	
+	public SpriteRenderable setDark(){
+		return setLayer(999999+1);
+	}
 
 	public SpriteRenderable addShadow(RenderableGroup group, Atlas atlas){
 		group.add("shadow", generateShadow(atlas));
@@ -118,6 +132,11 @@ public class SpriteRenderable extends Renderable{
 
 	public SpriteRenderable addShadow(RenderableList list, Atlas atlas, float offset){
 		list.add(generateShadow(atlas).translate(0, offset));
+		return this;
+	}
+	
+	public SpriteRenderable addShadow(RenderableGroup list, Atlas atlas, float offset){
+		list.add("shadow", generateShadow(atlas).translate(0, offset));
 		return this;
 	}
 
@@ -134,7 +153,8 @@ public class SpriteRenderable extends Renderable{
 	@Override
 	public void reset(){
 		provider = SortProviders.tile;
-		sprite = new Sprite();
+		sprite.setColor(Color.WHITE);
+		sprite.setRotation(0);
 		layerSet = false;
 		layer = 0;
 	}

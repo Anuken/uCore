@@ -50,12 +50,21 @@ public class RenderableHandler{
 		renderables.clear();
 	}
 	
+	/**Returns the current amount of renderables.*/
+	public int getSize(){
+		return renderables.size;
+	}
+	
 	public void requestSort(){
 		updated = true;
 	}
 
-	public static RenderableHandler getInstance(){
+	public static RenderableHandler instance(){
 		if(instance == null) instance = new RenderableHandler();
 		return instance;
+	}
+	
+	static public interface BatchDrawable{
+		public void draw(Batch batch);
 	}
 }

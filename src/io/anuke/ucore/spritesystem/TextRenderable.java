@@ -5,13 +5,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Align;
 
 public class TextRenderable extends Renderable{
 	private static GlyphLayout layout = new GlyphLayout();
 	public float x,y;
 	public String text;
 	public BitmapFont font;
-	public boolean centerx, centery;
+	public int align = Align.center;
 	public Color color = Color.WHITE;
 	
 	public TextRenderable(BitmapFont font, String text){
@@ -24,15 +25,15 @@ public class TextRenderable extends Renderable{
 		return this;
 	}
 	
-	public TextRenderable center(){
-		centerx = centery = true;
+	public TextRenderable align(int align){
+		this.align = align;
 		return this;
 	}
 	
 	@Override
 	public TextRenderable setPosition(float x, float y){
 		if(!MathUtils.isEqual(y, this.y, 0.001f))
-			RenderableHandler.getInstance().requestSort();
+			RenderableHandler.instance().requestSort();
 		this.x = x;
 		this.y = y;
 		return this;
@@ -44,7 +45,7 @@ public class TextRenderable extends Renderable{
 		font.setColor(color);
 		layout.setText(font, text);
 		
-		font.draw(batch, text, x - (centerx ? layout.width/2 : 0), y + (centery ? layout.height/2 : 0));
+		font.draw(batch, text, x, y, 0.5f, align, false);
 	}
 
 	@Override
@@ -59,7 +60,6 @@ public class TextRenderable extends Renderable{
 		y = 0;
 		text = "";
 		color = Color.WHITE;
-		centerx = false;
-		centery = false;
+		align = Align.center;
 	}
 }

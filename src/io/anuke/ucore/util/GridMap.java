@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
-public class BlockMap<T>{
+public class GridMap<T>{
 	protected HashMap<Long, T> map = new HashMap<Long, T>();
 	
 	public T get(int x, int y){
@@ -21,6 +21,14 @@ public class BlockMap<T>{
 	
 	public Set<Long> keys(){
 		return map.keySet();
+	}
+	
+	public void clear(){
+		map.clear();
+	}
+	
+	public int size(){
+		return map.size();
 	}
 	
 	private long getHash(int x, int y){

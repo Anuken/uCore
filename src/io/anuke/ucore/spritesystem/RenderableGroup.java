@@ -1,12 +1,24 @@
 package io.anuke.ucore.spritesystem;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectMap.Values;
 
 public class RenderableGroup{
 	public ObjectMap<String, Renderable> map = new ObjectMap<String, Renderable>();
 	
 	public Iterable<? extends Renderable> list(){
 		return map.values();
+	}
+	
+	public Renderable first(){
+		Color color = map.values().next().sprite().sprite.getColor();
+		if(color.r + color.g + color.b <= 0.0001f){
+			Values<Renderable> val = map.values().iterator();
+			val.next();
+			return val.next();
+		}
+		return map.values().next();
 	}
 	
 	public Renderable get(String name){
@@ -24,6 +36,6 @@ public class RenderableGroup{
 	}
 	
 	public void free(){
-		RenderableHandler.getInstance().remove(map.values());
+		RenderableHandler.instance().remove(map.values());
 	}
 }

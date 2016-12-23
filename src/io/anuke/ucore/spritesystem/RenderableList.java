@@ -17,7 +17,7 @@ public class RenderableList{
 	}
 	
 	public void free(){
-		RenderableHandler.getInstance().remove(renderables);
+		RenderableHandler.instance().remove(renderables);
 		renderables.clear();
 	}
 }

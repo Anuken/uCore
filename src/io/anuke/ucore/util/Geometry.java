@@ -15,7 +15,8 @@ public class Geometry{
 	private final static Vector2 s = new Vector2();
 	private final static Vector2 e = new Vector2();
 	
-	public static float[] nGon(int amount, float size){
+	/**returns a regular polygon with {amount} sides*/
+	public static float[] regPoly(int amount, float size){
 		float[] v = new float[amount*2];
 		Vector2 vec = new Vector2(1,1);
 		vec.setLength(size);
@@ -35,6 +36,7 @@ public class Geometry{
 		return poly;
 	}
 	
+	/**copied from the libGDX source*/
 	public static boolean intersectPolygons (float[] p1, float[] p2) {
 		// reusable points to trace edges around polygon
 		floatArray2.clear();
@@ -88,6 +90,24 @@ public class Geometry{
 		}
 	}
 	
+	public static float iterateLine(float start, float x1, float y1, float x2, float y2, float segment, PositionConsumer pos){
+		float len = Vector2.dst(x1, y1, x2, y2);
+		int steps = (int)(len/segment);
+		float step = 1f/steps;
+		
+		float offset = len;
+		ep2.set(x2, y2);
+		for(int i = 0; i < steps; i ++){
+			float s = step*i;
+			ep1.set(x1, y1);
+			ep1.lerp(ep2, s);
+			pos.consume(ep1.x, ep1.y);
+			offset -= step;
+		}
+		
+		return offset;
+	}
+	
 	public static void iteratePolySegments(float[] vertices, SegmentConsumer it){
 		for(int i = 0; i < vertices.length; i += 2){
 			float x = vertices[i];
@@ -104,7 +124,7 @@ public class Geometry{
 		}
 	}
 	
-	public static void iteratePolygon(PathConsumer path, float[] vertices){
+	public static void iteratePolygon(PositionConsumer path, float[] vertices){
 		for(int i = 0; i < vertices.length; i += 2){
 			float x = vertices[i];
 			float y = vertices[i+1];
@@ -112,7 +132,7 @@ public class Geometry{
 		}
 	}
 	
-	public static void iterate(PathIterator path, PathConsumer c){
+	public static void iterate(PathIterator path, PositionConsumer c){
 		float[] floats = new float[2];
 		while(!path.isDone()){
 			path.currentSegment(floats);
@@ -124,7 +144,7 @@ public class Geometry{
 	public static float[] array(PathIterator path){
 		final FloatArray array = new FloatArray();
 		
-		iterate(path, new PathConsumer(){
+		iterate(path, new PositionConsumer(){
 			public void consume(float x, float y){
 				array.add(x);
 				array.add(y);
@@ -138,7 +158,7 @@ public class Geometry{
 		public void consume(float x, float y, float x2, float y2);
 	}
 	
-	public interface PathConsumer{
+	public interface PositionConsumer{
 		public void consume(float x, float y);
 	}
 }

@@ -1,14 +1,17 @@
 package io.anuke.ucore.modules;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 public abstract class ModuleController<T extends ModuleController<T>> extends ApplicationAdapter{
-	
+	private static ModuleController<?> instance;
 	protected ObjectMap<Class<? extends Module<T>>, Module<T>> modules = new ObjectMap<Class<? extends Module<T>>, Module<T>>();
 	protected Array<Module<T>> modulearray = new Array<Module<T>>();
+	
+	{instance=this;}
 	
 	@SuppressWarnings("unchecked")
 	public void addModule(Class<? extends Module<T>> c){
@@ -19,12 +22,17 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 			modulearray.add(m);
 		}catch (Exception e){
 			e.printStackTrace();
+			Gdx.app.exit();
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	public <N> N getModule(Class<N> c){
 		return (N)(modules.get((Class<? extends Module<T>>)c));
+	}
+	
+	public static  <N> N module(Class<N> c){
+		return (N)(instance.getModule(c));
 	}
 	
 	abstract public void init();
