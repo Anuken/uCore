@@ -4,6 +4,8 @@ import static java.lang.Math.abs;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
+
+import io.anuke.ucore.UCore;
 public class Hue{
 	static private float[] hsv = new float[3];
 	
@@ -148,6 +150,16 @@ public class Hue{
 	public static Color blend(Color a, Color b, float s){
 		float i = 1f - s;
 		return new Color(a.r*i + b.r*s, a.g*i + b.g*s, a.b*i + b.b*s, 1f);
+	}
+	
+	public static Color blend(Color[] colors, Color out, float s){
+		int l = colors.length;
+		Color a = colors[(int)(s*(l-1))];
+		Color b = colors[UCore.clamp((int)(s*(l-1)+1), 0, l-1)];
+		
+		float n = s*(l-1)-(int)(s*(l-1));
+		float i = 1f-n;
+		return out.set(a.r*i + b.r*n, a.g*i + b.g*n, a.b*i + b.b*n, 1f);
 	}
 	
 	public static Color blend(Color a, Color b, float s, Color to){

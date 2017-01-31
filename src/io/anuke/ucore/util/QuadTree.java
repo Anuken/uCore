@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
  * This class represents any node, but you will likely only interact with the root node.
  *
  * @param <T> The type of object this quad tree should contain. An object only requires some way of getting rough bounds.
+ * @author xSke
  */
 public class QuadTree<T extends QuadTree.QuadTreeObject> {
     private int maxObjectsPerNode;

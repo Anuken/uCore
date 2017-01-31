@@ -265,8 +265,5 @@ public class VectorTable{
    public static double getRandomVectors(int a, int b){
       return randomVectors[a][b];
    }
-   
-   
-     
 }
 

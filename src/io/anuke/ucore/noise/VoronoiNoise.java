@@ -34,7 +34,10 @@ import java.util.Random;
  * 
  * To use octaves, use the VoronoiOctaveGenerator class.
  */
-public class VoroniNoise{
+//again
+//this is from libnoiseforjava
+//ignore
+public class VoronoiNoise{
 	
 	   /// Noise module that outputs Voronoi cells.
 	   ///
@@ -76,7 +79,7 @@ public class VoroniNoise{
 	private short distanceMethod;
 
 
-	public VoroniNoise(long seed, short distanceMethod) {
+	public VoronoiNoise(long seed, short distanceMethod) {
 		this.seed = seed;
 		this.distanceMethod = distanceMethod;
 	}
@@ -162,7 +165,7 @@ public class VoroniNoise{
 			return getDistance(xDist, zDist);
 		}
 		
-		else return ((double)VoroniNoise.valueNoise2D (
+		else return ((double)VoronoiNoise.valueNoise2D (
 		       (int)(Math.floor (xCandidate)),
 		       (int)(Math.floor (zCandidate)), seed));
 	}
@@ -221,7 +224,7 @@ public class VoroniNoise{
 			return getDistance(xDist, yDist, zDist);
 		}
 
-		else return ((double)VoroniNoise.valueNoise3D (
+		else return ((double)VoronoiNoise.valueNoise3D (
 		       (int)(Math.floor (xCandidate)),
 		       (int)(Math.floor (yCandidate)),
 		       (int)(Math.floor (zCandidate)), seed));

@@ -91,31 +91,4 @@ public class UCore{
 			return null;
 		}
 	}
-
-	/** Requires LWJGL3. */
-	public static void maximizeWindow(){
-		try{
-			Class.forName("org.lwjgl.glfw.GLFW").getMethod("glfwMaximizeWindow", long.class).invoke(null,
-					getWindowHandle());
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-
-	/** Requires LWJGL3. */
-	public static long getWindowHandle(){
-		try{
-			Object o = Gdx.graphics;
-			Object window = o.getClass().getMethod("getWindow").invoke(o);
-			Class<?> wc = window.getClass();
-
-			Field f = wc.getDeclaredField("windowHandle");
-			f.setAccessible(true);
-			long l = f.getLong(window);
-			return l;
-		}catch(Exception e){
-			e.printStackTrace();
-			return 0;
-		}
-	}
 }

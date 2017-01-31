@@ -82,7 +82,6 @@ public class Atlas extends TextureAtlas{
 	}
 	
 	/**
-	 * 
 	 * @return whether or not the specified region is found.
 	 */
 	public boolean hasRegion(String s){

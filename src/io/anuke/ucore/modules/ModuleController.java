@@ -13,7 +13,6 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	
 	{instance=this;}
 	
-	@SuppressWarnings("unchecked")
 	public void addModule(Class<? extends Module<T>> c){
 		try{
 			Module<T> m = ClassReflection.newInstance(c);
@@ -26,7 +25,6 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <N> N getModule(Class<N> c){
 		return (N)(modules.get((Class<? extends Module<T>>)c));
 	}

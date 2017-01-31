@@ -1,6 +1,5 @@
 package io.anuke.ucore.noise;
 
-
 //horribly butchered from libnoiseforjava, please ignore
 public class RidgedPerlin{
 	static final int X_NOISE_GEN = 1619;
@@ -28,10 +27,14 @@ public class RidgedPerlin{
 	}
 
 	public float getValue(int x, int y, float frequency){
+		return getValue(x, y, 0, frequency);
+	}
+
+	public float getValue(int x, int y, int z, float frequency){
 
 		double x1 = x;
 		double y1 = y;
-		double z1 = 0;
+		double z1 = z;
 		x1 *= frequency;
 		y1 *= frequency;
 		z1 *= frequency;
