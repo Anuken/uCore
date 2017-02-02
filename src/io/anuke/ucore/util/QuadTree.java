@@ -132,6 +132,15 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
             if (getTotalObjectCount() <= maxObjectsPerNode) unsplit();
         }
     }
+    
+    /**Removes all objects.*/
+    public void clear(){
+    	objects.clear();
+    	if(bottomLeftChild!=null)bottomLeftChild.clear();
+    	if(bottomRightChild!=null)bottomRightChild.clear();
+    	if(topLeftChild!=null)topLeftChild.clear();
+    	if(topRightChild!=null)topRightChild.clear();
+    }
 
     private QuadTree<T> getFittingChild(Rectangle boundingBox) {
         float verticalMidpoint = bounds.x + (bounds.width / 2);
@@ -191,6 +200,7 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
             if (bottomLeftChild.bounds.overlaps(toCheck)) bottomLeftChild.getMaybeIntersecting(out, toCheck);
             if (bottomRightChild.bounds.overlaps(toCheck)) bottomRightChild.getMaybeIntersecting(out, toCheck);
         }
+        
         out.addAll(objects);
     }
 
@@ -272,7 +282,6 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
             bottomRightChild.getAllChildren(out);
         }
     }
-
     /**
      * Represents an object in a QuadTree.
      */
