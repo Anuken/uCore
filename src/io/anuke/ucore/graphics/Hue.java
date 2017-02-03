@@ -55,6 +55,10 @@ public class Hue{
 	}
 	
 	public static Color fromHSB(float hue, float saturation, float brightness){
+		return Hue.fromHSB(hue, saturation, brightness, new Color());
+	}
+	
+	public static Color fromHSB(float hue, float saturation, float brightness, Color color){
 		int r = 0, g = 0, b = 0;
 		if(saturation == 0){
 			r = g = b = (int)(brightness * 255.0f + 0.5f);
@@ -97,7 +101,7 @@ public class Hue{
 				break;
 			}
 		}
-		return new Color(r/255f, g/255f, b/255f, 1f);
+		return color.set(r/255f, g/255f, b/255f, 1f);
 	}
 	
 	public static float[] RGBtoHSB(int r, int g, int b, float[] hsbvals) {
@@ -142,17 +146,17 @@ public class Hue{
 	}
 
 	
-	public static Color blend(int r1, int g1, int b1, int r2, int g2, int b2, float s){
+	public static Color mix(int r1, int g1, int b1, int r2, int g2, int b2, float s){
 		float i = 1f - s;
 		return rgb(r1*i + r2*s, g1*i + g2*s, b1*i + b2*s);
 	}
 	
-	public static Color blend(Color a, Color b, float s){
+	public static Color mix(Color a, Color b, float s){
 		float i = 1f - s;
 		return new Color(a.r*i + b.r*s, a.g*i + b.g*s, a.b*i + b.b*s, 1f);
 	}
 	
-	public static Color blend(Color[] colors, Color out, float s){
+	public static Color mix(Color[] colors, Color out, float s){
 		int l = colors.length;
 		Color a = colors[(int)(s*(l-1))];
 		Color b = colors[UCore.clamp((int)(s*(l-1)+1), 0, l-1)];
@@ -162,16 +166,11 @@ public class Hue{
 		return out.set(a.r*i + b.r*n, a.g*i + b.g*n, a.b*i + b.b*n, 1f);
 	}
 	
-	public static Color blend(Color a, Color b, float s, Color to){
+	public static Color mix(Color a, Color b, float s, Color to){
 		float i = 1f - s;
 		return to.set(a.r*i + b.r*s, a.g*i + b.g*s, a.b*i + b.b*s, 1f);
 	}
 	
-	/**d---c
-	 * |   |
-	 * |   |
-	 * a---b
-	 */
 	public static Color blend2d(Color a, Color b, Color c, Color d, float x, float y){
 		return new Color(( b.r*y + a.r*(1-y) ) * (x)  +  ( d.r*y + c.r*(1-y) ) * (1-x),
 				( b.g*y + a.g*(1-y) ) * (x)  +  ( d.g*y + c.g*(1-y) ) * (1-x),

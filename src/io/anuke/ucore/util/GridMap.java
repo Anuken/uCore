@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
+/**A 2-dimensional hashmap that stores objects using an x/y coordinate.*/
 public class GridMap<T>{
 	protected HashMap<Long, T> map = new HashMap<Long, T>();
 	
