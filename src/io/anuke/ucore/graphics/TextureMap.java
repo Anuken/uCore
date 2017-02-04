@@ -31,7 +31,7 @@ public class TextureMap implements Disposable{
 	}
 
 	/**
-	 * @param Name
+	 * @param name
 	 *            of texture you want to find.
 	 * @return The texture, or the error texture if it isn't found and
 	 *         autoloading is disabled.

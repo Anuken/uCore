@@ -6,6 +6,8 @@ sourceCompatibility = 1.7
 version = '1.0'
 group = 'com.github.Anuken'
 
+sourceSets.main.java.srcDirs = [ "src/" ]
+
 repositories {
     mavenCentral()
  	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
