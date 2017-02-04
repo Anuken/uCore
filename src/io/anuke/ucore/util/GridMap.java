@@ -12,6 +12,10 @@ public class GridMap<T>{
 		return map.get(getHash(x,y));
 	}
 	
+	public boolean containsKey(int x, int y){
+		return map.containsKey(getHash(x,y));
+	}
+	
 	public void put(int x, int y, T t){
 		map.put(getHash(x,y), t);
 	}

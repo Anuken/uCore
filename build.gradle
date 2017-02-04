@@ -48,11 +48,3 @@ uploadArchives {
        }
     }
 }
-
-install {
-  repositories.mavenInstaller {
-    pom.project {
-		
-    }
-  }
-}
