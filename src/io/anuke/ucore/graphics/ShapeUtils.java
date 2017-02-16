@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class ShapeUtils{
-	public static TextureRegion region;
+	public static TextureRegion region = PixmapUtils.blankTextureRegion();
 	public static float thickness = 1f;
 
 	public static void polygon(Batch batch, Vector2[] vertices, float offsetx, float offsety, float scl){
