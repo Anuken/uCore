@@ -1,6 +1,8 @@
 package io.anuke.ucore.spritesort;
 
-public class DrawPointer implements Comparable<DrawPointer>{
+import com.badlogic.gdx.utils.Pool.Poolable;
+
+public class DrawPointer implements Comparable<DrawPointer>, Poolable{
 	public Drawable drawable;
 	public float layer;
 	public DrawLayer sorter = DrawLayer.object;
@@ -19,9 +21,23 @@ public class DrawPointer implements Comparable<DrawPointer>{
 		this.layer = layer;
 		this.sorter = dl;
 	}
+	
+	public void draw(){
+		drawable.draw(this);
+	}
+	
+	public DrawPointer add(){
+		DrawHandler.instance().add(this);
+		return this;
+	}
 
 	@Override
 	public int compareTo(DrawPointer o){
-		return sorter.compare(sorter, layer, o.sorter, o.layer);
+		return sorter.compare(layer, o.sorter, o.layer);
+	}
+
+	@Override
+	public void reset(){
+		sorter = DrawLayer.object;
 	}
 }

@@ -6,15 +6,25 @@ public class DrawPointerList{
 	public Array<DrawPointer> list = new Array<DrawPointer>();
 	
 	public void add(float layer, Drawable draw){
-		list.add(new DrawPointer(draw, layer));
+		DrawPointer p = DrawHandler.obtain();
+		p.layer = layer;
+		p.drawable = draw;
+		p.add();
+		list.add(p);
 	}
 	
 	public void add(float layer, DrawLayer dl, Drawable draw){
-		list.add(new DrawPointer(draw, dl, layer));
+		DrawPointer p = DrawHandler.obtain();
+		p.layer = layer;
+		p.sorter = dl;
+		p.drawable = draw;
+		p.add();
+		list.add(p);
 	}
 	
-	public void clear(){
+	public void free(){
 		for(DrawPointer p : list)
 			DrawHandler.instance().remove(p);
+		list.clear();
 	}
 }

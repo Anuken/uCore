@@ -1,6 +1,7 @@
 package io.anuke.ucore.spritesort;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pools;
 
 public class DrawHandler{
 	private static DrawHandler instance;
@@ -9,10 +10,14 @@ public class DrawHandler{
 	private PointerDrawer drawer = new PointerDrawer(){
 		public void draw(Array<DrawPointer> pointers){
 			for(DrawPointer pointer : pointers){
-				pointer.drawable.draw();
+				pointer.drawable.draw(pointer);
 			}
 		}
 	};
+	
+	public static DrawPointer obtain(){
+		return Pools.obtain(DrawPointer.class);
+	}
 	
 	public static DrawHandler instance(){
 		if(instance == null) instance = new DrawHandler();
@@ -26,6 +31,7 @@ public class DrawHandler{
 	
 	public void remove(DrawPointer pointer){
 		pointers.removeValue(pointer, true);
+		Pools.free(pointer);
 	}
 	
 	public void requestSort(){
