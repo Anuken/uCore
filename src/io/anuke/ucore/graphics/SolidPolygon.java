@@ -5,13 +5,13 @@ import com.badlogic.gdx.math.EarClippingTriangulator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-public class FilledPolygon{
+public class SolidPolygon{
 	private PolygonRegion region;
 	private PolygonSprite sprite;
 	private EarClippingTriangulator tri;
 	private TextureRegion texture;
 
-	public FilledPolygon(TextureRegion texture, Array<Vector2> vertices){
+	public SolidPolygon(TextureRegion texture, Array<Vector2> vertices){
 		this.texture = texture;
 		tri = new EarClippingTriangulator();
 		setVertices(vertices);

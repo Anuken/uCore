@@ -32,11 +32,8 @@ import java.util.Random;
  * It was modified to work in a similar way to the bukkit noise generators, and to support
  * octaves and 2d noise, by mncat77 and jtjj222. 
  * 
- * To use octaves, use the VoronoiOctaveGenerator class.
+ * (taken from bukkit source)
  */
-//again
-//this is from libnoiseforjava
-//ignore
 public class VoronoiNoise{
 	
 	   /// Noise module that outputs Voronoi cells.

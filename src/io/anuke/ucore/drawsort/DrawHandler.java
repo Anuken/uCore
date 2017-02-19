@@ -1,4 +1,4 @@
-package io.anuke.ucore.spritesort;
+package io.anuke.ucore.drawsort;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;

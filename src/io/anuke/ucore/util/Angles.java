@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class Angles{
-	static Vector2 vector = new Vector2(1,1);
+	static public Vector2 vector = new Vector2(1,1);
 	
 	static public float ForwardDistance(float angle1, float angle2){
 		return angle1 > angle2 ? angle1-angle2 : angle2-angle1;
@@ -22,7 +22,6 @@ public class Angles{
 	}
 
 	static public float MoveToward(float angle, float to, float speed){
-		
 		if(Math.abs(angleDist(angle, to)) < speed)return to;
 
 		if((angle > to && BackwardDistance(angle, to) > ForwardDistance(angle, to)) || 

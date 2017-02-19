@@ -14,6 +14,10 @@ public class RenderableList{
 		renderables.add(r);
 	}
 	
+	public Renderable first(){
+		return renderables.first();
+	}
+	
 	public void add(Renderable renderable){
 		renderable.add();
 		renderables.add(renderable);

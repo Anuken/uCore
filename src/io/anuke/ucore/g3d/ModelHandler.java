@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.utils.Array;
 
+/**this class was a mistake*/
+/**(probably)*/
 public class ModelHandler{
 	private static ModelHandler instance;
 	

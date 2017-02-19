@@ -42,25 +42,25 @@ public final class Noise {
     }
     
     
-    public static double normalNoise (int x, int y, float scale, float mag, float exp){
+    public static double snoise (int x, int y, float scale, float mag, float exp){
 		return  (Math.pow ((noise((x)/scale,y/scale)*mag),(exp) )); 
 	}
     
-    public static float normalNoise (int x, int y, float scale, float mag){
+    public static float snoise (int x, int y, float scale, float mag){
 		return  (float)((noise((x)/scale,y/scale)*mag)); 
 	}
     
+    public static float snoise3 (int x, int y, int z, float scale, float mag){
+		return  (float)((noise((x)/scale,y/scale, z/scale)*mag)); 
+	}
+    
     public static float nnoise(int x, int y , float scale, float mag){
-    	return (float)(normalNoise(x,y,scale,mag) / 2.0);
+    	return (float)(snoise(x,y,scale,mag) / 2.0);
     }
     
     public static float nnoise(int x, int y , float scale, float mag, float xp){
-    	return (float)(normalNoise(x,y,scale,mag, xp) / 2.0);
+    	return (float)(snoise(x,y,scale,mag, xp) / 2.0);
     }
-    
-    public static float normalNoise (int x, int y, int z, float scale, float mag){
-		return  (float)((noise((x)/scale,y/scale, z/scale)*mag)); 
-	}
 
     public static double noise(double x, double y) {
 

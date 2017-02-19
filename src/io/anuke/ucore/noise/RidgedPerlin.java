@@ -123,14 +123,14 @@ public class RidgedPerlin{
 			zs = (z - (double) z0);
 			break;
 		case 1: // STD
-			xs = Interp.SCurve3(x - (double) x0);
-			ys = Interp.SCurve3(y - (double) y0);
-			zs = Interp.SCurve3(z - (double) z0);
+			xs = SCurve3(x - (double) x0);
+			ys = SCurve3(y - (double) y0);
+			zs = SCurve3(z - (double) z0);
 			break;
 		case 2: // best
-			xs = Interp.SCurve5(x - (double) x0);
-			ys = Interp.SCurve5(y - (double) y0);
-			zs = Interp.SCurve5(z - (double) z0);
+			xs = SCurve5(x - (double) x0);
+			ys = SCurve5(y - (double) y0);
+			zs = SCurve5(z - (double) z0);
 			break;
 		}
 
@@ -142,20 +142,20 @@ public class RidgedPerlin{
 		double n0, n1, ix0, ix1, iy0, iy1;
 		n0 = GradientNoise3D(x, y, z, x0, y0, z0, seed);
 		n1 = GradientNoise3D(x, y, z, x1, y0, z0, seed);
-		ix0 = Interp.linearInterp(n0, n1, xs);
+		ix0 = linearInterp(n0, n1, xs);
 		n0 = GradientNoise3D(x, y, z, x0, y1, z0, seed);
 		n1 = GradientNoise3D(x, y, z, x1, y1, z0, seed);
-		ix1 = Interp.linearInterp(n0, n1, xs);
-		iy0 = Interp.linearInterp(ix0, ix1, ys);
+		ix1 = linearInterp(n0, n1, xs);
+		iy0 = linearInterp(ix0, ix1, ys);
 		n0 = GradientNoise3D(x, y, z, x0, y0, z1, seed);
 		n1 = GradientNoise3D(x, y, z, x1, y0, z1, seed);
-		ix0 = Interp.linearInterp(n0, n1, xs);
+		ix0 = linearInterp(n0, n1, xs);
 		n0 = GradientNoise3D(x, y, z, x0, y1, z1, seed);
 		n1 = GradientNoise3D(x, y, z, x1, y1, z1, seed);
-		ix1 = Interp.linearInterp(n0, n1, xs);
-		iy1 = Interp.linearInterp(ix0, ix1, ys);
+		ix1 = linearInterp(n0, n1, xs);
+		iy1 = linearInterp(ix0, ix1, ys);
 
-		return Interp.linearInterp(iy0, iy1, zs);
+		return linearInterp(iy0, iy1, zs);
 	}
 
 	public static double GradientNoise3D(double fx, double fy, double fz, int ix, int iy, int iz, int seed){
@@ -189,5 +189,29 @@ public class RidgedPerlin{
 		// so that this noise value ranges from -1.0 to 1.0.
 		return ((xvGradient * xvPoint) + (yvGradient * yvPoint) + (zvGradient * zvPoint)) * 2.12;
 	}
+	
+	
+    public static double cubicInterp (double n0, double n1, double n2, double n3, double a){
+        double p = (n3 - n2) - (n0 - n1);
+        double q = (n0 - n1) - p;
+        double r = n2 - n0;
+        double s = n1;
+        return p * a * a * a + q * a * a + r * a + s;
+     }
+
+     public static double linearInterp (double n0, double n1, double a){
+       return ((1.0 - a) * n0) + (a * n1);
+     }
+
+     public static double SCurve3 (double a) {
+       return (a * a * (3.0 - 2.0 * a));
+     }
+
+     static double SCurve5 (double a){
+       double a3 = a * a * a;
+       double a4 = a3 * a;
+       double a5 = a4 * a;
+       return (6.0 * a5) - (15.0 * a4) + (10.0 * a3);
+     }
 
 }
