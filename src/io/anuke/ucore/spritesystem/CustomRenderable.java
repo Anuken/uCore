@@ -2,8 +2,6 @@ package io.anuke.ucore.spritesystem;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-import io.anuke.ucore.spritesystem.RenderableHandler.BatchDrawable;
-
 public class CustomRenderable extends Renderable{
 	float layer = 0f;
 	BatchDrawable drawable;
@@ -39,6 +37,10 @@ public class CustomRenderable extends Renderable{
 	@Override
 	public float layer(){
 		return layer;
+	}
+	
+	static public interface BatchDrawable{
+		public void draw(Batch batch);
 	}
 
 }

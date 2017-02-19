@@ -39,6 +39,7 @@ public class DrawHandler{
 	}
 	
 	public void draw(){
+		//requestSort();
 		drawer.draw(pointers);
 	}
 	

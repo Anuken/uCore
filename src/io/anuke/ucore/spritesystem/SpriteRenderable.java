@@ -152,7 +152,7 @@ public class SpriteRenderable extends Renderable{
 	
 	@Override
 	public void reset(){
-		provider = SortProviders.tile;
+		provider = Sorter.tile;
 		sprite.setColor(Color.WHITE);
 		sprite.setRotation(0);
 		layerSet = false;

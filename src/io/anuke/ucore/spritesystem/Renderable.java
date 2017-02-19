@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 public abstract class Renderable implements Comparable<Renderable>, Poolable{
-	public SortProvider provider = SortProviders.tile;
+	public Sorter provider = Sorter.tile;
 	
 	public abstract void draw(Batch batch);
 	
@@ -12,7 +12,7 @@ public abstract class Renderable implements Comparable<Renderable>, Poolable{
 	
 	public abstract float layer();
 	
-	public Renderable setProvider(SortProvider provider){
+	public Renderable setProvider(Sorter provider){
 		this.provider = provider;
 		return this;
 	}

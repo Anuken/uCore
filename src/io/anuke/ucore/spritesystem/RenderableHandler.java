@@ -63,8 +63,4 @@ public class RenderableHandler{
 		if(instance == null) instance = new RenderableHandler();
 		return instance;
 	}
-	
-	static public interface BatchDrawable{
-		public void draw(Batch batch);
-	}
 }
