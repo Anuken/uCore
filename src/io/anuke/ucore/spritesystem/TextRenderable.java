@@ -31,7 +31,7 @@ public class TextRenderable extends Renderable{
 	}
 	
 	@Override
-	public TextRenderable setPosition(float x, float y){
+	public TextRenderable set(float x, float y){
 		if(!MathUtils.isEqual(y, this.y, 0.001f))
 			RenderableHandler.instance().requestSort();
 		this.x = x;

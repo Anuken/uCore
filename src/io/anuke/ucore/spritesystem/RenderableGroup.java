@@ -32,7 +32,7 @@ public class RenderableGroup{
 	
 	public void setPosition(float x, float y){
 		for(Renderable r : map.values())
-			r.setPosition(x, y);
+			r.set(x, y);
 	}
 	
 	public void free(){

@@ -25,7 +25,7 @@ public class RenderableList{
 	
 	public void setPosition(float x, float y){
 		for(Renderable r : renderables)
-			r.setPosition(x, y);
+			r.set(x, y);
 	}
 	
 	public void free(){

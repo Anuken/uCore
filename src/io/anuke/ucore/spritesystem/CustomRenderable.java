@@ -30,7 +30,7 @@ public class CustomRenderable extends Renderable{
 	}
 
 	@Override
-	public Renderable setPosition(float x, float y){
+	public Renderable set(float x, float y){
 		return this;
 	}
 

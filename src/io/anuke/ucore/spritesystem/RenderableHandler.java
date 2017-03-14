@@ -37,7 +37,6 @@ public class RenderableHandler{
 
 	public void remove(Renderable renderable){
 		renderables.removeValue(renderable, true);
-		RenderPool.free(renderable);
 		renderable.onFree();
 	}
 

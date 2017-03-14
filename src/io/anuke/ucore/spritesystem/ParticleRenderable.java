@@ -9,7 +9,7 @@ public class ParticleRenderable extends Renderable{
 	
 	public ParticleRenderable(PooledEffect effect){
 		this.effect = effect;
-		setProvider(Sorter.object);
+		sort(Sorter.object);
 	}
 	
 	@Override
@@ -18,7 +18,7 @@ public class ParticleRenderable extends Renderable{
 	}
 
 	@Override
-	public Renderable setPosition(float x, float y){
+	public Renderable set(float x, float y){
 		effect.getEmitters().get(0).setPosition(x, y);
 		return this;
 	}

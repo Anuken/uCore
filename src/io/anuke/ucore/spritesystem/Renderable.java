@@ -8,11 +8,11 @@ public abstract class Renderable implements Comparable<Renderable>, Poolable{
 	
 	public abstract void draw(Batch batch);
 	
-	public abstract Renderable setPosition(float x, float y);
+	public abstract Renderable set(float x, float y);
 	
 	public abstract float layer();
 	
-	public Renderable setProvider(Sorter provider){
+	public Renderable sort(Sorter provider){
 		this.provider = provider;
 		return this;
 	}

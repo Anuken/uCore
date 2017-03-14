@@ -9,7 +9,7 @@ public class LambdaRenderable extends Renderable{
 	public LambdaRenderable(float layer, Sorter sort, Drawable draw){
 		this.layer = layer;
 		this.drawable = draw;
-		this.setProvider(sort);
+		this.sort(sort);
 	}
 	
 	public LambdaRenderable(Drawable draw){
@@ -33,7 +33,7 @@ public class LambdaRenderable extends Renderable{
 	}
 
 	@Override
-	public Renderable setPosition(float x, float y){
+	public Renderable set(float x, float y){
 		return this;
 	}
 
