@@ -105,7 +105,7 @@ public class SpriteRenderable extends Renderable{
 	}
 
 	@Override
-	public float layer(){
+	public float getLayer(){
 		return layerSet ? layer : sprite.getY();
 	}
 	

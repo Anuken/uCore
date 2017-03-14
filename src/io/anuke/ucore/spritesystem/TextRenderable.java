@@ -49,7 +49,7 @@ public class TextRenderable extends Renderable{
 	}
 
 	@Override
-	public float layer(){
+	public float getLayer(){
 		return y;
 	}
 

@@ -35,7 +35,7 @@ public class CustomRenderable extends Renderable{
 	}
 
 	@Override
-	public float layer(){
+	public float getLayer(){
 		return layer;
 	}
 	

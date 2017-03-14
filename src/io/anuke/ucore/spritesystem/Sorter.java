@@ -4,9 +4,9 @@ public enum Sorter{
 	tile{
 		public int compare(Renderable a, Renderable b){
 			if(b.provider == tile){
-				if(a.layer() == b.layer())
+				if(a.getLayer() == b.getLayer())
 					return 0;
-				return a.layer() < b.layer() ? 1 : -1;
+				return a.getLayer() < b.getLayer() ? 1 : -1;
 			}else{
 				return -1;
 			}
@@ -16,9 +16,9 @@ public enum Sorter{
 	object{
 		public int compare(Renderable a, Renderable b){
 			if(b.provider == object){
-				if(a.layer() == b.layer())
+				if(a.getLayer() == b.getLayer())
 					return 0;
-				return a.layer() < b.layer() ? 1 : -1;
+				return a.getLayer() < b.getLayer() ? 1 : -1;
 			}else{
 				return 1;
 			}

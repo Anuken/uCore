@@ -24,7 +24,7 @@ public class ParticleRenderable extends Renderable{
 	}
 
 	@Override
-	public float layer(){
+	public float getLayer(){
 		return effect.getEmitters().get(0).getY();
 	}
 

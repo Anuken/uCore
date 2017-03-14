@@ -10,7 +10,7 @@ public abstract class Renderable implements Comparable<Renderable>, Poolable{
 	
 	public abstract Renderable set(float x, float y);
 	
-	public abstract float layer();
+	public abstract float getLayer();
 	
 	public Renderable sort(Sorter provider){
 		this.provider = provider;

@@ -38,7 +38,7 @@ public class LambdaRenderable extends Renderable{
 	}
 
 	@Override
-	public float layer(){
+	public float getLayer(){
 		return layer;
 	}
 	
