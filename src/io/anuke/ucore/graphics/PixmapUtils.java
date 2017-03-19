@@ -46,7 +46,8 @@ public class PixmapUtils{
 		
 		for(int x = 0;x < pixmap.getWidth();x ++){
 			for(int y = 0;y < pixmap.getHeight();y ++){
-				if(input.getPixel(x, y+1) != 0 || input.getPixel(x, y-1) != 0 || input.getPixel(x-1, y) != 0 || input.getPixel(x+1, y) != 0)
+				if(!empty(input.getPixel(x, y+1)) || !empty(input.getPixel(x, y-1)) 
+						|| !empty(input.getPixel(x-1, y)) || !empty(input.getPixel(x+1, y)))
 				pixmap.drawPixel(x, y);
 			}
 		}
@@ -92,6 +93,10 @@ public class PixmapUtils{
 		}
 		
 		return pixmap;
+	}
+	
+	private static boolean empty(int i){
+		return (i & 0x000000ff) == 0;
 	}
 	
 	public static boolean isDisposed(Pixmap pix){
