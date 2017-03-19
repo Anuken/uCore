@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
+import io.anuke.ucore.graphics.Atlas;
+
 public class SpriteRenderable extends Renderable{
 	public Sprite sprite;
 	public boolean layerSet;
@@ -18,11 +20,28 @@ public class SpriteRenderable extends Renderable{
 	public SpriteRenderable(TextureRegion region) {
 		sprite = new Sprite(region);
 	}
-
+	
+	public SpriteRenderable addShadow(RenderableList list, Atlas atlas, float offset){
+		list.add(generateShadow(atlas).add(0, offset));
+		return this;
+	}
+	
+	public SpriteRenderable addShadow(RenderableGroup g, Atlas atlas, float offset){
+		g.add("shadow", generateShadow(atlas).add(0, offset));
+		return this;
+	}
+	
 	public SpriteRenderable region(TextureRegion region){
 		sprite.setRegion(region);
 		sprite.setSize(region.getRegionWidth(), region.getRegionHeight());
 		return this;
+	}
+	
+	public SpriteRenderable generateShadow(Atlas atlas){
+		return new SpriteRenderable(atlas.findRegion("shadow"
+				+ (int) (sprite.getRegionWidth() * 0.8f / 2f + Math.pow(sprite.getRegionWidth(), 1.5f) / 200f) * 2))
+						.set(sprite.getX() + (int) (sprite.getWidth() / 2), sprite.getY(), true, true)
+						.color(new Color(0, 0, 0, 1f)).layer(-999999);
 	}
 	
 	public SpriteRenderable scale(float x, float y){

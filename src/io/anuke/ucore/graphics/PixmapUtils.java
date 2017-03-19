@@ -39,6 +39,19 @@ public class PixmapUtils{
 		}
 		return pixmap;
 	}
+	
+	public static Pixmap outline(Pixmap input, Color color){
+		Pixmap pixmap = copy(input);
+		pixmap.setColor(color);
+		
+		for(int x = 0;x < pixmap.getWidth();x ++){
+			for(int y = 0;y < pixmap.getHeight();y ++){
+				if(input.getPixel(x, y+1) != 0 || input.getPixel(x, y-1) != 0 || input.getPixel(x-1, y) != 0 || input.getPixel(x+1, y) != 0)
+				pixmap.drawPixel(x, y);
+			}
+		}
+		return pixmap;
+	}
 
 	public static Pixmap zoom(Pixmap input, int scale){
 		Pixmap pixmap = new Pixmap(input.getWidth(), input.getHeight(), Format.RGBA8888);
