@@ -19,6 +19,8 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 			m.t = (T)this;
 			modules.put(c, m);
 			modulearray.add(m);
+		}catch (RuntimeException e){
+			throw e;
 		}catch (Exception e){
 			e.printStackTrace();
 			Gdx.app.exit();
