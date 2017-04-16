@@ -65,6 +65,11 @@ public class UCore{
 		return i;
 	}
 	
+	public static void clearScreen(Color color){
+		Gdx.gl.glClearColor(color.r, color.g, color.b, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+	}
+	
 	public static String parseException(Exception e){
 		StringBuilder build = new StringBuilder();
 		
@@ -74,11 +79,6 @@ public class UCore{
 			build.append("\n"+s.toString());
 		}
 		return build.toString();
-	}
-
-	public static void clearScreen(Color color){
-		Gdx.gl.glClearColor(color.r, color.g, color.b, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 	}
 	
 	public static Object getPrivate(Object object, String name){

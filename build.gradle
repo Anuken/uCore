@@ -10,7 +10,10 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 
 repositories {
     mavenCentral()
- 	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+ 	maven { 
+ 		url "https://oss.sonatype.org/content/repositories/snapshots/"
+ 		url  "https://jitpack.io"
+ 	}
     jcenter()
 }
 
@@ -34,7 +37,7 @@ artifacts {
 }
 
 dependencies {
-    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.github.austinv11:Discord4j:$gdxVersion"
 }
 
 test {

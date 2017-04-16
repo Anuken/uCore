@@ -16,7 +16,7 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	public void addModule(Class<? extends Module<T>> c){
 		try{
 			Module<T> m = ClassReflection.newInstance(c);
-			m.t = (T)this;
+			m.main = (T)this;
 			modules.put(c, m);
 			modulearray.add(m);
 		}catch (RuntimeException e){

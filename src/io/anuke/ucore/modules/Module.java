@@ -7,7 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 
 
 public abstract class Module<T extends ModuleController<T>> extends InputAdapter{
-	public T t;
+	public T main;
+	
 	public void update(){}
 	public void init(){}
 	public void pause(){}
@@ -16,7 +17,7 @@ public abstract class Module<T extends ModuleController<T>> extends InputAdapter
 	public void resize(int width, int height){}
 	
 	public <N> N getModule(Class<N> c){
-		return (N)(t.getModule((Class<? extends Module<T>>)c));
+		return (N)(main.getModule((Class<? extends Module<T>>)c));
 	}
 	
 	public void clearScreen(){
@@ -33,7 +34,7 @@ public abstract class Module<T extends ModuleController<T>> extends InputAdapter
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 	}
 	
-	public void log(String message){
+	public void log(Object message){
 		System.out.println(message);
 	}
 	

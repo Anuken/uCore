@@ -28,8 +28,13 @@ public class Textures{
 		return new TextureRegionDrawable(new TextureRegion(get(name)));
 	}
 	
-	public static boolean has(String name){
+	public static boolean loaded(String name){
 		return textures.has(name);
+	}
+	
+	public static boolean exists(String name){
+		textures.get(name);
+		return textures.get(name) != null;
 	}
 	
 	public static void put(String name, Texture texture){

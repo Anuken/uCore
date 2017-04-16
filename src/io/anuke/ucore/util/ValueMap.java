@@ -10,8 +10,8 @@ public class ValueMap{
 		map.put(name, object);
 	}
 	
-	public Object get(String name){
-		return map.get(name);
+	public <T> T get(String name){
+		return (T)map.get(name);
 	}
 	
 	public boolean has(String name){
