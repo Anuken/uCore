@@ -12,7 +12,6 @@ repositories {
     mavenCentral()
  	maven { 
  		url "https://oss.sonatype.org/content/repositories/snapshots/"
- 		url  "https://jitpack.io"
  	}
     jcenter()
 }
@@ -37,7 +36,7 @@ artifacts {
 }
 
 dependencies {
-    compile "com.github.austinv11:Discord4j:$gdxVersion"
+	
 }
 
 test {
