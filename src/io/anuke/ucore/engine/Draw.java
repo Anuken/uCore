@@ -1,5 +1,6 @@
 package io.anuke.ucore.engine;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,6 +12,28 @@ import io.anuke.ucore.graphics.PixmapUtils;
 public class Draw{
 	private static TextureRegion region = PixmapUtils.blankTextureRegion();
 	private static float thickness = 1f;
+	
+	/**Sets the batch color to this color AND the previous alpha.*/
+	public static void tint(Color color){
+		color(color.r, color.g, color.b);
+	}
+	
+	public static void color(Color color){
+		batch().setColor(color);
+	}
+	
+	public static void color(float r, float g, float b){
+		batch().setColor(r, g, b, 1f);
+	}
+	
+	public static void color(float r, float g, float b, float a){
+		batch().setColor(r, g, b, a);
+	}
+	
+	public static void alpha(float alpha){
+		Color color = batch().getColor();
+		batch().setColor(color.r, color.g, color.b, alpha);
+	}
 	
 	public static void rect(String name, float x, float y){
 		TextureRegion region = region(name);
