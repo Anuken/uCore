@@ -36,6 +36,7 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	}
 	
 	abstract public void init();
+	public void update(){}
 	
 	@Override
 	public void resize(int width, int height){
@@ -57,6 +58,7 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 		for(Module<T> module : modulearray){
 			module.update();
 		}
+		update();
 	}
 	
 	@Override

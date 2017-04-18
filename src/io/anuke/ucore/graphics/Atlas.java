@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ObjectMap;
 
+import io.anuke.ucore.engine.RegionProvider;
+
 /**Utility class that improves on TextureAtlas - 
  * faster texture lookups with an ObjectMap and automatic error textures.*/
-public class Atlas extends TextureAtlas{
+public class Atlas extends TextureAtlas implements RegionProvider{
 	ObjectMap<String, AtlasRegion> regionmap = new ObjectMap<String, AtlasRegion>();
 	ObjectMap<Texture, Pixmap> pixmaps = new ObjectMap<Texture, Pixmap>();
 	AtlasRegion error;
@@ -93,5 +95,10 @@ public class Atlas extends TextureAtlas{
 		for(Pixmap pixmap : pixmaps.values()){
 			pixmap.dispose();
 		}
+	}
+
+	@Override
+	public TextureRegion getRegion(String name){
+		return findRegion(name);
 	}
 }
