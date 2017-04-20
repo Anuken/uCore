@@ -5,7 +5,7 @@ import static java.lang.Math.abs;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 
-import io.anuke.ucore.UCore;
+import io.anuke.ucore.core.Mathf;
 public class Hue{
 	static private float[] hsv = new float[3];
 	
@@ -159,7 +159,7 @@ public class Hue{
 	public static Color mix(Color[] colors, Color out, float s){
 		int l = colors.length;
 		Color a = colors[(int)(s*(l-1))];
-		Color b = colors[UCore.clamp((int)(s*(l-1)+1), 0, l-1)];
+		Color b = colors[Mathf.clamp((int)(s*(l-1)+1), 0, l-1)];
 		
 		float n = s*(l-1)-(int)(s*(l-1));
 		float i = 1f-n;

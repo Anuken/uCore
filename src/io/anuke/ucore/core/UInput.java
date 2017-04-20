@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 
-public class Input{
+public class UInput{
 	private static boolean[] buttons = new boolean[5];
 	private static InputMultiplexer plex = new InputMultiplexer();
 	
@@ -18,6 +18,10 @@ public class Input{
 	public static void addProcessor(InputProcessor listener){
 		plex.addProcessor(listener);
 		Gdx.input.setInputProcessor(plex);
+	}
+	
+	public static void flipProcessors(){
+		plex.getProcessors().reverse();
 	}
 	
 	public static boolean keyDown(int key){

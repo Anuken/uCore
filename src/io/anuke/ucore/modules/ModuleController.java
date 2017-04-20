@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
-import io.anuke.ucore.core.Input;
+import io.anuke.ucore.core.UInput;
 
 public abstract class ModuleController<T extends ModuleController<T>> extends ApplicationAdapter{
 	private static ModuleController<?> instance;
@@ -40,7 +40,7 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	abstract public void init();
 	
 	public void update(){
-		Input.update();
+		UInput.update();
 	}
 	
 	@Override

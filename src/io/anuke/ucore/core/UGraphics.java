@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class Graphics{
+public class UGraphics{
 	private static Vector3 vec3 = new Vector3();
 	private static Vector2 mouse = new Vector2();
 	private static Vector2 size = new Vector2();
