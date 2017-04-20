@@ -1,5 +1,6 @@
 package io.anuke.ucore.graphics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,11 +21,11 @@ public class Atlas extends TextureAtlas implements RegionProvider{
 		for(AtlasRegion r : super.getRegions()){
 			String[] split = r.name.split("/");
 			if(split.length > 1){
-				if(regionmap.containsKey(split[1])) System.out.println("--- WARNING: TEXTURE CONFLICT! --- " + "(" + split[1] + ")");
+				if(regionmap.containsKey(split[1])) Gdx.app.error("Atlas", "Texture conflict! (" + split[1] + ")");
 				regionmap.put(split[1], r);
 				r.name = split[1];
 			}else{
-				if(regionmap.containsKey(split[0])) System.out.println("--- WARNING: TEXTURE CONFLICT! --- " + "(" + split[0] + ")");
+				if(regionmap.containsKey(split[0])) Gdx.app.error("Atlas", "Texture conflict! (" + split[0] + ")");
 				regionmap.put(split[0], r);
 			}
 			r.name = new String(r.name);

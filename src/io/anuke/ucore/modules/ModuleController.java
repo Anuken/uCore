@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
+import io.anuke.ucore.core.Input;
+
 public abstract class ModuleController<T extends ModuleController<T>> extends ApplicationAdapter{
 	private static ModuleController<?> instance;
 	protected ObjectMap<Class<? extends Module<T>>, Module<T>> modules = new ObjectMap<Class<? extends Module<T>>, Module<T>>();
@@ -36,7 +38,10 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	}
 	
 	abstract public void init();
-	public void update(){}
+	
+	public void update(){
+		Input.update();
+	}
 	
 	@Override
 	public void resize(int width, int height){
@@ -49,6 +54,7 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	public final void create(){
 		init();
 		for(Module<T> module : modulearray){
+			module.preInit();
 			module.init();
 		}
 	}

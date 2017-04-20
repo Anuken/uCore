@@ -11,6 +11,7 @@ public abstract class Module<T extends ModuleController<T>> extends InputAdapter
 	
 	public void update(){}
 	public void init(){}
+	public void preInit(){}
 	public void pause(){}
 	public void resume(){}
 	public void dispose(){}
