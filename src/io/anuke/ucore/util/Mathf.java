@@ -1,4 +1,4 @@
-package io.anuke.ucore.core;
+package io.anuke.ucore.util;
 
 import java.util.Random;
 

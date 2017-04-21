@@ -5,7 +5,7 @@ import static java.lang.Math.abs;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 
-import io.anuke.ucore.core.Mathf;
+import io.anuke.ucore.util.Mathf;
 public class Hue{
 	static private float[] hsv = new float[3];
 	
