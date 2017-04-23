@@ -42,6 +42,10 @@ public class Mathf{
 	public static boolean inRect(float x, float y, float bx, float by, float tx, float ty){
 		return x > bx && y > by && x < tx && y < ty;
 	}
+	
+	public static boolean intersect(float x1, float y1, float s1, float x2, float y2, float s2){
+		return MathUtils.isEqual(x1, x2, s1+s2) && MathUtils.isEqual(y1, y2, s1+s2);
+	}
 
 	public static float clamp(float i, float min, float max){
 		if(i < min)
@@ -54,6 +58,10 @@ public class Mathf{
 	/**Clamps to [0,1]*/
 	public static float clamp(double i){
 		return clamp((float)i,0,1);
+	}
+	
+	public static boolean between(float i, float min, float max){
+		return i > min && i < max;
 	}
 
 	public static int clamp(int i, int min, int max){

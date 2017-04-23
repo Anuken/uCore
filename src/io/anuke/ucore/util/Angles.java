@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import io.anuke.ucore.core.DrawContext;
+
 public class Angles{
 	static public Vector2 vector = new Vector2(1,1);
 	
@@ -46,6 +48,12 @@ public class Angles{
 
 	static public float mouseAngle(OrthographicCamera camera, float cx, float cy){
 		Vector3 avector = camera.project(new Vector3(cx, cy, 0));
+		vector.set(Gdx.input.getX() - avector.x, Gdx.graphics.getHeight() - Gdx.input.getY() - avector.y);
+		return vector.angle();
+	}
+	
+	static public float mouseAngle(float cx, float cy){
+		Vector3 avector = DrawContext.camera.project(new Vector3(cx, cy, 0));
 		vector.set(Gdx.input.getX() - avector.x, Gdx.graphics.getHeight() - Gdx.input.getY() - avector.y);
 		return vector.angle();
 	}

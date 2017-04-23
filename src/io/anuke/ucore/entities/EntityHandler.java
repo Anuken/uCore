@@ -1,12 +1,13 @@
 package io.anuke.ucore.entities;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 
 public class EntityHandler{
 	private static EntityHandler instance;
-	public ObjectMap<Long, Entity> entities = new ObjectMap<Long, Entity>();
+	public HashMap<Long, Entity> entities = new HashMap<Long, Entity>();
 	public ObjectSet<Long> entitiesToRemove = new ObjectSet<Long>();
 	public ObjectSet<Entity> entitiesToAdd = new ObjectSet<Entity>();
 	
@@ -33,6 +34,7 @@ public class EntityHandler{
 
 		for(Entity e : entitiesToAdd){
 			entities.put(e.id, e);
+			e.added();
 		}
 		entitiesToAdd.clear();
 	}

@@ -57,6 +57,11 @@ public class FrameBufferMap implements Disposable{
 	public Texture texture(String name){
 		return get(name).getColorBufferTexture();
 	}
+	
+	public void remove(String name){
+		get(name).dispose();
+		buffers.remove(name);
+	}
 
 	public void dispose(){
 		for(FrameBuffer buffer : buffers.values()){
