@@ -1,6 +1,7 @@
 package io.anuke.ucore.util;
 
 import java.util.Iterator;
+import java.util.function.Consumer;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -188,6 +189,23 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
         return null;
     }
 
+    /**
+     * Processes objects that may intersect the given rectangle.
+     * <p>
+     * This will result in false positives, but never a false negative.
+     */
+    public void getMaybeIntersecting(Consumer<T> out, Rectangle toCheck) {
+        if (!leaf) {
+            if (topLeftChild.bounds.overlaps(toCheck)) topLeftChild.getMaybeIntersecting(out, toCheck);
+            if (topRightChild.bounds.overlaps(toCheck)) topRightChild.getMaybeIntersecting(out, toCheck);
+            if (bottomLeftChild.bounds.overlaps(toCheck)) bottomLeftChild.getMaybeIntersecting(out, toCheck);
+            if (bottomRightChild.bounds.overlaps(toCheck)) bottomRightChild.getMaybeIntersecting(out, toCheck);
+        }
+        
+        for(T t : objects)
+        	out.accept(t);
+    }
+    
     /**
      * Fills the out parameter with any objects that may intersect the given rectangle.
      * <p>

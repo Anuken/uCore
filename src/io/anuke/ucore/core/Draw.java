@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
+import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.graphics.PixmapUtils;
 
@@ -16,6 +17,8 @@ public class Draw{
 	private static Vector2 vector = new Vector2();
 	private static Vector2[] circle = new Vector2[30];
 	
+	private static ObjectMap<String, Runnable> draws = new ObjectMap<String, Runnable>();
+	
 	static{
 		float step = 360f/circle.length;
 		vector.set(1f, 0);
@@ -23,6 +26,14 @@ public class Draw{
 			vector.setAngle(i*step);
 			circle[i] = vector.cpy();
 		}
+	}
+	
+	public static void drawable(String name, Runnable run){
+		draws.put(name, run);
+	}
+	
+	public static void draw(String name){
+		draws.get(name).run();
 	}
 	
 	/**Sets the batch color to this color AND the previous alpha.*/
@@ -208,6 +219,13 @@ public class Draw{
 	
 	public static void tcolor(){
 		DrawContext.font.setColor(Color.WHITE);
+	}
+	
+	/**Resets thickness, color and text color*/
+	public static void clear(){
+		thickness(1f);
+		color();
+		tcolor();
 	}
 	
 	public static TextureRegion region(String name){
