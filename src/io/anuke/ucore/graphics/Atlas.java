@@ -16,6 +16,10 @@ public class Atlas extends TextureAtlas implements RegionProvider{
 	ObjectMap<Texture, Pixmap> pixmaps = new ObjectMap<Texture, Pixmap>();
 	AtlasRegion error;
 	
+	public Atlas(String filename){
+		this(Gdx.files.internal("sprites/"+filename));
+	}
+	
 	public Atlas(FileHandle file){
 		super(file);
 		for(AtlasRegion r : super.getRegions()){

@@ -20,12 +20,11 @@ public class Timers{
 		StackTraceElement e = Thread.currentThread().getStackTrace()[2];
 		return get(e.getClassName() + e.getLineNumber(), frames);
 	}
-	
-	public static boolean get(Object object, float frames){
-		StackTraceElement e = Thread.currentThread().getStackTrace()[2];
-		return get(object.hashCode() + e.getClassName() + e.getLineNumber(), frames);
-	}
 	*/
+	public static boolean get(Object object, float frames){
+		return get(object.hashCode() +"", frames);
+	}
+	
 	public static boolean get(String name, float frames){
 		if(timers.containsKey(name)){
 			float out = timers.get(name);

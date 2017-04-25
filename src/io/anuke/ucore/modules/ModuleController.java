@@ -43,6 +43,10 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 		return (N)(modules.get((Class<? extends Module<T>>)c));
 	}
 	
+	public <N> N get(Class<N> c){
+		return (N)(modules.get((Class<? extends Module<T>>)c));
+	}
+	
 	public static  <N> N module(Class<N> c){
 		return (N)(instance.getModule(c));
 	}

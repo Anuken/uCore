@@ -4,11 +4,11 @@ import com.badlogic.gdx.math.Rectangle;
 
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 
-public abstract class PhysicsEntity extends Entity implements QuadTreeObject{
+public abstract class SolidEntity extends Entity implements QuadTreeObject{
 	public float hitsize = 10;
 	
-	public abstract boolean collides(PhysicsEntity other);
-	public void collision(PhysicsEntity other){}
+	public abstract boolean collides(SolidEntity other);
+	public void collision(SolidEntity other){}
 
 	@Override
 	public void getBoundingBox(Rectangle out){

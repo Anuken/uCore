@@ -31,12 +31,12 @@ public abstract class Entity{
 	}
 	
 	public <T extends Entity> T add(){
-		Entities.get().entitiesToAdd.add(this);
+		Entities.entitiesToAdd.add(this);
 		return (T)this;
 	}
 	
 	public Entity remove(){
-		Entities.get().entitiesToRemove.add(id);
+		Entities.entitiesToRemove.add(id);
 		removed();
 		return this;
 	}

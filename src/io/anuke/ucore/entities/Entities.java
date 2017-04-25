@@ -13,61 +13,58 @@ import io.anuke.ucore.util.QuadTree;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 
 public class Entities{
-	private static Entities instance;
+	private static HashMap<Long, Entity> entities = new HashMap<Long, Entity>();
+	protected static ObjectSet<Long> entitiesToRemove = new ObjectSet<Long>();
+	protected static ObjectSet<Entity> entitiesToAdd = new ObjectSet<Entity>();
 	
-	public HashMap<Long, Entity> entities = new HashMap<Long, Entity>();
-	public ObjectSet<Long> entitiesToRemove = new ObjectSet<Long>();
-	public ObjectSet<Entity> entitiesToAdd = new ObjectSet<Entity>();
+	public static QuadTree<SolidEntity> tree;
+	public static boolean physics = false;
 	
-	public QuadTree<PhysicsEntity> tree;
-	public boolean physics = false;
+	private static IntSet collided = new IntSet();
 	
-	private IntSet collided = new IntSet();
-	
-	
-	private Entities(){
-		instance = this;
-	}
-	
-	public void initPhysics(float x, float y, float w, float h){
+	public static void initPhysics(float x, float y, float w, float h){
 		tree = new QuadTree(4, new Rectangle(x, y, w, h));
-		this.physics = true;
+		physics = true;
 	}
 	
-	public void resizeTree(float x, float y, float w, float h){
+	public static void resizeTree(float x, float y, float w, float h){
 		initPhysics(x, y, w, h);
 	}
 	
-	public void getNearby(Rectangle rect, Consumer<PhysicsEntity> out){
+	public static void getNearby(Rectangle rect, Consumer<SolidEntity> out){
 		tree.getMaybeIntersecting(out, rect);
 	}
 	
-	public void getNearby(float x, float y, float size, Consumer<PhysicsEntity> out){
+	public static void getNearby(float x, float y, float size, Consumer<SolidEntity> out){
 		tree.getMaybeIntersecting(out, Rectangle.tmp.setSize(size).setCenter(x, y));
 	}
 	
-	public void clear(){
+	public static void clear(){
 		entitiesToAdd.clear();
 		entities.clear();
 		entitiesToRemove.clear();
 	}
 	
-	public Iterable<Entity> all(){
+	public static Iterable<Entity> all(){
 		return entities.values();
 	}
 	
-	private void updatePhysics(){
+	public static Entity get(long id){
+		return entities.get(id);
+	}
+	
+	private static void updatePhysics(){
 		collided.clear();
 		
 		tree.clear();
 
 		for(Entity entity : all()){
-			if(entity instanceof PhysicsEntity)
-			tree.insert((PhysicsEntity)entity);
+			if(entity instanceof SolidEntity)
+			tree.insert((SolidEntity)entity);
 		}
 		
 		for(Entity entity : all()){
-			if(!(entity instanceof PhysicsEntity)) continue;
+			if(!(entity instanceof SolidEntity)) continue;
 			if(collided.contains((int)entity.id)) continue;
 				
 			((QuadTreeObject)entity).getBoundingBox(Rectangle.tmp);
@@ -81,9 +78,9 @@ public class Entities{
 		}
 	}
 	
-	private boolean checkCollide(Entity entity, Entity other){
-		PhysicsEntity a = (PhysicsEntity) entity;
-		PhysicsEntity b = (PhysicsEntity) other;
+	private static boolean checkCollide(Entity entity, Entity other){
+		SolidEntity a = (SolidEntity) entity;
+		SolidEntity b = (SolidEntity) other;
 		
 		if(a.collides(b) 
 				&& b.collides(a)
@@ -96,11 +93,11 @@ public class Entities{
 		return false;
 	}
 	
-	public void update(){
+	public static void update(){
 		update(true);
 	}
 	
-	public void update(boolean update){
+	public static void update(boolean update){
 		Entity.delta = Gdx.graphics.getDeltaTime() * 60f;
 		
 		if(physics)
@@ -122,10 +119,5 @@ public class Entities{
 			e.added();
 		}
 		entitiesToAdd.clear();
-	}
-	
-	public static Entities get(){
-		if(instance == null) instance = new Entities();
-		return instance;
 	}
 }
