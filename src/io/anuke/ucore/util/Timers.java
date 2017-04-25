@@ -15,7 +15,7 @@ public class Timers{
 		run.delay = delay;
 		runs.add(run);
 	}
-	
+	/*
 	public static boolean get(float frames){
 		StackTraceElement e = Thread.currentThread().getStackTrace()[2];
 		return get(e.getClassName() + e.getLineNumber(), frames);
@@ -25,7 +25,7 @@ public class Timers{
 		StackTraceElement e = Thread.currentThread().getStackTrace()[2];
 		return get(object.hashCode() + e.getClassName() + e.getLineNumber(), frames);
 	}
-	
+	*/
 	public static boolean get(String name, float frames){
 		if(timers.containsKey(name)){
 			float out = timers.get(name);

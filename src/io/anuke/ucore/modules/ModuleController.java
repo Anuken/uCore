@@ -29,6 +29,16 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 		}
 	}
 	
+	public <N extends Module<T>> void addModule(N t){
+		try{
+			modules.put((Class<? extends Module<T>>) t.getClass(), t);
+			t.main = (T)this;
+			modulearray.add(t);
+		}catch (RuntimeException e){
+			throw e;
+		}
+	}
+	
 	public <N> N getModule(Class<N> c){
 		return (N)(modules.get((Class<? extends Module<T>>)c));
 	}

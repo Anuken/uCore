@@ -68,7 +68,12 @@ public class Draw{
 	
 	public static void rect(String name, float x, float y, float w, float h){
 		TextureRegion region = region(name);
-		batch().draw(region, x - w, y - h/2, w, h);
+		batch().draw(region, x - w/2, y - h/2, w, h);
+	}
+	
+	public static void crect(String name, float x, float y, float w, float h){
+		TextureRegion region = region(name);
+		batch().draw(region, x, y, w, h);
 	}
 	
 	public static void laser(String line, String edge, float x, float y, float x2, float y2){
@@ -175,6 +180,10 @@ public class Draw{
 	
 	public static void thickness(float thick){
 		thickness = thick;
+	}
+	
+	public static void tscl(float scl){
+		DrawContext.font.getData().setScale(scl);
 	}
 	
 	public static void text(String text, float x, float y){

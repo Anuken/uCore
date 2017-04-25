@@ -282,6 +282,7 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
             bottomRightChild.getAllChildren(out);
         }
     }
+    
     /**
      * Represents an object in a QuadTree.
      */

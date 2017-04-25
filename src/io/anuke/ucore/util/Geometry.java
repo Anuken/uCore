@@ -1,7 +1,5 @@
 package io.anuke.ucore.util;
 
-import java.awt.geom.PathIterator;
-
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.FloatArray;
@@ -130,28 +128,6 @@ public class Geometry{
 			float y = vertices[i+1];
 			path.consume(x, y);
 		}
-	}
-	
-	public static void iterate(PathIterator path, PositionConsumer c){
-		float[] floats = new float[2];
-		while(!path.isDone()){
-			path.currentSegment(floats);
-			c.consume(floats[0], floats[1]);
-			path.next();
-		}
-	}
-	
-	public static float[] array(PathIterator path){
-		final FloatArray array = new FloatArray();
-		
-		iterate(path, new PositionConsumer(){
-			public void consume(float x, float y){
-				array.add(x);
-				array.add(y);
-			}
-		});
-		
-		return array.toArray();
 	}
 	
 	public interface SegmentConsumer{

@@ -20,8 +20,13 @@ public class EntityHandler{
 	}
 	
 	public void update(){
+		update(true);
+	}
+	
+	public void update(boolean update){
 		Entity.delta = Gdx.graphics.getDeltaTime() * 60f;
-
+		
+		if(update)
 		for(Entity e : entities.values()){
 			e.update();
 		}

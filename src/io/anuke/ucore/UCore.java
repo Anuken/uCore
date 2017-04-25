@@ -1,9 +1,9 @@
 package io.anuke.ucore;
 
-import java.lang.reflect.Field;
-
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Field;
 
 public class UCore{
 	/**The screen pixel density scale. Yes, this is a one letter variable, it's intended to be used a lot.*/
@@ -22,7 +22,7 @@ public class UCore{
 	
 	public static Object getPrivate(Object object, String name){
 		try{
-			Field field = object.getClass().getDeclaredField(name);
+			Field field = ClassReflection.getField(object.getClass(), name);
 			field.setAccessible(true);
 			return field.get(object);
 		}catch(Exception e){
