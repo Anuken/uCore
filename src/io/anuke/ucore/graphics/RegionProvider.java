@@ -1,5 +1,7 @@
 package io.anuke.ucore.graphics;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 public interface RegionProvider{
-	com.badlogic.gdx.graphics.g2d.TextureRegion getRegion(String name);
+	TextureRegion getRegion(String name);
 }

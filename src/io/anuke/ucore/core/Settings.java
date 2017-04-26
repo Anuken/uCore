@@ -16,6 +16,22 @@ public class Settings{
 		return defaults.get(name);
 	}
 	
+	public static void putString(String name, String val){
+		prefs.putString(name, val);
+	}
+	
+	public static void putFloat(String name, float val){
+		prefs.putFloat(name, val);
+	}
+	
+	public static void putInt(String name, int val){
+		prefs.putInteger(name, val);
+	}
+	
+	public static void putBool(String name, boolean val){
+		prefs.putBoolean(name, val);
+	}
+	
 	public static String getString(String name){
 		return prefs.getString(name, (String)defaults.get(name));
 	}
@@ -30,6 +46,10 @@ public class Settings{
 	
 	public static boolean getBool(String name){
 		return prefs.getBoolean(name, (Boolean)defaults.get(name));
+	}
+	
+	public static void save(){
+		prefs.flush();
 	}
 	
 	/**Sets a default value up.

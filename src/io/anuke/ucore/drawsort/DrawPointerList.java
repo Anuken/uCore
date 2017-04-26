@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Array;
 public class DrawPointerList{
 	public Array<DrawPointer> list = new Array<DrawPointer>();
 	
-	public void add(float layer, Drawable draw){
+	public void add(float layer, Drawer draw){
 		DrawPointer p = DrawHandler.obtain();
 		p.layer = layer;
 		p.drawable = draw;
@@ -13,7 +13,7 @@ public class DrawPointerList{
 		list.add(p);
 	}
 	
-	public void add(float layer, DrawLayer dl, Drawable draw){
+	public void add(float layer, DrawLayer dl, Drawer draw){
 		DrawPointer p = DrawHandler.obtain();
 		p.layer = layer;
 		p.sorter = dl;

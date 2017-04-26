@@ -5,7 +5,7 @@ import java.util.function.BooleanSupplier;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
-import io.anuke.ucore.scene.event.EventListener;
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.utils.ChangeListener;
 import io.anuke.ucore.scene.utils.ClickListener;
@@ -24,9 +24,19 @@ public class Element extends BaseElement{
 		draw();
 	}
 	
-	/**Simple drawing, using Draw#rect().*/
+	/**Simple drawing. Use the alpha variable if needed.*/
 	public void draw(){
 		
+	}
+	
+	/**Find and draws a drawable by name on the width/height.*/
+	protected void patch(String name){
+		Draw.patch(name, getX(), getY(), getWidth(), getHeight());
+	}
+	
+	/**Find and draws a drawable by name on the width/height. Padding on the sides is applied.*/
+	protected void patch(String name, float padding){
+		Draw.patch(name, getX() + padding, getY()+padding, getWidth()-padding*2, getHeight()-padding*2);
 	}
 	
 	@Override
@@ -52,11 +62,13 @@ public class Element extends BaseElement{
 		return click;
 	}
 	
+	/**Fires a change event on all listeners.*/
 	public void change(){
-		for(EventListener listener : this.getListeners()){
-			if(listener instanceof ChangeListener)
-				((ChangeListener)listener).changed(null, this);
-		}
+		fire(new ChangeListener.ChangeEvent());
+		//for(EventListener listener : this.getListeners()){
+		//	if(listener instanceof ChangeListener)
+		//		((ChangeListener)listener).changed(null, this);
+		//}
 	}
 	
 	/**Adds a click listener.*/

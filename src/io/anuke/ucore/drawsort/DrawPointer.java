@@ -3,7 +3,7 @@ package io.anuke.ucore.drawsort;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 public class DrawPointer implements Comparable<DrawPointer>, Poolable{
-	public Drawable drawable;
+	public Drawer drawable;
 	public float layer;
 	public DrawLayer sorter = DrawLayer.object;
 	
@@ -11,12 +11,12 @@ public class DrawPointer implements Comparable<DrawPointer>, Poolable{
 		
 	}
 	
-	public DrawPointer(Drawable draw, float layer){
+	public DrawPointer(Drawer draw, float layer){
 		this.drawable = draw;
 		this.layer = layer;
 	}
 	
-	public DrawPointer(Drawable draw, DrawLayer dl, float layer){
+	public DrawPointer(Drawer draw, DrawLayer dl, float layer){
 		this.drawable = draw;
 		this.layer = layer;
 		this.sorter = dl;

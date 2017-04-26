@@ -10,6 +10,8 @@ import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.graphics.PixmapUtils;
+import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.Styles;
 
 public class Draw{
 	private static TextureRegion region = PixmapUtils.blankTextureRegion();
@@ -34,6 +36,14 @@ public class Draw{
 	
 	public static void draw(String name){
 		draws.get(name).run();
+	}
+	
+	public static void patch(String name, float x, float y, float width, float height){
+		getPatch(name).draw(batch(), x, y, width, height);
+	}
+	
+	public static Drawable getPatch(String name){
+		return Styles.styles.getDrawable(name);
 	}
 	
 	/**Sets the batch color to this color AND the previous alpha.*/

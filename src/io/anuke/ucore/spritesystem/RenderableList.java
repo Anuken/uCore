@@ -2,14 +2,14 @@ package io.anuke.ucore.spritesystem;
 
 import com.badlogic.gdx.utils.Array;
 
-import io.anuke.ucore.spritesystem.LambdaRenderable.Drawable;
+import io.anuke.ucore.spritesystem.FuncRenderable.DrawFunc;
 
 
 public class RenderableList{
 	public Array<Renderable> renderables = new Array<Renderable>();
 	
-	public void add(float layer, Sorter sort, Drawable draw){
-		LambdaRenderable r = new LambdaRenderable(layer, sort, draw);
+	public void add(float layer, Sorter sort, DrawFunc draw){
+		FuncRenderable r = new FuncRenderable(layer, sort, draw);
 		r.add();
 		renderables.add(r);
 	}

@@ -2,22 +2,22 @@ package io.anuke.ucore.spritesystem;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-public class LambdaRenderable extends Renderable{
+public class FuncRenderable extends Renderable{
 	public float layer = 0f;
-	Drawable drawable;
+	DrawFunc drawable;
 	
-	public LambdaRenderable(float layer, Sorter sort, Drawable draw){
+	public FuncRenderable(float layer, Sorter sort, DrawFunc draw){
 		this.layer = layer;
 		this.drawable = draw;
 		this.sort(sort);
 	}
 	
-	public LambdaRenderable(Drawable draw){
+	public FuncRenderable(DrawFunc draw){
 		this.drawable = draw;
 	}
 	
 	
-	public LambdaRenderable(){
+	public FuncRenderable(){
 		
 	}
 	
@@ -42,7 +42,7 @@ public class LambdaRenderable extends Renderable{
 		return layer;
 	}
 	
-	public static interface Drawable{
-		public void draw(LambdaRenderable l);
+	public static interface DrawFunc{
+		public void draw(FuncRenderable l);
 	}
 }

@@ -67,12 +67,12 @@ public class Entities{
 			if(!(entity instanceof SolidEntity)) continue;
 			if(collided.contains((int)entity.id)) continue;
 				
-			((QuadTreeObject)entity).getBoundingBox(Rectangle.tmp);
+			((QuadTreeObject)entity).getBoundingBox(Rectangle.tmp2);
 			
 			tree.getMaybeIntersecting(c->{
 				if(!collided.contains((int)c.id))
 						checkCollide(entity, c);
-			}, Rectangle.tmp);
+			}, Rectangle.tmp2);
 			
 			collided.add((int)entity.id);
 		}

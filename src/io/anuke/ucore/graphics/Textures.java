@@ -2,9 +2,10 @@ package io.anuke.ucore.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+
+import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.TextureRegionDrawable;
 
 /**Static utility class for loading textures as requested.
 */
