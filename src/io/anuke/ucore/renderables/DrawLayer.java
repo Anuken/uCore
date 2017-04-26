@@ -1,4 +1,4 @@
-package io.anuke.ucore.spritesystem;
+package io.anuke.ucore.renderables;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,8 +36,8 @@ public enum DrawLayer{
 
 	protected void begin(){}
 
-	public boolean layerEquals(Renderable l){
-		return MathUtils.isEqual(l.getLayer(), layer, 0.01f);
+	public boolean layerEquals(float f){
+		return MathUtils.isEqual(f, layer, 0.01f);
 	}
 
 	protected void loadShader(){

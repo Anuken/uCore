@@ -1,4 +1,4 @@
-package io.anuke.ucore.spritesystem;
+package io.anuke.ucore.renderables;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;

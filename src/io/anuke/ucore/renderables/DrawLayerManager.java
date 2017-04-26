@@ -1,4 +1,4 @@
-package io.anuke.ucore.spritesystem;
+package io.anuke.ucore.renderables;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
@@ -30,7 +30,7 @@ public class DrawLayerManager implements LayerManager{
 
 			boolean ended = false;
 
-			if(selected != null && (!selected.layerEquals(layer))){
+			if(selected != null && (!selected.layerEquals(layer.getLayer()))){
 				endBufferLayer(selected, blayers);
 				selected = null;
 				ended = true;
@@ -39,7 +39,7 @@ public class DrawLayerManager implements LayerManager{
 			if(selected == null){
 
 				for(DrawLayer fl : blayers){
-					if(fl.layerEquals(layer)){
+					if(fl.layerEquals(layer.getLayer())){
 						if(ended)
 							layer.draw(batch);
 						selected = fl;

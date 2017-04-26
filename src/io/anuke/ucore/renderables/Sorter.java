@@ -1,4 +1,4 @@
-package io.anuke.ucore.spritesystem;
+package io.anuke.ucore.renderables;
 
 public enum Sorter{
 	tile{

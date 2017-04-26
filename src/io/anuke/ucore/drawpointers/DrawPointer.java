@@ -1,4 +1,4 @@
-package io.anuke.ucore.drawsort;
+package io.anuke.ucore.drawpointers;
 
 import com.badlogic.gdx.utils.Pool.Poolable;
 

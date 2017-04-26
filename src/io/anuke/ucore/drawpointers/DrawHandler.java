@@ -1,4 +1,4 @@
-package io.anuke.ucore.drawsort;
+package io.anuke.ucore.drawpointers;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
@@ -7,7 +7,7 @@ public class DrawHandler{
 	private static DrawHandler instance;
 	
 	private Array<DrawPointer> pointers = new Array<DrawPointer>();
-	private PointerDrawer drawer = new PointerDrawer(){
+	private PointerDrawHandler drawer = new PointerDrawHandler(){
 		public void draw(Array<DrawPointer> pointers){
 			for(DrawPointer pointer : pointers){
 				pointer.drawable.draw(pointer);
@@ -43,11 +43,11 @@ public class DrawHandler{
 		drawer.draw(pointers);
 	}
 	
-	public void setDrawer(PointerDrawer draw){
+	public void setDrawer(PointerDrawHandler draw){
 		this.drawer = draw;
 	}
 	
-	public static interface PointerDrawer{
+	public static interface PointerDrawHandler{
 		public void draw(Array<DrawPointer> pointers);
 	}
 }
