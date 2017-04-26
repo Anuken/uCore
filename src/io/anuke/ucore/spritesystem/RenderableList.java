@@ -4,7 +4,6 @@ import com.badlogic.gdx.utils.Array;
 
 import io.anuke.ucore.spritesystem.FuncRenderable.DrawFunc;
 
-
 public class RenderableList{
 	public Array<Renderable> renderables = new Array<Renderable>();
 	

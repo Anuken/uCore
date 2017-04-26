@@ -25,7 +25,7 @@ public abstract class Renderable implements Comparable<Renderable>, Poolable{
 		group.add(name, this);
 	}
 	
-	public <T extends Renderable> T  add(){
+	public <T extends Renderable> T add(){
 		RenderableHandler.instance().add(this);
 		return (T)this;
 	}

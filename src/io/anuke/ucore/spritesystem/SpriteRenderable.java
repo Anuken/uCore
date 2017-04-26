@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
+import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.graphics.Atlas;
 
 public class SpriteRenderable extends Renderable{
@@ -21,13 +23,17 @@ public class SpriteRenderable extends Renderable{
 		sprite = new Sprite(region);
 	}
 	
-	public SpriteRenderable addShadow(RenderableList list, Atlas atlas, float offset){
-		list.add(generateShadow(atlas).add(0, offset));
+	public SpriteRenderable(String region) {
+		sprite = new Sprite(Draw.region(region));
+	}
+	
+	public SpriteRenderable addShadow(RenderableList list, float offset){
+		list.add(generateShadow().add(0, offset));
 		return this;
 	}
 	
 	public SpriteRenderable addShadow(RenderableGroup g, Atlas atlas, float offset){
-		g.add("shadow", generateShadow(atlas).add(0, offset));
+		g.add("shadow", generateShadow().add(0, offset));
 		return this;
 	}
 	
@@ -37,8 +43,8 @@ public class SpriteRenderable extends Renderable{
 		return this;
 	}
 	
-	public SpriteRenderable generateShadow(Atlas atlas){
-		return new SpriteRenderable(atlas.findRegion("shadow"
+	public SpriteRenderable generateShadow(){
+		return new SpriteRenderable(DrawContext.atlas.getRegion("shadow"
 				+ (int) (sprite.getRegionWidth() * 0.8f / 2f + Math.pow(sprite.getRegionWidth(), 1.5f) / 200f) * 2))
 						.set(sprite.getX() + (int) (sprite.getWidth() / 2), sprite.getY(), true, true)
 						.color(new Color(0, 0, 0, 1f)).layer(-999999);
@@ -116,6 +122,10 @@ public class SpriteRenderable extends Renderable{
 	public SpriteRenderable alpha(float a){
 		sprite.setAlpha(a);
 		return this;
+	}
+	
+	public Renderable shadow(){
+		return layer(Sorter.shadow);
 	}
 
 	@Override

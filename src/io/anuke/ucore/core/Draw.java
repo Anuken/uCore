@@ -134,22 +134,22 @@ public class Draw{
 		polygon(circle, x, y, scl);
 	}
 	
-	public static void spike(float x, float y, float len1, float len2, int spikes, float rot){
+	public static void spike(float x, float y, float radius, float length, int spikes, float rot){
 		vector.set(0, 1);
 		float step = 360f/spikes;
 		
 		for(int i = 0; i < spikes; i ++){
 			vector.setAngle(i*step+rot);
-			vector.setLength(len1);
+			vector.setLength(radius);
 			float x1 = vector.x, y1 = vector.y;
-			vector.setLength(len2);
+			vector.setLength(radius+length);
 			
 			line(x+x1, y+y1, x+vector.x, y+vector.y);
 		}
 	}
 	
-	public static void spike(float x, float y, float len1, float len2, int spikes){
-		spike(x, y, len1, len2, spikes, 0);
+	public static void spike(float x, float y, float rad, float length, int spikes){
+		spike(x, y, rad, length, spikes, 0);
 	}
 	
 	public static void polygon(Vector2[] vertices, float offsetx, float offsety, float scl){
@@ -239,7 +239,7 @@ public class Draw{
 	}
 	
 	public static TextureRegion region(String name){
-		return DrawContext.provider.getRegion(name);
+		return DrawContext.atlas.getRegion(name);
 	}
 	
 	private static SpriteBatch batch(){
