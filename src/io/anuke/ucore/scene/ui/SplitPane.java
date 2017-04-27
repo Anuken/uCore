@@ -249,7 +249,7 @@ public class SplitPane extends WidgetGroup {
 		applyTransform(batch, computeTransform());
 		if (firstWidget != null && firstWidget.isVisible()) {
 			batch.flush();
-			getStage().calculateScissors(firstWidgetBounds, tempScissors);
+			getScene().calculateScissors(firstWidgetBounds, tempScissors);
 			if (ScissorStack.pushScissors(tempScissors)) {
 				firstWidget.draw(batch, alpha);
 				batch.flush();
@@ -258,7 +258,7 @@ public class SplitPane extends WidgetGroup {
 		}
 		if (secondWidget != null && secondWidget.isVisible()) {
 			batch.flush();
-			getStage().calculateScissors(secondWidgetBounds, tempScissors);
+			getScene().calculateScissors(secondWidgetBounds, tempScissors);
 			if (ScissorStack.pushScissors(tempScissors)) {
 				secondWidget.draw(batch, alpha);
 				batch.flush();

@@ -95,7 +95,7 @@ class BaseElement implements Layout{
 	 * If the event is {@link Event#stop() stopped} at any time, it will not propagate to the next actor.
 	 * @return true if the event was {@link Event#cancel() cancelled}. */
 	public boolean fire (Event event) {
-		if (event.getStage() == null) event.setStage(getStage());
+		if (event.getStage() == null) event.setStage(getScene());
 		event.setTarget(elem());
 
 		// Collect ancestors so event propagation is unaffected by hierarchy changes.
@@ -271,13 +271,13 @@ class BaseElement implements Layout{
 	}
 
 	/** Returns the stage that this actor is currently in, or null if not in a stage. */
-	public Scene getStage () {
+	public Scene getScene () {
 		return stage;
 	}
 
 	/** Called by the framework when this actor or any parent is added to a group that is in the stage.
 	 * @param stage May be null if the actor or any parent is no longer in a stage. */
-	protected void setStage (Scene stage) {
+	protected void setScene (Scene stage) {
 		this.stage = stage;
 	}
 
@@ -872,7 +872,7 @@ class BaseElement implements Layout{
 		Group parent = getParent();
 		if (fillParent && parent != null) {
 			float parentWidth, parentHeight;
-			Scene stage = getStage();
+			Scene stage = getScene();
 			if (stage != null && parent == stage.getRoot()) {
 				parentWidth = stage.getWidth();
 				parentHeight = stage.getHeight();

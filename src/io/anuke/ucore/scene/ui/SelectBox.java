@@ -102,9 +102,9 @@ public class SelectBox<T> extends Element implements Disableable {
 		return selectBoxList.maxListCount;
 	}
 
-	protected void setStage (Scene stage) {
+	protected void setScene (Scene stage) {
 		if (stage == null) selectBoxList.hide();
-		super.setStage(stage);
+		super.setScene(stage);
 	}
 
 	public void setStyle (SelectBoxStyle style) {
@@ -306,7 +306,7 @@ public class SelectBox<T> extends Element implements Disableable {
 
 	public void showList () {
 		if (items.size == 0) return;
-		selectBoxList.show(getStage());
+		selectBoxList.show(getScene());
 	}
 
 	public void hideList () {
@@ -457,10 +457,10 @@ public class SelectBox<T> extends Element implements Disableable {
 			if (!list.isTouchable() || !hasParent()) return;
 			list.setTouchable(Touchable.disabled);
 
-			Scene stage = getStage();
+			Scene stage = getScene();
 			if (stage != null) {
 				stage.removeCaptureListener(hideListener);
-				if (previousScrollFocus != null && previousScrollFocus.getStage() == null) previousScrollFocus = null;
+				if (previousScrollFocus != null && previousScrollFocus.getScene() == null) previousScrollFocus = null;
 				Element actor = stage.getScrollFocus();
 				if (actor == null || isAscendantOf(actor)) stage.setScrollFocus(previousScrollFocus);
 			}

@@ -249,7 +249,7 @@ public class Button extends Table implements Disableable {
 		for (int i = 0; i < children.size; i++)
 			children.get(i).moveBy(-offsetX, -offsetY);
 
-		Scene stage = getStage();
+		Scene stage = getScene();
 		if (stage != null && stage.getActionsRequestRendering() && isPressed != clickListener.isPressed())
 			Gdx.graphics.requestRendering();
 	}
@@ -258,7 +258,7 @@ public class Button extends Table implements Disableable {
 	protected void drawBackground (Batch batch, float parentAlpha, float x, float y) {
 		super.drawBackground(batch, parentAlpha, x, y);
 		
-		if(transitionTime > 0 && this.getBackground() != style.down){
+		if(transitionTime > 0 && this.getBackground() != style.down && style.over != null){
 			if(transitionTime > style.transition)
 				transitionTime = style.transition;
 			batch.setColor(getColor().r, getColor().g, getColor().b, (parentAlpha*(transitionTime/style.transition)));

@@ -268,7 +268,7 @@ public class Group extends Element implements Cullable {
 		}
 		children.add(actor);
 		actor.setParent(this);
-		actor.setStage(getStage());
+		actor.setScene(getScene());
 		childrenChanged();
 	}
 
@@ -285,7 +285,7 @@ public class Group extends Element implements Cullable {
 		else
 			children.insert(index, actor);
 		actor.setParent(this);
-		actor.setStage(getStage());
+		actor.setScene(getScene());
 		childrenChanged();
 	}
 
@@ -299,7 +299,7 @@ public class Group extends Element implements Cullable {
 		int index = children.indexOf(actorBefore, true);
 		children.insert(index, actor);
 		actor.setParent(this);
-		actor.setStage(getStage());
+		actor.setScene(getScene());
 		childrenChanged();
 	}
 
@@ -316,7 +316,7 @@ public class Group extends Element implements Cullable {
 		else
 			children.insert(index + 1, actor);
 		actor.setParent(this);
-		actor.setStage(getStage());
+		actor.setScene(getScene());
 		childrenChanged();
 	}
 
@@ -333,11 +333,11 @@ public class Group extends Element implements Cullable {
 	public boolean removeChild (Element actor, boolean unfocus) {
 		if (!children.removeValue(actor, true)) return false;
 		if (unfocus) {
-			Scene stage = getStage();
+			Scene stage = getScene();
 			if (stage != null) stage.unfocus(actor);
 		}
 		actor.setParent(null);
-		actor.setStage(null);
+		actor.setScene(null);
 		childrenChanged();
 		return true;
 	}
@@ -347,7 +347,7 @@ public class Group extends Element implements Cullable {
 		Element[] actors = children.begin();
 		for (int i = 0, n = children.size; i < n; i++) {
 			Element child = actors[i];
-			child.setStage(null);
+			child.setScene(null);
 			child.setParent(null);
 		}
 		children.end();
@@ -393,11 +393,11 @@ public class Group extends Element implements Cullable {
 		return null;
 	}
 
-	protected void setStage (Scene stage) {
-		super.setStage(stage);
+	protected void setScene (Scene stage) {
+		super.setScene(stage);
 		Element[] childrenArray = children.items;
 		for (int i = 0, n = children.size; i < n; i++)
-			childrenArray[i].setStage(stage); // StackOverflowError here means the group is its own ancestor.
+			childrenArray[i].setScene(stage); // StackOverflowError here means the group is its own ancestor.
 	}
 
 	/** Swaps two actors by index. Returns false if the swap did not occur because the indexes were out of bounds. */

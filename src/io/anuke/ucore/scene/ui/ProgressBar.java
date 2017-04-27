@@ -102,7 +102,7 @@ public class ProgressBar extends Element implements Disableable {
 		super.act(delta);
 		if (animateTime > 0) {
 			animateTime -= delta;
-			Scene stage = getStage();
+			Scene stage = getScene();
 			if (stage != null && stage.getActionsRequestRendering()) Gdx.graphics.requestRendering();
 		}
 	}

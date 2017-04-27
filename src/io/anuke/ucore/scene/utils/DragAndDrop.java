@@ -63,7 +63,7 @@ public class DragAndDrop {
 				payload = source.dragStart(event, getTouchDownX(), getTouchDownY(), pointer);
 				event.stop();
 
-				if (cancelTouchFocus && payload != null) source.getActor().getStage().cancelTouchFocusExcept(this, source.getActor());
+				if (cancelTouchFocus && payload != null) source.getActor().getScene().cancelTouchFocusExcept(this, source.getActor());
 			}
 
 			public void drag (InputEvent event, float x, float y, int pointer) {
@@ -252,7 +252,7 @@ public class DragAndDrop {
 		public Target (Element actor) {
 			if (actor == null) throw new IllegalArgumentException("actor cannot be null.");
 			this.actor = actor;
-			Scene stage = actor.getStage();
+			Scene stage = actor.getScene();
 			if (stage != null && actor == stage.getRoot())
 				throw new IllegalArgumentException("The stage root cannot be a drag and drop target.");
 		}

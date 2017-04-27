@@ -48,6 +48,10 @@ public class Settings{
 		return prefs.getBoolean(name, (Boolean)defaults.get(name));
 	}
 	
+	public static int getIntKey(String name, int def){
+		return prefs.getInteger(name, def);
+	}
+	
 	public static void save(){
 		prefs.flush();
 	}

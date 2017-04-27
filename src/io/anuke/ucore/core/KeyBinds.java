@@ -4,6 +4,8 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 public class KeyBinds{
 	private static ObjectMap<String, Integer> map = new ObjectMap<>();
+	/**Holds default keybind values.*/
+	private static ObjectMap<String, Integer> defaults = new ObjectMap<>();
 	
 	public static Iterable<String> getBinds(){
 		return map.keys();
@@ -13,13 +15,35 @@ public class KeyBinds{
 		return map.get(name);
 	}
 	
-	public static void bindKey(String name, int code){
+	public static void rebindKey(String name, int code){
 		map.put(name, code);
 	}
 	
-	public static void bind(Object... keys){
+	/**Resets a key binding to default.*/
+	public static void resetKey(String name){
+		map.put(name, defaults.get(name));
+	}
+	
+	/**Load the keybinds. Call after Settings.load()*/
+	public static void load(){
+		for(String key : getBinds()){
+			map.put(key, Settings.getIntKey("keybind-"+key, defaults.get(key)));
+		}
+	}
+	
+	/**Save keybindings.*/
+	public static void saveBindings(){
+		for(String key : getBinds()){
+			Settings.putInt("keybind-"+key, get(key));
+		}
+		Settings.save();
+	}
+	
+	/**Sets up key defaults. Format: name, keycode, name2, keycode2, etc*/
+	public static void defaults(Object... keys){
 		for(int i = 0; i < keys.length; i +=2){
-			bindKey((String)keys[i], (Integer)keys[i+1]);
+			map.put((String)keys[i], (Integer)keys[i+1]);
+			defaults.put((String)keys[i], (Integer)keys[i+1]);
 		}
 	}
 }

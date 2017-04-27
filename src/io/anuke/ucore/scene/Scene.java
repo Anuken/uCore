@@ -104,7 +104,7 @@ public class Scene extends InputAdapter implements Disposable {
 		this.batch = batch;
 
 		root = new Group();
-		root.setStage(this);
+		root.setScene(this);
 
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 	}

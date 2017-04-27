@@ -104,7 +104,7 @@ public class ScrollPane extends WidgetGroup {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 				if (draggingPointer != -1) return false;
 				if (pointer == 0 && button != 0) return false;
-				getStage().setScrollFocus(ScrollPane.this);
+				getScene().setScrollFocus(ScrollPane.this);
 
 				if (!flickScroll) resetFade();
 
@@ -228,7 +228,7 @@ public class ScrollPane extends WidgetGroup {
 	 * inside the scrollpane that have received touchDown to receive touchUp.
 	 * @see #setCancelTouchFocus(boolean) */
 	public void cancelTouchFocus () {
-		Scene stage = getStage();
+		Scene stage = getScene();
 		if (stage != null) stage.cancelTouchFocusExcept(flickScrollListener, this);
 	}
 
@@ -353,7 +353,7 @@ public class ScrollPane extends WidgetGroup {
 		}
 
 		if (animating) {
-			Scene stage = getStage();
+			Scene stage = getScene();
 			if (stage != null && stage.getActionsRequestRendering()) Gdx.graphics.requestRendering();
 		}
 	}
@@ -573,7 +573,7 @@ public class ScrollPane extends WidgetGroup {
 
 		// Caculate the scissor bounds based on the batch transform, the available widget area and the camera transform. We need to
 		// project those to screen coordinates for OpenGL ES to consume.
-		getStage().calculateScissors(widgetAreaBounds, scissorBounds);
+		getScene().calculateScissors(widgetAreaBounds, scissorBounds);
 
 		// Enable scissors for widget area and draw the widget.
 		batch.flush();

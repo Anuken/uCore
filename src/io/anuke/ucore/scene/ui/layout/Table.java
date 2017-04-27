@@ -270,7 +270,7 @@ public class Table extends WidgetGroup {
 	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
 	public Cell<Label> add (CharSequence text, Color color) {
 		if (styles == null) throw new IllegalStateException("Table must have a skin set to use this method.");
-		return add(new Label(text, new LabelStyle(styles.getFont("default"), color)));
+		return add(new Label(text, new LabelStyle(styles.getFont("default-font"), color)));
 	}
 
 	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
@@ -1272,7 +1272,7 @@ public class Table extends WidgetGroup {
 	private void drawDebugRects (ShapeRenderer shapes) {
 		if (debugRects == null || !getDebug()) return;
 		shapes.set(ShapeType.Line);
-		shapes.setColor(getStage().getDebugColor());
+		shapes.setColor(getScene().getDebugColor());
 		float x = 0, y = 0;
 		if (!isTransform()) {
 			x = getX();

@@ -26,7 +26,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 
-import io.anuke.ucore.scene.*;
+import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.event.Touchable;
@@ -44,7 +45,7 @@ public class Window extends Table {
 	static private final int MOVE = 1 << 5;
 
 	private WindowStyle style;
-	boolean isMovable = true, isModal, isResizable;
+	boolean isMovable = false, isModal, isResizable, center = true;
 	int resizeBorder = 8;
 	boolean keepWithinStage = true;
 	Label titleLabel;
@@ -134,7 +135,7 @@ public class Window extends Table {
 				getMaxWidth();
 				float minHeight = getMinHeight();
 				getMaxHeight();
-				Scene stage = getStage();
+				Scene stage = getScene();
 				boolean clampPosition = keepWithinStage && getParent() == stage.getRoot();
 
 				if ((edge & MOVE) != 0) {
@@ -211,7 +212,7 @@ public class Window extends Table {
 
 	void keepWithinStage () {
 		if (!keepWithinStage) return;
-		Scene stage = getStage();
+		Scene stage = getScene();
 		Camera camera = stage.getCamera();
 		if (camera instanceof OrthographicCamera) {
 			OrthographicCamera orthographicCamera = (OrthographicCamera)camera;
@@ -236,10 +237,12 @@ public class Window extends Table {
 	}
 
 	public void draw (Batch batch, float parentAlpha) {
-		Scene stage = getStage();
+		Scene stage = getScene();
 		if (stage.getKeyboardFocus() == null) stage.setKeyboardFocus(this);
 
 		keepWithinStage();
+		if(center && !isMovable)
+			centerWindow();
 
 		if (style.stageBackground != null) {
 			stageToLocalCoordinates(tmpPosition.set(0, 0));
@@ -284,6 +287,12 @@ public class Window extends Table {
 		}
 		return hit;
 	}
+	
+	/**Centers the dialog in the scene.*/
+	public void centerWindow(){
+		Scene stage = getScene();
+		setPosition(Math.round((stage.getWidth() - getWidth()) / 2), Math.round((stage.getHeight() - getHeight()) / 2));
+	}
 
 	public boolean isMovable () {
 		return isMovable;
@@ -303,6 +312,14 @@ public class Window extends Table {
 
 	public void setKeepWithinStage (boolean keepWithinStage) {
 		this.keepWithinStage = keepWithinStage;
+	}
+	
+	public boolean isCentered () {
+		return center;
+	}
+
+	public void setCentered (boolean center) {
+		this.center = center;
 	}
 
 	public boolean isResizable () {

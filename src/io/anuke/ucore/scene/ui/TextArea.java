@@ -388,7 +388,7 @@ public class TextArea extends TextField {
 		@Override
 		public boolean keyDown (InputEvent event, int keycode) {
 			boolean result = super.keyDown(event, keycode);
-			Scene stage = getStage();
+			Scene stage = getScene();
 			if (stage != null && stage.getKeyboardFocus() == TextArea.this) {
 				boolean repeat = false;
 				boolean shift = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT);

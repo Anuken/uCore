@@ -87,7 +87,7 @@ public class WidgetGroup extends Group implements Layout {
 		Group parent = getParent();
 		if (fillParent && parent != null) {
 			float parentWidth, parentHeight;
-			Scene stage = getStage();
+			Scene stage = getScene();
 			if (stage != null && parent == stage.getRoot()) {
 				parentWidth = stage.getWidth();
 				parentHeight = stage.getHeight();

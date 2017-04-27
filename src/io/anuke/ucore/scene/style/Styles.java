@@ -82,6 +82,10 @@ public class Styles implements Disposable {
 		this.atlas = atlas;
 		addRegions(atlas);
 	}
+	
+	public BitmapFont font(){
+		return getFont("default-font");
+	}
 
 	/** Adds all resources in the specified skin JSON file. */
 	public void load (FileHandle skinFile) {

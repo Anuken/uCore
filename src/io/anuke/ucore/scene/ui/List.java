@@ -76,7 +76,7 @@ public class List<T> extends Element implements Cullable {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 				if (pointer == 0 && button != 0) return false;
 				if (selection.isDisabled()) return false;
-				if (selection.getMultiple()) getStage().setKeyboardFocus(List.this);
+				if (selection.getMultiple()) getScene().setKeyboardFocus(List.this);
 				List.this.touchDown(y);
 				return true;
 			}

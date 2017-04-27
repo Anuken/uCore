@@ -48,7 +48,7 @@ public class Tooltip<T extends Element> extends InputListener {
 		container = new Container(contents) {
 			public void act (float delta) {
 				super.act(delta);
-				if (targetActor != null && targetActor.getStage() == null) remove();
+				if (targetActor != null && targetActor.getScene() == null) remove();
 			}
 		};
 		container.setTouchable(Touchable.disabled);
@@ -97,7 +97,7 @@ public class Tooltip<T extends Element> extends InputListener {
 
 	private void setContainerPosition (Element actor, float x, float y) {
 		this.targetActor = actor;
-		Scene stage = actor.getStage();
+		Scene stage = actor.getScene();
 		if (stage == null) return;
 
 		container.pack();

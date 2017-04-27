@@ -67,7 +67,7 @@ public class TooltipManager {
 		public void run () {
 			if (showTooltip == null) return;
 
-			Scene stage = showTooltip.targetActor.getStage();
+			Scene stage = showTooltip.targetActor.getScene();
 			if (stage == null) return;
 			stage.add(showTooltip.container);
 			showTooltip.container.toFront();

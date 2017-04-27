@@ -524,7 +524,7 @@ public class HorizontalGroup extends WidgetGroup {
 		super.drawDebugBounds(shapes);
 		if (!getDebug()) return;
 		shapes.set(ShapeType.Line);
-		shapes.setColor(getStage().getDebugColor());
+		shapes.setColor(getScene().getDebugColor());
 		shapes.rect(getX() + padLeft, getY() + padBottom, getOriginX(), getOriginY(), getWidth() - padLeft - padRight,
 			getHeight() - padBottom - padTop, getScaleX(), getScaleY(), getRotation());
 	}

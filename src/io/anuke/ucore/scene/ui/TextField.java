@@ -283,7 +283,7 @@ public class TextField extends Element implements Disableable {
 	}
 
 	private Drawable getBackgroundDrawable () {
-		Scene stage = getStage();
+		Scene stage = getScene();
 		boolean focused = stage != null && stage.getKeyboardFocus() == this;
 		return (disabled && style.disabledBackground != null) ? style.disabledBackground
 			: ((focused && style.focusedBackground != null) ? style.focusedBackground : style.background);
@@ -291,7 +291,7 @@ public class TextField extends Element implements Disableable {
 
 	@Override
 	public void draw (Batch batch, float parentAlpha) {
-		Scene stage = getStage();
+		Scene stage = getScene();
 		boolean focused = stage != null && stage.getKeyboardFocus() == this;
 		if (!focused) keyRepeatTask.cancel();
 
@@ -502,7 +502,7 @@ public class TextField extends Element implements Disableable {
 	/** Focuses the next TextField. If none is found, the keyboard is hidden. Does nothing if the text field is not in a stage.
 	 * @param up If true, the TextField with the same or next smallest y coordinate is found, else the next highest. */
 	public void next (boolean up) {
-		Scene stage = getStage();
+		Scene stage = getScene();
 		if (stage == null) return;
 		TextField current = this;
 		while (true) {
@@ -513,7 +513,7 @@ public class TextField extends Element implements Disableable {
 					tmp1.set(Float.MIN_VALUE, Float.MIN_VALUE);
 				else
 					tmp1.set(Float.MAX_VALUE, Float.MAX_VALUE);
-				textField = current.findNextTextField(getStage().getElements(), null, tmp2, tmp1, up);
+				textField = current.findNextTextField(getScene().getElements(), null, tmp2, tmp1, up);
 			}
 			if (textField == null) {
 				Gdx.input.setOnscreenKeyboardVisible(false);
@@ -833,7 +833,7 @@ public class TextField extends Element implements Disableable {
 			if (disabled) return true;
 			setCursorPosition(x, y);
 			selectionStart = cursor;
-			Scene stage = getStage();
+			Scene stage = getScene();
 			if (stage != null) stage.setKeyboardFocus(TextField.this);
 			keyboard.show(true);
 			hasSelection = true;
@@ -870,7 +870,7 @@ public class TextField extends Element implements Disableable {
 			lastBlink = 0;
 			cursorOn = false;
 
-			Scene stage = getStage();
+			Scene stage = getScene();
 			if (stage == null || stage.getKeyboardFocus() != TextField.this) return false;
 
 			boolean repeat = false;
@@ -993,7 +993,7 @@ public class TextField extends Element implements Disableable {
 				if (character < 32) return false;
 			}
 
-			Scene stage = getStage();
+			Scene stage = getScene();
 			if (stage == null || stage.getKeyboardFocus() != TextField.this) return false;
 
 			//if (UIUtils.isMac && Gdx.input.isKeyPressed(Keys.SYM)) return true;

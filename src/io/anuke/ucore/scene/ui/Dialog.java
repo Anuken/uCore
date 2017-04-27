@@ -72,6 +72,7 @@ public class Dialog extends Window {
 
 	private void initialize () {
 		setModal(true);
+		setMovable(false);
 
 		defaults().space(6);
 		add(contentTable = new Table()).expand().fill();
@@ -102,7 +103,7 @@ public class Dialog extends Window {
 			}
 
 			private void focusChanged (FocusEvent event) {
-				Scene stage = getStage();
+				Scene stage = getScene();
 				if (isModal && stage != null && stage.getRoot().getChildren().size > 0
 					&& stage.getRoot().getChildren().peek() == Dialog.this) { // Dialog is top most actor.
 					Element newFocusedActor = event.getRelatedActor();
@@ -114,12 +115,12 @@ public class Dialog extends Window {
 		};
 	}
 
-	protected void setStage (Scene stage) {
+	protected void setScene (Scene stage) {
 		if (stage == null)
 			addListener(focusListener);
 		else
 			removeListener(focusListener);
-		super.setStage(stage);
+		super.setScene(stage);
 	}
 	
 	public void addCloseButton () {
@@ -231,14 +232,14 @@ public class Dialog extends Window {
 
 	/** Hides the dialog with the given action and then removes it from the stage. */
 	public void hide (Action action) {
-		Scene stage = getStage();
+		Scene stage = getScene();
 		if (stage != null) {
 			removeListener(focusListener);
-			if (previousKeyboardFocus != null && previousKeyboardFocus.getStage() == null) previousKeyboardFocus = null;
+			if (previousKeyboardFocus != null && previousKeyboardFocus.getScene() == null) previousKeyboardFocus = null;
 			Element actor = stage.getKeyboardFocus();
 			if (actor == null || actor.isDescendantOf(this)) stage.setKeyboardFocus(previousKeyboardFocus);
 
-			if (previousScrollFocus != null && previousScrollFocus.getStage() == null) previousScrollFocus = null;
+			if (previousScrollFocus != null && previousScrollFocus.getScene() == null) previousScrollFocus = null;
 			actor = stage.getScrollFocus();
 			if (actor == null || actor.isDescendantOf(this)) stage.setScrollFocus(previousScrollFocus);
 		}

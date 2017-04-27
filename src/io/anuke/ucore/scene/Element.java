@@ -1,12 +1,14 @@
 package io.anuke.ucore.scene;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.IntConsumer;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.scene.event.InputEvent;
+import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.utils.ChangeListener;
 import io.anuke.ucore.scene.utils.ClickListener;
 
@@ -48,6 +50,16 @@ public class Element extends BaseElement{
 	
 	public Vector2 worldPos(){
 		return localToStageCoordinates(vec.set(0, 0));
+	}
+	
+	/**Adds a keydown input listener.*/
+	public void keyDown(IntConsumer cons){
+		addListener(new InputListener(){
+			public boolean keyDown (InputEvent event, int keycode) {
+				cons.accept(keycode);
+				return true;
+			}
+		});
 	}
 	
 	/**Adds a click listener.*/
