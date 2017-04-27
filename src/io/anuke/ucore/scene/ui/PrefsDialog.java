@@ -7,28 +7,29 @@ public class PrefsDialog extends Dialog{
 
 	public PrefsDialog(String title) {
 		super(title);
+		addCloseButton();
 	}
 	
-	void addSlider(String name, String title, int def, int min, int max,StringProcessor s){
-		addSlider(name, title, def, min, max, 1, s);
+	public void sliderPref(String name, String title, int def, int min, int max,StringProcessor s){
+		sliderPref(name, title, def, min, max, 1, s);
 	}
 	
-	void addSlider(String name, String title, int def, int min, int max, int step, StringProcessor s){
+	public void sliderPref(String name, String title, int def, int min, int max, int step, StringProcessor s){
 		Table table = getContentTable();
 		Slider slider = new Slider(min, max, 1f, false);
 		Settings.defaults(name, def);
 		
 		slider.setValue(Settings.getInt(name));
 		
-		Label label = new Label(name);
+		Label label = new Label(title);
 		slider.changed(()->{
-			label.setText(name + ": " + s.get((int)slider.getValue()));
+			label.setText(title + ": " + s.get((int)slider.getValue()));
 			Settings.putInt(name, (int)slider.getValue());
 			Settings.save();
 		});
 		
 		slider.change();
-		table.add(label).minWidth(330);
+		table.add(label).minWidth(label.getPrefWidth()+50).left();
 		table.add(slider);
 		table.addButton("Reset", ()->{
 			slider.setValue(def);
@@ -37,7 +38,7 @@ public class PrefsDialog extends Dialog{
 		table.row();
 	}
 	
-	void addCheck(String name, String title, boolean def){
+	public void checkPref(String name, String title, boolean def){
 		Table table = getContentTable();
 		CheckBox box = new CheckBox(title);
 		Settings.defaults(name, def);
@@ -48,9 +49,9 @@ public class PrefsDialog extends Dialog{
 			Settings.putBool(name, box.isChecked);
 			Settings.save();
 		});
-		
-		table.add(box).minWidth(330);
-		table.add();
+		box.left();
+		table.add(box).minWidth(box.getPrefWidth()+50).left();
+		table.add().grow();
 		table.addButton("Reset", ()->{
 			box.setChecked(def);
 			box.change();
@@ -58,7 +59,7 @@ public class PrefsDialog extends Dialog{
 		table.row();
 	}
 	
-	interface StringProcessor{
+	public static interface StringProcessor{
 		String get(int i);
 	}
 

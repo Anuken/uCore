@@ -27,6 +27,10 @@ public class Entities{
 		physics = true;
 	}
 	
+	public static void initPhysics(){
+		physics = true;
+	}
+	
 	public static void resizeTree(float x, float y, float w, float h){
 		initPhysics(x, y, w, h);
 	}
@@ -57,7 +61,7 @@ public class Entities{
 		collided.clear();
 		
 		tree.clear();
-
+		
 		for(Entity entity : all()){
 			if(entity instanceof SolidEntity)
 			tree.insert((SolidEntity)entity);
@@ -82,7 +86,7 @@ public class Entities{
 		SolidEntity a = (SolidEntity) entity;
 		SolidEntity b = (SolidEntity) other;
 		
-		if(a.collides(b) 
+		if(a != b && a.collides(b) 
 				&& b.collides(a)
 				 && Mathf.intersect(entity.x, entity.y, a.hitsize/2, other.x, other.y, b.hitsize/2)){
 			a.collision(b);

@@ -141,7 +141,7 @@ public class Draw{
 		polygon(circle, x, y, scl);
 	}
 	
-	public static void spike(float x, float y, float radius, float length, int spikes, float rot){
+	public static void spikes(float x, float y, float radius, float length, int spikes, float rot){
 		vector.set(0, 1);
 		float step = 360f/spikes;
 		
@@ -155,8 +155,8 @@ public class Draw{
 		}
 	}
 	
-	public static void spike(float x, float y, float rad, float length, int spikes){
-		spike(x, y, rad, length, spikes, 0);
+	public static void spikes(float x, float y, float rad, float length, int spikes){
+		spikes(x, y, rad, length, spikes, 0);
 	}
 	
 	public static void polygon(Vector2[] vertices, float offsetx, float offsety, float scl){

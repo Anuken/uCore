@@ -31,6 +31,14 @@ public class Mathf{
 		return MathUtils.random;
 	}
 	
+	public static float range(float range){
+		return random(-range, range);
+	}
+	
+	public static boolean chance(double d){
+		return Math.random() < d;
+	}
+	
 	public static float round(float a, float b){
 		return (int)(a/b)*b;
 	}

@@ -14,4 +14,8 @@ public abstract class TimedEntity extends Entity{
 	public float fract(){
 		return 1f-time/lifetime;
 	}
+	
+	public float ifract(){
+		return time/lifetime;
+	}
 }

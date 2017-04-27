@@ -53,6 +53,14 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 		return (N)(instance.getModule(c));
 	}
 	
+	public static RendererModule<?> renderer(){
+		for(Module<?> m : instance.modules.values()){
+			if(m instanceof RendererModule)
+				return (RendererModule<?>) m;
+		}
+		return null;
+	}
+	
 	abstract public void init();
 	public void setup(){}
 	

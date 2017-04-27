@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.graphics.FrameBufferMap;
+import io.anuke.ucore.util.Mathf;
 
 public abstract class RendererModule<T extends ModuleController<T>> extends Module<T>{
 	public OrthographicCamera camera = new OrthographicCamera();
@@ -18,6 +19,7 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	public BitmapFont font;
 	public float cameraScale = 1f;
 	public Color clearColor = Color.BLACK;
+	public float shakeIntensity, shaketime;
 	
 	private boolean pixelate;
 	
@@ -25,7 +27,26 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 		
 	}
 	
+	public void shake(float intensity, float duration){
+		shakeIntensity = Math.max(intensity, shakeIntensity);
+		shaketime = Math.max(shaketime, duration);
+	}
+	
+	public void setCamera(float x, float y){
+		camera.position.set(x, y, 0);
+	}
+	
+	public void updateShake(){
+		if(shaketime > 0){
+			camera.position.add(Mathf.range(shakeIntensity), Mathf.range(shakeIntensity), 0);
+			shakeIntensity -= 0.5f;
+			shaketime -= delta();
+		}
+	}
+	
+	/**Updates the camera, clears the screen, begins the batch and calls draw().*/
 	public void drawDefault(){
+		updateShake();
 		camera.update();
 		
 		clearScreen(clearColor);

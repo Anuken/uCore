@@ -1,7 +1,10 @@
 package io.anuke.ucore.entities;
 
+import com.badlogic.gdx.math.Vector2;
+
 public abstract class Entity{
 	private static long lastid;
+	protected static Vector2 vector = new Vector2();
 	public static float delta;
 	
 	public final long id;
@@ -27,6 +30,10 @@ public abstract class Entity{
 	public <T extends Entity> T add(){
 		Entities.entitiesToAdd.add(this);
 		return (T)this;
+	}
+	
+	public float angleTo(Entity other){
+		return vector.set(other.x - x, other.y - y).angle();
 	}
 	
 	public Entity remove(){

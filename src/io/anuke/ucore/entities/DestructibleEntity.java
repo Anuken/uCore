@@ -7,6 +7,12 @@ public abstract class DestructibleEntity extends SolidEntity{
 	void onHit(SolidEntity entity){}
 	void onDeath(){}
 	
+	@Override
+	public boolean collides(SolidEntity other){
+		return other instanceof Damager;
+	}
+	
+	@Override
 	public void collision(SolidEntity other){
 		if(other instanceof Damager){
 			health -= ((Damager)other).getDamage();
