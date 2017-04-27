@@ -1,7 +1,5 @@
 package io.anuke.ucore.entities;
 
-import com.badlogic.gdx.Gdx;
-
 public abstract class Entity{
 	private static long lastid;
 	public static float delta;
@@ -18,10 +16,6 @@ public abstract class Entity{
 	public Entity(){
 		id = lastid++;
 		init();
-	}
-	
-	protected float delta(){
-		return Gdx.graphics.getDeltaTime()*60;
 	}
 	
 	public <T extends Entity> T set(float x, float y){

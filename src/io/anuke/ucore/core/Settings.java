@@ -12,6 +12,12 @@ public class Settings{
 		prefs = Gdx.app.getPreferences(name);
 	}
 	
+	/**Loads keybinds as well as prefs.*/
+	public static void loadAll(String name){
+		load(name);
+		KeyBinds.load();
+	}
+	
 	public static Object getDefault(String name){
 		return defaults.get(name);
 	}

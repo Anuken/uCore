@@ -6,7 +6,7 @@ public abstract class TimedEntity extends Entity{
 	
 	@Override
 	public void update(){
-		time += delta();
+		time += delta;
 		
 		if(time >= lifetime) remove();
 	}
