@@ -459,6 +459,8 @@ public class Styles implements Disposable {
 				int scaledSize = json.readValue("scaledSize", int.class, -1, jsonData);
 				Boolean flip = json.readValue("flip", Boolean.class, false, jsonData);
 				Boolean markupEnabled = json.readValue("markupEnabled", Boolean.class, false, jsonData);
+				
+				float scale = json.readValue("scale", float.class, -1f, jsonData);
 
 				FileHandle fontFile = skinFile.parent().child(path);
 				if (!fontFile.exists()) fontFile = Gdx.files.internal(path);
@@ -486,6 +488,7 @@ public class Styles implements Disposable {
 					font.getData().markupEnabled = markupEnabled;
 					// Scaled size is the desired cap height to scale the font to.
 					if (scaledSize != -1) font.getData().setScale(scaledSize / font.getCapHeight());
+					if(scale > 0) font.getData().setScale(scale);
 					return font;
 				} catch (RuntimeException ex) {
 					throw new SerializationException("Error loading bitmap font: " + fontFile, ex);

@@ -19,11 +19,13 @@ package io.anuke.ucore.scene.ui;
 import static io.anuke.ucore.scene.style.Styles.styles;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
 
-import io.anuke.ucore.scene.*;
+import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
@@ -50,7 +52,9 @@ public class Button extends Table implements Disableable {
 	ButtonGroup buttonGroup;
 	private ClickListener clickListener;
 	private boolean programmaticChangeEvents = true;
-
+	private float transitionTime;
+	private boolean drawOver = false;
+	
 	public Button (String styleName) {
 		initialize();
 		setStyle(styles.get(styleName, ButtonStyle.class));
@@ -197,6 +201,14 @@ public class Button extends Table implements Disableable {
 		boolean isPressed = isPressed();
 		boolean isChecked = isChecked();
 		boolean isOver = isOver();
+		drawOver = false;
+		
+		if(isOver){
+			transitionTime += Gdx.graphics.getDeltaTime()*60f;
+		}else{
+			transitionTime -= Gdx.graphics.getDeltaTime()*60f;
+			if(transitionTime < 0) transitionTime = 0;
+		}
 
 		Drawable background = null;
 		if (isDisabled && style.disabled != null)
@@ -205,10 +217,17 @@ public class Button extends Table implements Disableable {
 			background = style.down;
 		else if (isChecked && style.checked != null)
 			background = (style.checkedOver != null && isOver) ? style.checkedOver : style.checked;
-		else if (isOver && style.over != null)
-			background = style.over;
-		else if (style.up != null) //
+		else if (isOver && style.over != null){
+			if(transitionTime >= style.transition)
+				background = style.over;
+			else
+				drawOver = true;
+		}else if (style.up != null)
 			background = style.up;
+		
+		if(drawOver)
+			background = style.up;
+		
 		setBackground(background);
 
 		float offsetX = 0, offsetY = 0;
@@ -233,6 +252,19 @@ public class Button extends Table implements Disableable {
 		Scene stage = getStage();
 		if (stage != null && stage.getActionsRequestRendering() && isPressed != clickListener.isPressed())
 			Gdx.graphics.requestRendering();
+	}
+	
+	@Override
+	protected void drawBackground (Batch batch, float parentAlpha, float x, float y) {
+		super.drawBackground(batch, parentAlpha, x, y);
+		
+		if(transitionTime > 0 && this.getBackground() != style.down){
+			if(transitionTime > style.transition)
+				transitionTime = style.transition;
+			batch.setColor(getColor().r, getColor().g, getColor().b, (parentAlpha*(transitionTime/style.transition)));
+			style.over.draw(batch, getX(), getY(), getWidth(), getHeight());
+			batch.setColor(Color.WHITE);
+		}
 	}
 
 	public float getPrefWidth () {
@@ -265,7 +297,8 @@ public class Button extends Table implements Disableable {
 		/** Optional. */
 		public Drawable up, down, over, checked, checkedOver, disabled;
 		/** Optional. */
-		public float pressedOffsetX, pressedOffsetY, unpressedOffsetX, unpressedOffsetY, checkedOffsetX, checkedOffsetY;
+		public float pressedOffsetX, pressedOffsetY, unpressedOffsetX, 
+		unpressedOffsetY, checkedOffsetX, checkedOffsetY, transition = -1;
 
 		public ButtonStyle () {
 		}
@@ -289,6 +322,7 @@ public class Button extends Table implements Disableable {
 			this.unpressedOffsetY = style.unpressedOffsetY;
 			this.checkedOffsetX = style.checkedOffsetX;
 			this.checkedOffsetY = style.checkedOffsetY;
+			this.transition = style.transition;
 		}
 	}
 }

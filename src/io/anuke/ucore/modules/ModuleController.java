@@ -21,6 +21,7 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 			m.main = (T)this;
 			modules.put(c, m);
 			modulearray.add(m);
+			m.preInit();
 		}catch (RuntimeException e){
 			throw e;
 		}catch (Exception e){
@@ -34,6 +35,7 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 			modules.put((Class<? extends Module<T>>) t.getClass(), t);
 			t.main = (T)this;
 			modulearray.add(t);
+			t.preInit();
 		}catch (RuntimeException e){
 			throw e;
 		}
@@ -52,6 +54,7 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	}
 	
 	abstract public void init();
+	public void setup(){}
 	
 	public void update(){
 		UInput.update();
@@ -67,10 +70,11 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	@Override
 	public final void create(){
 		init();
+		setup();
 		for(Module<T> module : modulearray){
-			module.preInit();
 			module.init();
 		}
+		
 	}
 	
 	@Override

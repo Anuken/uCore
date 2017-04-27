@@ -11,17 +11,17 @@ public class UGraphics{
 	private static Vector2 mouse = new Vector2();
 	private static Vector2 size = new Vector2();
 	
-	public static Vector2 getMouse(){
+	public static Vector2 mousePos(){
 		mouse.set(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY());
 		return mouse;
 	}
 	
-	public static Vector2 getMouseWorld(){
+	public static Vector2 mouseWorldPos(){
 		DrawContext.camera.unproject(vec3.set(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY(), 0));
 		return mouse.set(vec3.x, vec3.y);
 	}
 	
-	public static Vector2 getSize(){
+	public static Vector2 size(){
 		return size.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 	

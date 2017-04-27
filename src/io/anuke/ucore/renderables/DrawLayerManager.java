@@ -7,12 +7,61 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
 import io.anuke.ucore.core.DrawContext;
+import io.anuke.ucore.drawpointers.DrawHandler.PointerDrawHandler;
+import io.anuke.ucore.drawpointers.DrawPointer;
 import io.anuke.ucore.graphics.FrameBufferMap;
 
-public class DrawLayerManager implements LayerManager{
+public class DrawLayerManager implements LayerManager, PointerDrawHandler{
 	FrameBufferMap buffers = new FrameBufferMap();
 	SpriteBatch batch;
 	OrthographicCamera camera;
+	
+	@Override
+	public void draw(Array<DrawPointer> renderables){
+		batch = DrawContext.batch;
+		camera = DrawContext.camera;
+		batch.end();
+
+		Array<DrawLayer> blayers = new Array<DrawLayer>(DrawLayer.values());
+
+		DrawLayer selected = null;
+
+		batch.begin();
+
+		for(DrawPointer layer : renderables){
+
+			boolean ended = false;
+
+			if(selected != null && (!selected.layerEquals(layer.layer))){
+				endBufferLayer(selected, blayers);
+				selected = null;
+				ended = true;
+			}
+
+			if(selected == null){
+
+				for(DrawLayer fl : blayers){
+					if(fl.layerEquals(layer.layer)){
+						if(ended)
+							layer.draw();
+						selected = fl;
+						beginBufferLayer(selected);
+						break;
+					}
+				}
+			}
+
+			layer.draw();
+		}
+		if(selected != null){
+			endBufferLayer(selected, blayers);
+			selected = null;
+		}
+		batch.end();
+		batch.begin();
+
+		batch.setColor(Color.WHITE);
+	}
 
 	@Override
 	public void draw(Array<Renderable> renderables, Batch batch){

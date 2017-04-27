@@ -5,6 +5,10 @@ import com.badlogic.gdx.utils.ObjectMap;
 public class KeyBinds{
 	private static ObjectMap<String, Integer> map = new ObjectMap<>();
 	
+	public static Iterable<String> getBinds(){
+		return map.keys();
+	}
+	
 	public static int get(String name){
 		return map.get(name);
 	}

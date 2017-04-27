@@ -1,6 +1,9 @@
 package io.anuke.ucore.core;
 
+import java.util.function.BiConsumer;
+
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -19,7 +22,7 @@ public class Draw{
 	private static Vector2 vector = new Vector2();
 	private static Vector2[] circle = new Vector2[30];
 	
-	private static ObjectMap<String, Runnable> draws = new ObjectMap<String, Runnable>();
+	private static ObjectMap<String, BiConsumer<Float, Float>> draws = new ObjectMap<>();
 	
 	static{
 		float step = 360f/circle.length;
@@ -30,12 +33,12 @@ public class Draw{
 		}
 	}
 	
-	public static void drawable(String name, Runnable run){
+	public static void drawable(String name, BiConsumer<Float, Float> run){
 		draws.put(name, run);
 	}
 	
-	public static void draw(String name){
-		draws.get(name).run();
+	public static void draw(String name, float x, float y){
+		draws.get(name).accept(x, y);
 	}
 	
 	public static void patch(String name, float x, float y, float width, float height){
@@ -53,6 +56,10 @@ public class Draw{
 	
 	public static void color(Color color){
 		batch().setColor(color);
+	}
+	
+	public static void color(String name){
+		batch().setColor(Colors.get(name.toUpperCase().replace(" ", "_")));
 	}
 	
 	public static void color(int color){
@@ -235,6 +242,7 @@ public class Draw{
 	public static void clear(){
 		thickness(1f);
 		color();
+		if(DrawContext.font != null)
 		tcolor();
 	}
 	

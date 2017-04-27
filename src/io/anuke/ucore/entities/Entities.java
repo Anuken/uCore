@@ -93,17 +93,28 @@ public class Entities{
 		return false;
 	}
 	
+	public static void updateAll(){
+		update();
+		draw();
+	}
+	
 	public static void update(){
 		update(true);
 	}
 	
-	public static void update(boolean update){
+	public static void draw(){
+		for(Entity e : entities.values()){
+			e.draw();
+		}
+	}
+	
+	public static void update(boolean callupdate){
 		Entity.delta = Gdx.graphics.getDeltaTime() * 60f;
 		
 		if(physics)
 			updatePhysics();
 		
-		if(update)
+		if(callupdate)
 		for(Entity e : entities.values()){
 			e.update();
 		}

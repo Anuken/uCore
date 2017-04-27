@@ -17,11 +17,27 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	public Atlas atlas;
 	public BitmapFont font;
 	public float cameraScale = 1f;
+	public Color clearColor = Color.BLACK;
+	
 	private boolean pixelate;
 	
 	public RendererModule(){
 		
 	}
+	
+	public void drawDefault(){
+		camera.update();
+		
+		clearScreen(clearColor);
+		
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		draw();
+		batch.end();
+	}
+	
+	/**override this*/
+	public void draw(){}
 	
 	public void setPixelation(){
 		buffers.add("pixel", (int)(Gdx.graphics.getWidth()/cameraScale), 

@@ -1,21 +1,23 @@
-package io.anuke.ucore.scene;
+package io.anuke.ucore.modules;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import io.anuke.ucore.core.DrawContext;
+import io.anuke.ucore.core.UInput;
+import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.style.Styles;
 import io.anuke.ucore.scene.ui.layout.Table;
-import io.anuke.ucore.core.UInput;
-import io.anuke.ucore.modules.Module;
-import io.anuke.ucore.modules.ModuleController;
 
 public class SceneModule<T extends ModuleController<T>> extends Module<T>{
 	public Scene scene;
 	public Styles styles;
 	
 	public SceneModule(){
-		scene = new Scene();
+		scene = new Scene(new ScreenViewport(), DrawContext.batch);
 		UInput.addProcessor(scene);
 		
 		styles = new Styles(Gdx.files.internal("ui/uiskin.json"));
@@ -60,6 +62,11 @@ public class SceneModule<T extends ModuleController<T>> extends Module<T>{
 		}
 		
 		return arr;
+	}
+	
+	@Override
+	public void update(){
+		act();
 	}
 	
 	/**Creates and adds a new layout to fill the stage.*/
