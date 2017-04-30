@@ -35,10 +35,16 @@ public class Tooltip<T extends Element> extends InputListener {
 	final Container<T> container;
 	boolean instant, always;
 	Element targetActor;
+	Runnable show;
 
 	/** @param contents May be null. */
 	public Tooltip (T contents) {
 		this(contents, TooltipManager.getInstance());
+	}
+	
+	public Tooltip (T contents, Runnable show) {
+		this(contents, TooltipManager.getInstance());
+		this.show = show;
 	}
 
 	/** @param contents May be null. */
@@ -121,6 +127,9 @@ public class Tooltip<T extends Element> extends InputListener {
 		if (fromActor != null && fromActor.isDescendantOf(actor)) return;
 		setContainerPosition(actor, x, y);
 		manager.enter(this);
+		
+		if(show != null)
+			show.run();
 	}
 
 	public void exit (InputEvent event, float x, float y, int pointer, Element toActor) {

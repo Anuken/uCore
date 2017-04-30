@@ -17,7 +17,7 @@ public class UGraphics{
 	}
 	
 	public static Vector2 mouseWorldPos(){
-		DrawContext.camera.unproject(vec3.set(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY(), 0));
+		DrawContext.camera.unproject(vec3.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 		return mouse.set(vec3.x, vec3.y);
 	}
 	

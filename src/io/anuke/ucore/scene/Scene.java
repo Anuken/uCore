@@ -33,12 +33,13 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.scene.event.*;
 import io.anuke.ucore.scene.event.InputEvent.Type;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.ui.layout.Table.Debug;
 import io.anuke.ucore.scene.utils.FocusListener.FocusEvent;
-import io.anuke.ucore.core.DrawContext;
+import io.anuke.ucore.scene.utils.ScissorStack;
 
 /** A 2D scene graph containing hierarchies of {@link Element actors}. Stage handles the viewport and distributes input events.
  * <p>
@@ -82,26 +83,32 @@ public class Scene extends InputAdapter implements Disposable {
 	/** Creates a stage with a {@link ScalingViewport} set to {@link Scaling#stretch}. The stage will use its own {@link Batch}
 	 * which will be disposed when the stage is disposed. */
 	public Scene () {
-		this(new ScreenViewport(),
-			new SpriteBatch());
+		this(new SpriteBatch());
+		System.out.println("construct invoked");
 		ownsBatch = true;
 	}
 
 	/** Creates a stage with the specified viewport. The stage will use its own {@link Batch} which will be disposed when the stage
 	 * is disposed. */
 	public Scene (Viewport viewport) {
-		this(viewport, new SpriteBatch());
+		this(new SpriteBatch());
 		ownsBatch = true;
 	}
 
 	/** Creates a stage with the specified viewport and batch. This can be used to avoid creating a new batch (which can be
 	 * somewhat slow) if multiple stages are used during an application's life time.
 	 * @param batch Will not be disposed if {@link #dispose()} is called, handle disposal yourself. */
-	public Scene (Viewport viewport, Batch batch) {
-		if (viewport == null) throw new IllegalArgumentException("viewport cannot be null.");
+	public Scene (Batch batch) {
 		if (batch == null) throw new IllegalArgumentException("batch cannot be null.");
-		this.viewport = viewport;
+
 		this.batch = batch;
+		this.viewport = new ScreenViewport(){
+			@Override
+			public void calculateScissors (Matrix4 batchTransform, Rectangle area, Rectangle scissor) {
+				ScissorStack.calculateScissors(
+						getCamera(), getScreenX(), getScreenY(), getScreenWidth(), getScreenHeight(), batchTransform, area, scissor);
+			}
+		};
 
 		root = new Group();
 		root.setScene(this);

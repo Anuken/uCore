@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
 
 
 public abstract class Module<T extends ModuleController<T>> extends InputAdapter{
+	public static Vector2 vector = new Vector2();
 	public T main;
 	
 	public void update(){}
@@ -18,6 +20,10 @@ public abstract class Module<T extends ModuleController<T>> extends InputAdapter
 	public void resize(int width, int height){}
 	
 	public <N> N getModule(Class<N> c){
+		return (N)(main.getModule((Class<? extends Module<T>>)c));
+	}
+	
+	public <N> N get(Class<N> c){
 		return (N)(main.getModule((Class<? extends Module<T>>)c));
 	}
 	

@@ -49,6 +49,7 @@ public class PrefsDialog extends Dialog{
 			Settings.putBool(name, box.isChecked);
 			Settings.save();
 		});
+		
 		box.left();
 		table.add(box).minWidth(box.getPrefWidth()+50).left();
 		table.add().grow();

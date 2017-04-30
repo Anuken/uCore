@@ -36,9 +36,17 @@ public abstract class Entity{
 		return vector.set(other.x - x, other.y - y).angle();
 	}
 	
+	public float distanceTo(Entity other){
+		return Vector2.dst(other.x, other.y, x, y);
+	}
+	
 	public Entity remove(){
 		Entities.entitiesToRemove.add(id);
 		removed();
 		return this;
+	}
+	
+	public String toString(){
+		return getClass() + " " + id;
 	}
 }

@@ -42,6 +42,8 @@ import io.anuke.ucore.scene.utils.FocusListener;
  * {@link #result(Object)} is called and the dialog is removed from the stage.
  * @author Nathan Sweet */ 
 public class Dialog extends Window {
+	public static float closePadT, closePadR;
+	
 	Table contentTable, buttonTable;
 	ObjectMap<Element, Object> values = new ObjectMap();
 	boolean cancelHide;
@@ -129,7 +131,7 @@ public class Dialog extends Window {
 
 		ImageButton closeButton = new ImageButton(Styles.styles.get("close-window", ImageButtonStyle.class));
 		
-		titleTable.add(closeButton).padRight(-getPadRight() + 0.7f).size(40).padTop(-titleTable.getPadTop()-12);
+		titleTable.add(closeButton).padRight(-getPadRight() + 0.7f+closePadR).size(40).padTop(-titleTable.getPadTop()-12+closePadT);
 		
 		closeButton.changed(()->{
 			hide();

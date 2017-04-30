@@ -44,6 +44,7 @@ public class Timers{
 		return time;
 	}
 	
+	/**Use normal delta time (e. g. gdx delta * 60)*/
 	public static void update(float delta){
 		time += delta;
 		

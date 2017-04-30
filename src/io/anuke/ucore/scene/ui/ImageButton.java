@@ -19,9 +19,11 @@ package io.anuke.ucore.scene.ui;
 import static io.anuke.ucore.scene.style.Styles.styles;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Scaling;
 
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.TextureRegionDrawable;
 import io.anuke.ucore.scene.ui.layout.Cell;
 /** A button with a child {@link Image} to display an image. This is useful when the button must be larger than the image and the
  * image centered on the button. If the image is the size of the button, a {@link Button} without any children can be used, where
@@ -40,6 +42,30 @@ public class ImageButton extends Button {
 		this(styles.get(ImageButtonStyle.class));
 		ImageButtonStyle style = new ImageButtonStyle(styles.get(ImageButtonStyle.class));
 		style.imageUp = styles.getDrawable(icon);
+		
+		setStyle(style);
+	}
+	
+	public ImageButton (String icon, String stylen) {
+		this(styles.get(stylen, ImageButtonStyle.class));
+		ImageButtonStyle style = new ImageButtonStyle(styles.get(stylen, ImageButtonStyle.class));
+		style.imageUp = styles.getDrawable(icon);
+		
+		setStyle(style);
+	}
+	
+	public ImageButton (TextureRegion region) {
+		this(styles.get(ImageButtonStyle.class));
+		ImageButtonStyle style = new ImageButtonStyle(styles.get(ImageButtonStyle.class));
+		style.imageUp = new TextureRegionDrawable(region);
+		
+		setStyle(style);
+	}
+	
+	public ImageButton (TextureRegion region, String stylen) {
+		this(styles.get(ImageButtonStyle.class));
+		ImageButtonStyle style = new ImageButtonStyle(styles.get(stylen, ImageButtonStyle.class));
+		style.imageUp = new TextureRegionDrawable(region);
 		
 		setStyle(style);
 	}

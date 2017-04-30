@@ -260,6 +260,13 @@ public class Table extends WidgetGroup {
 		if (styles == null) throw new IllegalStateException("Table must have a skin set to use this method.");
 		return add(new Label(text));
 	}
+	
+	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
+	public Cell<Label> add (CharSequence text, float scl) {
+		Label l = new Label(text);
+		l.setFontScale(scl);
+		return add(l);
+	}
 
 	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
 	public Cell<Label> add (CharSequence text, String labelStyleName) {

@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 import io.anuke.ucore.core.UInput;
+import io.anuke.ucore.util.Timers;
 
 public abstract class ModuleController<T extends ModuleController<T>> extends ApplicationAdapter{
 	private static ModuleController<?> instance;
@@ -66,6 +67,11 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	
 	public void update(){
 		UInput.update();
+		Timers.update(Gdx.graphics.getDeltaTime()*60f);
+	}
+	
+	public float delta(){
+		return Gdx.graphics.getDeltaTime()*60f;
 	}
 	
 	@Override

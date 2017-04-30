@@ -2,7 +2,6 @@ package io.anuke.ucore.modules;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.core.UInput;
@@ -17,7 +16,7 @@ public class SceneModule<T extends ModuleController<T>> extends Module<T>{
 	public Styles styles;
 	
 	public SceneModule(){
-		scene = new Scene(new ScreenViewport(), DrawContext.batch);
+		scene = new Scene(DrawContext.batch);
 		UInput.addProcessor(scene);
 		
 		styles = new Styles(Gdx.files.internal("ui/uiskin.json"));
@@ -27,6 +26,10 @@ public class SceneModule<T extends ModuleController<T>> extends Module<T>{
 	protected void loadStyles(Styles styles){
 		this.styles = styles;
 		Styles.load(styles);
+	}
+	
+	public boolean hasMouse(){
+		return scene.hit(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true) != null;
 	}
 	
 	/**Updates and draws the stage.*/

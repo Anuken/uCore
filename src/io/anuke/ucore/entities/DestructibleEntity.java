@@ -4,8 +4,8 @@ public abstract class DestructibleEntity extends SolidEntity{
 	public int health;
 	public int maxhealth;
 	
-	void onHit(SolidEntity entity){}
-	void onDeath(){}
+	public void onHit(SolidEntity entity){}
+	public void onDeath(){}
 	
 	@Override
 	public boolean collides(SolidEntity other){

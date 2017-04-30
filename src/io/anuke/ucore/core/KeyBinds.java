@@ -1,14 +1,16 @@
 package io.anuke.ucore.core;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class KeyBinds{
 	private static ObjectMap<String, Integer> map = new ObjectMap<>();
 	/**Holds default keybind values.*/
 	private static ObjectMap<String, Integer> defaults = new ObjectMap<>();
+	private static Array<String> keys = new Array<>();
 	
 	public static Iterable<String> getBinds(){
-		return map.keys();
+		return keys;
 	}
 	
 	public static int get(String name){
@@ -44,6 +46,7 @@ public class KeyBinds{
 		for(int i = 0; i < keys.length; i +=2){
 			map.put((String)keys[i], (Integer)keys[i+1]);
 			defaults.put((String)keys[i], (Integer)keys[i+1]);
+			KeyBinds.keys.add((String)keys[i]);
 		}
 	}
 }

@@ -93,6 +93,16 @@ public class Element extends BaseElement{
 		});
 	}
 	
+	public void update(Runnable r){
+		addAction(new Action(){
+			@Override
+			public boolean act(float delta){
+				r.run();
+				return false;
+			}
+		});
+	}
+	
 	public void setVisible(BooleanSupplier vis){
 		visibility = vis;
 	}

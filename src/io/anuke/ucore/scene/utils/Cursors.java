@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 
-public class CursorManager{
+public class Cursors{
 	public static Cursor arrow;
 	public static Cursor ibeam;
 	public static Cursor hand;

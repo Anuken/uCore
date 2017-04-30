@@ -171,6 +171,11 @@ public final class Noise {
     }
 
     private static double[] G(int i) { return points[i % 32]; }
+    
+    public static void setSeed(int s){
+    	seed = s;
+    	init();
+    }
 
     private static void init() {
        int i, j, k;

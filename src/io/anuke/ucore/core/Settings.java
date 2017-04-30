@@ -58,6 +58,10 @@ public class Settings{
 		return prefs.getInteger(name, def);
 	}
 	
+	public static boolean has(String name){
+		return prefs.contains(name);
+	}
+	
 	public static void save(){
 		prefs.flush();
 	}

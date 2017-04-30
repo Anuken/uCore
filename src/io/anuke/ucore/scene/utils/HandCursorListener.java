@@ -7,8 +7,13 @@ public class HandCursorListener extends ClickListener{
 	@Override
 	public void enter (InputEvent event, float x, float y, int pointer, Element fromActor) {
 		super.enter(event, x, y, pointer, fromActor);
+		
+		if(event.getTarget() instanceof Disableable){
+			if(((Disableable)event.getTarget()).isDisabled())
+				return;
+		}
 		if (pointer == -1 && event.getTarget().isVisible()) {
-			CursorManager.setHand();
+			Cursors.setHand();
 		}
 	}
 
@@ -16,7 +21,7 @@ public class HandCursorListener extends ClickListener{
 	public void exit (InputEvent event, float x, float y, int pointer, Element toActor) {
 		super.exit(event, x, y, pointer, toActor);
 		if (pointer == -1) {
-			CursorManager.restoreCursor();
+			Cursors.restoreCursor();
 		}
 	}
 }

@@ -11,29 +11,41 @@ import io.anuke.ucore.core.DrawContext;
 public class Angles{
 	static public Vector2 vector = new Vector2(1,1);
 	
-	static public float ForwardDistance(float angle1, float angle2){
+	static public float forwardDistance(float angle1, float angle2){
 		return angle1 > angle2 ? angle1-angle2 : angle2-angle1;
 	}
 
-	static public float BackwardDistance(float angle1, float angle2){
-		return 360 - ForwardDistance(angle1, angle2);
+	static public float backwardDistance(float angle1, float angle2){
+		return 360 - forwardDistance(angle1, angle2);
 	}
 
 	static public float angleDist(float a, float b){
-		return Math.min(ForwardDistance(a, b), BackwardDistance(a, b));
+		return Math.min(forwardDistance(a, b), backwardDistance(a, b));
 	}
 
-	static public float MoveToward(float angle, float to, float speed){
+	static public float moveToward(float angle, float to, float speed){
 		if(Math.abs(angleDist(angle, to)) < speed)return to;
 
-		if((angle > to && BackwardDistance(angle, to) > ForwardDistance(angle, to)) || 
-				(angle < to && BackwardDistance(angle, to) < ForwardDistance(angle, to)) ){
+		if((angle > to && backwardDistance(angle, to) > forwardDistance(angle, to)) || 
+				(angle < to && backwardDistance(angle, to) < forwardDistance(angle, to)) ){
 			angle -= speed;
 		}else{
 			angle += speed;
 		}
 		
 		return angle;
+	}
+	
+	static public float angle(float x, float y, float x2, float y2){
+		return vector.set(x2 - x, y2 -y).angle();
+	}
+	
+	static public float predictAngle(float x, float y, float x2, float y2, float velocityx, float velocityy, float speed){
+		float dst = Vector2.dst(x, y, x2, y2);
+		dst /= speed;
+		x2 += velocityx*dst;
+		y2 += velocityy*dst;
+		return angle(x, y, x2, y2);
 	}
 	
 	static public Vector2 rotate(float x, float y, float angle){

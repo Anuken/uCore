@@ -43,8 +43,16 @@ public class Mathf{
 		return (int)(a/b)*b;
 	}
 	
+	public static float round2(float a, float b){
+		return Math.round(a/b)*b;
+	}
+	
 	public static int scl(float a, float b){
 		return (int)(a/b);
+	}
+	
+	public static int scl2(float a, float b){
+		return Math.round(a/b);
 	}
 	
 	public static boolean inRect(float x, float y, float bx, float by, float tx, float ty){

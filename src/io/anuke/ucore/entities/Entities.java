@@ -2,9 +2,12 @@ package io.anuke.ucore.entities;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.ObjectSet;
 
@@ -21,6 +24,7 @@ public class Entities{
 	public static boolean physics = false;
 	
 	private static IntSet collided = new IntSet();
+	private static Array<SolidEntity> array = new Array<>();
 	
 	public static void initPhysics(float x, float y, float w, float h){
 		tree = new QuadTree(4, new Rectangle(x, y, w, h));
@@ -41,6 +45,29 @@ public class Entities{
 	
 	public static void getNearby(float x, float y, float size, Consumer<SolidEntity> out){
 		tree.getMaybeIntersecting(out, Rectangle.tmp.setSize(size).setCenter(x, y));
+	}
+	
+	public static Array<SolidEntity> getNearby(float x, float y, float size){
+		array.clear();
+		tree.getMaybeIntersecting(array, Rectangle.tmp2.setSize(size).setCenter(x, y));
+		return array;
+	}
+	
+	public static SolidEntity getClosest(float x, float y, float range, Predicate<Entity> pred){
+		SolidEntity closest = null;
+		float cdist = 0f;
+		for(SolidEntity e : getNearby(x, y, range*2f)){
+			if(!pred.test(e)) continue;
+			
+			float dist = Vector2.dst(e.x, e.y, x, y);
+			if(dist < range)
+			if(closest == null || dist < cdist){
+				closest = e;
+				cdist = dist;
+			}
+		}
+		
+		return closest;
 	}
 	
 	public static void clear(){

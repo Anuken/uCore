@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectMap;
 
+import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.graphics.PixmapUtils;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.style.Styles;
@@ -56,6 +57,11 @@ public class Draw{
 	
 	public static void color(Color color){
 		batch().setColor(color);
+	}
+	
+	/**Automatically mixes colors.*/
+	public static void color(Color a, Color b, float s){
+		batch().setColor(Hue.mix(a, b, s));
 	}
 	
 	public static void color(String name){
@@ -104,6 +110,11 @@ public class Draw{
 		batch().draw(region, x, y, w, h);
 	}
 	
+	public static void crect(String name, float x, float y){
+		TextureRegion region = region(name);
+		batch().draw(region, x, y);
+	}
+	
 	public static void laser(String line, String edge, float x, float y, float x2, float y2){
 		laser(line, edge, x, y, x2, y2, vector.set(x2 - x, y2 -y).angle());
 	}
@@ -141,6 +152,10 @@ public class Draw{
 		polygon(circle, x, y, scl);
 	}
 	
+	public static void dashcircle(float x, float y, float scl){
+		dashpolygon(circle, x, y, scl);
+	}
+	
 	public static void spikes(float x, float y, float radius, float length, int spikes, float rot){
 		vector.set(0, 1);
 		float step = 360f/spikes;
@@ -167,6 +182,15 @@ public class Draw{
 		}
 	}
 	
+	public static void dashpolygon(Vector2[] vertices, float offsetx, float offsety, float scl){
+		for(int i = 0;i < vertices.length;i ++){
+			if(i%2 != 0) continue;
+			Vector2 current = vertices[i];
+			Vector2 next = i == vertices.length - 1 ? vertices[0] : vertices[i + 1];
+			line(current.x * scl + offsetx, current.y * scl + offsety, next.x * scl + offsetx, next.y * scl + offsety);
+		}
+	}
+	
 	public static void polygon(float[] vertices, float offsetx, float offsety, float scl){
 		for(int i = 0;i < vertices.length/2; i ++){
 			float x = vertices[i*2];
@@ -183,6 +207,10 @@ public class Draw{
 			
 			line(x * scl + offsetx, y * scl + offsety, x2 * scl + offsetx, y2 * scl + offsety);
 		}
+	}
+	
+	public static void square(float x, float y, float rad){
+		linerect(x-rad, y-rad, rad*2, rad*2);
 	}
 	
 	public static void linerect(float x, float y, float width, float height, int xspace, int yspace){

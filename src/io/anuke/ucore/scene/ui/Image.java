@@ -25,6 +25,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.style.*;
 
@@ -40,6 +41,10 @@ public class Image extends Element {
 	/** Creates an image with no region or patch, stretched, and aligned center. */
 	public Image () {
 		this((Drawable)null);
+	}
+	
+	public Image (String name) {
+		this(Draw.getPatch(name));
 	}
 
 	/** Creates an image stretched, and aligned center.
