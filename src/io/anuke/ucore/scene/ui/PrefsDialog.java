@@ -14,6 +14,17 @@ public class PrefsDialog extends Dialog{
 		sliderPref(name, title, def, min, max, 1, s);
 	}
 	
+	public void volumePrefs(){
+		
+		sliderPref("sfxvol", "SFX Volume", 10, 0, 20, i->{
+			return (int)(i*10) + "%";
+		});
+		
+		sliderPref("musicvol", "Music Volume", 10, 0, 20, i->{
+			return (int)(i*10) + "%";
+		});
+	}
+	
 	public void sliderPref(String name, String title, int def, int min, int max, int step, StringProcessor s){
 		Table table = getContentTable();
 		Slider slider = new Slider(min, max, 1f, false);
@@ -23,9 +34,9 @@ public class PrefsDialog extends Dialog{
 		
 		Label label = new Label(title);
 		slider.changed(()->{
-			label.setText(title + ": " + s.get((int)slider.getValue()));
 			Settings.putInt(name, (int)slider.getValue());
 			Settings.save();
+			label.setText(title + ": " + s.get((int)slider.getValue()));
 		});
 		
 		slider.change();

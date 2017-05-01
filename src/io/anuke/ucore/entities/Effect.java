@@ -11,7 +11,7 @@ public class Effect extends TimedEntity{
 	public Consumer<Effect> renderer;
 	public Color color = Color.WHITE;
 	
-	public static void addDraw(String name, float life, Consumer<Effect> cons){
+	public static void create(String name, float life, Consumer<Effect> cons){
 		draws.put(name, new EffectDraw(cons, life));
 	}
 	
@@ -27,7 +27,7 @@ public class Effect extends TimedEntity{
 	}
 	
 	@Override
-	public void draw(){
+	public void drawOver(){
 		renderer.accept(this);
 	}
 	

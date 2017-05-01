@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
-import io.anuke.ucore.core.UInput;
+import io.anuke.ucore.core.Inputs;
 import io.anuke.ucore.util.Timers;
 
 public abstract class ModuleController<T extends ModuleController<T>> extends ApplicationAdapter{
@@ -63,10 +63,11 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	}
 	
 	abstract public void init();
-	public void setup(){}
+	public void preInit(){}
+	public void postInit(){}
 	
 	public void update(){
-		UInput.update();
+		Inputs.update();
 		Timers.update(Gdx.graphics.getDeltaTime()*60f);
 	}
 	
@@ -84,11 +85,11 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	@Override
 	public final void create(){
 		init();
-		setup();
+		preInit();
 		for(Module<T> module : modulearray){
 			module.init();
 		}
-		
+		postInit();
 	}
 	
 	@Override

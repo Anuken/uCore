@@ -238,6 +238,10 @@ public class Draw{
 		thickness = thick;
 	}
 	
+	public static void thick(float thick){
+		thickness = thick;
+	}
+	
 	public static void tscl(float scl){
 		DrawContext.font.getData().setScale(scl);
 	}

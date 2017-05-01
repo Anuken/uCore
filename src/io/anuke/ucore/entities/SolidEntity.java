@@ -7,6 +7,10 @@ import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 public abstract class SolidEntity extends Entity implements QuadTreeObject{
 	public float hitsize = 10;
 	
+	public void move(float x, float y){
+		Entities.move(this, hitsize, x, y);
+	}
+	
 	public boolean collides(SolidEntity other){
 		return true;
 	}

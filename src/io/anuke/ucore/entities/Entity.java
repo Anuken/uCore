@@ -12,6 +12,7 @@ public abstract class Entity{
 	
 	public void update(){}
 	public void draw(){}
+	public void drawOver(){}
 	public void removed(){}
 	public void added(){}
 	public void init(){}
@@ -30,6 +31,10 @@ public abstract class Entity{
 	public <T extends Entity> T add(){
 		Entities.entitiesToAdd.add(this);
 		return (T)this;
+	}
+	
+	public void move(float x, float y, float hitsize){
+		Entities.move(this, hitsize, x, y);
 	}
 	
 	public float angleTo(Entity other){

@@ -46,8 +46,16 @@ public class Settings{
 		return prefs.getFloat(name, (Float)defaults.get(name));
 	}
 	
+	public static float getFloat(String name, float f){
+		return prefs.getFloat(name, (Integer)defaults.get(name, f));
+	}
+	
 	public static int getInt(String name){
 		return prefs.getInteger(name, (Integer)defaults.get(name));
+	}
+	
+	public static int getInt(String name, int i){
+		return prefs.getInteger(name, (Integer)defaults.get(name, i));
 	}
 	
 	public static boolean getBool(String name){

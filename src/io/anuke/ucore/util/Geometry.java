@@ -26,14 +26,6 @@ public class Geometry{
 		return v;
 	}
 	
-	public static java.awt.Polygon polygon(float[] vertices){
-		java.awt.Polygon poly = new java.awt.Polygon();
-		for(int i = 0; i < vertices.length/2; i ++)
-		poly.addPoint((int)vertices[i*2], (int)vertices[i*2+1]);
-		
-		return poly;
-	}
-	
 	/**copied from the libGDX source*/
 	public static boolean intersectPolygons (float[] p1, float[] p2) {
 		// reusable points to trace edges around polygon

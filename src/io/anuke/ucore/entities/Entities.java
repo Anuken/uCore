@@ -22,9 +22,16 @@ public class Entities{
 	
 	public static QuadTree<SolidEntity> tree;
 	public static boolean physics = false;
+	public static TileCollider collider;
+	public static float tilesize;
 	
 	private static IntSet collided = new IntSet();
 	private static Array<SolidEntity> array = new Array<>();
+	
+	public static void setCollider(float atilesize, TileCollider acollider){
+		tilesize = atilesize;
+		collider = acollider;
+	}
 	
 	public static void initPhysics(float x, float y, float w, float h){
 		tree = new QuadTree(4, new Rectangle(x, y, w, h));
@@ -37,6 +44,40 @@ public class Entities{
 	
 	public static void resizeTree(float x, float y, float w, float h){
 		initPhysics(x, y, w, h);
+	}
+	
+	static void move(Entity e, float hitsize, float dx, float dy){
+		if(collider == null) throw new IllegalArgumentException("No tile collider specified! Call setCollider() first.");
+		
+		Rectangle.tmp.setSize(hitsize).setCenter(e.x, e.y);
+
+		if(!overlaps(Rectangle.tmp, e.x + dx, e.y)){
+			e.x += dx;
+		}
+
+		if(!overlaps(Rectangle.tmp, e.x, e.y + dy)){
+			e.y += dy;
+		}
+	}
+	
+	static boolean overlaps(Rectangle rect, float x, float y){
+		int r = 1;
+		rect.setCenter(x, y);
+		//assumes tilesize is centered
+		int tilex = Mathf.scl2(x, tilesize);
+		int tiley = Mathf.scl2(y, tilesize);
+
+		for(int dx = -r; dx <= r; dx++){
+			for(int dy = -r; dy <= r; dy++){
+				int wx = dx+tilex, wy = dy+tiley;
+				if(collider.solid(wx, wy) &&
+						Rectangle.tmp2.setSize(tilesize)
+						.setCenter(wx*tilesize, wy*tilesize).overlaps(rect)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public static void getNearby(Rectangle rect, Consumer<SolidEntity> out){
@@ -136,6 +177,10 @@ public class Entities{
 	public static void draw(){
 		for(Entity e : entities.values()){
 			e.draw();
+		}
+		
+		for(Entity e : entities.values()){
+			e.drawOver();
 		}
 	}
 	

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 
-public class UInput{
+public class Inputs{
 	private static boolean[] buttons = new boolean[5];
 	private static InputMultiplexer plex = new InputMultiplexer();
 	
