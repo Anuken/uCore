@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 /**
  * @author xSke
  */
-public class SpringingContext1D {
+public class Spring1D {
     public float value;
     public float target;
     public float velocity;
@@ -13,7 +13,7 @@ public class SpringingContext1D {
     public float damping;
     public float frequency;
 
-    public SpringingContext1D(float damping, float frequency) {
+    public Spring1D(float damping, float frequency) {
         this.damping = damping;
         this.frequency = frequency;
     }

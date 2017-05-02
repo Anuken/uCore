@@ -29,6 +29,10 @@ public class table extends builder<table, Table>{
 		return element.add();
 	}
 	
+	public Cell defaults(){
+		return element.defaults();
+	}
+	
 	public void row(){
 		element.row();
 	}

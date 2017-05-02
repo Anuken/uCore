@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 import io.anuke.ucore.core.Inputs;
+import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.util.Timers;
 
 public abstract class ModuleController<T extends ModuleController<T>> extends ApplicationAdapter{
@@ -14,7 +15,10 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	protected ObjectMap<Class<? extends Module<T>>, Module<T>> modules = new ObjectMap<Class<? extends Module<T>>, Module<T>>();
 	protected Array<Module<T>> modulearray = new Array<Module<T>>();
 	
-	{instance=this;}
+	{
+		instance=this; 
+		Hue.init();
+	}
 	
 	public void addModule(Class<? extends Module<T>> c){
 		try{
@@ -62,6 +66,14 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 		return null;
 	}
 	
+	public static SceneModule<?> ui(){
+		for(Module<?> m : instance.modules.values()){
+			if(m instanceof SceneModule)
+				return (SceneModule<?>) m;
+		}
+		return null;
+	}
+	
 	abstract public void init();
 	public void preInit(){}
 	public void postInit(){}
@@ -77,6 +89,7 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	
 	@Override
 	public void resize(int width, int height){
+		Module.screen.set(width, height);
 		for(Module<T> module : modulearray){
 			module.resize(width, height);
 		}

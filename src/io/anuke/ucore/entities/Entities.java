@@ -39,11 +39,16 @@ public class Entities{
 	}
 	
 	public static void initPhysics(){
+		tree = new QuadTree(4, new Rectangle(0, 0, 0, 0));
 		physics = true;
 	}
 	
 	public static void resizeTree(float x, float y, float w, float h){
 		initPhysics(x, y, w, h);
+	}
+	
+	public static void resizeTree(float w, float h){
+		initPhysics(0, 0, w, h);
 	}
 	
 	static void move(Entity e, float hitsize, float dx, float dy){

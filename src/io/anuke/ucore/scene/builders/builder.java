@@ -1,5 +1,7 @@
 package io.anuke.ucore.scene.builders;
 
+import java.util.function.BooleanSupplier;
+
 import com.badlogic.gdx.utils.Align;
 
 import io.anuke.ucore.scene.Element;
@@ -12,6 +14,10 @@ public abstract class builder<T extends builder, N extends Element>{
 	
 	protected Table context(){
 		return build.getTable();
+	}
+	
+	public void visible(BooleanSupplier vis){
+		element.setVisible(vis);
 	}
 	
 	/**Returns the element being built.*/

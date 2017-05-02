@@ -33,7 +33,8 @@ public abstract class BulletEntity extends SolidEntity implements Damager{
 		
 		if(time >= type.lifetime){
 			remove();
-			type.removed(this);
+			//TODO change this
+			//type.removed(this);
 		}
 	}
 	

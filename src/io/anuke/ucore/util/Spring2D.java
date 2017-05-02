@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * @author xSke
  */
-public class SpringingContext2D {
+public class Spring2D {
     public Vector2 value = new Vector2();
     public Vector2 target = new Vector2();
     public Vector2 velocity = new Vector2();
@@ -14,7 +14,7 @@ public class SpringingContext2D {
     public float damping;
     public float frequency;
 
-    public SpringingContext2D(float damping, float frequency) {
+    public Spring2D(float damping, float frequency) {
         this.damping = damping;
         this.frequency = frequency;
     }

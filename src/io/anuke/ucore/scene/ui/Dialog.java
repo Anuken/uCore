@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ObjectMap;
 
+import io.anuke.ucore.modules.ModuleController;
 import io.anuke.ucore.scene.Action;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
@@ -49,6 +50,7 @@ public class Dialog extends Window {
 	boolean cancelHide;
 	Element previousKeyboardFocus, previousScrollFocus;
 	FocusListener focusListener;
+	Runnable hideListener, showListener;
 
 	protected InputListener ignoreTouchDown = new InputListener() {
 		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -202,9 +204,27 @@ public class Dialog extends Window {
 		setObject(button, object);
 		return c;
 	}
+	
+	/**Adds a show() listener.*/
+	public void shown(Runnable run){
+		this.showListener = run;
+	}
+	
+	/**Adds a hide() listener.*/
+	public void hidden(Runnable run){
+		this.hideListener = run;
+	}
+	
+	/**Sets style to 'dialog'.*/
+	public Dialog setDialog(){
+		setStyle(Styles.styles.get("dialog", WindowStyle.class));
+		return this;
+	}
 
 	/** {@link #pack() Packs} the dialog and adds it to the stage with custom action which can be null for instant show */
 	public Dialog show (Scene stage, Action action) {
+		if(showListener != null)
+			showListener.run();
 		clearActions();
 		removeCaptureListener(ignoreTouchDown);
 
@@ -224,6 +244,11 @@ public class Dialog extends Window {
 
 		return this;
 	}
+	
+	/**Shows using the ModuleController's UI.*/
+	public Dialog show () {
+		return show(ModuleController.ui().scene);
+	}
 
 	/** {@link #pack() Packs} the dialog and adds it to the stage, centered with default fadeIn action */
 	public Dialog show (Scene stage) {
@@ -234,6 +259,9 @@ public class Dialog extends Window {
 
 	/** Hides the dialog with the given action and then removes it from the stage. */
 	public void hide (Action action) {
+		if(hideListener != null)
+			hideListener.run();
+		
 		Scene stage = getScene();
 		if (stage != null) {
 			removeListener(focusListener);

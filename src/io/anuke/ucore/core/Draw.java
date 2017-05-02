@@ -65,7 +65,7 @@ public class Draw{
 	}
 	
 	public static void color(String name){
-		batch().setColor(Colors.get(name.toUpperCase().replace(" ", "_")));
+		batch().setColor(Colors.get(name));
 	}
 	
 	public static void color(int color){

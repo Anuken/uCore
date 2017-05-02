@@ -58,7 +58,7 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	
 	public void updateShake(){
 		if(shaketime > 0){
-			float intensity = shakeIntensity*(Settings.has("screenshake") ? Settings.getInt("screenshake")/4f : 1f);
+			float intensity = shakeIntensity*(Settings.getInt("screenshake", 4)/4f);
 			camera.position.add(Mathf.range(intensity), Mathf.range(intensity), 0);
 			shakeIntensity -= 0.25f;
 			shaketime -= delta();
@@ -109,10 +109,12 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 		batch.end();
 	}
 	
+	@Override
 	public void preInit(){
 		DrawContext.set(batch, camera, atlas, font);
 	}
 	
+	@Override
 	public void resize(int width, int height){
 		camera.setToOrtho(false, width/cameraScale, height/cameraScale);
 		
@@ -121,5 +123,7 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 			buffers.add("pixel", (int)(Gdx.graphics.getWidth()/cameraScale), 
 					(int)(Gdx.graphics.getHeight()/cameraScale));
 		}
+		
+		resize();
 	}
 }

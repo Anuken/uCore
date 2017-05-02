@@ -3,11 +3,26 @@ package io.anuke.ucore.graphics;
 import static java.lang.Math.abs;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.util.Mathf;
+
 public class Hue{
 	static private float[] hsv = new float[3];
+	
+	static{
+		
+		for(String s : new ObjectMap.Keys<String>(Colors.getColors())){
+			if(s != null)
+			Colors.put(s.toLowerCase().replace("_", ""), Colors.get(s));
+		}
+		
+		Colors.put("crimson", Color.SCARLET);
+	}
+	
+	public static void init(){}
 	
 	public static boolean approximate(Color a, Color b, float r){
 		return MathUtils.isEqual(a.r, b.r, r) && MathUtils.isEqual(a.g, b.g, r) && MathUtils.isEqual(a.b, b.b, r);

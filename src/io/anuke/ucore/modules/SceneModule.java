@@ -1,6 +1,8 @@
 package io.anuke.ucore.modules;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.utils.Array;
 
 import io.anuke.ucore.core.DrawContext;
@@ -12,6 +14,8 @@ import io.anuke.ucore.scene.style.Styles;
 import io.anuke.ucore.scene.ui.layout.Table;
 
 public class SceneModule<T extends ModuleController<T>> extends Module<T>{
+	private static String[] colorTypes = {"accent", "title"};
+	
 	public Scene scene;
 	public Styles styles;
 	
@@ -20,12 +24,18 @@ public class SceneModule<T extends ModuleController<T>> extends Module<T>{
 		Inputs.addProcessor(scene);
 		
 		styles = new Styles(Gdx.files.internal("ui/uiskin.json"));
+		styles.font().setUseIntegerPositions(false);
 		loadStyles(styles);
 	}
 	
 	protected void loadStyles(Styles styles){
 		this.styles = styles;
 		Styles.load(styles);
+		
+		for(String s : colorTypes)
+			if(Colors.get(s) == null)
+				Colors.put(s, Color.WHITE);
+		
 	}
 	
 	public boolean hasMouse(){

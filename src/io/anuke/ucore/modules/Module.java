@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class Module<T extends ModuleController<T>> extends InputAdapter{
 	public static Vector2 vector = new Vector2();
+	public static Vector2 screen = new Vector2();
 	public T main;
 	
 	public void update(){}
@@ -17,7 +18,8 @@ public abstract class Module<T extends ModuleController<T>> extends InputAdapter
 	public void pause(){}
 	public void resume(){}
 	public void dispose(){}
-	public void resize(int width, int height){}
+	public void resize(int width, int height){resize();}
+	public void resize(){}
 	
 	public <N> N getModule(Class<N> c){
 		return (N)(main.getModule((Class<? extends Module<T>>)c));

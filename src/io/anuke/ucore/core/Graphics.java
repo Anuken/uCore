@@ -11,12 +11,12 @@ public class Graphics{
 	private static Vector2 mouse = new Vector2();
 	private static Vector2 size = new Vector2();
 	
-	public static Vector2 mousePos(){
+	public static Vector2 mouse(){
 		mouse.set(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY());
 		return mouse;
 	}
 	
-	public static Vector2 mouseWorldPos(){
+	public static Vector2 mouseWorld(){
 		DrawContext.camera.unproject(vec3.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 		return mouse.set(vec3.x, vec3.y);
 	}
@@ -25,12 +25,12 @@ public class Graphics{
 		return size.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 	
-	public static void clearScreen(Color color){
+	public static void clear(Color color){
 		Gdx.gl.glClearColor(color.r, color.g, color.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 	}
 	
-	public static void clearScreen(float r, float g, float b){
+	public static void clear(float r, float g, float b){
 		Gdx.gl.glClearColor(r, g, b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 	}
