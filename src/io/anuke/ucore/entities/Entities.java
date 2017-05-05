@@ -5,12 +5,14 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.ObjectSet;
 
+import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.QuadTree;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
@@ -27,6 +29,8 @@ public class Entities{
 	
 	private static IntSet collided = new IntSet();
 	private static Array<SolidEntity> array = new Array<>();
+	private static Rectangle viewport = new Rectangle();
+	private static final int maxObjects = 4;
 	
 	public static void setCollider(float atilesize, TileCollider acollider){
 		tilesize = atilesize;
@@ -34,12 +38,12 @@ public class Entities{
 	}
 	
 	public static void initPhysics(float x, float y, float w, float h){
-		tree = new QuadTree(4, new Rectangle(x, y, w, h));
+		tree = new QuadTree(maxObjects, new Rectangle(x, y, w, h));
 		physics = true;
 	}
 	
 	public static void initPhysics(){
-		tree = new QuadTree(4, new Rectangle(0, 0, 0, 0));
+		tree = new QuadTree(maxObjects, new Rectangle(0, 0, 0, 0));
 		physics = true;
 	}
 	
@@ -56,16 +60,16 @@ public class Entities{
 		
 		Rectangle.tmp.setSize(hitsize).setCenter(e.x, e.y);
 
-		if(!overlaps(Rectangle.tmp, e.x + dx, e.y)){
+		if(!overlapsTile(Rectangle.tmp, e.x + dx, e.y)){
 			e.x += dx;
 		}
 
-		if(!overlaps(Rectangle.tmp, e.x, e.y + dy)){
+		if(!overlapsTile(Rectangle.tmp, e.x, e.y + dy)){
 			e.y += dy;
 		}
 	}
 	
-	static boolean overlaps(Rectangle rect, float x, float y){
+	static boolean overlapsTile(Rectangle rect, float x, float y){
 		int r = 1;
 		rect.setCenter(x, y);
 		//assumes tilesize is centered
@@ -180,12 +184,21 @@ public class Entities{
 	}
 	
 	public static void draw(){
+		OrthographicCamera cam = DrawContext.camera;
+		viewport.set(cam.position.x - cam.viewportWidth/2, cam.position.y - cam.viewportHeight/2, cam.viewportWidth, cam.viewportHeight);
+		
 		for(Entity e : entities.values()){
-			e.draw();
+			Rectangle.tmp2.setSize(e.drawSize()).setCenter(e.x, e.y);
+			
+			if(Rectangle.tmp2.overlaps(viewport))
+				e.draw();
 		}
 		
 		for(Entity e : entities.values()){
-			e.drawOver();
+			Rectangle.tmp2.setSize(e.drawSize()).setCenter(e.x, e.y);
+			
+			if(Rectangle.tmp2.overlaps(viewport))
+				e.drawOver();
 		}
 	}
 	

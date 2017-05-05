@@ -1,17 +1,28 @@
 package io.anuke.ucore.core;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.*;
 
 public class Inputs{
 	private static boolean[] buttons = new boolean[5];
 	private static InputMultiplexer plex = new InputMultiplexer();
+	private static int scroll = 0;
+	private static InputProcessor listen = new InputAdapter(){
+		@Override
+		public boolean scrolled(int amount){
+			scroll = -amount;
+			return false;
+		}
+	};
+	
+	static{
+		plex.addProcessor(listen);
+	}
 	
 	public static void update(){
 		for(int i = 0; i < buttons.length; i ++){
 			buttons[i] = Gdx.input.isButtonPressed(i);
 		}
+		scroll = 0;
 	}
 	
 	/**Adds another input processor to the chain.*/
@@ -46,5 +57,13 @@ public class Inputs{
 	
 	public static boolean buttonUp(int button){
 		return Gdx.input.isButtonPressed(button) && !buttons[button];
+	}
+	
+	public static int scroll(){
+		return scroll;
+	}
+	
+	public static boolean scrolled(){
+		return Math.abs(scroll) > 0;
 	}
 }

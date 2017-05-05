@@ -9,7 +9,7 @@ import io.anuke.ucore.util.Mathf;
 public class Sounds{
 	private static ObjectMap<String, Sound> map = new ObjectMap<>();
 	private static float volume = 1f;
-	private static float falloff = 15000f;
+	private static float falloff = 20000f;
 	
 	public static void load(String... names){
 		for(String s : names){

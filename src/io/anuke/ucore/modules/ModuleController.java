@@ -83,10 +83,6 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 		Timers.update(Gdx.graphics.getDeltaTime()*60f);
 	}
 	
-	public float delta(){
-		return Gdx.graphics.getDeltaTime()*60f;
-	}
-	
 	@Override
 	public void resize(int width, int height){
 		Module.screen.set(width, height);

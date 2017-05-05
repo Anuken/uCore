@@ -2,6 +2,7 @@ package io.anuke.ucore.util;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Mathf{
@@ -53,6 +54,10 @@ public class Mathf{
 	
 	public static int scl2(float a, float b){
 		return Math.round(a/b);
+	}
+	
+	public static float delta(){
+		return Gdx.graphics.getDeltaTime()*60f;
 	}
 	
 	public static boolean inRect(float x, float y, float bx, float by, float tx, float ty){

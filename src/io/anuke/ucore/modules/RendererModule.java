@@ -69,7 +69,6 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	
 	/**Updates the camera, clears the screen, begins the batch and calls draw().*/
 	public void drawDefault(){
-		updateShake();
 		camera.update();
 		
 		if(pixelate) beginPixel();

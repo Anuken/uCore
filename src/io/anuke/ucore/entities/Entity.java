@@ -45,6 +45,10 @@ public abstract class Entity{
 		return Vector2.dst(other.x, other.y, x, y);
 	}
 	
+	public float drawSize(){
+		return 20;
+	}
+	
 	public Entity remove(){
 		Entities.entitiesToRemove.add(id);
 		removed();

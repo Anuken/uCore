@@ -14,6 +14,7 @@ public class KeyBinds{
 	}
 	
 	public static int get(String name){
+		if(!map.containsKey(name)) throw new IllegalArgumentException("Key " + name + " not registered!");
 		return map.get(name);
 	}
 	

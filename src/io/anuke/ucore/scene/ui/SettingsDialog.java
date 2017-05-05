@@ -1,5 +1,6 @@
 package io.anuke.ucore.scene.ui;
 
+import io.anuke.ucore.core.Musics;
 import io.anuke.ucore.core.Settings;
 import io.anuke.ucore.scene.ui.layout.Table;
 
@@ -27,6 +28,7 @@ public class SettingsDialog extends Dialog{
 		});
 		
 		sliderPref("musicvol", "Music Volume", 10, 0, 10, 1, i->{
+			Musics.updateVolume();
 			return (int)(i*10) + "%";
 		});
 	}

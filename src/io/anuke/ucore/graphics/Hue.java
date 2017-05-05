@@ -20,6 +20,7 @@ public class Hue{
 		}
 		
 		Colors.put("crimson", Color.SCARLET);
+		Colors.put("scarlet", Color.SCARLET);
 	}
 	
 	public static void init(){}

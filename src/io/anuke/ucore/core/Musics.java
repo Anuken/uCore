@@ -50,6 +50,11 @@ public class Musics{
 		get(name).setVolume(volume*vol);
 		playing = get(name);
 	}
+	
+	public static void updateVolume(){
+		float vol = Settings.getInt("musicvol", 10)/10f*volume;
+		playing.setVolume(vol);
+	}
 
 	public static void shuffleAll(){
 		float vol = Settings.getInt("musicvol", 10)/10f;

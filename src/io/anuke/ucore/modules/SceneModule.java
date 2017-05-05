@@ -32,6 +32,9 @@ public class SceneModule<T extends ModuleController<T>> extends Module<T>{
 		this.styles = styles;
 		Styles.load(styles);
 		
+		if(DrawContext.font == null)
+			DrawContext.font = styles.font();
+		
 		for(String s : colorTypes)
 			if(Colors.get(s) == null)
 				Colors.put(s, Color.WHITE);

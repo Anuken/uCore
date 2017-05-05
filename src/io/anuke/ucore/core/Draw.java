@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.graphics.PixmapUtils;
+import io.anuke.ucore.graphics.Shader;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.style.Styles;
 
@@ -32,6 +33,33 @@ public class Draw{
 			vector.setAngle(i*step);
 			circle[i] = vector.cpy();
 		}
+	}
+	
+	public static void shader(String name, Object...params){
+		boolean rendering = batch().isDrawing();
+		
+		if(rendering)
+			batch().end();
+		
+		Shader shader = Shaders.get(name);
+		shader.setParams(params);
+		
+		batch().setShader(shader.program());
+		
+		if(rendering)
+			batch().begin();
+	}
+	
+	public static void shader(){
+		boolean rendering = batch().isDrawing();
+		
+		if(rendering)
+			batch().end();
+		
+		batch().setShader(null);
+		
+		if(rendering)
+			batch().begin();
 	}
 	
 	public static void drawable(String name, BiConsumer<Float, Float> run){
@@ -84,6 +112,16 @@ public class Draw{
 		batch().setColor(r, g, b, a);
 	}
 	
+	/**Lightness color.*/
+	public static void colorl(float l){
+		color(l, l, l);
+	}
+	
+	/**Lightness color, alpha.*/
+	public static void colorl(float l, float a){
+		color(l, l, l, a);
+	}
+	
 	public static void alpha(float alpha){
 		Color color = batch().getColor();
 		batch().setColor(color.r, color.g, color.b, alpha);
@@ -92,6 +130,18 @@ public class Draw{
 	public static void rect(String name, float x, float y){
 		TextureRegion region = region(name);
 		batch().draw(region, x - region.getRegionWidth()/2, y - region.getRegionHeight()/2);
+	}
+	
+	/**Grounded rect.*/
+	public static void grect(String name, float x, float y){
+		TextureRegion region = region(name);
+		batch().draw(region, x - region.getRegionWidth()/2, y);
+	}
+	
+	/**Grounded rect.*/
+	public static void grect(String name, float x, float y, float w, float h){
+		TextureRegion region = region(name);
+		batch().draw(region, x - region.getRegionWidth()/2, y, w, h);
 	}
 	
 	public static void rect(String name, float x, float y, float rotation){
@@ -266,6 +316,10 @@ public class Draw{
 		DrawContext.font.setColor(r, g, b, 1f);
 	}
 	
+	public static void tcolor(float alpha){
+		DrawContext.font.setColor(1f, 1f, 1f, alpha);
+	}
+	
 	public static void tcolor(){
 		DrawContext.font.setColor(Color.WHITE);
 	}
@@ -282,7 +336,7 @@ public class Draw{
 		return DrawContext.atlas.getRegion(name);
 	}
 	
-	private static SpriteBatch batch(){
+	public static SpriteBatch batch(){
 		return DrawContext.batch;
 	}
 }

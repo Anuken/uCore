@@ -33,4 +33,14 @@ public class Effects{
 	public static void shake(float intensity, float duration){
 		ModuleController.renderer().shake(intensity, duration);
 	}
+	
+	//TODO
+	public static void shake(float intensity, float duration, float x, float y){
+		ModuleController.renderer().shake(intensity, duration);
+	}
+	
+	//TODO
+	public static void shake(float intensity, float duration, Entity loc){
+		ModuleController.renderer().shake(intensity, duration);
+	}
 }
