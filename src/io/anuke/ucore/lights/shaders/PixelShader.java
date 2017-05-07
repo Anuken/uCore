@@ -20,6 +20,8 @@ public class PixelShader{
 		"uniform vec4 tint;",
 
 		"const float r = 0.2;",
+		"const float scl = 0.04;",
+		"const int pr = 3;",
 
 		"float round(float f){",
 		"	return float(int(f/r))*r;",
@@ -27,9 +29,11 @@ public class PixelShader{
 
 		"void main(){",
 		"	vec4 c = texture2D(u_texture, v_texCoords);",
-		"	c.r = round(c.r)*tint.r;",
-		"	c.g = round(c.g)*tint.g;",
-		"	c.b = round(c.b)*tint.b;",
+		"	float dst = c.r;",
+		"	dst = pow(dst, 3);",
+		"	c.r = round(1.0-clamp(1.0/dst*scl, 0.0, 1.0))*tint.r;",
+		"	c.g = round(1.0-clamp(1.0/dst*scl, 0.0, 1.0))*tint.g;",
+		"	c.b = round(1.0-clamp(1.0/dst*scl, 0.0, 1.0))*tint.b;",
 		"	gl_FragColor.rgb = (ambient.rgb , c.rgb);",
 		"	gl_FragColor.a = 1.0;",
 		"}");

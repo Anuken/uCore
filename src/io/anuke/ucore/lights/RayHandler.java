@@ -11,7 +11,9 @@ import com.badlogic.gdx.utils.Disposable;
 
 import io.anuke.ucore.lights.shaders.LightShader;
 import io.anuke.ucore.lights.shaders.PixelShader;
+import io.anuke.ucore.noise.Noise;
 import io.anuke.ucore.util.RectQuadTree;
+import io.anuke.ucore.util.Timers;
 
 /**
  * Handler that manages everything related to lights updating and rendering
@@ -717,8 +719,11 @@ public class RayHandler implements Disposable {
 			}
 		}
 		
+		//closest.sub(start).setLength(closest.len() + Mathf.range(80)).add(start);
+		float frac = closest.dst(start)/start.dst(end);
+		
 		light.mx[light.m_index] = closest.x;
 		light.my[light.m_index] = closest.y;
-		light.f[light.m_index] = closest.dst(start)/start.dst(end);
+		light.f[light.m_index] = frac + Noise.fnoise(light.m_index, Timers.time()/4f, 1f, 0.03f);
 	}
 }
