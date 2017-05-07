@@ -29,6 +29,10 @@ public class Hue{
 		return MathUtils.isEqual(a.r, b.r, r) && MathUtils.isEqual(a.g, b.g, r) && MathUtils.isEqual(a.b, b.b, r);
 	}
 	
+	public static Color random(){
+		return new Color(MathUtils.random(), MathUtils.random(), MathUtils.random(), 1f);
+	}
+	
 	public static Color round(Color color, float amount){
 		color.r = (int)(color.r/amount) * amount;
 		color.g = (int)(color.g/amount) * amount;
@@ -198,7 +202,11 @@ public class Hue{
 	}
 	
 	public static Color rgb(float r, float g, float b){
-		return new Color(r/255f, g/255f, b/255f, 1f);
+		return new Color(r, g, b, 1f);
+	}
+	
+	public static Color rgb(double r, double g, double b){
+		return new Color((float)r, (float)g, (float)b, 1f);
 	}
 	
 	public static Color rgb(int r, int g, int b, float brightness){

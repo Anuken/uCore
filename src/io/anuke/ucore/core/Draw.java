@@ -141,7 +141,7 @@ public class Draw{
 	/**Grounded rect.*/
 	public static void grect(String name, float x, float y, float w, float h){
 		TextureRegion region = region(name);
-		batch().draw(region, x - region.getRegionWidth()/2, y, w, h);
+		batch().draw(region, x - w/2, y, w, h);
 	}
 	
 	public static void rect(String name, float x, float y, float rotation){

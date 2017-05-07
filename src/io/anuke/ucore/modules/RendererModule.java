@@ -79,8 +79,11 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 		draw();
 		batch.end();
 		
+		postDraw();
 		if(pixelate) endPixel();
 	}
+	
+	public void postDraw(){}
 	
 	/**override this*/
 	public void draw(){}

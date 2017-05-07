@@ -29,6 +29,7 @@ public class FuncRenderable extends Renderable{
 	@Override
 	public void draw(Batch batch){
 		RenderableHandler.instance().requestSort();
+		
 		if(drawable != null) drawable.draw(this);
 	}
 
