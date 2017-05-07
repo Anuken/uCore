@@ -10,6 +10,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 import io.anuke.ucore.lights.shaders.LightShader;
+import io.anuke.ucore.lights.shaders.PixelShader;
+import io.anuke.ucore.util.RectQuadTree;
 
 /**
  * Handler that manages everything related to lights updating and rendering
@@ -98,6 +100,8 @@ public class RayHandler implements Disposable {
 
 	/** camera matrix corners */
 	float x1, x2, y1, y2;
+	RectQuadTree tree = new RectQuadTree(4, new Rectangle(-1000, -1000, 2000, 2000));
+	Array<Rectangle> tmprects = new Array<Rectangle>();
 	
 	/**
 	 * Class constructor specifying the physics world from where collision
@@ -131,6 +135,12 @@ public class RayHandler implements Disposable {
 
 		resizeFBO(fboWidth, fboHeight);
 		lightShader = LightShader.createLightShader();
+	}
+	
+	/**Sets the internal quadtree's bounds.*/
+	public void setBounds(float x, float y, float w, float h){
+		tree = new RectQuadTree(4, new Rectangle(x, y, w, h));
+		updateRects();
 	}
 
 	/**
@@ -255,6 +265,7 @@ public class RayHandler implements Disposable {
 	/**Sets the light map buffer's texture filter to Nearest.*/
 	public void pixelate(){
 		getLightMapBuffer().getColorBufferTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+		customDiffuseShader = PixelShader.createPixelShader();
 	}
 	
 	public void setTint(Color color){
@@ -664,14 +675,36 @@ public class RayHandler implements Disposable {
 		return rectangles;
 	}
 	
+	/**Updates the internal quadtree's rectangles. Call this every time you modify or move a rectangle.*/
+	public void updateRects(){
+		tree.clear();
+		
+		for(Rectangle rect : rectangles){
+			tree.insert(rect);
+		}
+	}
+	
+	private float cdist = -1f;
+	
+	//TODO more efficient raycast algorithm
 	void raycast(Light light, Vector2 start, Vector2 end){
 		
 		Vector2 closest = vector;
-		float cdist = -1f;
+		cdist = -1f;
 		
 		closest.set(end);
 		
-		for(Rectangle rect : rectangles){
+		tmprects.clear();
+		
+		Rectangle.tmp2.setPosition(Math.min(start.x, end.x), Math.min(start.y, end.y));
+		Rectangle.tmp2.setSize(Math.max(start.x, end.x), Math.max(start.y, end.y));
+		
+		Rectangle.tmp2.width -= Rectangle.tmp2.x;
+		Rectangle.tmp2.height -= Rectangle.tmp2.y;
+		
+		tree.getMaybeIntersecting(tmprects, Rectangle.tmp2);
+		
+		for(Rectangle rect : tmprects){
 			Vector2 vect = Casting.cast(start.x, start.y, end.x, end.y, rect.x+rect.width/2, rect.y+rect.height/2, rect.width/2, rect.height/2);
 			
 			if(vect == null) continue;

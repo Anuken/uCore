@@ -14,9 +14,9 @@ public class DrawContext{
 	public static BitmapFont font;
 	
 	public static void set(SpriteBatch abatch, OrthographicCamera acamera, Atlas aprovider, BitmapFont afont){
-		camera = acamera;
-		batch = abatch;
-		atlas = aprovider;
-		font = afont;
+		if(acamera != null) camera = acamera;
+		if(abatch != null) batch = abatch;
+		if(aprovider != null) atlas = aprovider;
+		if(afont != null) font = afont;
 	}
 }
