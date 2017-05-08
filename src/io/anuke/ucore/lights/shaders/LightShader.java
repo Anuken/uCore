@@ -34,8 +34,6 @@ public final class LightShader {
 				+ "  gl_FragColor = "+gamma+"(v_color);\n" //
 				+ "}";
 		
-		System.out.println(vertexShader);
-		System.out.println(fragmentShader);
 		ShaderProgram.pedantic = false;
 		ShaderProgram lightShader = new ShaderProgram(vertexShader,
 				fragmentShader);

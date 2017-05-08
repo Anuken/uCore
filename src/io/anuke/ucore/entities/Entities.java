@@ -16,6 +16,7 @@ import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.QuadTree;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
+import io.anuke.ucore.util.RectQuadTree;
 
 public class Entities{
 	private static HashMap<Long, Entity> entities = new HashMap<Long, Entity>();
@@ -23,6 +24,7 @@ public class Entities{
 	protected static ObjectSet<Entity> entitiesToAdd = new ObjectSet<Entity>();
 	
 	public static QuadTree<SolidEntity> tree;
+	public static RectQuadTree rtree;
 	public static boolean physics = false;
 	public static TileCollider collider;
 	public static float tilesize;
@@ -39,12 +41,12 @@ public class Entities{
 	
 	public static void initPhysics(float x, float y, float w, float h){
 		tree = new QuadTree(maxObjects, new Rectangle(x, y, w, h));
+		rtree = new RectQuadTree(maxObjects, new Rectangle(x, y, w, h));
 		physics = true;
 	}
 	
 	public static void initPhysics(){
-		tree = new QuadTree(maxObjects, new Rectangle(0, 0, 0, 0));
-		physics = true;
+		initPhysics(0, 0, 0, 0);
 	}
 	
 	public static void resizeTree(float x, float y, float w, float h){
@@ -55,7 +57,7 @@ public class Entities{
 		initPhysics(0, 0, w, h);
 	}
 	
-	static void move(Entity e, float hitsize, float dx, float dy){
+	static void moveTiled(Entity e, float hitsize, float dx, float dy){
 		if(collider == null) throw new IllegalArgumentException("No tile collider specified! Call setCollider() first.");
 		
 		Rectangle.tmp.setSize(hitsize).setCenter(e.x, e.y);
@@ -132,6 +134,22 @@ public class Entities{
 	
 	public static Entity get(long id){
 		return entities.get(id);
+	}
+	
+	public static void addRect(Rectangle rect){
+		rtree.insert(rect);
+	}
+	
+	static void moveRect(Entity e, float hitwidth, float hitheight, float offsetx, float offsety, float dx, float dy){
+		Rectangle.tmp.setSize(hitwidth, hitheight).setCenter(e.x+offsetx, e.y+offsety);
+
+		if(!overlapsTile(Rectangle.tmp, e.x + dx, e.y)){
+			e.x += dx;
+		}
+
+		if(!overlapsTile(Rectangle.tmp, e.x, e.y + dy)){
+			e.y += dy;
+		}
 	}
 	
 	private static void updatePhysics(){

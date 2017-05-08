@@ -722,8 +722,13 @@ public class RayHandler implements Disposable {
 		//closest.sub(start).setLength(closest.len() + Mathf.range(80)).add(start);
 		float frac = closest.dst(start)/start.dst(end);
 		
+		float noise = 0;
+		
+		if(light.noisemag > 0)
+			noise = Noise.fnoise(light.m_index, Timers.time()/light.noisetime, light.noisescl, light.noisemag);
+		
 		light.mx[light.m_index] = closest.x;
 		light.my[light.m_index] = closest.y;
-		light.f[light.m_index] = frac + Noise.fnoise(light.m_index, Timers.time()/4f, 1f, 0.03f);
+		light.f[light.m_index] = frac + noise;
 	}
 }

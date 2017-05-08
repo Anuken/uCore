@@ -34,7 +34,7 @@ public abstract class Entity{
 	}
 	
 	public void move(float x, float y, float hitsize){
-		Entities.move(this, hitsize, x, y);
+		Entities.moveTiled(this, hitsize, x, y);
 	}
 	
 	public float angleTo(Entity other){
