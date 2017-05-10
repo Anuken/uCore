@@ -9,6 +9,16 @@ public class UCore{
 	/**The screen pixel density scale. Yes, this is a one letter variable, it's intended to be used a lot.*/
 	public static final float s = (Gdx.app == null ? 0 : (Gdx.app.getType() == ApplicationType.Desktop ? 1f : Gdx.graphics.getDensity() / 1.5f));
 	
+	public static void log(Object...objects){
+		int i = 0;
+		for(Object o : objects){
+			System.out.print(o);
+			if(i++ != objects.length-1)
+				System.out.print(", ");
+		}
+		System.out.println();
+	}
+	
 	public static String parseException(Exception e){
 		StringBuilder build = new StringBuilder();
 		

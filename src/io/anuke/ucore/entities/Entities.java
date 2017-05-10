@@ -62,35 +62,39 @@ public class Entities{
 	static void moveTiled(Entity e, float hitw, float hith, float dx, float dy){
 		if(collider == null) throw new IllegalArgumentException("No tile collider specified! Call setCollider() first.");
 		
-		Rectangle.tmp.setSize(hitw, hith).setCenter(e.x, e.y);
+		Rectangle rect = Rectangle.tmp;
+		
+		rect.setSize(hitw, hith);
 
-		Vector2 out = overlapTile(Rectangle.tmp, e.x + dx, e.y + dy);
-		e.x += dx + out.x;
-		e.y += dy + out.y;
+		overlapTile(rect, e.x , e.y + dy);
+		rect.getCenter(vector);
+		overlapTile(rect, vector.x + dx, vector.y);
+		
+		e.x = rect.x+hitw/2;
+		e.y = rect.y+hith/2;
 	}
 	
-	static Vector2 overlapTile(Rectangle rect, float x, float y){
+	static void overlapTile(Rectangle rect, float x, float y){
 		int r = 1;
 		rect.setCenter(x, y);
-		vector.set(0, 0);
 		
 		//assumes tilesize is centered
 		int tilex = Mathf.scl2(x, tilesize);
 		int tiley = Mathf.scl2(y, tilesize);
-
+		
 		for(int dx = -r; dx <= r; dx++){
 			for(int dy = -r; dy <= r; dy++){
 				int wx = dx+tilex, wy = dy+tiley;
 				if(collider.solid(wx, wy) &&
 						Rectangle.tmp2.setSize(tilesize)
 						.setCenter(wx*tilesize, wy*tilesize).overlaps(rect)){
+					
 					Vector2 out = Physics.overlap(rect, Rectangle.tmp2);
-					vector.add(out);
+					rect.x += out.x*2.5f;
+					rect.y += out.y*2.5f;
 				}
 			}
 		}
-		
-		return vector;
 	}
 	
 	public static void getNearby(Rectangle rect, Consumer<SolidEntity> out){
