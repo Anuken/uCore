@@ -29,6 +29,10 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 		
 	}
 	
+	public boolean isPixelated(){
+		return pixelate;
+	}
+	
 	public void shake(float intensity, float duration){
 		shakeIntensity = Math.max(intensity, shakeIntensity);
 		shaketime = Math.max(shaketime, duration);

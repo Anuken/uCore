@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Disposable;
 import io.anuke.ucore.lights.shaders.LightShader;
 import io.anuke.ucore.lights.shaders.PixelShader;
 import io.anuke.ucore.noise.Noise;
+import io.anuke.ucore.util.Physics;
 import io.anuke.ucore.util.RectQuadTree;
 import io.anuke.ucore.util.Timers;
 
@@ -704,10 +705,10 @@ public class RayHandler implements Disposable {
 		Rectangle.tmp2.width -= Rectangle.tmp2.x;
 		Rectangle.tmp2.height -= Rectangle.tmp2.y;
 		
-		tree.getMaybeIntersecting(tmprects, Rectangle.tmp2);
+		tree.getIntersect(tmprects, Rectangle.tmp2);
 		
 		for(Rectangle rect : tmprects){
-			Vector2 vect = Casting.cast(start.x, start.y, end.x, end.y, rect.x+rect.width/2, rect.y+rect.height/2, rect.width/2, rect.height/2);
+			Vector2 vect = Physics.raycastRect(start.x, start.y, end.x, end.y, rect.x+rect.width/2, rect.y+rect.height/2, rect.width/2, rect.height/2);
 			
 			if(vect == null) continue;
 			

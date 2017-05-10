@@ -67,6 +67,10 @@ public class Mathf{
 	public static boolean intersect(float x1, float y1, float s1, float x2, float y2, float s2){
 		return MathUtils.isEqual(x1, x2, s1+s2) && MathUtils.isEqual(y1, y2, s1+s2);
 	}
+	
+	public static int sign(float f){
+		return(f < 0 ? -1 : 1);
+	}
 
 	public static float clamp(float i, float min, float max){
 		if(i < min)

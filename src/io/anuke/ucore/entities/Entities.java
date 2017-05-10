@@ -13,10 +13,8 @@ import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.ObjectSet;
 
 import io.anuke.ucore.core.DrawContext;
-import io.anuke.ucore.util.Mathf;
-import io.anuke.ucore.util.QuadTree;
+import io.anuke.ucore.util.*;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
-import io.anuke.ucore.util.RectQuadTree;
 
 public class Entities{
 	private static HashMap<Long, Entity> entities = new HashMap<Long, Entity>();
@@ -29,8 +27,10 @@ public class Entities{
 	public static TileCollider collider;
 	public static float tilesize;
 	
+	private static Vector2 vector = new Vector2();
 	private static IntSet collided = new IntSet();
 	private static Array<SolidEntity> array = new Array<>();
+	private static Array<Rectangle> rectarray = new Array<>();
 	private static Rectangle viewport = new Rectangle();
 	private static final int maxObjects = 4;
 	
@@ -43,6 +43,8 @@ public class Entities{
 		tree = new QuadTree(maxObjects, new Rectangle(x, y, w, h));
 		rtree = new RectQuadTree(maxObjects, new Rectangle(x, y, w, h));
 		physics = true;
+		
+		updateRects();
 	}
 	
 	public static void initPhysics(){
@@ -57,23 +59,21 @@ public class Entities{
 		initPhysics(0, 0, w, h);
 	}
 	
-	static void moveTiled(Entity e, float hitsize, float dx, float dy){
+	static void moveTiled(Entity e, float hitw, float hith, float dx, float dy){
 		if(collider == null) throw new IllegalArgumentException("No tile collider specified! Call setCollider() first.");
 		
-		Rectangle.tmp.setSize(hitsize).setCenter(e.x, e.y);
+		Rectangle.tmp.setSize(hitw, hith).setCenter(e.x, e.y);
 
-		if(!overlapsTile(Rectangle.tmp, e.x + dx, e.y)){
-			e.x += dx;
-		}
-
-		if(!overlapsTile(Rectangle.tmp, e.x, e.y + dy)){
-			e.y += dy;
-		}
+		Vector2 out = overlapTile(Rectangle.tmp, e.x + dx, e.y + dy);
+		e.x += dx + out.x;
+		e.y += dy + out.y;
 	}
 	
-	static boolean overlapsTile(Rectangle rect, float x, float y){
+	static Vector2 overlapTile(Rectangle rect, float x, float y){
 		int r = 1;
 		rect.setCenter(x, y);
+		vector.set(0, 0);
+		
 		//assumes tilesize is centered
 		int tilex = Mathf.scl2(x, tilesize);
 		int tiley = Mathf.scl2(y, tilesize);
@@ -84,24 +84,26 @@ public class Entities{
 				if(collider.solid(wx, wy) &&
 						Rectangle.tmp2.setSize(tilesize)
 						.setCenter(wx*tilesize, wy*tilesize).overlaps(rect)){
-					return true;
+					Vector2 out = Physics.overlap(rect, Rectangle.tmp2);
+					vector.add(out);
 				}
 			}
 		}
-		return false;
+		
+		return vector;
 	}
 	
 	public static void getNearby(Rectangle rect, Consumer<SolidEntity> out){
-		tree.getMaybeIntersecting(out, rect);
+		tree.getIntersect(out, rect);
 	}
 	
 	public static void getNearby(float x, float y, float size, Consumer<SolidEntity> out){
-		tree.getMaybeIntersecting(out, Rectangle.tmp.setSize(size).setCenter(x, y));
+		tree.getIntersect(out, Rectangle.tmp.setSize(size).setCenter(x, y));
 	}
 	
 	public static Array<SolidEntity> getNearby(float x, float y, float size){
 		array.clear();
-		tree.getMaybeIntersecting(array, Rectangle.tmp2.setSize(size).setCenter(x, y));
+		tree.getIntersect(array, Rectangle.tmp2.setSize(size).setCenter(x, y));
 		return array;
 	}
 	
@@ -137,19 +139,44 @@ public class Entities{
 	}
 	
 	public static void addRect(Rectangle rect){
+		rectarray.add(rect);
 		rtree.insert(rect);
 	}
 	
-	static void moveRect(Entity e, float hitwidth, float hitheight, float offsetx, float offsety, float dx, float dy){
-		Rectangle.tmp.setSize(hitwidth, hitheight).setCenter(e.x+offsetx, e.y+offsety);
-
-		if(!overlapsTile(Rectangle.tmp, e.x + dx, e.y)){
-			e.x += dx;
+	public static void removeRect(Rectangle rect){
+		rectarray.removeValue(rect, true);
+		
+		updateRects();
+	}
+	
+	public static void updateRects(){
+		rtree.clear();
+		
+		for(Rectangle rect : rectarray){
+			rtree.insert(rect);
 		}
+	}
+	
+	public static void moveRect(Entity e, float hitwidth, float hitheight, float offsetx, float offsety, float dx, float dy){
+		Rectangle.tmp.setSize(hitwidth, hitheight).setCenter(e.x+offsetx+dx, e.y+offsety+dy);
 
-		if(!overlapsTile(Rectangle.tmp, e.x, e.y + dy)){
-			e.y += dy;
+		Rectangle.tmp2.setSize(hitwidth*2+Math.abs(offsetx), hitheight*2+Math.abs(offsety));
+		Rectangle.tmp2.setCenter(e.x+offsetx, e.y+offsety);
+		
+		rtree.getIntersect(rectarray, Rectangle.tmp2);
+		
+		for(Rectangle rect : rectarray){
+			if(rect.overlaps(Rectangle.tmp)){
+				Vector2 vector = Physics.overlap(Rectangle.tmp, rect);
+				Rectangle.tmp.x += vector.x;
+				Rectangle.tmp.y += vector.y;
+			}
 		}
+		
+		float movex = Rectangle.tmp.x+hitwidth/2-e.x-offsetx, movey = Rectangle.tmp.y+hitheight/2-e.y-offsety;
+		
+		e.x += movex;
+		e.y += movey;
 	}
 	
 	private static void updatePhysics(){
@@ -168,7 +195,7 @@ public class Entities{
 				
 			((QuadTreeObject)entity).getBoundingBox(Rectangle.tmp2);
 			
-			tree.getMaybeIntersecting(c->{
+			tree.getIntersect(c->{
 				if(!collided.contains((int)c.id))
 						checkCollide(entity, c);
 			}, Rectangle.tmp2);

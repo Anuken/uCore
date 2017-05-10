@@ -10,16 +10,22 @@ import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.drawpointers.DrawHandler.PointerDrawHandler;
 import io.anuke.ucore.drawpointers.DrawPointer;
 import io.anuke.ucore.graphics.FrameBufferMap;
+import io.anuke.ucore.modules.ModuleController;
+import io.anuke.ucore.modules.RendererModule;
 
 public class DrawLayerManager implements LayerManager, PointerDrawHandler{
 	FrameBufferMap buffers = new FrameBufferMap();
 	SpriteBatch batch;
 	OrthographicCamera camera;
+	RendererModule renderer;
+	boolean pixel;
 	
 	@Override
 	public void draw(Array<DrawPointer> renderables){
 		batch = DrawContext.batch;
 		camera = DrawContext.camera;
+		renderer = ModuleController.renderer();
+		pixel = renderer.isPixelated();
 		batch.end();
 
 		Array<DrawLayer> blayers = new Array<DrawLayer>(DrawLayer.values());
@@ -67,6 +73,8 @@ public class DrawLayerManager implements LayerManager, PointerDrawHandler{
 	public void draw(Array<Renderable> renderables, Batch batch){
 		this.batch = (SpriteBatch)batch;
 		camera = DrawContext.camera;
+		renderer = ModuleController.renderer();
+		pixel = renderer.isPixelated();
 		batch.end();
 
 		Array<DrawLayer> blayers = new Array<DrawLayer>(DrawLayer.values());
@@ -114,7 +122,7 @@ public class DrawLayerManager implements LayerManager, PointerDrawHandler{
 		selected.beginDraw(batch, camera, buffers.get(selected.name));
 
 		batch.end();
-
+		if(pixel) renderer.buffers.end("pixel");
 		//processor.captureEnd();
 
 		buffers.begin(selected.name);
@@ -137,7 +145,8 @@ public class DrawLayerManager implements LayerManager, PointerDrawHandler{
 		buffers.get(selected.name).getColorBufferTexture().bind(0);
 		
 		//processor.captureNoClear();
-
+		
+		if(pixel) renderer.buffers.begin("pixel");
 		batch.begin();
 		selected.end();
 		batch.setColor(Color.WHITE);

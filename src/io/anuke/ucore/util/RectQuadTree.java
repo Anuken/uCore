@@ -188,12 +188,12 @@ public class RectQuadTree{
      * <p>
      * This will result in false positives, but never a false negative.
      */
-    public void getMaybeIntersecting(Consumer<Rectangle> out, Rectangle toCheck) {
+    public void getIntersect(Consumer<Rectangle> out, Rectangle toCheck) {
         if (!leaf) {
-            if (topLeftChild.bounds.overlaps(toCheck)) topLeftChild.getMaybeIntersecting(out, toCheck);
-            if (topRightChild.bounds.overlaps(toCheck)) topRightChild.getMaybeIntersecting(out, toCheck);
-            if (bottomLeftChild.bounds.overlaps(toCheck)) bottomLeftChild.getMaybeIntersecting(out, toCheck);
-            if (bottomRightChild.bounds.overlaps(toCheck)) bottomRightChild.getMaybeIntersecting(out, toCheck);
+            if (topLeftChild.bounds.overlaps(toCheck)) topLeftChild.getIntersect(out, toCheck);
+            if (topRightChild.bounds.overlaps(toCheck)) topRightChild.getIntersect(out, toCheck);
+            if (bottomLeftChild.bounds.overlaps(toCheck)) bottomLeftChild.getIntersect(out, toCheck);
+            if (bottomRightChild.bounds.overlaps(toCheck)) bottomRightChild.getIntersect(out, toCheck);
         }
         
         for(Rectangle t : objects)
@@ -205,12 +205,12 @@ public class RectQuadTree{
      * <p>
      * This will result in false positives, but never a false negative.
      */
-    public void getMaybeIntersecting(Array<Rectangle> out, Rectangle toCheck) {
+    public void getIntersect(Array<Rectangle> out, Rectangle toCheck) {
         if (!leaf) {
-            if (topLeftChild.bounds.overlaps(toCheck)) topLeftChild.getMaybeIntersecting(out, toCheck);
-            if (topRightChild.bounds.overlaps(toCheck)) topRightChild.getMaybeIntersecting(out, toCheck);
-            if (bottomLeftChild.bounds.overlaps(toCheck)) bottomLeftChild.getMaybeIntersecting(out, toCheck);
-            if (bottomRightChild.bounds.overlaps(toCheck)) bottomRightChild.getMaybeIntersecting(out, toCheck);
+            if (topLeftChild.bounds.overlaps(toCheck)) topLeftChild.getIntersect(out, toCheck);
+            if (topRightChild.bounds.overlaps(toCheck)) topRightChild.getIntersect(out, toCheck);
+            if (bottomLeftChild.bounds.overlaps(toCheck)) bottomLeftChild.getIntersect(out, toCheck);
+            if (bottomRightChild.bounds.overlaps(toCheck)) bottomRightChild.getIntersect(out, toCheck);
         }
         
         out.addAll(objects);
