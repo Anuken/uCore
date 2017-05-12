@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 
 import io.anuke.ucore.core.DrawContext;
@@ -14,6 +15,8 @@ import io.anuke.ucore.graphics.FrameBufferMap;
 import io.anuke.ucore.util.Mathf;
 
 public abstract class RendererModule<T extends ModuleController<T>> extends Module<T>{
+	private static Vector3 pan = new Vector3();
+	
 	public OrthographicCamera camera = new OrthographicCamera();
 	public SpriteBatch batch = new SpriteBatch();
 	public FrameBufferMap buffers = new FrameBufferMap();
@@ -40,6 +43,15 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	
 	public void setCamera(float x, float y){
 		camera.position.set(x, y, 0);
+	}
+	
+	public void smoothCamera(float x, float y, float alpha){
+		camera.position.interpolate(pan.set(x, y, 0), alpha*delta(), Interpolation.linear);
+	}
+	
+	public void roundCamera(){
+		camera.position.x = (int)camera.position.x;
+		camera.position.y = (int)camera.position.y;
 	}
 	
 	public void clampCamera(float minx, float miny, float maxx, float maxy){

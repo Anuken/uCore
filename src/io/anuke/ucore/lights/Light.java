@@ -43,7 +43,7 @@ public abstract class Light implements Disposable {
 	
 	protected float noisetime = 4f;
 	protected float noisescl = 1f;
-	protected float noisemag = 0.035f;
+	protected float noisemag = 1.2f;
 	
 	protected Mesh lightMesh;
 	protected Mesh softShadowMesh;

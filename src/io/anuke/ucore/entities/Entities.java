@@ -31,6 +31,7 @@ public class Entities{
 	private static IntSet collided = new IntSet();
 	private static Array<SolidEntity> array = new Array<>();
 	private static Array<Rectangle> rectarray = new Array<>();
+	private static Array<Rectangle> tmprects = new Array<>();
 	private static Rectangle viewport = new Rectangle();
 	private static final int maxObjects = 4;
 	
@@ -138,8 +139,16 @@ public class Entities{
 		return entities.values();
 	}
 	
+	public static int amount(){
+		return entities.size();
+	}
+	
 	public static Entity get(long id){
 		return entities.get(id);
+	}
+	
+	public static Array<Rectangle> getRects(){
+		return rectarray;
 	}
 	
 	public static void addRect(Rectangle rect){
@@ -167,9 +176,11 @@ public class Entities{
 		Rectangle.tmp2.setSize(hitwidth*2+Math.abs(offsetx), hitheight*2+Math.abs(offsety));
 		Rectangle.tmp2.setCenter(e.x+offsetx, e.y+offsety);
 		
-		rtree.getIntersect(rectarray, Rectangle.tmp2);
+		tmprects.clear();
 		
-		for(Rectangle rect : rectarray){
+		rtree.getIntersect(tmprects, Rectangle.tmp2);
+		
+		for(Rectangle rect : tmprects){
 			if(rect.overlaps(Rectangle.tmp)){
 				Vector2 vector = Physics.overlap(Rectangle.tmp, rect);
 				Rectangle.tmp.x += vector.x;

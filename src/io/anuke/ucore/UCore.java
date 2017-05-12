@@ -19,17 +19,6 @@ public class UCore{
 		System.out.println();
 	}
 	
-	public static String parseException(Exception e){
-		StringBuilder build = new StringBuilder();
-		
-		build.append(e.getClass().getName() + ": " +e.getMessage());
-		
-		for(StackTraceElement s : e.getStackTrace()){
-			build.append("\n"+s.toString());
-		}
-		return build.toString();
-	}
-	
 	public static Object getPrivate(Object object, String name){
 		try{
 			Field field = ClassReflection.getField(object.getClass(), name);

@@ -138,6 +138,7 @@ public class TextField extends Element implements Disableable {
 	}
 
 	protected int letterUnderCursor (float x) {
+		
 		x -= textOffset + fontOffset - style.font.getData().cursorX - glyphPositions.get(visibleTextStart);
 		Drawable background = getBackgroundDrawable();
 		if (background != null) x -= style.background.getLeftWidth();
@@ -149,6 +150,7 @@ public class TextField extends Element implements Disableable {
 				return i - 1;
 			}
 		}
+		
 		return n - 1;
 	}
 

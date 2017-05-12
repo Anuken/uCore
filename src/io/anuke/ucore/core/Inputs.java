@@ -59,6 +59,10 @@ public class Inputs{
 		return Gdx.input.isButtonPressed(button) && !buttons[button];
 	}
 	
+	public static boolean buttonRelease(int button){
+		return !Gdx.input.isButtonPressed(button) && buttons[button];
+	}
+	
 	public static int scroll(){
 		return scroll;
 	}

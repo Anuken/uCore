@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.*;
 
 import io.anuke.ucore.scene.Element;
@@ -362,6 +363,13 @@ public class Table extends WidgetGroup {
 				draw.draw(getX(), getY(), getWidth(), getHeight());
 			}
 		});
+	}
+	
+	public Table addTable(String background){
+		Table table = new Table();
+		table.background(background);
+		add(table);
+		return table;
 	}
 
 	public boolean removeChild (Element actor) {

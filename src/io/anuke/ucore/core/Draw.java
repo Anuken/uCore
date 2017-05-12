@@ -4,9 +4,11 @@ import java.util.function.BiConsumer;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
@@ -19,10 +21,13 @@ import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.style.Styles;
 
 public class Draw{
-	private static TextureRegion region = PixmapUtils.blankTextureRegion();
+	private static TextureRegion blank = PixmapUtils.blankTextureRegion();
+	private static TextureRegion region = blank;
 	private static float thickness = 1f;
 	private static Vector2 vector = new Vector2();
 	private static Vector2[] circle = new Vector2[30];
+	private static Sprite sprite;
+	private static Color tmpcolor = new Color();
 	
 	private static ObjectMap<String, BiConsumer<Float, Float>> draws = new ObjectMap<>();
 	
@@ -125,6 +130,30 @@ public class Draw{
 	public static void alpha(float alpha){
 		Color color = batch().getColor();
 		batch().setColor(color.r, color.g, color.b, alpha);
+	}
+	
+	public static void gradient(Color left, Color right, float alpha, float x, float y, float w, float h){
+		if(sprite == null)
+			sprite = new Sprite(blank);
+		
+		sprite.setBounds(x, y, w, h);
+		
+		tmpcolor.set(left);
+		tmpcolor.a *= alpha;
+		float cl = tmpcolor.toFloatBits();
+		
+		tmpcolor.set(right);
+		tmpcolor.a *= alpha;
+		float cr = tmpcolor.toFloatBits();
+		
+		float[] v = sprite.getVertices();
+		v[SpriteBatch.C1] = cl;
+		v[SpriteBatch.C2] = cl;
+		
+		v[SpriteBatch.C3] = cr;
+		v[SpriteBatch.C4] = cr;
+		
+		sprite.draw(batch());
 	}
 	
 	public static void rect(String name, float x, float y){
@@ -278,6 +307,10 @@ public class Draw{
 	
 	public static void linerect(float x, float y, float width, float height){
 		linerect(x, y, width, height, 0);
+	}
+	
+	public static void linerect(Rectangle rect){
+		linerect(rect.x, rect.y, rect.width, rect.height, 0);
 	}
 
 	public static void linerect(float x, float y, float width, float height,int space){

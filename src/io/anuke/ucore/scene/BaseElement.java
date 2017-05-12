@@ -30,8 +30,10 @@ class BaseElement implements Layout{
 	private String name;
 	private Touchable touchable = Touchable.enabled;
 	private boolean visible = true, debug;
-	float x, y;
-	float width, height;
+	/**DO NOT modify without changing positionChanged.*/
+	protected float x, y; 
+	/**DO NOT modify without changing sizeChanged.*/
+	protected float width, height;
 	float originX, originY;
 	float scaleX = 1, scaleY = 1;
 	float rotation;

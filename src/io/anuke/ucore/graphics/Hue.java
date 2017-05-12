@@ -164,6 +164,10 @@ public class Hue{
 	public static float[] RGBtoHSB(Color color, float[] hsbvals){
 		return RGBtoHSB((int)(color.r*255),(int)(color.g*255),(int)(color.b*255),hsbvals);
 	}
+	
+	public static float[] RGBtoHSB(Color color){
+		return RGBtoHSB((int)(color.r*255),(int)(color.g*255),(int)(color.b*255), hsv);
+	}
 
 	
 	public static Color mix(int r1, int g1, int b1, int r2, int g2, int b2, float s){
