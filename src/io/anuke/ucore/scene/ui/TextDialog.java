@@ -10,6 +10,12 @@ public class TextDialog extends Dialog{
 		
 		addCloseButton();
 		
+		set(title, text);
+	}
+	
+	public void set(String title, String... text){
+		clearChildren();
+		
 		StringBuilder out = new StringBuilder();
 		
 		for(String s : text){
