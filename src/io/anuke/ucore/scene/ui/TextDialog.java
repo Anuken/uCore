@@ -14,7 +14,7 @@ public class TextDialog extends Dialog{
 	}
 	
 	public void set(String title, String... text){
-		clearChildren();
+		content().clearChildren();
 		
 		StringBuilder out = new StringBuilder();
 		
