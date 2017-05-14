@@ -21,6 +21,14 @@ public class table extends builder<table, Table>{
 		build.context = element;
 	}
 	
+	public table(){
+		
+	}
+	
+	public table(String background){
+		element.background(background);
+	}
+	
 	public <T extends Element> Cell<T> add(T t){
 		return element.add(t);
 	}
@@ -57,7 +65,8 @@ public class table extends builder<table, Table>{
 		return this;
 	}
 	
-	public void end(){
+	public table end(){
 		build.context = previous;
+		return this;
 	}
 }

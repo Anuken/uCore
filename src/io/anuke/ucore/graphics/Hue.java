@@ -29,6 +29,10 @@ public class Hue{
 		return MathUtils.isEqual(a.r, b.r, r) && MathUtils.isEqual(a.g, b.g, r) && MathUtils.isEqual(a.b, b.b, r);
 	}
 	
+	public static int rgb(Color color){
+		return Color.rgba8888(color);
+	}
+	
 	public static Color random(){
 		return new Color(MathUtils.random(), MathUtils.random(), MathUtils.random(), 1f);
 	}

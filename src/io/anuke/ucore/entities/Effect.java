@@ -21,7 +21,7 @@ public class Effect extends TimedEntity{
 	}
 	
 	public Effect(String name){
-		if(!draws.containsKey(name)) throw new IllegalArgumentException("The effect draw call " + name + " does not exist!");
+		if(!draws.containsKey(name)) throw new IllegalArgumentException("The effect draw call \"" + name + "\" does not exist!");
 		renderer = draws.get(name).draw;
 		lifetime = draws.get(name).lifetime;
 	}

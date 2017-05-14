@@ -121,6 +121,7 @@ public class ColorPicker extends Table{
 			Draw.alpha(alpha);
 			
 			patch("button", -6);
+			
 			if(texture == null){
 				Draw.gradient(from, to, alpha, x, y, width, height);
 			}else{
@@ -130,6 +131,7 @@ public class ColorPicker extends Table{
 			
 			float nw = 20;
 			float nh = 62;
+			Draw.tint(Color.WHITE);
 			Draw.patch("slider-knob", x-nw/2+selection*width, y-(nh-height)/2f, nw, nh);
 			Draw.color();
 		}

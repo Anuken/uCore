@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.core.Settings;
 import io.anuke.ucore.graphics.Atlas;
@@ -90,10 +91,9 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 		if(pixelate) beginPixel();
 		clearScreen(clearColor);
 		
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
+		Draw.beginCam();
 		draw();
-		batch.end();
+		Draw.end();
 		
 		postDraw();
 		if(pixelate) endPixel();

@@ -94,7 +94,7 @@ public class Draw{
 	
 	/**Automatically mixes colors.*/
 	public static void color(Color a, Color b, float s){
-		batch().setColor(Hue.mix(a, b, s));
+		batch().setColor(Hue.mix(a, b, s, tmpcolor));
 	}
 	
 	public static void color(String name){
@@ -363,6 +363,19 @@ public class Draw{
 		color();
 		if(DrawContext.font != null)
 		tcolor();
+	}
+	
+	public static void beginCam(){
+		batch().setProjectionMatrix(DrawContext.camera.combined);
+		batch().begin();
+	}
+	
+	public static void begin(){
+		batch().begin();
+	}
+	
+	public static void end(){
+		batch().end();
 	}
 	
 	public static TextureRegion region(String name){
