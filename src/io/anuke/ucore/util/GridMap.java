@@ -36,7 +36,7 @@ public class GridMap<T>{
 		return map.size();
 	}
 	
-	private long getHash(int x, int y){
+	private static long getHash(int x, int y){
 		return (((long)x) << 32) | (y & 0xffffffffL);
 	}
 }

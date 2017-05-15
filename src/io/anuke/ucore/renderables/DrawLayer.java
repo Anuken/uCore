@@ -16,6 +16,11 @@ public enum DrawLayer{
 		{
 			bind = 6;
 		}
+	},
+	darkness("darkness", Sorter.dark){
+		{
+			bind = 7;
+		}
 	};
 
 	public final String name;
