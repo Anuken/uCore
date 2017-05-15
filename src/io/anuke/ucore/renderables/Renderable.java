@@ -1,12 +1,11 @@
 package io.anuke.ucore.renderables;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 public abstract class Renderable implements Comparable<Renderable>, Poolable{
 	public Sorter provider = Sorter.tile;
 	
-	public abstract void draw(Batch batch);
+	public abstract void draw();
 	
 	public abstract Renderable set(float x, float y);
 	

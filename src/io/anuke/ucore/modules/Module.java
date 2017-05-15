@@ -47,6 +47,7 @@ public abstract class Module<T extends ModuleController<T>> extends InputAdapter
 		System.out.println(message);
 	}
 	
+	/*
 	public int gwidth(){
 		return Gdx.graphics.getWidth();
 	}
@@ -54,7 +55,7 @@ public abstract class Module<T extends ModuleController<T>> extends InputAdapter
 	public int gheight(){
 		return Gdx.graphics.getHeight();
 	}
-	
+	*/
 	public float delta(){
 		return Gdx.graphics.getDeltaTime()*60f;
 	}

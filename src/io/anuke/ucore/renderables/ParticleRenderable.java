@@ -1,8 +1,9 @@
 package io.anuke.ucore.renderables;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
+
+import io.anuke.ucore.core.Draw;
 
 public class ParticleRenderable extends Renderable{
 	public PooledEffect effect;
@@ -13,8 +14,8 @@ public class ParticleRenderable extends Renderable{
 	}
 	
 	@Override
-	public void draw(Batch batch){
-		effect.draw(batch, Gdx.graphics.getDeltaTime());
+	public void draw(){
+		effect.draw(Draw.batch(), Gdx.graphics.getDeltaTime());
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package io.anuke.ucore.renderables;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -129,8 +128,8 @@ public class SpriteRenderable extends Renderable{
 	}
 
 	@Override
-	public void draw(Batch batch){
-		sprite.draw(batch);
+	public void draw(){
+		sprite.draw(Draw.batch());
 	}
 
 	@Override

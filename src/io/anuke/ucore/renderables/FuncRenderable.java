@@ -1,7 +1,5 @@
 package io.anuke.ucore.renderables;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-
 public class FuncRenderable extends Renderable{
 	public float layer = 0f;
 	DrawFunc drawable;
@@ -27,7 +25,7 @@ public class FuncRenderable extends Renderable{
 	}
 
 	@Override
-	public void draw(Batch batch){
+	public void draw(){
 		RenderableHandler.instance().requestSort();
 		
 		if(drawable != null) drawable.draw(this);

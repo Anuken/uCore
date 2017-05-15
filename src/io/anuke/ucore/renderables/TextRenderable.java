@@ -1,11 +1,12 @@
 package io.anuke.ucore.renderables;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
+
+import io.anuke.ucore.core.Draw;
 
 public class TextRenderable extends Renderable{
 	private static GlyphLayout layout = new GlyphLayout();
@@ -40,12 +41,12 @@ public class TextRenderable extends Renderable{
 	}
 	
 	@Override
-	public void draw(Batch batch){
+	public void draw(){
 		font.getData().setScale(1/5f);
 		font.setColor(color);
 		layout.setText(font, text);
 		
-		font.draw(batch, text, x, y, 0.5f, align, false);
+		font.draw(Draw.batch(), text, x, y, 0.5f, align, false);
 	}
 
 	@Override

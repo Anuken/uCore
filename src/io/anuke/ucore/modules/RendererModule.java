@@ -1,6 +1,5 @@
 package io.anuke.ucore.modules;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,7 +11,6 @@ import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.core.Settings;
 import io.anuke.ucore.graphics.Atlas;
-import io.anuke.ucore.graphics.FrameBufferMap;
 import io.anuke.ucore.util.Mathf;
 
 public abstract class RendererModule<T extends ModuleController<T>> extends Module<T>{
@@ -20,10 +18,10 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	
 	public OrthographicCamera camera = new OrthographicCamera();
 	public SpriteBatch batch = new SpriteBatch();
-	public FrameBufferMap buffers = new FrameBufferMap();
 	public Atlas atlas;
 	public BitmapFont font;
-	public float cameraScale = 1f;
+	
+	public int cameraScale = 1;
 	public Color clearColor = Color.BLACK;
 	public float shakeIntensity, shaketime;
 	
@@ -31,10 +29,6 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	
 	public RendererModule(){
 		
-	}
-	
-	public boolean isPixelated(){
-		return pixelate;
 	}
 	
 	public void shake(float intensity, float duration){
@@ -88,15 +82,21 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	public void drawDefault(){
 		camera.update();
 		
-		if(pixelate) beginPixel();
+		Draw.beginCam();
+		
+		if(pixelate) 
+			beginPixel();
+		
 		clearScreen(clearColor);
 		
-		Draw.beginCam();
 		draw();
-		Draw.end();
 		
 		postDraw();
-		if(pixelate) endPixel();
+		
+		if(pixelate) 
+			endPixel();
+		
+		Draw.end();
 	}
 	
 	public void postDraw(){}
@@ -104,27 +104,22 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	/**override this*/
 	public void draw(){}
 	
-	public void setPixelation(){
-		buffers.add("pixel", (int)(Gdx.graphics.getWidth()/cameraScale), 
-				(int)(Gdx.graphics.getHeight()/cameraScale));
+	public void pixelate(){
+		Draw.addSurface("pixel", cameraScale);
 		pixelate = true;
 	}
 	
 	public void beginPixel(){
-		buffers.begin("pixel");
-		clearScreen(Color.CLEAR);
+		Draw.surface("pixel");
 	}
 	
 	public void endPixel(){
-		buffers.end("pixel");
-		drawFull("pixel");
+		Draw.flushSurface();
 	}
 	
-	public void drawFull(String buffername){
-		batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch.begin();
-		batch.draw(buffers.texture(buffername), 0, Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), -Gdx.graphics.getHeight());
-		batch.end();
+	@Override
+	public void dispose(){
+		Draw.dispose();
 	}
 	
 	@Override
@@ -135,12 +130,6 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	@Override
 	public void resize(int width, int height){
 		camera.setToOrtho(false, width/cameraScale, height/cameraScale);
-		
-		if(pixelate){
-			buffers.remove("pixel");
-			buffers.add("pixel", (int)(Gdx.graphics.getWidth()/cameraScale), 
-					(int)(Gdx.graphics.getHeight()/cameraScale));
-		}
 		
 		resize();
 	}

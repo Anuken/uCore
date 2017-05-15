@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.core.Inputs;
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.util.Timers;
@@ -86,6 +87,7 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 	@Override
 	public void resize(int width, int height){
 		Module.screen.set(width, height);
+		Draw.resize();
 		for(Module<T> module : modulearray){
 			module.resize(width, height);
 		}

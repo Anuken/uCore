@@ -15,6 +15,7 @@ public class TextDialog extends Dialog{
 	
 	public void set(String title, String... text){
 		content().clearChildren();
+		getTitleLabel().setText(title);
 		
 		StringBuilder out = new StringBuilder();
 		

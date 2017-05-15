@@ -1,7 +1,9 @@
 package io.anuke.ucore.core;
 
+import java.util.Stack;
 import java.util.function.BiConsumer;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,12 +16,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectMap;
 
-import io.anuke.ucore.graphics.Hue;
-import io.anuke.ucore.graphics.PixmapUtils;
-import io.anuke.ucore.graphics.Shader;
+import io.anuke.ucore.graphics.*;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.style.Styles;
 
+//TODO maybe move some surface stuff to Graphics class, and keep actual drawing stuff here?*/
 public class Draw{
 	private static TextureRegion blank = PixmapUtils.blankTextureRegion();
 	private static TextureRegion region = blank;
@@ -30,6 +31,8 @@ public class Draw{
 	private static Color tmpcolor = new Color();
 	
 	private static ObjectMap<String, BiConsumer<Float, Float>> draws = new ObjectMap<>();
+	private static ObjectMap<String, Surface> surfaces = new ObjectMap<>();
+	private static Stack<Surface> surfaceStack = new Stack<>();
 	
 	static{
 		float step = 360f/circle.length;
@@ -40,6 +43,112 @@ public class Draw{
 		}
 	}
 	
+	/**Creates a surface, sized to the screen*/
+	public static void addSurface(String name){
+		addSurface(name, 1, 0);
+	}
+	
+	public static void addSurface(String name, int scale){
+		surfaces.put(name, new Surface(name, scale, 0));
+	}
+	
+	/**Creates a surface, scale times smaller than the screen. Useful for pixelated things.*/
+	public static void addSurface(String name, int scale, int bind){
+		surfaces.put(name, new Surface(name, scale, bind));
+	}
+	
+	public static Surface getSurface(String name){
+		if(!surfaces.containsKey(name))
+			throw new IllegalArgumentException("The surface \""+name+"\" does not exist!");
+		
+		return surfaces.get(name);
+	}
+	
+	/**Begins drawing on a surface.*/
+	public static void surface(String name){
+		if(!surfaceStack.isEmpty()){
+			end();
+			surfaceStack.peek().end();
+		}
+		
+		Surface surface = getSurface(name);
+		
+		surfaceStack.push(surface);
+		
+		if(drawing()) end();
+		surface.begin();
+		begin();
+	}
+	
+	/**Ends drawing on the current surface.*/
+	public static void surface(){
+		checkSurface();
+		
+		Surface surface = surfaceStack.pop();
+		
+		end();
+		surface.end();
+		
+		begin();
+	}
+	
+	/**Ends the current surface and draws its contents onto the screen.*/
+	public static void flushSurface(){
+		checkSurface();
+		
+		Surface surface = surfaceStack.pop();
+		
+		end();
+		surface.end();
+		
+		Surface current = surfaceStack.empty() ? null : surfaceStack.peek();
+		
+		if(current != null)
+			current.begin(false);
+		
+		setScreen();
+		batch().draw(surface.texture(), 0, Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), -Gdx.graphics.getHeight());
+		
+		end();
+		
+		beginCam();
+	}
+	
+	/**Sets the batch projection matrix to the screen, without the camera.*/
+	public static void setScreen(){
+		boolean drawing = batch().isDrawing();
+		
+		if(drawing) end();
+		batch().getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		begin();
+	}
+	
+	/**Begins the batch and sets the camera projection matrix.*/
+	public static void beginCam(){
+		batch().setProjectionMatrix(DrawContext.camera.combined);
+		batch().begin();
+	}
+	
+	/**Begins the batch.*/
+	public static void begin(){
+		batch().begin();
+	}
+	
+	/**Ends the batch*/
+	public static void end(){
+		batch().end();
+	}
+	
+	public static boolean drawing(){
+		return batch().isDrawing();
+	}
+	
+	private static void checkSurface(){
+		if(surfaceStack.isEmpty())
+			throw new RuntimeException("Surface stack is empty! Set a surface first.");
+	}
+	
+	/**Set the shader by name, with specified params.*/
 	public static void shader(String name, Object...params){
 		boolean rendering = batch().isDrawing();
 		
@@ -55,6 +164,7 @@ public class Draw{
 			batch().begin();
 	}
 	
+	/**Revert to the default shader.*/
 	public static void shader(){
 		boolean rendering = batch().isDrawing();
 		
@@ -65,6 +175,10 @@ public class Draw{
 		
 		if(rendering)
 			batch().begin();
+	}
+	
+	public static void sprite(Sprite sprite){
+		sprite.draw(batch());
 	}
 	
 	public static void drawable(String name, BiConsumer<Float, Float> run){
@@ -358,24 +472,11 @@ public class Draw{
 	}
 	
 	/**Resets thickness, color and text color*/
-	public static void clear(){
+	public static void reset(){
 		thickness(1f);
 		color();
 		if(DrawContext.font != null)
 		tcolor();
-	}
-	
-	public static void beginCam(){
-		batch().setProjectionMatrix(DrawContext.camera.combined);
-		batch().begin();
-	}
-	
-	public static void begin(){
-		batch().begin();
-	}
-	
-	public static void end(){
-		batch().end();
 	}
 	
 	public static TextureRegion region(String name){
@@ -384,5 +485,24 @@ public class Draw{
 	
 	public static SpriteBatch batch(){
 		return DrawContext.batch;
+	}
+	
+	public static void resize(){
+		for(Surface surface : surfaces.values()){
+			surface.resize();
+		}
+	}
+	
+	/**Disposes drawContext resources, as well as internal resources and Styles.*/
+	public static void dispose(){
+		blank.getTexture().dispose();
+		batch().dispose();
+		
+		if(	DrawContext.atlas != null)
+			DrawContext.atlas.dispose();
+		
+		if(Styles.styles != null){
+			Styles.styles.dispose();
+		}
 	}
 }

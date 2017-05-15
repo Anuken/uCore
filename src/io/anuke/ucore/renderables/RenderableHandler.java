@@ -7,10 +7,11 @@ public class RenderableHandler{
 	private static RenderableHandler instance;
 	private Array<Renderable> renderables = new Array<Renderable>();
 	private boolean updated;
+	
 	private LayerManager manager = new LayerManager(){
-		public void draw(Array<Renderable> renderables, Batch batch){
+		public void drawRenderables(Array<Renderable> renderables){
 			for(Renderable renderable : renderables){
-				renderable.draw(batch);
+				renderable.draw();
 			}
 		}
 	};
@@ -23,7 +24,7 @@ public class RenderableHandler{
 			updated = false;
 		}
 
-		manager.draw(renderables, batch);
+		manager.drawRenderables(renderables);
 	}
 	
 	public void setLayerManager(LayerManager manager){
