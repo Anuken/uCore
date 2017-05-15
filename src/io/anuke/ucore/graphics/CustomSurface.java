@@ -12,7 +12,7 @@ public abstract class CustomSurface extends Surface{
 	}
 	
 	@Override
-	public void end(){
+	public void end(boolean render){
 		
 	}
 	

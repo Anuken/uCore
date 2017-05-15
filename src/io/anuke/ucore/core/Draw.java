@@ -73,7 +73,7 @@ public class Draw{
 	public static void surface(String name){
 		if(!surfaceStack.isEmpty()){
 			end();
-			surfaceStack.peek().end();
+			surfaceStack.peek().end(false);
 		}
 		
 		Surface surface = getSurface(name);
@@ -85,16 +85,26 @@ public class Draw{
 		begin();
 	}
 	
-	/**Ends drawing on the current surface.*/
 	public static void surface(){
+		surface(false);
+	}
+	
+	/**Ends drawing on the current surface.*/
+	public static void surface(boolean end){
 		checkSurface();
 		
 		Surface surface = surfaceStack.pop();
 		
 		end();
-		surface.end();
+		surface.end(true);
 		
-		begin();
+		if(!end){
+			Surface current = surfaceStack.empty() ? null : surfaceStack.peek();
+		
+			if(current != null)
+				current.begin(false);
+			begin();
+		}
 	}
 	
 	/**Ends the current surface and draws its contents onto the screen.*/
@@ -104,7 +114,7 @@ public class Draw{
 		Surface surface = surfaceStack.pop();
 		
 		end();
-		surface.end();
+		surface.end(true);
 		
 		Surface current = surfaceStack.empty() ? null : surfaceStack.peek();
 		
