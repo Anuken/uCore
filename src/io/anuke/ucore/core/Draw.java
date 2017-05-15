@@ -43,13 +43,18 @@ public class Draw{
 		}
 	}
 	
+	/**Adds a custom surface that handles events.*/
+	public static void addSurface(CustomSurface surface){
+		surfaces.put(surface.name(), surface);
+	}
+	
 	/**Creates a surface, sized to the screen*/
 	public static void addSurface(String name){
 		addSurface(name, 1, 0);
 	}
 	
 	public static void addSurface(String name, int scale){
-		surfaces.put(name, new Surface(name, scale, 0));
+		addSurface(name, scale, 0);
 	}
 	
 	/**Creates a surface, scale times smaller than the screen. Useful for pixelated things.*/
