@@ -84,7 +84,7 @@ public abstract class Light implements Disposable {
 	public void setNoise(float time, float scl, float mag){
 		this.noisetime = time;
 		this.noisescl = scl;
-		this.noisemag = 0f;
+		this.noisemag = mag;
 	}
 
 	/**

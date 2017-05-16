@@ -58,9 +58,6 @@ public class RayHandler implements Disposable {
 	 */
 	public final BlendFunc simpleBlendFunc =
 			new BlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
-	
-	//rectangles
-	Array<Rectangle> rectangles = new Array<Rectangle>();
 
 	final Matrix4 combined = new Matrix4();
 	final Color ambientLight = new Color();
@@ -103,6 +100,8 @@ public class RayHandler implements Disposable {
 
 	/** camera matrix corners */
 	float x1, x2, y1, y2;
+	
+	Array<Rectangle> rectangles = new Array<Rectangle>();
 	RectQuadTree tree = new RectQuadTree(4, new Rectangle(-1000, -1000, 2000, 2000));
 	Array<Rectangle> tmprects = new Array<Rectangle>();
 	
@@ -705,7 +704,9 @@ public class RayHandler implements Disposable {
 		Rectangle.tmp2.width -= Rectangle.tmp2.x;
 		Rectangle.tmp2.height -= Rectangle.tmp2.y;
 		
+		//TODO
 		tree.getIntersect(tmprects, Rectangle.tmp2);
+		//tmprects.addAll(rectangles);
 		
 		for(Rectangle rect : tmprects){
 			Vector2 vect = Physics.raycastRect(start.x, start.y, end.x, end.y, rect.x+rect.width/2, rect.y+rect.height/2, rect.width/2, rect.height/2);

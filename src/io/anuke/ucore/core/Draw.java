@@ -498,6 +498,10 @@ public class Draw{
 		return DrawContext.atlas.getRegion(name);
 	}
 	
+	public static boolean hasRegion(String name){
+		return DrawContext.atlas.hasRegion(name);
+	}
+	
 	public static SpriteBatch batch(){
 		return DrawContext.batch;
 	}

@@ -24,7 +24,7 @@ public class PixelShader{
 		"const int pr = 3;",
 
 		"float round(float f){",
-		"	return float(int(f/r))*r;",
+		"	return float(int(f/r+0.7))*r;",
 		"}",
 
 		"void main(){",
@@ -32,11 +32,12 @@ public class PixelShader{
 		"	float dst = c.r;",
 		"	dst = pow(dst, 3);",
 		"	c.r = round(1.0-clamp(1.0/dst*scl, 0.0, 1.0))*tint.r;",
-		"	c.g = round(1.0-clamp(1.0/dst*scl, 0.0, 1.0))*tint.g;",
-		"	c.b = round(1.0-clamp(1.0/dst*scl, 0.0, 1.0))*tint.b;",
+		"	c.g = round(1.0-clamp(1.0/pow(c.g, 3)*scl, 0.0, 1.0))*tint.g;",
+		"	c.b = round(1.0-clamp(1.0/pow(c.b, 3)*scl, 0.0, 1.0))*tint.b;",
 		"	gl_FragColor.rgb = (ambient.rgb , c.rgb);",
 		"	gl_FragColor.a = 1.0;",
 		"}");
+		//TODO fix posturization
 		
 		String vert = String.join("\n",
 		"attribute vec4 a_position;",
