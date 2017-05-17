@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Disposable;
 
-import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.core.Graphics;
 
 /**A framebuffer wrapper.*/
@@ -60,9 +59,9 @@ public class Surface implements Disposable{
 	public void begin(boolean clear){
 		buffer.begin();
 		buffer.getColorBufferTexture().bind(bind);
-		for(Texture texture : DrawContext.atlas.getTextures()){
-			texture.bind(0);
-		}
+		//for(Texture texture : DrawContext.atlas.getTextures()){
+		//	texture.bind(0);
+		//}
 		
 		if(clear)
 			Graphics.clear(Color.CLEAR);

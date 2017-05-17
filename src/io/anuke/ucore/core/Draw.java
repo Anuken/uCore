@@ -6,9 +6,7 @@ import java.util.function.BiConsumer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -30,6 +28,8 @@ public class Draw{
 	private static Sprite sprite;
 	private static Color tmpcolor = new Color();
 	
+	private static Stack<Batch> batches = new Stack<Batch>();
+	
 	private static ObjectMap<String, BiConsumer<Float, Float>> draws = new ObjectMap<>();
 	private static ObjectMap<String, Surface> surfaces = new ObjectMap<>();
 	private static Stack<Surface> surfaceStack = new Stack<>();
@@ -41,6 +41,17 @@ public class Draw{
 			vector.setAngle(i*step);
 			circle[i] = vector.cpy();
 		}
+	}
+	
+	public static void useBatch(Batch batch){
+		if(batches.isEmpty()) batches.push(DrawContext.batch);
+		batches.push(batch);
+		DrawContext.batch = batch;
+	}
+	
+	public static void popBatch(){
+		batches.pop();
+		DrawContext.batch = batches.peek();
 	}
 	
 	/**Adds a custom surface that handles events.*/
@@ -502,7 +513,7 @@ public class Draw{
 		return DrawContext.atlas.hasRegion(name);
 	}
 	
-	public static SpriteBatch batch(){
+	public static Batch batch(){
 		return DrawContext.batch;
 	}
 	

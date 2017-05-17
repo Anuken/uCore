@@ -41,9 +41,9 @@ public abstract class Light implements Disposable {
 	protected float colorF;
 	protected float softShadowLength = 2.5f;
 	
-	protected float noisetime = 4f;
-	protected float noisescl = 1f;
-	protected float noisemag = 1.2f;
+	protected float noisetime = 1;
+	protected float noisescl = 1;
+	protected float noisemag = 0;
 	
 	protected Mesh lightMesh;
 	protected Mesh softShadowMesh;
@@ -85,6 +85,12 @@ public abstract class Light implements Disposable {
 		this.noisetime = time;
 		this.noisescl = scl;
 		this.noisemag = mag;
+	}
+	
+	public void addNoise(){
+		noisetime = 4f;
+		noisescl = 1f;
+		noisemag = 1.2f;
 	}
 
 	/**

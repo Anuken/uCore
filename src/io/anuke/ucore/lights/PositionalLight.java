@@ -179,7 +179,6 @@ public abstract class PositionalLight extends Light {
 	protected void setMesh() {
 		// ray starting point
 		int size = 0;
-
 		segments[size++] = start.x;
 		segments[size++] = start.y;
 		segments[size++] = colorF;
@@ -194,17 +193,19 @@ public abstract class PositionalLight extends Light {
 		lightMesh.setVertices(segments, 0, size);
 
 		if (!soft || xray) return;
-
+		
+		//soft shadow mesh
 		size = 0;
 		// rays ending points.
 		for (int i = 0; i < rayNum; i++) {
 			segments[size++] = mx[i];
 			segments[size++] = my[i];
 			segments[size++] = colorF;
-			final float s = (1 - f[i]);
+			final float s = (1f-f[i]);
 			segments[size++] = s;
-			segments[size++] = mx[i] + s * softShadowLength * cos[i];
-			segments[size++] = my[i] + s * softShadowLength * sin[i];
+			//TODO ???
+			segments[size++] = mx[i] + softShadowLength * cos[i]/(s);
+			segments[size++] = my[i] + softShadowLength * sin[i]/(s);
 			segments[size++] = zeroColorBits;
 			segments[size++] = 0f;
 		}

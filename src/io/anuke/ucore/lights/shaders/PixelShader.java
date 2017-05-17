@@ -30,10 +30,10 @@ public class PixelShader{
 		"void main(){",
 		"	vec4 c = texture2D(u_texture, v_texCoords);",
 		"	float dst = c.r;",
-		"	dst = pow(dst, 3);",
+		"	dst = pow(dst, pr);",
 		"	c.r = round(1.0-clamp(1.0/dst*scl, 0.0, 1.0))*tint.r;",
-		"	c.g = round(1.0-clamp(1.0/pow(c.g, 3)*scl, 0.0, 1.0))*tint.g;",
-		"	c.b = round(1.0-clamp(1.0/pow(c.b, 3)*scl, 0.0, 1.0))*tint.b;",
+		"	c.g = round(1.0-clamp(1.0/pow(c.g, pr)*scl, 0.0, 1.0))*tint.g;",
+		"	c.b = round(1.0-clamp(1.0/pow(c.b, pr)*scl, 0.0, 1.0))*tint.b;",
 		"	gl_FragColor.rgb = (ambient.rgb , c.rgb);",
 		"	gl_FragColor.a = 1.0;",
 		"}");

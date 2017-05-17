@@ -105,7 +105,11 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	public void draw(){}
 	
 	public void pixelate(){
-		Draw.addSurface("pixel", cameraScale);
+		pixelate(-1);
+	}
+	
+	public void pixelate(int scl){
+		Draw.addSurface("pixel", scl == -1 ? cameraScale : scl);
 		pixelate = true;
 	}
 	

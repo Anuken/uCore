@@ -122,7 +122,7 @@ public class Scene extends InputAdapter implements Disposable {
 
 		if (!root.isVisible()) return;
 		
-		SpriteBatch old = DrawContext.batch;
+		Batch old = DrawContext.batch;
 		DrawContext.batch = (SpriteBatch)batch;
 		
 		Batch batch = this.batch;
