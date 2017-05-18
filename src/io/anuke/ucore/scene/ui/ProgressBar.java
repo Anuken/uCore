@@ -27,8 +27,8 @@ import com.badlogic.gdx.utils.Pools;
 
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
+import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.style.Styles;
 import io.anuke.ucore.scene.utils.Disableable;
 import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
 
@@ -55,11 +55,11 @@ public class ProgressBar extends Element implements Disableable {
 	private Interpolation visualInterpolation = Interpolation.linear;
 	private boolean round = true;
 
-	public ProgressBar (float min, float max, float stepSize, boolean vertical, Styles skin) {
+	public ProgressBar (float min, float max, float stepSize, boolean vertical, Skin skin) {
 		this(min, max, stepSize, vertical, skin.get("default-" + (vertical ? "vertical" : "horizontal"), ProgressBarStyle.class));
 	}
 
-	public ProgressBar (float min, float max, float stepSize, boolean vertical, Styles skin, String styleName) {
+	public ProgressBar (float min, float max, float stepSize, boolean vertical, Skin skin, String styleName) {
 		this(min, max, stepSize, vertical, skin.get(styleName, ProgressBarStyle.class));
 	}
 

@@ -32,7 +32,6 @@ import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.style.Styles;
 import io.anuke.ucore.scene.ui.List.ListStyle;
 import io.anuke.ucore.scene.ui.ScrollPane.ScrollPaneStyle;
 import io.anuke.ucore.scene.utils.ArraySelection;
@@ -61,11 +60,11 @@ public class SelectBox<T> extends Element implements Disableable {
 	boolean disabled;
 	private int alignment = Align.left;
 
-	public SelectBox (Styles skin) {
+	public SelectBox (Skin skin) {
 		this(skin.get(SelectBoxStyle.class));
 	}
 
-	public SelectBox (Styles skin, String styleName) {
+	public SelectBox (Skin skin, String styleName) {
 		this(skin.get(styleName, SelectBoxStyle.class));
 	}
 

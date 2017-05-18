@@ -15,8 +15,8 @@
  ******************************************************************************/
 
 package io.anuke.ucore.scene.ui;
+import static io.anuke.ucore.core.DrawContext.skin;
 import static io.anuke.ucore.scene.actions.Actions.*;
-import static io.anuke.ucore.scene.style.Styles.styles;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Interpolation;
@@ -31,7 +31,6 @@ import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.actions.Actions;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
-import io.anuke.ucore.scene.style.Styles;
 import io.anuke.ucore.scene.ui.ImageButton.ImageButtonStyle;
 import io.anuke.ucore.scene.ui.Label.LabelStyle;
 import io.anuke.ucore.scene.ui.TextButton.TextButtonStyle;
@@ -70,12 +69,12 @@ public class Dialog extends Window {
 	};
 
 	public Dialog (String title) {
-		super(title, styles.get(WindowStyle.class));
+		super(title, skin.get(WindowStyle.class));
 		initialize();
 	}
 
 	public Dialog (String title, String windowStyleName) {
-		super(title, styles.get(windowStyleName, WindowStyle.class));
+		super(title, skin.get(windowStyleName, WindowStyle.class));
 		initialize();
 	}
 
@@ -142,7 +141,7 @@ public class Dialog extends Window {
 		Label titleLabel = getTitleLabel();
 		Table titleTable = getTitleTable();
 
-		ImageButton closeButton = new ImageButton(Styles.styles.get("close-window", ImageButtonStyle.class));
+		ImageButton closeButton = new ImageButton(skin.get("close-window", ImageButtonStyle.class));
 		
 		titleTable.add(closeButton).padRight(-getPadRight() + 0.7f+closePadR).size(40).padTop(-titleTable.getPadTop()-12+closePadT);
 		
@@ -172,7 +171,7 @@ public class Dialog extends Window {
 
 	/** Adds a label to the content table. The dialog must have been constructed with a skin to use this method. */
 	public Cell<Label> text (String text) {
-		return text(text, styles.get(LabelStyle.class));
+		return text(text, skin.get(LabelStyle.class));
 	}
 
 	/** Adds a label to the content table. */
@@ -194,7 +193,7 @@ public class Dialog extends Window {
 	/** Adds a text button to the button table. The dialog must have been constructed with a skin to use this method.
 	 * @param object The object that will be passed to {@link #result(Object)} if this button is clicked. May be null. */
 	public Cell<Button> button (String text, Object object) {
-		return button(text, object, styles.get(TextButtonStyle.class));
+		return button(text, object, skin.get(TextButtonStyle.class));
 	}
 
 	/** Adds a text button to the button table.
@@ -228,7 +227,7 @@ public class Dialog extends Window {
 	
 	/**Sets style to 'dialog'.*/
 	public Dialog setDialog(){
-		setStyle(Styles.styles.get("dialog", WindowStyle.class));
+		setStyle(skin.get("dialog", WindowStyle.class));
 		return this;
 	}
 

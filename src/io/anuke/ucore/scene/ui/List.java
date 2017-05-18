@@ -25,10 +25,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.*;
 
 import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.style.Styles;
 import io.anuke.ucore.scene.utils.*;
 import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
 
@@ -48,11 +48,11 @@ public class List<T> extends Element implements Cullable {
 	private float itemHeight;
 	private int alignment = Align.left;
 
-	public List (Styles skin) {
+	public List (Skin skin) {
 		this(skin.get(ListStyle.class));
 	}
 
-	public List (Styles skin, String styleName) {
+	public List (Skin skin, String styleName) {
 		this(skin.get(styleName, ListStyle.class));
 	}
 

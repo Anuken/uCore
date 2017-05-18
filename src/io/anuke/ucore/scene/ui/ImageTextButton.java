@@ -16,7 +16,7 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.scene.style.Styles.styles;
+import static io.anuke.ucore.core.DrawContext.skin;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -39,11 +39,11 @@ public class ImageTextButton extends Button {
 	private ImageTextButtonStyle style;
 
 	public ImageTextButton (String text) {
-		this(text, styles.get(ImageTextButtonStyle.class));
+		this(text, skin.get(ImageTextButtonStyle.class));
 	}
 
 	public ImageTextButton (String text, String styleName) {
-		this(text, styles.get(styleName, ImageTextButtonStyle.class));
+		this(text, skin.get(styleName, ImageTextButtonStyle.class));
 	}
 
 	public ImageTextButton (String text, ImageTextButtonStyle style) {

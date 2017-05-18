@@ -16,7 +16,7 @@
 
 package io.anuke.ucore.scene.ui.layout;
 
-import static io.anuke.ucore.scene.style.Styles.styles;
+import static io.anuke.ucore.core.DrawContext.skin;
 
 import java.util.function.Consumer;
 
@@ -138,8 +138,8 @@ public class Table extends WidgetGroup {
 	 * if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used.
 	 * @see #setBackground(Drawable) */
 	public void setBackground (String drawableName) {
-		if (styles == null) throw new IllegalStateException("Table must have a skin set to use this method.");
-		setBackground(styles.getDrawable(drawableName));
+		if (skin == null) throw new IllegalStateException("Table must have a skin set to use this method.");
+		setBackground(skin.getDrawable(drawableName));
 	}
 
 	/** @param background May be null to clear the background. */
@@ -257,7 +257,7 @@ public class Table extends WidgetGroup {
 
 	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
 	public Cell<Label> add (CharSequence text) {
-		if (styles == null) throw new IllegalStateException("Table must have a skin set to use this method.");
+		if (skin == null) throw new IllegalStateException("Table must have a skin set to use this method.");
 		return add(new Label(text));
 	}
 	
@@ -270,20 +270,20 @@ public class Table extends WidgetGroup {
 
 	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
 	public Cell<Label> add (CharSequence text, String labelStyleName) {
-		if (styles == null) throw new IllegalStateException("Table must have a skin set to use this method.");
-		return add(new Label(text, styles.get(labelStyleName, LabelStyle.class)));
+		if (skin == null) throw new IllegalStateException("Table must have a skin set to use this method.");
+		return add(new Label(text, skin.get(labelStyleName, LabelStyle.class)));
 	}
 
 	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
 	public Cell<Label> add (CharSequence text, Color color) {
-		if (styles == null) throw new IllegalStateException("Table must have a skin set to use this method.");
-		return add(new Label(text, new LabelStyle(styles.getFont("default-font"), color)));
+		if (skin == null) throw new IllegalStateException("Table must have a skin set to use this method.");
+		return add(new Label(text, new LabelStyle(skin.getFont("default-font"), color)));
 	}
 
 	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
 	public Cell<Label> add (CharSequence text, String fontName, String colorName) {
-		if (styles == null) throw new IllegalStateException("Table must have a skin set to use this method.");
-		return add(new Label(text, new LabelStyle(styles.getFont(fontName), styles.getColor(colorName))));
+		if (skin == null) throw new IllegalStateException("Table must have a skin set to use this method.");
+		return add(new Label(text, new LabelStyle(skin.getFont(fontName), skin.getColor(colorName))));
 	}
 
 	/** Adds a cell without an actor. */
@@ -336,7 +336,7 @@ public class Table extends WidgetGroup {
 	}
 	
 	public ImageButton newIButton(String icon, Runnable listener){
-		ImageButton button = new ImageButton(styles.getDrawable(icon));
+		ImageButton button = new ImageButton(skin.getDrawable(icon));
 		if(listener != null)
 		button.changed(listener);
 		return button;

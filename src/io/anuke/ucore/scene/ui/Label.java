@@ -16,7 +16,7 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.scene.style.Styles.styles;
+import static io.anuke.ucore.core.DrawContext.skin;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -49,23 +49,23 @@ public class Label extends Element {
 	private String ellipsis;
 
 	public Label (CharSequence text) {
-		this(text, styles.get(LabelStyle.class));
+		this(text, skin.get(LabelStyle.class));
 	}
 
 	public Label (CharSequence text, String styleName) {
-		this(text, styles.get(styleName, LabelStyle.class));
+		this(text, skin.get(styleName, LabelStyle.class));
 	}
 
 	/** Creates a label, using a {@link LabelStyle} that has a BitmapFont with the specified name from the skin and the specified
 	 * color. */
 	public Label (CharSequence text, String fontName, Color color) {
-		this(text, new LabelStyle(styles.getFont(fontName), color));
+		this(text, new LabelStyle(skin.getFont(fontName), color));
 	}
 
 	/** Creates a label, using a {@link LabelStyle} that has a BitmapFont with the specified name and the specified color from the
 	 * skin. */
 	public Label (CharSequence text, String fontName, String colorName) {
-		this(text, new LabelStyle(styles.getFont(fontName), styles.getColor(colorName)));
+		this(text, new LabelStyle(skin.getFont(fontName), skin.getColor(colorName)));
 	}
 
 	public Label (CharSequence text, LabelStyle style) {

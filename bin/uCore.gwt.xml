@@ -4,5 +4,5 @@
 	<source path="io/anuke/ucore" />
 	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene" />
 	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene.ui" />
-	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene.style.Styles" />
+	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene.style.skin" />
 </module>

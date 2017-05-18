@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package io.anuke.ucore.scene.style;
+package io.anuke.ucore.scene;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -30,7 +30,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 
-import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.style.*;
 
 /** A skin stores resources for UI widgets to use (texture regions, ninepatches, fonts, colors, etc). Resources are named and can
  * be looked up by name and type. Resources can be described in JSON. Skin provides useful conversions, such as allowing access to
@@ -39,26 +39,19 @@ import io.anuke.ucore.scene.Element;
  * <p>
  * See the <a href="https://github.com/libgdx/libgdx/wiki/Skin">documentation</a> for more.
  * @author Nathan Sweet */
-public class Styles implements Disposable {
-	/**Global Styles instance.*/
-	public static Styles styles;
-	
+public class Skin implements Disposable {
 	ObjectMap<Class, ObjectMap<String, Object>> resources = new ObjectMap();
 	TextureAtlas atlas;
 	
-	public static void load(Styles styles){
-		Styles.styles = styles;
-	}
-	
 
 	/** Creates an empty skin. */
-	public Styles () {
+	public Skin () {
 	}
 
 	/** Creates a skin containing the resources in the specified skin JSON file. If a file in the same directory with a ".atlas"
 	 * extension exists, it is loaded as a {@link TextureAtlas} and the texture regions added to the skin. The atlas is
 	 * automatically disposed when the skin is disposed. */
-	public Styles (FileHandle skinFile) {
+	public Skin (FileHandle skinFile) {
 		FileHandle atlasFile = skinFile.sibling(skinFile.nameWithoutExtension() + ".atlas");
 		if (atlasFile.exists()) {
 			atlas = new TextureAtlas(atlasFile);
@@ -70,7 +63,7 @@ public class Styles implements Disposable {
 
 	/** Creates a skin containing the resources in the specified skin JSON file and the texture regions from the specified atlas.
 	 * The atlas is automatically disposed when the skin is disposed. */
-	public Styles (FileHandle skinFile, TextureAtlas atlas) {
+	public Skin (FileHandle skinFile, TextureAtlas atlas) {
 		this.atlas = atlas;
 		addRegions(atlas);
 		load(skinFile);
@@ -78,7 +71,7 @@ public class Styles implements Disposable {
 
 	/** Creates a skin containing the texture regions from the specified atlas. The atlas is automatically disposed when the skin
 	 * is disposed. */
-	public Styles (TextureAtlas atlas) {
+	public Skin (TextureAtlas atlas) {
 		this.atlas = atlas;
 		addRegions(atlas);
 	}
@@ -90,7 +83,7 @@ public class Styles implements Disposable {
 	/** Adds all resources in the specified skin JSON file. */
 	public void load (FileHandle skinFile) {
 		try {
-			getJsonLoader(skinFile).fromJson(Styles.class, skinFile);
+			getJsonLoader(skinFile).fromJson(Skin.class, skinFile);
 		} catch (SerializationException ex) {
 			throw new SerializationException("Error reading file: " + skinFile, ex);
 		}
@@ -415,7 +408,7 @@ public class Styles implements Disposable {
 	}
 
 	protected Json getJsonLoader (final FileHandle skinFile) {
-		final Styles skin = this;
+		final Skin skin = this;
 
 		final Json json = new Json() {
 			public <T> T readValue (Class<T> type, Class elementType, JsonValue jsonData) {
@@ -428,8 +421,8 @@ public class Styles implements Disposable {
 		json.setTypeName(null);
 		json.setUsePrototypes(false);
 
-		json.setSerializer(Styles.class, new ReadOnlySerializer<Styles>() {
-			public Styles read (Json json, JsonValue typeToValueMap, Class ignored) {
+		json.setSerializer(Skin.class, new ReadOnlySerializer<Skin>() {
+			public Skin read (Json json, JsonValue typeToValueMap, Class ignored) {
 				for (JsonValue valueMap = typeToValueMap.child; valueMap != null; valueMap = valueMap.next) {
 					try {
 						readNamedObjects(json, ClassReflection.forName(valueMap.name()), valueMap);

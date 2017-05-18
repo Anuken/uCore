@@ -16,7 +16,7 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.scene.style.Styles.styles;
+import static io.anuke.ucore.core.DrawContext.skin;
 
 import java.lang.StringBuilder;
 import java.util.function.Consumer;
@@ -113,11 +113,11 @@ public class TextField extends Element implements Disableable {
 	boolean programmaticChangeEvents;
 
 	public TextField (String text) {
-		this(text, styles.get(TextFieldStyle.class));
+		this(text, skin.get(TextFieldStyle.class));
 	}
 
 	public TextField (String text, String styleName) {
-		this(text, styles.get(styleName, TextFieldStyle.class));
+		this(text, skin.get(styleName, TextFieldStyle.class));
 	}
 
 	public TextField (String text, TextFieldStyle style) {

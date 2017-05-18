@@ -27,6 +27,7 @@ import com.badlogic.gdx.utils.Scaling;
 
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.style.*;
 
 /** Displays a {@link Drawable}, scaled various way within the widgets bounds. The preferred size is the min size of the drawable.
@@ -65,7 +66,7 @@ public class Image extends Element {
 	}
 
 	/** Creates an image stretched, and aligned center. */
-	public Image (Styles skin, String drawableName) {
+	public Image (Skin skin, String drawableName) {
 		this(skin.getDrawable(drawableName), Scaling.stretch, Align.center);
 	}
 
@@ -138,7 +139,7 @@ public class Image extends Element {
 		if (drawable != null) drawable.draw(batch, x + imageX, y + imageY, imageWidth * scaleX, imageHeight * scaleY);
 	}
 
-	public void setDrawable (Styles skin, String drawableName) {
+	public void setDrawable (Skin skin, String drawableName) {
 		setDrawable(skin.getDrawable(drawableName));
 	}
 

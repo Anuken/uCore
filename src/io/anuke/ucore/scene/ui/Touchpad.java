@@ -23,10 +23,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pools;
 
 import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.style.Styles;
 import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
 
 /** An on-screen joystick. The movement area of the joystick is circular, centered on the touchpad, and its size determined by the
@@ -49,12 +49,12 @@ public class Touchpad extends Element {
 	private final Vector2 knobPercent = new Vector2();
 
 	/** @param deadzoneRadius The distance in pixels from the center of the touchpad required for the knob to be moved. */
-	public Touchpad (float deadzoneRadius, Styles skin) {
+	public Touchpad (float deadzoneRadius, Skin skin) {
 		this(deadzoneRadius, skin.get(TouchpadStyle.class));
 	}
 
 	/** @param deadzoneRadius The distance in pixels from the center of the touchpad required for the knob to be moved. */
-	public Touchpad (float deadzoneRadius, Styles skin, String styleName) {
+	public Touchpad (float deadzoneRadius, Skin skin, String styleName) {
 		this(deadzoneRadius, skin.get(styleName, TouchpadStyle.class));
 	}
 

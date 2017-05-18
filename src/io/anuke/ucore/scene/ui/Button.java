@@ -16,7 +16,7 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.scene.style.Styles.styles;
+import static io.anuke.ucore.core.DrawContext.skin;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -26,10 +26,10 @@ import com.badlogic.gdx.utils.Pools;
 
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
+import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.style.Styles;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
 import io.anuke.ucore.scene.utils.ClickListener;
@@ -57,12 +57,12 @@ public class Button extends Table implements Disableable {
 	
 	public Button (String styleName) {
 		initialize();
-		setStyle(styles.get(styleName, ButtonStyle.class));
+		setStyle(skin.get(styleName, ButtonStyle.class));
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 
 	public Button (Element child, String styleName) {
-		this(child, styles.get(styleName, ButtonStyle.class));
+		this(child, skin.get(styleName, ButtonStyle.class));
 	}
 
 	public Button (Element child, ButtonStyle style) {
@@ -106,7 +106,7 @@ public class Button extends Table implements Disableable {
 		this(new ButtonStyle(up, down, checked));
 	}
 
-	public Button (Element child, Styles skin) {
+	public Button (Element child, Skin skin) {
 		this(child, skin.get(ButtonStyle.class));
 	}
 

@@ -16,7 +16,7 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.scene.style.Styles.styles;
+import static io.anuke.ucore.core.DrawContext.skin;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -83,12 +83,12 @@ public class ScrollPane extends WidgetGroup {
 
 	/** @param widget May be null. */
 	public ScrollPane (Element widget) {
-		this(widget, styles.get(ScrollPaneStyle.class));
+		this(widget, skin.get(ScrollPaneStyle.class));
 	}
 
 	/** @param widget May be null. */
 	public ScrollPane (Element widget, String styleName) {
-		this(widget, styles.get(styleName, ScrollPaneStyle.class));
+		this(widget, skin.get(styleName, ScrollPaneStyle.class));
 	}
 
 	/** @param widget May be null. */

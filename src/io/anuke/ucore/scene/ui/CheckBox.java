@@ -16,7 +16,7 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.scene.style.Styles.styles;
+import static io.anuke.ucore.core.DrawContext.skin;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -34,11 +34,11 @@ public class CheckBox extends TextButton {
 	private CheckBoxStyle style;
 
 	public CheckBox (String text) {
-		this(text, styles.get(CheckBoxStyle.class));
+		this(text, skin.get(CheckBoxStyle.class));
 	}
 
 	public CheckBox (String text, String styleName) {
-		this(text, styles.get(styleName, CheckBoxStyle.class));
+		this(text, skin.get(styleName, CheckBoxStyle.class));
 	}
 
 	public CheckBox (String text, CheckBoxStyle style) {

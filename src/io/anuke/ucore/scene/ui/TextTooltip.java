@@ -17,19 +17,19 @@
 package io.anuke.ucore.scene.ui;
 
 import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.style.Styles;
 import io.anuke.ucore.scene.ui.Label.LabelStyle;
 import io.anuke.ucore.scene.ui.layout.Value;
 
 /** A tooltip that shows a label.
  * @author Nathan Sweet */
 public class TextTooltip extends Tooltip<Label> {
-	public TextTooltip (String text, Styles skin) {
+	public TextTooltip (String text, Skin skin) {
 		this(text, TooltipManager.getInstance(), skin.get(TextTooltipStyle.class));
 	}
 
-	public TextTooltip (String text, Styles skin, String styleName) {
+	public TextTooltip (String text, Skin skin, String styleName) {
 		this(text, TooltipManager.getInstance(), skin.get(styleName, TextTooltipStyle.class));
 	}
 
@@ -37,11 +37,11 @@ public class TextTooltip extends Tooltip<Label> {
 		this(text, TooltipManager.getInstance(), style);
 	}
 
-	public TextTooltip (String text, TooltipManager manager, Styles skin) {
+	public TextTooltip (String text, TooltipManager manager, Skin skin) {
 		this(text, manager, skin.get(TextTooltipStyle.class));
 	}
 
-	public TextTooltip (String text, TooltipManager manager, Styles skin, String styleName) {
+	public TextTooltip (String text, TooltipManager manager, Skin skin, String styleName) {
 		this(text, manager, skin.get(styleName, TextTooltipStyle.class));
 	}
 

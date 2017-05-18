@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.graphics.*;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.style.Styles;
 
 //TODO maybe move some surface stuff to Graphics class, and keep actual drawing stuff here?*/
 public class Draw{
@@ -220,7 +219,7 @@ public class Draw{
 	}
 	
 	public static Drawable getPatch(String name){
-		return Styles.styles.getDrawable(name);
+		return DrawContext.skin.getDrawable(name);
 	}
 	
 	/**Sets the batch color to this color AND the previous alpha.*/
@@ -523,7 +522,7 @@ public class Draw{
 		}
 	}
 	
-	/**Disposes drawContext resources, as well as internal resources and Styles.*/
+	/**Disposes drawContext resources, as well as internal resources and skin.*/
 	public static void dispose(){
 		blank.getTexture().dispose();
 		batch().dispose();
@@ -531,8 +530,8 @@ public class Draw{
 		if(	DrawContext.atlas != null)
 			DrawContext.atlas.dispose();
 		
-		if(Styles.styles != null){
-			Styles.styles.dispose();
+		if(DrawContext.skin != null){
+			DrawContext.skin.dispose();
 		}
 	}
 }

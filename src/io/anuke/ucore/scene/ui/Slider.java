@@ -16,7 +16,7 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.scene.style.Styles.styles;
+import static io.anuke.ucore.core.DrawContext.skin;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -48,11 +48,11 @@ public class Slider extends ProgressBar {
 	private float threshold;
 
 	public Slider (float min, float max, float stepSize, boolean vertical) {
-		this(min, max, stepSize, vertical, styles.get("default-" + (vertical ? "vertical" : "horizontal"), SliderStyle.class));
+		this(min, max, stepSize, vertical, skin.get("default-" + (vertical ? "vertical" : "horizontal"), SliderStyle.class));
 	}
 
 	public Slider (float min, float max, float stepSize, boolean vertical, String styleName) {
-		this(min, max, stepSize, vertical, styles.get(styleName, SliderStyle.class));
+		this(min, max, stepSize, vertical, skin.get(styleName, SliderStyle.class));
 	}
 
 	/** Creates a new slider. If horizontal, its width is determined by the prefWidth parameter, its height is determined by the maximum of

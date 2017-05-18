@@ -22,10 +22,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.style.Styles;
 import io.anuke.ucore.scene.ui.layout.Container;
 import io.anuke.ucore.scene.ui.layout.WidgetGroup;
 import io.anuke.ucore.scene.utils.*;
@@ -61,13 +61,13 @@ public class SplitPane extends WidgetGroup {
 
 	/** @param firstWidget May be null.
 	 * @param secondWidget May be null. */
-	public SplitPane (Element firstWidget, Element secondWidget, boolean vertical, Styles skin) {
+	public SplitPane (Element firstWidget, Element secondWidget, boolean vertical, Skin skin) {
 		this(firstWidget, secondWidget, vertical, skin, "default-" + (vertical ? "vertical" : "horizontal"));
 	}
 
 	/** @param firstWidget May be null.
 	 * @param secondWidget May be null. */
-	public SplitPane (Element firstWidget, Element secondWidget, boolean vertical, Styles skin, String styleName) {
+	public SplitPane (Element firstWidget, Element secondWidget, boolean vertical, Skin skin, String styleName) {
 		this(firstWidget, secondWidget, vertical, skin.get(styleName, SplitPaneStyle.class));
 	}
 

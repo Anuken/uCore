@@ -16,7 +16,7 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.scene.style.Styles.styles;
+import static io.anuke.ucore.core.DrawContext.skin;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -56,11 +56,11 @@ public class Window extends Table {
 	protected boolean dragging;
 
 	public Window (String title) {
-		this(title, styles.get(WindowStyle.class));
+		this(title, skin.get(WindowStyle.class));
 	}
 
 	public Window (String title, String styleName) {
-		this(title, styles.get(styleName, WindowStyle.class));
+		this(title, skin.get(styleName, WindowStyle.class));
 	}
 
 	public Window (String title, WindowStyle style) {

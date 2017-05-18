@@ -9,32 +9,32 @@ import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.core.Inputs;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
+import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.style.Styles;
 import io.anuke.ucore.scene.ui.layout.Table;
 
 public class SceneModule<T extends ModuleController<T>> extends Module<T>{
 	private static String[] colorTypes = {"accent", "title"};
 	
 	public Scene scene;
-	public Styles styles;
+	public Skin skin;
 	
 	public SceneModule(){
 		scene = new Scene(DrawContext.batch);
 		Inputs.addProcessor(scene);
 		
-		styles = new Styles(Gdx.files.internal("ui/uiskin.json"));
-		styles.font().setUseIntegerPositions(false);
-		loadStyles(styles);
+		skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+		skin.font().setUseIntegerPositions(false);
+		
+		loadContext();
 
 	}
 	
-	protected void loadStyles(Styles styles){
-		this.styles = styles;
-		Styles.load(styles);
+	protected void loadContext(){
+		DrawContext.setScene(scene, skin);
 		
 		if(DrawContext.font == null)
-			DrawContext.font = styles.font();
+			DrawContext.font = skin.font();
 		
 		for(String s : colorTypes)
 			if(Colors.get(s) == null)
@@ -54,7 +54,7 @@ public class SceneModule<T extends ModuleController<T>> extends Module<T>{
 	
 	/**Gets a drawable by name*/
 	public Drawable tex(String name){
-		return Styles.styles.getDrawable(name);
+		return DrawContext.skin.getDrawable(name);
 	}
 	
 	/**Find an element by name, or by class if prefixed by #.*/
