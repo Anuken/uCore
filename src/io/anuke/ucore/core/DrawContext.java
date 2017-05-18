@@ -27,7 +27,7 @@ public class DrawContext{
 	}
 	
 	public static void setScene(Scene ascene, Skin askin){
-		scene = ascene;
-		skin = askin;
+		if(ascene != null)scene = ascene;
+		if(askin != null)skin = askin;
 	}
 }

@@ -233,6 +233,7 @@ public class Dialog extends Window {
 
 	/** {@link #pack() Packs} the dialog and adds it to the stage with custom action which can be null for instant show */
 	public Dialog show (Scene stage, Action action) {
+		
 		if(showListener != null)
 			showListener.run();
 		clearActions();
@@ -250,6 +251,7 @@ public class Dialog extends Window {
 		stage.add(this);
 		stage.setKeyboardFocus(this);
 		stage.setScrollFocus(this);
+		
 		if (action != null) addAction(action);
 
 		return this;
