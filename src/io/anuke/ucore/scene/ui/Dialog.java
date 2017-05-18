@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.modules.ModuleController;
 import io.anuke.ucore.scene.Action;
+import io.anuke.ucore.scene.Action.ActionProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.actions.Actions;
@@ -43,7 +44,16 @@ import io.anuke.ucore.scene.utils.FocusListener;
  * {@link #result(Object)} is called and the dialog is removed from the stage.
  * @author Nathan Sweet */ 
 public class Dialog extends Window {
+	//TODO just make this work properly by calculating padding
 	public static float closePadT, closePadR;
+	
+	private static ActionProvider 
+	defaultShowAction = ()->{
+		return sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade));
+	}, 
+	defaultHideAction = ()->{
+		return fadeOut(0.4f, Interpolation.fade);
+	};
 	
 	Table contentTable, buttonTable;
 	ObjectMap<Element, Object> values = new ObjectMap();
@@ -77,6 +87,7 @@ public class Dialog extends Window {
 	private void initialize () {
 		setModal(true);
 		setMovable(false);
+		setOrigin(Align.center);
 
 		defaults().space(6);
 		add(contentTable = new Table()).expand().fill();
@@ -247,12 +258,17 @@ public class Dialog extends Window {
 	
 	/**Shows using the ModuleController's UI.*/
 	public Dialog show () {
+		//TODO make this non-default?
+		setOrigin(Align.center);
+		setClip(false);
+		setTransform(true);
+		
 		return show(ModuleController.ui().scene);
 	}
 
 	/** {@link #pack() Packs} the dialog and adds it to the stage, centered with default fadeIn action */
 	public Dialog show (Scene stage) {
-		show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
+		show(stage, defaultShowAction.get());
 		setPosition(Math.round((stage.getWidth() - getWidth()) / 2), Math.round((stage.getHeight() - getHeight()) / 2));
 		return this;
 	}
@@ -283,7 +299,12 @@ public class Dialog extends Window {
 	/** Hides the dialog. Called automatically when a button is clicked. The default implementation fades out the dialog over 400
 	 * milliseconds. */
 	public void hide () {
-		hide(fadeOut(0.4f, Interpolation.fade));
+		//TODO make this non-default?
+		setOrigin(Align.center);
+		setClip(false);
+		setTransform(true);
+		
+		hide(defaultHideAction.get());
 	}
 
 	public void setObject (Element actor, Object object) {
@@ -313,5 +334,13 @@ public class Dialog extends Window {
 
 	public void cancel () {
 		cancelHide = true;
+	}
+	
+	public static void setShowAction(ActionProvider prov){
+		defaultShowAction = prov;
+	}
+	
+	public static void setHideAction(ActionProvider prov){
+		defaultHideAction = prov;
 	}
 }

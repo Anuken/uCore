@@ -26,6 +26,7 @@ public class SceneModule<T extends ModuleController<T>> extends Module<T>{
 		styles = new Styles(Gdx.files.internal("ui/uiskin.json"));
 		styles.font().setUseIntegerPositions(false);
 		loadStyles(styles);
+
 	}
 	
 	protected void loadStyles(Styles styles){

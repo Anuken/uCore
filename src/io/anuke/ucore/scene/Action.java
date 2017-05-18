@@ -111,4 +111,8 @@ abstract public class Action implements Poolable {
 		if (name.endsWith("Action")) name = name.substring(0, name.length() - 6);
 		return name;
 	}
+	
+	public static interface ActionProvider{
+		public Action get();
+	}
 }

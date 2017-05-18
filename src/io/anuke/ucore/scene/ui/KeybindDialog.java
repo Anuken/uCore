@@ -1,20 +1,62 @@
 package io.anuke.ucore.scene.ui;
 
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerAdapter;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 
+import io.anuke.ucore.core.Inputs;
+import io.anuke.ucore.core.Inputs.DeviceType;
+import io.anuke.ucore.core.Inputs.InputDevice;
 import io.anuke.ucore.core.KeyBinds;
 import io.anuke.ucore.scene.style.Styles;
+import io.anuke.ucore.scene.ui.layout.Stack;
 import io.anuke.ucore.scene.ui.layout.Table;
+import io.anuke.ucore.util.Strings;
 
 public class KeybindDialog extends Dialog{
 	private KeybindDialogStyle style;
+	private String section = "default";
+	private String rebindKey = null;
+	private Dialog rebindDialog;
+	private ObjectMap<String, Integer> sectionControls = new ObjectMap<String, Integer>();
 	
 	public KeybindDialog() {
 		super("Rebind Keys");
 		style = Styles.styles.get(KeybindDialogStyle.class);
 		setup();
 		addCloseButton();
+		
+		Array<String> sections = KeyBinds.getSections();
+		section = sections.first();
+		
+		Controllers.addListener(new ControllerAdapter(){
+			public void connected(Controller controller){
+				setup();
+			}
+
+			public void disconnected(Controller controller){
+				setup();
+			}
+			
+			public boolean buttonDown (Controller controller, int buttonIndex) {
+				if(rebindKey != null && KeyBinds.getType(section) == DeviceType.controller){
+					
+					rebindDialog.hide();
+					KeyBinds.rebindKey(section, rebindKey, buttonIndex);
+					KeyBinds.saveBindings();
+					rebindKey = null;
+					setup();
+					return true;
+				}
+				return false;
+			}
+		});
+		
+		
 	}
 	
 	public void setStyle(KeybindDialogStyle style){
@@ -23,52 +65,125 @@ public class KeybindDialog extends Dialog{
 	}
 	
 	private void setup(){
-		Table table = content();
-		table.clear();
+		content().clear();
 		
-		for(String s : KeyBinds.getBinds()){
-			Label keylabel = new Label(Keys.toString(KeyBinds.get(s)));
+		Array<String> sections = KeyBinds.getSections();
+		
+		Stack stack = new Stack();
+		ButtonGroup<TextButton> group = new ButtonGroup<>();
+		
+		for(String section : sections){
+			if(!sectionControls.containsKey(section))
+				sectionControls.put(section, 0);
 			
-			keylabel.setColor(style.keyColor);
+			TextButton button = new TextButton(Strings.capitalize(section), "toggle");
+			if(section.equals(this.section))
+				button.toggle();
 			
-			table.add(capitalize(s), style.keyNameColor).left().padRight(40).padLeft(8);
-			table.add(keylabel).left().minWidth(90).padRight(20);
-			table.addButton("Rebind", ()->{
-				openDialog(s);
+			button.clicked(()->{
+				this.section = section;
 			});
-			table.addButton("Reset", ()->{
-				KeyBinds.resetKey(s);
+			
+			group.add(button);
+			content().add(button).fill();
+			
+			Table table = new Table();
+			
+			Label device = new Label("Keyboard");
+			device.setColor(style.controllerColor);
+			device.setAlignment(Align.center);
+			
+			Array<InputDevice> devices = Inputs.getDevices();
+			
+			table.addButton("<", ()->{
+				int i = sectionControls.get(section);
+				if(i-1 >= 0){
+					sectionControls.put(section, i-1);
+					KeyBinds.setDevice(section, devices.get(i-1));
+					setup();
+				}
+			}, b->{
+				b.setDisabled(sectionControls.get(section) - 1 < 0);
+			}).size(50);
+			
+			
+			table.add(device).minWidth(device.getMinWidth()+60);
+			
+			device.setText(Inputs.getDevices().get(sectionControls.get(section)).name);
+			
+			table.addButton(">", ()->{
+				int i = sectionControls.get(section);
+				
+				if(i+1 < devices.size){
+					sectionControls.put(section, i+1);
+					KeyBinds.setDevice(section, devices.get(i+1));
+					setup();
+				}
+			}, b->{
+				b.setDisabled(sectionControls.get(section) + 1 >= devices.size);
+			}).size(50);
+			
+			table.row();
+			table.add().height(10);
+			table.row();
+			
+			for(String s : KeyBinds.getBinds(section)){
+				Label keylabel = new Label(KeyBinds.toString(section, KeyBinds.get(section, s)));
+				
+				keylabel.setColor(style.keyColor);
+				
+				table.add(Strings.capitalize(s), style.keyNameColor).left().padRight(40).padLeft(8);
+				table.add(keylabel).left().minWidth(90).padRight(20);
+				table.addButton("Rebind", ()->{
+					openDialog(section, s);
+				});
+				table.row();
+			}
+			
+			table.setVisible(()->{
+				return this.section.equals(section);
+			});
+			
+			table.addButton("Reset to Defaults", ()->{
+				for(String s : KeyBinds.getBinds(section))
+					KeyBinds.resetKey(section, s);
 				setup();
 				KeyBinds.saveBindings();
-			});
-			table.row();
+			}).colspan(4).padTop(4).fill();
+			
+			stack.add(table);
 		}
+		
+		content().row();
+		
+		content().add(stack).colspan(sections.size);
 		
 		pack();
 	}
 	
-	private void openDialog(String name){
-		Dialog d = new Dialog("Press a key...", "dialog");
+	private void openDialog(String section, String name){
+		rebindDialog = new Dialog("Press a key...", "dialog");
 		
-		d.getTitleTable().getCells().first().pad(4);
-		d.button("Cancel", -1).pad(4);
+		rebindKey = name;
 		
-		d.keyDown(i->{
-			d.hide();
-			KeyBinds.rebindKey(name, i);
+		rebindDialog.getTitleTable().getCells().first().pad(4);
+		rebindDialog.button("Cancel", -1).pad(4);
+		
+		if(KeyBinds.getType(section) == DeviceType.keyboard)
+		rebindDialog.keyDown(i->{
+			rebindDialog.hide();
+			KeyBinds.rebindKey(section, name, i);
 			KeyBinds.saveBindings();
+			rebindKey = null;
 			setup();
 		});
 		
-		d.show(getScene());
-	}
-	
-	private String capitalize(String s){
-		return s.substring(0, 1).toUpperCase()+s.substring(1);
+		rebindDialog.show(getScene());
 	}
 	
 	static public class KeybindDialogStyle {
 		public Color keyColor = Color.WHITE;
 		public Color keyNameColor = Color.WHITE;
+		public Color controllerColor = Color.WHITE;
 	}
 }

@@ -25,7 +25,7 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	public Color clearColor = Color.BLACK;
 	public float shakeIntensity, shaketime;
 	
-	private boolean pixelate;
+	protected boolean pixelate;
 	
 	public RendererModule(){
 		

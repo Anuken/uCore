@@ -329,6 +329,12 @@ public class Table extends WidgetGroup {
 		return add(button);
 	}
 	
+	public Cell<TextButton> addButton(String text, Runnable listener, Consumer<TextButton> cons){
+		TextButton button = newButton(text, listener);
+		cons.accept(button);
+		return add(button);
+	}
+	
 	public ImageButton newIButton(String icon, Runnable listener){
 		ImageButton button = new ImageButton(styles.getDrawable(icon));
 		if(listener != null)
@@ -356,7 +362,7 @@ public class Table extends WidgetGroup {
 		return add(field);
 	}
 	
-	public Cell add(DrawRect draw){
+	public Cell addRect(DrawRect draw){
 		return add(new Element(){
 			public void draw(){
 				draw.draw(getX(), getY(), getWidth(), getHeight());
@@ -1346,7 +1352,8 @@ public class Table extends WidgetGroup {
 		}
 	};
 	
-	static interface DrawRect{
-		void draw(float x, float y, float width, float height);
+	@FunctionalInterface
+	public static interface DrawRect{
+		public void draw(float x, float y, float width, float height);
 	}
 }

@@ -241,7 +241,7 @@ public class Window extends Table {
 		if (stage.getKeyboardFocus() == null) stage.setKeyboardFocus(this);
 
 		keepWithinStage();
-		if(center && !isMovable)
+		if(center && !isMovable && this.getActions().size == 0)
 			centerWindow();
 
 		if (style.stageBackground != null) {

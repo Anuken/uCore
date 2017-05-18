@@ -1,5 +1,6 @@
 package io.anuke.ucore.core;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.ucore.entities.Effect;
@@ -8,12 +9,24 @@ import io.anuke.ucore.modules.ModuleController;
 
 public class Effects{
 	
-	public static void effect(String name, float x, float y){
-		new Effect(name).set(x, y).add();
+	public static Effect effect(String name, float x, float y){
+		return new Effect(name).set(x, y).add();
 	}
 	
-	public static void effect(String name, Entity pos){
-		effect(name, pos.x, pos.y);
+	public static Effect effect(String name, Entity pos){
+		return effect(name, pos.x, pos.y);
+	}
+	
+	public static Effect effect(String name, Color color, float x, float y){
+		Effect e = effect(name, x, y);
+		e.color = color;
+		return e;
+	}
+	
+	public static Effect effect(String name, Color color, Entity entity){
+		Effect e = effect(name, entity);
+		e.color = color;
+		return e;
 	}
 	
 	public static void sound(String name){
