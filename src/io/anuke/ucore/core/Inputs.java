@@ -2,8 +2,6 @@ package io.anuke.ucore.core;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.ControllerAdapter;
-import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.utils.Array;
 
 public class Inputs{
@@ -24,26 +22,19 @@ public class Inputs{
 		
 		devices.add(new InputDevice(DeviceType.keyboard, "Keyboard"));
 		
-		int i = 0;
-		for(Controller c : Controllers.getControllers()){
-			devices.add(new InputDevice(DeviceType.controller, "Controller " + (1+i++), c));
+		if(controllersLoaded()){
+			ControllerBridge.load();
 		}
-		
-		Controllers.addListener(new ControllerAdapter(){
-			public void connected(Controller controller){
-				devices.add(new InputDevice(DeviceType.controller, "Controller " + Controllers.getControllers().size, controller));
-			}
-
-			public void disconnected(Controller controller){
-				for(InputDevice d : devices){
-					if(d.controller == controller){
-						devices.removeValue(d, true);
-						break;
-					}
-						
-				}
-			}
-		});
+	}
+	
+	public static boolean controllersLoaded(){
+		//definitely the best idea
+		try{
+			ControllerBridge.explode();
+			return true;
+		}catch (Error e){
+			return false;
+		}
 	}
 	
 	public static Array<InputDevice> getDevices(){
