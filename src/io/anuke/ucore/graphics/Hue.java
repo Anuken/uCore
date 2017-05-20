@@ -196,7 +196,7 @@ public class Hue{
 	
 	public static Color mix(Color a, Color b, float s, Color to){
 		float i = 1f - s;
-		return to.set(a.r*i + b.r*s, a.g*i + b.g*s, a.b*i + b.b*s, 1f);
+		return to.set(a.r*i + b.r*s, a.g*i + b.g*s, a.b*i + b.b*s, a.a*i + b.a*s);
 	}
 	
 	public static Color blend2d(Color a, Color b, Color c, Color d, float x, float y){

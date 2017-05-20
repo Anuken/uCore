@@ -2,11 +2,14 @@ package io.anuke.ucore.controllers;
 
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.SharedLibraryLoader;
 
 /**XBox controller keys.*/
 public class Xkeys{
 	private static ObjectMap<Integer, String> names = new ObjectMap<>();
+	static public String os = System.getProperty("os.name");
+	static public boolean isWindows = os.contains("Windows");
+	static public boolean isLinux = os.contains("Linux");
+	static public boolean isMac = os.contains("Mac");
 	
 	// Buttons
 	public static final int A;
@@ -40,7 +43,7 @@ public class Xkeys{
 	public static final int R_STICK_HORIZONTAL_AXIS;
 
 	static {
-		if (SharedLibraryLoader.isWindows) {
+		if (isWindows) {
 			A = -1;
 			B = -1;
 			X = -1;
@@ -62,7 +65,7 @@ public class Xkeys{
 			R_STICK_VERTICAL_AXIS = -1;
 			R_STICK_HORIZONTAL_AXIS = -1;
 			R_STICK = -1;
-		} else if (SharedLibraryLoader.isLinux) {
+		} else if (isLinux) {
 			A = 0;
 			B = 1;
 			X = 2;
@@ -84,7 +87,7 @@ public class Xkeys{
 			R_STICK_VERTICAL_AXIS = 4;
 			R_STICK_HORIZONTAL_AXIS = 3;
 			R_STICK = 10;
-		} else if (SharedLibraryLoader.isMac) {
+		} else if (isMac) {
 			A = 11;
 			B = 12;
 			X = 13;

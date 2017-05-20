@@ -23,7 +23,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ObjectMap;
 
-import io.anuke.ucore.modules.ModuleController;
+import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.scene.Action;
 import io.anuke.ucore.scene.Action.ActionProvider;
 import io.anuke.ucore.scene.Element;
@@ -264,7 +264,7 @@ public class Dialog extends Window {
 		setClip(false);
 		setTransform(true);
 		
-		return show(ModuleController.ui().scene);
+		return show(DrawContext.scene);
 	}
 
 	/** {@link #pack() Packs} the dialog and adds it to the stage, centered with default fadeIn action */

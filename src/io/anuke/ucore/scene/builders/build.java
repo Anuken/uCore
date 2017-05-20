@@ -1,6 +1,6 @@
 package io.anuke.ucore.scene.builders;
 
-import io.anuke.ucore.modules.ModuleController;
+import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.ui.layout.Table;
 
@@ -13,7 +13,7 @@ public class build{
 	}
 	
 	public static void begin(){
-		build.scene = ModuleController.ui().scene;
+		build.scene = DrawContext.scene;
 	}
 	
 	public static void begin(Table table){

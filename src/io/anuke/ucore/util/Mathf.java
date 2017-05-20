@@ -12,6 +12,10 @@ public class Mathf{
 		return (float)Math.atan2(x, y) * MathUtils.radDeg;
 	}
 	
+	public static <T> T choose(T... items){
+		return items[random(0, items.length-1)];
+	}
+	
 	public static int random(int a, int b){
 		return MathUtils.random(a, b);
 	}
