@@ -1,8 +1,5 @@
 package io.anuke.ucore.scene;
 
-import java.util.function.BooleanSupplier;
-import java.util.function.IntConsumer;
-
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
@@ -11,6 +8,9 @@ import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.utils.ChangeListener;
 import io.anuke.ucore.scene.utils.ClickListener;
+import io.anuke.ucore.scene.utils.function.KeyListenable;
+import io.anuke.ucore.scene.utils.function.Listenable;
+import io.anuke.ucore.scene.utils.function.VisibilityProvider;
 
 /**Extends the BaseElement (Actor) class to provide more functionality.
  * (that is probably a terrible idea)*/
@@ -18,7 +18,7 @@ public class Element extends BaseElement{
 	private static final Vector2 vec = new Vector2();
 	
 	protected float alpha = 1f;
-	private BooleanSupplier visibility;
+	private VisibilityProvider visibility;
 	
 	@Override
 	public void draw (Batch batch, float parentAlpha) {
@@ -45,7 +45,7 @@ public class Element extends BaseElement{
 	public void act (float delta) {
 		super.act(delta);
 		if(visibility != null)
-			setVisible(visibility.getAsBoolean());
+			setVisible(visibility.visible());
 	}
 	
 	public Vector2 worldPos(){
@@ -53,22 +53,22 @@ public class Element extends BaseElement{
 	}
 	
 	/**Adds a keydown input listener.*/
-	public void keyDown(IntConsumer cons){
+	public void keyDown(KeyListenable cons){
 		addListener(new InputListener(){
 			public boolean keyDown (InputEvent event, int keycode) {
-				cons.accept(keycode);
+				cons.pressed(keycode);
 				return true;
 			}
 		});
 	}
 	
 	/**Adds a click listener.*/
-	public ClickListener clicked(Runnable r){
+	public ClickListener clicked(Listenable r){
 		ClickListener click;
 		addListener(click = new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
-				r.run();
+				r.listen();
 			}
 		});
 		return click;
@@ -84,26 +84,26 @@ public class Element extends BaseElement{
 	}
 	
 	/**Adds a click listener.*/
-	public void changed(Runnable r){
+	public void changed(Listenable r){
 		addListener(new ChangeListener(){
 			@Override
 			public void changed(ChangeEvent event, Element actor){
-				r.run();
+				r.listen();
 			}
 		});
 	}
 	
-	public void update(Runnable r){
+	public void update(Listenable r){
 		addAction(new Action(){
 			@Override
 			public boolean act(float delta){
-				r.run();
+				r.listen();
 				return false;
 			}
 		});
 	}
 	
-	public void setVisible(BooleanSupplier vis){
+	public void setVisible(VisibilityProvider vis){
 		visibility = vis;
 	}
 }

@@ -1,6 +1,5 @@
 package io.anuke.ucore.scene.ui;
 
-import java.util.function.Consumer;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,13 +11,14 @@ import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.ui.layout.Table;
+import io.anuke.ucore.scene.utils.function.ColorListenable;
 import io.anuke.ucore.util.Mathf;
 
 public class ColorPicker extends Table{
 	private static Texture hue;
 	
 	private Bar hbar, sbar, bbar;
-	private Consumer<Color> changed;
+	private ColorListenable changed;
 	private Color color = Color.CORAL.cpy(), tmp = new Color();
 	
 	public ColorPicker(){
@@ -84,7 +84,7 @@ public class ColorPicker extends Table{
 		Hue.fromHSB(hue, sat, bri, color);
 	}
 	
-	public void colorChanged(Consumer<Color> cons){
+	public void colorChanged(ColorListenable cons){
 		changed = cons;
 	}
 	

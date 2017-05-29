@@ -18,8 +18,6 @@ package io.anuke.ucore.scene.ui.layout;
 
 import static io.anuke.ucore.core.DrawContext.skin;
 
-import java.util.function.Consumer;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -34,6 +32,7 @@ import io.anuke.ucore.scene.ui.*;
 import io.anuke.ucore.scene.ui.Label.LabelStyle;
 import io.anuke.ucore.scene.ui.layout.Value.Fixed;
 import io.anuke.ucore.scene.utils.Layout;
+import io.anuke.ucore.scene.utils.function.*;
 /** A group that sizes and positions children using table constraints. By default, {@link #getTouchable()} is
  * {@link Touchable#childrenOnly}.
  * <p>
@@ -302,21 +301,21 @@ public class Table extends WidgetGroup {
 		return add(stack);
 	}
 	
-	public CheckBox newCheck(String text, Consumer<Boolean> listener){
+	public CheckBox newCheck(String text, CheckListenable listener){
 		CheckBox button = new CheckBox(text);
 		if(listener != null)
 		button.changed(()->{
-			listener.accept(button.isChecked());
+			listener.listen(button.isChecked());
 		});
 		return button;
 	}
 	
-	public Cell<CheckBox> addCheck(String text, Consumer<Boolean> listener){
+	public Cell<CheckBox> addCheck(String text, CheckListenable listener){
 		CheckBox button = newCheck(text, listener);
 		return add(button);
 	}
 	
-	public TextButton newButton(String text, Runnable listener){
+	public TextButton newButton(String text, Listenable listener){
 		TextButton button = new TextButton(text);
 		if(listener != null)
 		button.changed(listener);
@@ -324,40 +323,40 @@ public class Table extends WidgetGroup {
 		return button;
 	}
 	
-	public Cell<TextButton> addButton(String text, Runnable listener){
+	public Cell<TextButton> addButton(String text, Listenable listener){
 		TextButton button = newButton(text, listener);
 		return add(button);
 	}
 	
-	public Cell<TextButton> addButton(String text, Runnable listener, Consumer<TextButton> cons){
+	public Cell<TextButton> addButton(String text, Listenable listener, ButtonTweaker cons){
 		TextButton button = newButton(text, listener);
-		cons.accept(button);
+		cons.tweak(button);
 		return add(button);
 	}
 	
-	public ImageButton newIButton(String icon, Runnable listener){
+	public ImageButton newIButton(String icon, Listenable listener){
 		ImageButton button = new ImageButton(skin.getDrawable(icon));
 		if(listener != null)
 		button.changed(listener);
 		return button;
 	}
 	
-	public Cell<ImageButton> addIButton(String icon, Runnable listener){
+	public Cell<ImageButton> addIButton(String icon, Listenable listener){
 		ImageButton button = newIButton(icon, listener);
 		return add(button);
 	}
 	
-	public TextField newField(String text, Consumer<String> listener){
+	public TextField newField(String text, FieldListenable listener){
 		TextField field = new TextField(text);
 		if(listener != null)
 			field.changed(()->{
-				listener.accept(field.getText());
+				listener.listen(field.getText());
 			});
 		
 		return field;
 	}
 	
-	public Cell<TextField> addField(String text, Consumer<String> listener){
+	public Cell<TextField> addField(String text, FieldListenable listener){
 		TextField field = newField(text, listener);
 		return add(field);
 	}

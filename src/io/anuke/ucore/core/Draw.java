@@ -1,7 +1,6 @@
 package io.anuke.ucore.core;
 
 import java.util.Stack;
-import java.util.function.BiConsumer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -29,7 +28,7 @@ public class Draw{
 	
 	private static Stack<Batch> batches = new Stack<Batch>();
 	
-	private static ObjectMap<String, BiConsumer<Float, Float>> draws = new ObjectMap<>();
+	private static ObjectMap<String, Drawer> draws = new ObjectMap<>();
 	private static ObjectMap<String, Surface> surfaces = new ObjectMap<>();
 	private static Stack<Surface> surfaceStack = new Stack<>();
 	
@@ -206,12 +205,12 @@ public class Draw{
 		sprite.draw(batch());
 	}
 	
-	public static void drawable(String name, BiConsumer<Float, Float> run){
+	public static void drawable(String name, Drawer run){
 		draws.put(name, run);
 	}
 	
 	public static void draw(String name, float x, float y){
-		draws.get(name).accept(x, y);
+		draws.get(name).draw(x, y);
 	}
 	
 	public static void patch(String name, float x, float y, float width, float height){
@@ -533,5 +532,9 @@ public class Draw{
 		if(DrawContext.skin != null){
 			DrawContext.skin.dispose();
 		}
+	}
+	
+	public interface Drawer{
+		public void draw(float x, float y);
 	}
 }

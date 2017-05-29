@@ -1,12 +1,11 @@
 package io.anuke.ucore.scene.builders;
 
-import java.util.function.BooleanSupplier;
-
 import com.badlogic.gdx.utils.Align;
 
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.ui.layout.Cell;
 import io.anuke.ucore.scene.ui.layout.Table;
+import io.anuke.ucore.scene.utils.function.VisibilityProvider;
 
 public abstract class builder<T extends builder, N extends Element>{
 	public Cell<N> cell;
@@ -16,7 +15,7 @@ public abstract class builder<T extends builder, N extends Element>{
 		return build.getTable();
 	}
 	
-	public void visible(BooleanSupplier vis){
+	public void visible(VisibilityProvider vis){
 		element.setVisible(vis);
 	}
 	

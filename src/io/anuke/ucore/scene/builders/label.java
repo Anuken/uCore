@@ -1,10 +1,8 @@
 package io.anuke.ucore.scene.builders;
-
-import java.util.function.Consumer;
-
 import com.badlogic.gdx.graphics.Color;
 
 import io.anuke.ucore.scene.ui.Label;
+import io.anuke.ucore.scene.utils.function.StringSupplier;
 
 public class label extends builder<label, Label>{
 	
@@ -20,7 +18,7 @@ public class label extends builder<label, Label>{
 		});
 	}
 	
-	public label update(Consumer<Label> run){
+	public label update(LabelUpdater run){
 		element.update(()->{
 			run.accept(element);
 		});
@@ -32,7 +30,7 @@ public class label extends builder<label, Label>{
 		return this;
 	}
 	
-	public interface StringSupplier{
-		String get();
+	public interface LabelUpdater{
+		public void accept(Label label);
 	}
 }

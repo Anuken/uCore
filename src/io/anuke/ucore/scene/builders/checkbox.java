@@ -1,8 +1,7 @@
 package io.anuke.ucore.scene.builders;
 
-import java.util.function.Consumer;
-
 import io.anuke.ucore.scene.ui.CheckBox;
+import io.anuke.ucore.scene.utils.function.CheckListenable;
 
 public class checkbox extends builder<checkbox, CheckBox>{
 	
@@ -10,19 +9,19 @@ public class checkbox extends builder<checkbox, CheckBox>{
 		this(text, null);
 	}
 	
-	public checkbox(String text, Consumer<Boolean> listener){
+	public checkbox(String text, CheckListenable listener){
 		element = new CheckBox(text);
 		if(listener != null)
 		element.changed(()->{
-			listener.accept(element.isChecked());
+			listener.listen(element.isChecked());
 		});
 		
 		cell = context().add(element);
 	}
 	
-	public checkbox changed(Consumer<Boolean> listener){
+	public checkbox changed(CheckListenable listener){
 		element.changed(()->{
-			listener.accept(element.isChecked());
+			listener.listen(element.isChecked());
 		});
 		return this;
 	}

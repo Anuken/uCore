@@ -19,7 +19,6 @@ package io.anuke.ucore.scene.ui;
 import static io.anuke.ucore.core.DrawContext.skin;
 
 import java.lang.StringBuilder;
-import java.util.function.Consumer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -43,6 +42,7 @@ import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.utils.*;
 import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
+import io.anuke.ucore.scene.utils.function.TypingListenable;
 /** A single-line text input field.
  * <p>
  * The preferred height of a text field is the height of the {@link TextFieldStyle#font} and {@link TextFieldStyle#background}.
@@ -557,11 +557,11 @@ public class TextField extends Element implements Disableable {
 		this.listener = listener;
 	}
 	
-	public void typed(Consumer<Character> cons){
+	public void typed(TypingListenable cons){
 		setTextFieldListener(new TextFieldListener() {
 			@Override
 			public void keyTyped(TextField textField, char c) {
-				cons.accept(c);
+				cons.typed(c);
 			}
 		});
 	}
