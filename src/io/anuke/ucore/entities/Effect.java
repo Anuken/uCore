@@ -1,21 +1,19 @@
 package io.anuke.ucore.entities;
 
-import java.util.function.Consumer;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class Effect extends TimedEntity{
 	static ObjectMap<String, EffectDraw> draws = new ObjectMap<>();
 	
-	public Consumer<Effect> renderer;
+	public EffectRenderer renderer;
 	public Color color = Color.WHITE;
 	
-	public static void create(String name, float life, Consumer<Effect> cons){
+	public static void create(String name, float life, EffectRenderer cons){
 		draws.put(name, new EffectDraw(cons, life));
 	}
 	
-	public Effect(float lifetime, Consumer<Effect> rend){
+	public Effect(float lifetime, EffectRenderer rend){
 		renderer = rend;
 		this.lifetime = lifetime;
 	}
@@ -28,16 +26,20 @@ public class Effect extends TimedEntity{
 	
 	@Override
 	public void drawOver(){
-		renderer.accept(this);
+		renderer.render(this);
 	}
 	
 	static class EffectDraw{
-		Consumer<Effect> draw;
+		EffectRenderer draw;
 		float lifetime;
 		
-		public EffectDraw(Consumer<Effect> draw, float life){
+		public EffectDraw(EffectRenderer draw, float life){
 			this.lifetime = life;
 			this.draw = draw;
 		}
+	}
+	
+	static public interface EffectRenderer{
+		public void render(Effect effect);
 	}
 }

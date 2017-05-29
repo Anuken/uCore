@@ -1,8 +1,6 @@
 package io.anuke.ucore.entities;
 
 import java.util.HashMap;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;

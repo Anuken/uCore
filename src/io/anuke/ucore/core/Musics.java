@@ -2,6 +2,7 @@ package io.anuke.ucore.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Music.OnCompletionListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
@@ -19,19 +20,20 @@ public class Musics{
 		for(String s : names){
 			music.add(Gdx.audio.newMusic(Gdx.files.internal("music/" + s)));
 			map.put(s.split("\\.")[0], music.peek());
-
-			music.peek().setOnCompletionListener(other -> {
-				if(!shuffling)
-					return;
-				
-				float vol = Settings.getInt("musicvol", 10)/10f;
-				while(playing == other){
-					playing = music.get(Mathf.random(music.size - 1));
+			
+			music.peek().setOnCompletionListener(new OnCompletionListener(){
+				public void onCompletion(Music other){
+					if(!shuffling)
+						return;
+					
+					float vol = Settings.getInt("musicvol", 10)/10f;
+					while(playing == other){
+						playing = music.get(Mathf.random(music.size - 1));
+					}
+					
+					playing.setVolume(volume*vol);
+					playing.play();
 				}
-				
-				playing.setVolume(volume*vol);
-				playing.play();
-
 			});
 		}
 	}

@@ -1,7 +1,6 @@
 package io.anuke.ucore.util;
 
 import java.util.Iterator;
-import java.util.function.Consumer;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
