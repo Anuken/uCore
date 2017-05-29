@@ -5,9 +5,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
-import io.anuke.ucore.core.*;
+import io.anuke.ucore.core.DrawContext;
+import io.anuke.ucore.core.Inputs;
 import io.anuke.ucore.core.Inputs.DeviceType;
 import io.anuke.ucore.core.Inputs.InputDevice;
+import io.anuke.ucore.core.KeyBinds;
 import io.anuke.ucore.scene.ui.layout.Stack;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.util.Strings;
@@ -29,7 +31,7 @@ public class KeybindDialog extends Dialog{
 		section = sections.first();
 
 		if(Inputs.controllersLoaded()){
-			ControllerBridge.keybindListen(this);
+			Inputs.invokeControl("io.anuke.ucontrol.ControllerBridge", "keybindListen", this);
 		}
 
 	}

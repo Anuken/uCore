@@ -32,11 +32,16 @@ public class Caches{
 		current.draw(region, x, y);
 	}
 	
+	/**Calls begin() with 2000 sprites per cache.*/
 	public static void begin(){
+		begin(2000);
+	}
+	
+	public static void begin(int size){
 		if(current != null)
 			throw new RuntimeException("Call end() before begin()!");
 		
-		current = new Cache();
+		current = new Cache(size);
 		current.begin();
 		caches.add(current);
 	}

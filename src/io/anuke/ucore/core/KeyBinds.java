@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
-import io.anuke.ucore.controllers.Xkeys;
 import io.anuke.ucore.core.Inputs.DeviceType;
 import io.anuke.ucore.core.Inputs.InputDevice;
 
@@ -202,7 +201,11 @@ public class KeyBinds{
 		if(d.type == DeviceType.keyboard){
 			return Keys.toString(keycode);
 		}else{
-			return Xkeys.toString(keycode);
+			try{
+				return (String)Inputs.invokeControl("io.anuke.ucontrol.Xkeys", "toString", keycode);
+			}catch (Throwable e){}
+			
+			return "nil";
 		}
 	}
 }

@@ -1,8 +1,8 @@
 package io.anuke.ucore.core;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 public class Inputs{
 	private static boolean[] buttons = new boolean[5];
@@ -22,17 +22,21 @@ public class Inputs{
 		
 		devices.add(new InputDevice(DeviceType.keyboard, "Keyboard"));
 		
-		if(controllersLoaded()){
-			ControllerBridge.load();
-		}
+		invokeControl("io.anuke.ucontrol.ControllerBridge", "load");
+	}
+	
+	public static Object invokeControl(String classname, String method, Object...args){
+		try{
+			return ClassReflection.getMethod(ClassReflection.forName(classname), method).invoke(null, args);
+		}catch (Throwable e){}
+		return null;
 	}
 	
 	public static boolean controllersLoaded(){
-		//definitely the best idea
 		try{
-			ControllerBridge.explode();
+			ClassReflection.forName("io.anuke.ucontrol.ControllerBridge");
 			return true;
-		}catch (Error e){
+		}catch (Throwable e){
 			return false;
 		}
 	}
@@ -105,13 +109,13 @@ public class Inputs{
 	public static class InputDevice{
 		public final DeviceType type;
 		public final String name;
-		public final Controller controller;
+		public final Object controller;
 		
 		public InputDevice(DeviceType type, String name){
 			this(type, name, null);
 		}
 		
-		public InputDevice(DeviceType type, String name, Controller controller){
+		public InputDevice(DeviceType type, String name, Object controller){
 			this.type = type;
 			this.name = name;
 			this.controller = null;

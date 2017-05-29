@@ -50,6 +50,7 @@ public class Surface implements Disposable{
 	
 	public void setScale(int scale){
 		this.scale = scale;
+		resize();
 	}
 	
 	public void begin(){

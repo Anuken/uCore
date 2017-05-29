@@ -8,12 +8,15 @@ import com.badlogic.gdx.utils.IntArray;
 import io.anuke.ucore.core.Draw;
 
 public class Cache{
-	private static final int maxDraws = 2000;
-	
 	protected Array<SpriteCache> caches = new Array<>();
 	protected IntArray cacheIDs = new IntArray();
+	private int size = 2000;
 	private SpriteCache current;
 	private int draws = 0;
+	
+	public Cache(int size){
+		this.size = size;
+	}
 	
 	public void render(){
 		Caches.render(this);
@@ -42,12 +45,11 @@ public class Cache{
 	
 	private void checkCache(){
 		if(current == null){
-			current = new SpriteCache(2000, true);
+			current = new SpriteCache(size, true);
 			caches.add(current);
 			current.beginCache();
 		}else{
-			if(draws > maxDraws){
-				
+			if(draws > size-10){
 				cacheIDs.add(current.endCache());
 				
 				current = null;
