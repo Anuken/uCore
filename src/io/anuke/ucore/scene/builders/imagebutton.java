@@ -1,7 +1,7 @@
 package io.anuke.ucore.scene.builders;
 
+import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.scene.ui.ImageButton;
-import io.anuke.ucore.scene.utils.function.Listenable;
 
 public class imagebutton extends builder<imagebutton, ImageButton>{
 	

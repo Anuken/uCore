@@ -34,6 +34,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.Timer.Task;
 
+import io.anuke.ucore.function.TypingListenable;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Group;
 import io.anuke.ucore.scene.Scene;
@@ -42,7 +43,6 @@ import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.utils.*;
 import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
-import io.anuke.ucore.scene.utils.function.TypingListenable;
 /** A single-line text input field.
  * <p>
  * The preferred height of a text field is the height of the {@link TextFieldStyle#font} and {@link TextFieldStyle#background}.

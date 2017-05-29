@@ -4,13 +4,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.function.KeyListenable;
+import io.anuke.ucore.function.Listenable;
+import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.utils.ChangeListener;
 import io.anuke.ucore.scene.utils.ClickListener;
-import io.anuke.ucore.scene.utils.function.KeyListenable;
-import io.anuke.ucore.scene.utils.function.Listenable;
-import io.anuke.ucore.scene.utils.function.VisibilityProvider;
 
 /**Extends the BaseElement (Actor) class to provide more functionality.
  * (that is probably a terrible idea)*/

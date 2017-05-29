@@ -5,13 +5,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 
 import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.function.ColorListenable;
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.graphics.PixmapUtils;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.ui.layout.Table;
-import io.anuke.ucore.scene.utils.function.ColorListenable;
 import io.anuke.ucore.util.Mathf;
 
 public class ColorPicker extends Table{

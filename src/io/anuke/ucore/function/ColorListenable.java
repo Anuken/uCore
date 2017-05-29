@@ -1,4 +1,4 @@
-package io.anuke.ucore.scene.utils.function;
+package io.anuke.ucore.function;
 
 import com.badlogic.gdx.graphics.Color;
 

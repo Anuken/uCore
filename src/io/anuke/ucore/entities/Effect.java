@@ -3,6 +3,8 @@ package io.anuke.ucore.entities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ObjectMap;
 
+import io.anuke.ucore.function.EffectRenderer;
+
 public class Effect extends TimedEntity{
 	static ObjectMap<String, EffectDraw> draws = new ObjectMap<>();
 	
@@ -37,9 +39,5 @@ public class Effect extends TimedEntity{
 			this.lifetime = life;
 			this.draw = draw;
 		}
-	}
-	
-	static public interface EffectRenderer{
-		public void render(Effect effect);
 	}
 }

@@ -2,10 +2,10 @@ package io.anuke.ucore.scene.builders;
 
 import com.badlogic.gdx.utils.Align;
 
+import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.ui.layout.Cell;
 import io.anuke.ucore.scene.ui.layout.Table;
-import io.anuke.ucore.scene.utils.function.VisibilityProvider;
 
 public abstract class builder<T extends builder, N extends Element>{
 	public Cell<N> cell;

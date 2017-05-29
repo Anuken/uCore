@@ -5,6 +5,8 @@ import java.util.Iterator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
+import io.anuke.ucore.function.Consumer;
+
 /**
  * A basic quad tree.
  * <p>

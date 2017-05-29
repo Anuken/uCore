@@ -1,4 +1,4 @@
-package io.anuke.ucore.scene.utils.function;
+package io.anuke.ucore.function;
 
 /**Listener lambda class.*/
 public interface Listenable{

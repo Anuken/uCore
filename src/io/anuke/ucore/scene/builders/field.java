@@ -1,7 +1,7 @@
 package io.anuke.ucore.scene.builders;
 
+import io.anuke.ucore.function.FieldListenable;
 import io.anuke.ucore.scene.ui.TextField;
-import io.anuke.ucore.scene.utils.function.FieldListenable;
 
 public class field extends builder<field, TextField>{
 	

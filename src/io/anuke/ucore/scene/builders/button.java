@@ -2,8 +2,8 @@ package io.anuke.ucore.scene.builders;
 
 import com.badlogic.gdx.graphics.Color;
 
+import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.scene.ui.TextButton;
-import io.anuke.ucore.scene.utils.function.Listenable;
 
 public class button extends builder<button, TextButton>{
 	

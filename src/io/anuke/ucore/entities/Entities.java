@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.ObjectSet;
 
 import io.anuke.ucore.core.DrawContext;
+import io.anuke.ucore.function.Consumer;
+import io.anuke.ucore.function.Predicate;
 import io.anuke.ucore.util.*;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 

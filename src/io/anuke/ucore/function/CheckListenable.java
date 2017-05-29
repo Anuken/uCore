@@ -1,4 +1,4 @@
-package io.anuke.ucore.scene.utils.function;
+package io.anuke.ucore.function;
 
 public interface CheckListenable{
 	public void listen(boolean checked);
