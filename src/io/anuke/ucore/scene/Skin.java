@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 
+import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.scene.style.*;
 
 /** A skin stores resources for UI widgets to use (texture regions, ninepatches, fonts, colors, etc). Resources are named and can
@@ -41,7 +42,7 @@ import io.anuke.ucore.scene.style.*;
  * @author Nathan Sweet */
 public class Skin implements Disposable {
 	ObjectMap<Class, ObjectMap<String, Object>> resources = new ObjectMap();
-	TextureAtlas atlas;
+	Atlas atlas;
 	
 
 	/** Creates an empty skin. */
@@ -54,7 +55,7 @@ public class Skin implements Disposable {
 	public Skin (FileHandle skinFile) {
 		FileHandle atlasFile = skinFile.sibling(skinFile.nameWithoutExtension() + ".atlas");
 		if (atlasFile.exists()) {
-			atlas = new TextureAtlas(atlasFile);
+			atlas = new Atlas(atlasFile);
 			addRegions(atlas);
 		}
 
@@ -63,7 +64,7 @@ public class Skin implements Disposable {
 
 	/** Creates a skin containing the resources in the specified skin JSON file and the texture regions from the specified atlas.
 	 * The atlas is automatically disposed when the skin is disposed. */
-	public Skin (FileHandle skinFile, TextureAtlas atlas) {
+	public Skin (FileHandle skinFile, Atlas atlas) {
 		this.atlas = atlas;
 		addRegions(atlas);
 		load(skinFile);
@@ -71,7 +72,7 @@ public class Skin implements Disposable {
 
 	/** Creates a skin containing the texture regions from the specified atlas. The atlas is automatically disposed when the skin
 	 * is disposed. */
-	public Skin (TextureAtlas atlas) {
+	public Skin (Atlas atlas) {
 		this.atlas = atlas;
 		addRegions(atlas);
 	}
@@ -394,7 +395,7 @@ public class Skin implements Disposable {
 	}
 
 	/** Returns the {@link TextureAtlas} passed to this skin constructor, or null. */
-	public TextureAtlas getAtlas () {
+	public Atlas getAtlas () {
 		return atlas;
 	}
 
