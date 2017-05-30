@@ -29,6 +29,7 @@ public class Cell<T extends Element> implements Poolable {
 	Integer expandX, expandY;
 	Integer colspan;
 	Boolean uniformX, uniformY;
+	Unit unit = Unit.dp;
 
 	Element actor;
 	float actorX, actorY;
@@ -72,6 +73,15 @@ public class Cell<T extends Element> implements Poolable {
 	/** Returns true if the cell's actor is not null. */
 	public boolean hasActor () {
 		return actor != null;
+	}
+	
+	/**Sets the size units of the cell.*/
+	public Cell<T> units(Unit unit){
+		this.unit = unit;
+		minWidth.unit = minHeight.unit = maxWidth.unit = maxHeight.unit 
+				= spaceTop.unit = spaceBottom.unit = spaceLeft.unit = spaceRight.unit
+						= padTop.unit = padBottom.unit = padLeft.unit = padRight.unit = unit;
+		return this;
 	}
 
 	/** Sets the minWidth, prefWidth, maxWidth, minHeight, prefHeight, and maxHeight to the specified value. */
@@ -910,6 +920,7 @@ public class Cell<T extends Element> implements Poolable {
 		colspan = cell.colspan;
 		uniformX = cell.uniformX;
 		uniformY = cell.uniformY;
+		units(cell.unit);
 	}
 
 	/** @param cell May be null. */
@@ -967,6 +978,7 @@ public class Cell<T extends Element> implements Poolable {
 			defaults.colspan = onei;
 			defaults.uniformX = null;
 			defaults.uniformY = null;
+			defaults.unit = Unit.dp;
 		}
 		return defaults;
 	}

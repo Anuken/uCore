@@ -23,6 +23,8 @@ import io.anuke.ucore.scene.utils.Layout;
  * number of value instances that need to be created and reduces verbosity in code that specifies values.
  * @author Nathan Sweet */
 abstract public class Value {
+	public Unit unit = Unit.px;
+	
 	/** @param context May be null. */
 	abstract public float get (Element context);
 
@@ -39,7 +41,7 @@ abstract public class Value {
 		}
 
 		public float get (Element context) {
-			return value;
+			return unit.inPixels(value);
 		}
 	}
 
