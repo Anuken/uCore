@@ -81,6 +81,15 @@ public class Settings{
 		return defaults.get(name);
 	}
 	
+	/**Set up a bunch of defaults.
+	 * Format: name1, default1, name2, default2, etc
+	 */
+	public static void defaultList(Object...objects){
+		for(int i = 0; i < objects.length; i +=2 ){
+			defaults((String)objects[i], objects[i+1]);
+		}
+	}
+	
 	/**Sets a default value up.
 	*  This is REQUIRED for every pref value.*/
 	public static void defaults(String name, Object object){
