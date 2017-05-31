@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * @author Nathan Sweet */
 public class TiledDrawable extends TextureRegionDrawable {
 	private final Color color = new Color(1, 1, 1, 1);
+	private float tileWidth, tileHeight;
 
 	public TiledDrawable () {
 		super();
@@ -37,13 +38,24 @@ public class TiledDrawable extends TextureRegionDrawable {
 	public TiledDrawable (TextureRegionDrawable drawable) {
 		super(drawable);
 	}
+	
+	public void setRegion (TextureRegion region) {
+		super.setRegion(region);
+		this.tileWidth = region.getRegionWidth();
+		this.tileHeight = region.getRegionHeight();
+	}
+	
+	public void setTileSize(float w, float h){
+		tileWidth = w;
+		tileHeight = h;
+	}
 
 	public void draw (Batch batch, float x, float y, float width, float height) {
 		float batchColor = batch.getPackedColor();
 		batch.setColor(batch.getColor().mul(color));
 
 		TextureRegion region = getRegion();
-		float regionWidth = region.getRegionWidth(), regionHeight = region.getRegionHeight();
+		float regionWidth = tileWidth, regionHeight = tileHeight;
 		int fullX = (int)(width / regionWidth), fullY = (int)(height / regionHeight);
 		float remainingX = width - regionWidth * fullX, remainingY = height - regionHeight * fullY;
 		float startX = x, startY = y;
