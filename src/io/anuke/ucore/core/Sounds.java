@@ -12,6 +12,8 @@ public class Sounds{
 	private static float falloff = 20000f;
 	
 	public static void load(String... names){
+		Settings.defaults("sfxvol", 10);
+		
 		for(String s : names){
 			map.put(s.split("\\.")[0], Gdx.audio.newSound(Gdx.files.internal("sounds/"+s)));
 		}
@@ -36,7 +38,7 @@ public class Sounds{
 	
 	public static void play(String name, float tvol){
 		if(!map.containsKey(name)) throw new IllegalArgumentException("Sound \""+name+"\" does not exist!");
-		float vol = Settings.getInt("sfxvol", 10)/10f;
+		float vol = Settings.getInt("sfxvol")/10f;
 		get(name).play(volume*vol*tvol);
 	}
 	

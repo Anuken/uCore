@@ -28,7 +28,7 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	protected boolean pixelate;
 	
 	public RendererModule(){
-		
+		Settings.defaults("screenshake", 4);
 	}
 	
 	public void shake(float intensity, float duration){
@@ -69,7 +69,7 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	
 	public void updateShake(){
 		if(shaketime > 0){
-			float intensity = shakeIntensity*(Settings.getInt("screenshake", 4)/4f);
+			float intensity = shakeIntensity*(Settings.getInt("screenshake")/4f);
 			camera.position.add(Mathf.range(intensity), Mathf.range(intensity), 0);
 			shakeIntensity -= 0.25f;
 			shaketime -= delta();

@@ -38,30 +38,31 @@ public class Settings{
 		prefs.putBoolean(name, val);
 	}
 	
+	public static void putLong(String name, long val){
+		prefs.putLong(name, val);
+	}
+	
 	public static String getString(String name){
-		return prefs.getString(name, (String)defaults.get(name));
+		return prefs.getString(name, (String)def(name));
 	}
 	
 	public static float getFloat(String name){
-		return prefs.getFloat(name, (Float)defaults.get(name));
-	}
-	
-	public static float getFloat(String name, float f){
-		return prefs.getFloat(name, (Integer)defaults.get(name, f));
+		return prefs.getFloat(name, (Float)def(name));
 	}
 	
 	public static int getInt(String name){
-		return prefs.getInteger(name, (Integer)defaults.get(name));
-	}
-	
-	public static int getInt(String name, int i){
-		return prefs.getInteger(name, (Integer)defaults.get(name, i));
+		return prefs.getInteger(name, (Integer)def(name));
 	}
 	
 	public static boolean getBool(String name){
-		return prefs.getBoolean(name, (Boolean)defaults.get(name));
+		return prefs.getBoolean(name, (Boolean)def(name));
 	}
 	
+	public static long getLong(String name){
+		return prefs.getLong(name, (Long)def(name));
+	}
+	
+	/**Keybinds only.*/
 	public static int getIntKey(String name, int def){
 		return prefs.getInteger(name, def);
 	}
@@ -72,6 +73,12 @@ public class Settings{
 	
 	public static void save(){
 		prefs.flush();
+	}
+	
+	public static Object def(String name){
+		if(!defaults.containsKey(name))
+			throw new IllegalArgumentException("No setting with name \"" + name + "\" exists!");
+		return defaults.get(name);
 	}
 	
 	/**Sets a default value up.
