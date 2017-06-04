@@ -351,6 +351,18 @@ public class Draw{
 		//Draw.color();
 	}
 	
+	public static void lineAngle(float x, float y, float angle, float length){
+		vector.setLength(length).setAngle(angle);
+		
+		line(x, y, x+vector.x, y+vector.y);
+	}
+	
+	public static void lineAngleCenter(float x, float y, float angle, float length){
+		vector.setLength(length).setAngle(angle);
+		
+		line(x-vector.x/2, y-vector.y/2, x+vector.x/2, y+vector.y/2);
+	}
+	
 	public static void line(float x, float y, float x2, float y2){
 		float length = Vector2.dst(x, y, x2, y2) + thickness / 2;
 		float angle = ((float)Math.atan2(y2 - y, x2 - x) * MathUtils.radDeg);
@@ -365,8 +377,8 @@ public class Draw{
 		batch().draw(texture, x - thickness / 2, y - thickness / 2, thickness / 2, thickness / 2, length, thickness, 1f, 1f, angle);
 	}
 	
-	public static void circle(float x, float y, float scl){
-		polygon(circle, x, y, scl);
+	public static void circle(float x, float y, float rad){
+		polygon(circle, x, y, rad);
 	}
 	
 	public static void dashcircle(float x, float y, float scl){
@@ -389,6 +401,54 @@ public class Draw{
 	
 	public static void spikes(float x, float y, float rad, float length, int spikes){
 		spikes(x, y, rad, length, spikes, 0);
+	}
+	
+	public static void polygon(int sides, float x, float y, float radius, float angle){
+		vector.set(0, 0);
+		
+		for(int i = 0; i < sides; i ++){
+			vector.set(radius, 0).setAngle(360f/sides*i+angle+90);
+			float x1 = vector.x;
+			float y1 = vector.y;
+			
+			vector.set(radius, 0).setAngle(360f/sides*(i+1)+angle+90);
+			
+			Draw.line(x1+x, y1+y, vector.x+x, vector.y+y);
+		}
+	}
+	
+	public static void polysegment(int sides, int from, int to, float x, float y, float radius, float angle){
+		vector.set(0, 0);
+		
+		for(int i = from; i < to; i ++){
+			vector.set(radius, 0).setAngle(360f/sides*i+angle+90);
+			float x1 = vector.x;
+			float y1 = vector.y;
+			
+			vector.set(radius, 0).setAngle(360f/sides*(i+1)+angle+90);
+			
+			Draw.line(x1+x, y1+y, vector.x+x, vector.y+y);
+		}
+	}
+	
+	public static void swirl(float x, float y, float radius, float fraction){
+		int sides = 50;
+		int max = (int)(sides*(fraction+0.001f));
+		vector.set(0, 0);
+		
+		for(int i = 0; i < max; i ++){
+			vector.set(radius, 0).setAngle(360f/sides*i);
+			float x1 = vector.x;
+			float y1 = vector.y;
+			
+			vector.set(radius, 0).setAngle(360f/sides*(i+1));
+			
+			Draw.line(x1+x, y1+y, vector.x+x, vector.y+y);
+		}
+	}
+	
+	public static void polygon(int sides, float x, float y, float radius){
+		polygon(sides, x, y, radius, 0);
 	}
 	
 	public static void polygon(Vector2[] vertices, float offsetx, float offsety, float scl){

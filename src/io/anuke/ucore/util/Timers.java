@@ -1,5 +1,6 @@
 package io.anuke.ucore.util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
@@ -42,6 +43,10 @@ public class Timers{
 	
 	public static float time(){
 		return time;
+	}
+	
+	public static void update(){
+		update(Gdx.graphics.getDeltaTime()*60f);
 	}
 	
 	/**Use normal delta time (e. g. gdx delta * 60)*/

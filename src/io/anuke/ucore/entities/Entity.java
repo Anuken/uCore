@@ -45,6 +45,10 @@ public abstract class Entity{
 		return Vector2.dst(other.x, other.y, x, y);
 	}
 	
+	public float distanceTo(float ox, float oy){
+		return Vector2.dst(ox, oy, x, y);
+	}
+	
 	public float drawSize(){
 		return 20;
 	}

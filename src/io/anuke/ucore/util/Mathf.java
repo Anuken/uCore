@@ -40,6 +40,14 @@ public class Mathf{
 		return random(-range, range);
 	}
 	
+	public static float range(float min, float max){
+		if(chance(0.5)){
+			return random(min, max);
+		}else{
+			return -random(min, max);
+		}
+	}
+	
 	public static boolean chance(double d){
 		return Math.random() < d;
 	}
@@ -67,6 +75,7 @@ public class Mathf{
 	public static boolean inRect(float x, float y, float bx, float by, float tx, float ty){
 		return x > bx && y > by && x < tx && y < ty;
 	}
+	
 	
 	public static boolean intersect(float x1, float y1, float s1, float x2, float y2, float s2){
 		return MathUtils.isEqual(x1, x2, s1+s2) && MathUtils.isEqual(y1, y2, s1+s2);

@@ -18,4 +18,8 @@ public abstract class TimedEntity extends Entity{
 	public float ifract(){
 		return time/lifetime;
 	}
+	
+	public float sfract(){
+		return (0.5f-Math.abs(time/lifetime-0.5f))*2f;
+	}
 }

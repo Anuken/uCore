@@ -23,8 +23,12 @@ public class SceneModule<T extends ModuleController<T>> extends Module<T>{
 		scene = new Scene(DrawContext.batch);
 		Inputs.addProcessor(scene);
 		
-		skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-		skin.font().setUseIntegerPositions(false);
+		if(Gdx.files.internal("ui/uiskin.json").exists()){
+			skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+			skin.font().setUseIntegerPositions(false);
+		}else{
+			Gdx.app.error("UI", "ERROR: No skin file found in ui/uiskin.json. UI features are disabled.");
+		}
 		
 		loadContext();
 
@@ -33,7 +37,7 @@ public class SceneModule<T extends ModuleController<T>> extends Module<T>{
 	protected void loadContext(){
 		DrawContext.setScene(scene, skin);
 		
-		if(DrawContext.font == null)
+		if(DrawContext.font == null && skin != null)
 			DrawContext.font = skin.font();
 		
 		for(String s : colorTypes)

@@ -25,8 +25,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.*;
 
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.function.*;
 import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.ui.*;
@@ -300,6 +302,10 @@ public class Table extends WidgetGroup {
 				stack.addChild(actors[i]);
 		}
 		return add(stack);
+	}
+	
+	public Cell<Image> addImage(String name){
+		return add(new Image(Draw.getPatch(name)));
 	}
 	
 	public CheckBox newCheck(String text, CheckListenable listener){

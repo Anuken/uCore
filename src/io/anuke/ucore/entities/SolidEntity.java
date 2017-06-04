@@ -16,6 +16,10 @@ public abstract class SolidEntity extends Entity implements QuadTreeObject{
 		Entities.moveTiled(this, hitsize, hitsize, x, y);
 	}
 	
+	public boolean collidesTile(){
+		return Entities.overlapsTile(Rectangle.tmp.setSize(tilehitwidth, tilehitheight).setCenter(x, y));
+	}
+	
 	public boolean collides(SolidEntity other){
 		return true;
 	}

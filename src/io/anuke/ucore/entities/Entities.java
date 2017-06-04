@@ -3,6 +3,7 @@ package io.anuke.ucore.entities;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.ObjectSet;
 
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
@@ -91,11 +93,33 @@ public class Entities{
 						.setCenter(wx*tilesize, wy*tilesize).overlaps(rect)){
 					
 					Vector2 out = Physics.overlap(rect, Rectangle.tmp2);
-					rect.x += out.x*2.5f;
-					rect.y += out.y*2.5f;
+					rect.x += out.x*3f;
+					rect.y += out.y*3f;
 				}
 			}
 		}
+	}
+	
+	static boolean overlapsTile(Rectangle rect){
+		rect.getCenter(vector);
+		int r = 1;
+		
+		//assumes tilesize is centered
+		int tilex = Mathf.scl2(vector.x, tilesize);
+		int tiley = Mathf.scl2(vector.y, tilesize);
+		
+		for(int dx = -r; dx <= r; dx++){
+			for(int dy = -r; dy <= r; dy++){
+				int wx = dx+tilex, wy = dy+tiley;
+				if(collider.solid(wx, wy) &&
+						Rectangle.tmp2.setSize(tilesize)
+						.setCenter(wx*tilesize, wy*tilesize).overlaps(rect)){
+					
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public static void getNearby(Rectangle rect, Consumer<SolidEntity> out){
@@ -245,7 +269,7 @@ public class Entities{
 	
 	public static void draw(){
 		OrthographicCamera cam = DrawContext.camera;
-		viewport.set(cam.position.x - cam.viewportWidth/2, cam.position.y - cam.viewportHeight/2, cam.viewportWidth, cam.viewportHeight);
+		viewport.set(cam.position.x - cam.viewportWidth/2*cam.zoom, cam.position.y - cam.viewportHeight/2*cam.zoom, cam.viewportWidth*cam.zoom, cam.viewportHeight*cam.zoom);
 		
 		for(Entity e : entities.values()){
 			Rectangle.tmp2.setSize(e.drawSize()).setCenter(e.x, e.y);
@@ -260,6 +284,18 @@ public class Entities{
 			if(Rectangle.tmp2.overlaps(viewport))
 				e.drawOver();
 		}
+	}
+	
+	public static void debugColliders(){
+		Draw.color(Color.YELLOW);
+		for(Entity e : entities.values()){
+			if(e instanceof SolidEntity){
+				SolidEntity s = (SolidEntity)e;
+				s.getBoundingBox(Rectangle.tmp);
+				Draw.linerect(Rectangle.tmp.x, Rectangle.tmp.y, Rectangle.tmp.width, Rectangle.tmp.height);
+			}
+		}
+		Draw.color();
 	}
 	
 	public static void update(boolean callupdate){

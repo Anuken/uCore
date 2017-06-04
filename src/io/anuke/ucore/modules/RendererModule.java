@@ -71,7 +71,7 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 		if(shaketime > 0){
 			float intensity = shakeIntensity*(Settings.getInt("screenshake")/4f);
 			camera.position.add(Mathf.range(intensity), Mathf.range(intensity), 0);
-			shakeIntensity -= 0.25f;
+			shakeIntensity -= 0.25f*delta();
 			shaketime -= delta();
 		}else{
 			shakeIntensity = 0f;
