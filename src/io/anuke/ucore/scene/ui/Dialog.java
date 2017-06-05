@@ -16,7 +16,7 @@
 
 package io.anuke.ucore.scene.ui;
 import static io.anuke.ucore.core.DrawContext.skin;
-import static io.anuke.ucore.scene.actions.Actions.*;
+import static io.anuke.ucore.scene.actions.Actions.sequence;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Interpolation;
@@ -24,8 +24,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.core.DrawContext;
+import io.anuke.ucore.function.ActionProvider;
 import io.anuke.ucore.scene.Action;
-import io.anuke.ucore.scene.Action.ActionProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.actions.Actions;
@@ -51,7 +51,7 @@ public class Dialog extends Window {
 		return sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade));
 	}, 
 	defaultHideAction = ()->{
-		return fadeOut(0.4f, Interpolation.fade);
+		return Actions.fadeOut(0.4f, Interpolation.fade);
 	};
 	
 	Table contentTable, buttonTable;
