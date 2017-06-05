@@ -13,7 +13,7 @@ public enum Unit{
 	dp{
 		@Override
 		public float inPixels(float amount){
-			float scl = (Gdx.app.getType() == ApplicationType.Desktop ? 1f : Gdx.graphics.getDensity() / 1.5f);
+			float scl = ((Gdx.app.getType() == ApplicationType.Desktop || Gdx.app.getType() == ApplicationType.WebGL) ? 1f : Gdx.graphics.getDensity() / 1.5f);
 			return amount*scl;
 		}
 	};

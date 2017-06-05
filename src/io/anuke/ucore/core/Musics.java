@@ -56,6 +56,7 @@ public class Musics{
 	}
 	
 	public static void updateVolume(){
+		if(playing == null) return;
 		float vol = Settings.getInt("musicvol")/10f*volume;
 		playing.setVolume(vol);
 	}

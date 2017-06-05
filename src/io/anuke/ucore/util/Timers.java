@@ -22,6 +22,13 @@ public class Timers{
 		return get(e.getClassName() + e.getLineNumber(), frames);
 	}
 	*/
+	
+	public static void clear(){
+		runs.clear();
+		remove.clear();
+		timers.clear();
+	}
+	
 	public static boolean get(Object object, float frames){
 		return get(object.hashCode() +"", frames);
 	}
