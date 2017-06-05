@@ -4,13 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
+import io.anuke.ucore.function.Callable;
+
 public class Timers{
 	private static float time;
 	private static ObjectMap<String, Float> timers = new ObjectMap<String, Float>();
 	private static Array<DelayRun> runs = new Array<>();
 	private static Array<DelayRun> remove = new Array<DelayRun>();
 	
-	public static void run(float delay, Runnable r){
+	public static void run(float delay, Callable r){
 		DelayRun run = new DelayRun();
 		run.run = r;
 		run.delay = delay;
@@ -74,6 +76,6 @@ public class Timers{
 	
 	static class DelayRun{
 		float delay;
-		Runnable run;
+		Callable run;
 	}
 }
