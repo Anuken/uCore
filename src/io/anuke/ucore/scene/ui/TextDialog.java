@@ -31,7 +31,7 @@ public class TextDialog extends Dialog{
 		for(String s : text){
 			Label label = new Label(s);
 			label.setWrap(true);
-			content().add(label).maxWidth(value);
+			content().add(label).width(value);
 			content().row();
 		}
 	}
