@@ -41,6 +41,8 @@ import io.anuke.ucore.scene.style.*;
  * See the <a href="https://github.com/libgdx/libgdx/wiki/Skin">documentation</a> for more.
  * @author Nathan Sweet */
 public class Skin implements Disposable {
+	public static boolean scale = true;
+	
 	ObjectMap<Class, ObjectMap<String, Object>> resources = new ObjectMap();
 	Atlas atlas;
 	
@@ -276,7 +278,7 @@ public class Skin implements Disposable {
 			if (textureRegion instanceof AtlasRegion) {
 				AtlasRegion region = (AtlasRegion)textureRegion;
 				if (region.splits != null)
-					drawable = new NinePatchDrawable(getPatch(name));
+					drawable = (!scale ? new NinePatchDrawable(getPatch(name)) : new ScaledNinePatchDrawable(getPatch(name)));
 				else if (region.rotate || region.packedWidth != region.originalWidth || region.packedHeight != region.originalHeight)
 					drawable = new SpriteDrawable(getSprite(name));
 			}

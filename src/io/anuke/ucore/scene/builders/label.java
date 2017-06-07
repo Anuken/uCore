@@ -25,6 +25,11 @@ public class label extends builder<label, Label>{
 		return this;
 	}
 	
+	public label scale(float scale){
+		element.setFontScale(scale);
+		return this;
+	}
+	
 	public label color(Color color){
 		element.setColor(color);
 		return this;

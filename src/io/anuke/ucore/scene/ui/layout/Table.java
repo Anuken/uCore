@@ -322,6 +322,12 @@ public class Table extends WidgetGroup {
 		return add(button);
 	}
 	
+	public Cell<CheckBox> addCheck(String text, boolean checked, CheckListenable listener){
+		CheckBox button = newCheck(text, listener);
+		button.setChecked(checked);
+		return add(button);
+	}
+	
 	public TextButton newButton(String text, Listenable listener){
 		TextButton button = new TextButton(text);
 		if(listener != null)

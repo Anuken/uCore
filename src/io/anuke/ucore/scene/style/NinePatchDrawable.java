@@ -30,7 +30,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
  * middle size, to allow the drawable to be sized down as small as possible.
  * @author Nathan Sweet */
 public class NinePatchDrawable extends BaseDrawable implements TransformDrawable {
-	private NinePatch patch;
+	protected NinePatch patch;
 
 	/** Creates an uninitialized NinePatchDrawable. The ninepatch must be {@link #setPatch(NinePatch) set} before use. */
 	public NinePatchDrawable () {

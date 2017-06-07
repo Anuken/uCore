@@ -36,6 +36,7 @@ import io.anuke.ucore.scene.ui.Label.LabelStyle;
 import io.anuke.ucore.scene.ui.TextButton.TextButtonStyle;
 import io.anuke.ucore.scene.ui.layout.Cell;
 import io.anuke.ucore.scene.ui.layout.Table;
+import io.anuke.ucore.scene.ui.layout.Unit;
 import io.anuke.ucore.scene.utils.ChangeListener;
 import io.anuke.ucore.scene.utils.FocusListener;
 /** Displays a dialog, which is a modal window containing a content table with a button table underneath it. Methods are provided
@@ -143,7 +144,11 @@ public class Dialog extends Window {
 
 		ImageButton closeButton = new ImageButton(skin.get("close-window", ImageButtonStyle.class));
 		
-		titleTable.add(closeButton).padRight(-getPadRight() + 0.7f+closePadR).size(40).padTop(-titleTable.getPadTop()-12+closePadT);
+		//closeButton.getImageCell().size(32);
+		float scl = Unit.dp.inPixels(1f);
+		
+		titleTable.add(closeButton).padRight(-getPadRight()/scl)
+		.padTop(-10+closePadT).size(40).units(Unit.dp);
 		
 		closeButton.changed(()->{
 			hide();
