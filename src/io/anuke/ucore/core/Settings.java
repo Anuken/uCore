@@ -22,6 +22,19 @@ public class Settings{
 		return defaults.get(name);
 	}
 	
+	public static void put(String name, Object val){
+		if(val instanceof Float)
+			putFloat(name, (Float)val);
+		else if(val instanceof Integer)
+			putInt(name, (Integer)val);
+		else if(val instanceof String)
+			putString(name, (String)val);
+		else if(val instanceof Boolean)
+			putBool(name, (Boolean)val);
+		else if(val instanceof Long)
+			putLong(name, (Long)val);
+	}
+	
 	public static void putString(String name, String val){
 		prefs.putString(name, val);
 	}
