@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import io.anuke.ucore.core.Musics;
 import io.anuke.ucore.core.Settings;
 import io.anuke.ucore.scene.ui.layout.Table;
+import io.anuke.ucore.scene.ui.layout.Unit;
 
 public class SettingsDialog extends Dialog{
 	private Array<Setting> list = new Array<>();
@@ -127,8 +128,9 @@ public class SettingsDialog extends Dialog{
 			});
 			
 			slider.change();
+			
 			table.add(label).minWidth(label.getPrefWidth()+50).left();
-			table.add(slider);
+			table.add(slider).width(Unit.dp.inPixels(180));
 			table.row();
 		}
 	}

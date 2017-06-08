@@ -19,9 +19,11 @@ package io.anuke.ucore.scene.style;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasSprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import io.anuke.ucore.scene.ui.layout.Unit;
 
 /** Drawable for a {@link TextureRegion}.
  * @author Nathan Sweet */
@@ -52,8 +54,8 @@ public class TextureRegionDrawable extends BaseDrawable implements TransformDraw
 
 	public void setRegion (TextureRegion region) {
 		this.region = region;
-		setMinWidth(region.getRegionWidth());
-		setMinHeight(region.getRegionHeight());
+		setMinWidth(region.getRegionWidth()*Unit.dp.inPixels(1f));
+		setMinHeight(region.getRegionHeight()*Unit.dp.inPixels(1f));
 	}
 
 	public TextureRegion getRegion () {

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import io.anuke.ucore.scene.ui.layout.Unit;
 
 public class ScaledNinePatchDrawable extends NinePatchDrawable{
-	
 	private static float scale = Unit.dp.inPixels(1f);
 	
 	public ScaledNinePatchDrawable(NinePatch patch) {
@@ -16,6 +15,14 @@ public class ScaledNinePatchDrawable extends NinePatchDrawable{
 	@Override
 	public void draw (Batch batch, float x, float y, float width, float height) {
 		getPatch().draw(batch, x, y, 0, 0, width/scale, height/scale, scale, scale, 0);
+	}
+	
+	@Override
+	public void setPatch(NinePatch patch){
+		super.setPatch(patch);
+		
+		setMinWidth(patch.getTotalWidth()*scale);
+		setMinHeight(patch.getTotalHeight()*scale);
 	}
 	
 	public float getLeftWidth (){

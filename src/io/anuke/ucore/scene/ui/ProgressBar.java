@@ -29,8 +29,8 @@ import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.utils.Disableable;
 import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
+import io.anuke.ucore.scene.utils.Disableable;
 
 /** A progress bar is a widget that visually displays the progress of some activity or a value within given range. The progress
  * bar has a range (min, max) and a stepping between each value it represents. The percentage of completeness typically starts out
@@ -115,7 +115,7 @@ public class ProgressBar extends Element implements Disableable {
 		final Drawable bg = (disabled && style.disabledBackground != null) ? style.disabledBackground : style.background;
 		final Drawable knobBefore = (disabled && style.disabledKnobBefore != null) ? style.disabledKnobBefore : style.knobBefore;
 		final Drawable knobAfter = (disabled && style.disabledKnobAfter != null) ? style.disabledKnobAfter : style.knobAfter;
-
+		
 		Color color = getColor();
 		float x = getX();
 		float y = getY();
