@@ -38,13 +38,6 @@ public class Timers{
 		timers.put(o.hashCode() + label, time - duration);
 	}
 	
-	/*
-	public static boolean get(float frames){
-		StackTraceElement e = Thread.currentThread().getStackTrace()[2];
-		return get(e.getClassName() + e.getLineNumber(), frames);
-	}
-	*/
-	
 	public static void clear(){
 		runs.clear();
 		timers.clear();

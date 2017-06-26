@@ -21,11 +21,19 @@ public class Mathf{
 		return Math.abs(sin(in, scl*2f, mag));
 	}
 	
+	public static boolean zero(float f){
+		return MathUtils.isEqual(f, 0);
+	}
+	
 	public static float pow(float a, float b){
 		return (float)Math.pow(a, b);
 	}
 	
 	public static <T> T choose(T... items){
+		return items[random(0, items.length-1)];
+	}
+	
+	public static <T> T select(T[] items){
 		return items[random(0, items.length-1)];
 	}
 	
@@ -161,6 +169,14 @@ public class Mathf{
 	}
 	
 	public static <T> boolean inBounds(int x, int y, T[][] array){
+		return x >= 0 && y >= 0 && x < array.length && y < array[0].length;
+	}
+	
+	public static boolean inBounds(int x, int y, int[][] array){
+		return x >= 0 && y >= 0 && x < array.length && y < array[0].length;
+	}
+	
+	public static boolean inBounds(int x, int y, float[][] array){
 		return x >= 0 && y >= 0 && x < array.length && y < array[0].length;
 	}
 
