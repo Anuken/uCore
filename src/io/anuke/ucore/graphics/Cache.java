@@ -3,11 +3,12 @@ package io.anuke.ucore.graphics;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntArray;
 
 import io.anuke.ucore.core.Draw;
 
-public class Cache{
+public class Cache implements Disposable{
 	protected Array<SpriteCache> caches = new Array<>();
 	protected IntArray cacheIDs = new IntArray();
 	private int size = 2000;
@@ -35,6 +36,10 @@ public class Cache{
 		draw(r, x-r.getRegionWidth()/2, y-r.getRegionHeight()/2, r.getRegionWidth(), r.getRegionHeight());
 	}
 	
+	public SpriteCache getCurrent(){
+		return current;
+	}
+	
 	protected void begin(){
 		checkCache();
 	}
@@ -56,6 +61,13 @@ public class Cache{
 				draws = 0;
 				checkCache();
 			}
+		}
+	}
+
+	@Override
+	public void dispose(){
+		for(SpriteCache cache : caches){
+			cache.dispose();
 		}
 	}
 }

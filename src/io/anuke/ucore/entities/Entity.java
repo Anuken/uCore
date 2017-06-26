@@ -41,6 +41,14 @@ public abstract class Entity{
 		return vector.set(other.x - x, other.y - y).angle();
 	}
 	
+	public float angleTo(Entity other, float yoffset){
+		return vector.set(other.x - x, other.y - (y+yoffset)).angle();
+	}
+	
+	public float angleTo(Entity other, float xoffset, float yoffset){
+		return vector.set(other.x - (x+xoffset), other.y - (y+yoffset)).angle();
+	}
+	
 	public float distanceTo(Entity other){
 		return Vector2.dst(other.x, other.y, x, y);
 	}

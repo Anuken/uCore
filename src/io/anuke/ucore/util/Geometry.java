@@ -1,10 +1,16 @@
 package io.anuke.ucore.util;
 
+import java.util.Random;
+
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.FloatArray;
 
+import io.anuke.ucore.function.Consumer;
+import io.anuke.ucore.function.PositionConsumer;
+
 public class Geometry{
+	private final static Random random = new Random();
 	private final static FloatArray floatArray = new FloatArray();
 	private final static FloatArray floatArray2 = new FloatArray();
 	private final static Vector2 ip = new Vector2();
@@ -91,7 +97,7 @@ public class Geometry{
 			float s = step*i;
 			ep1.set(x1, y1);
 			ep1.lerp(ep2, s);
-			pos.consume(ep1.x, ep1.y);
+			pos.accept(ep1.x, ep1.y);
 			offset -= step;
 		}
 		
@@ -118,7 +124,28 @@ public class Geometry{
 		for(int i = 0; i < vertices.length; i += 2){
 			float x = vertices[i];
 			float y = vertices[i+1];
-			path.consume(x, y);
+			path.accept(x, y);
+		}
+	}
+	
+	public static void circle(int points, Consumer<Float> cons){
+		for(int i = 0; i < points; i ++){
+			cons.accept(i*360f/points);
+		}
+	}
+	
+	public static void shotgun(int points, float spacing, float offset, Consumer<Float> cons){
+		for(int i = 0; i < points; i ++){
+			cons.accept(i*spacing-(points-1)*spacing/2f+offset);
+		}
+	}
+	
+	public static void randVectors(long seed, int amount, float length, PositionConsumer cons){
+		random.setSeed(seed);
+		for(int i = 0; i < amount; i ++){
+			float scl = length;
+			float vx = random.nextFloat()-0.5f, vy = random.nextFloat()-0.5f;
+			cons.accept(vx*scl, vy*scl);
 		}
 	}
 	
@@ -126,7 +153,4 @@ public class Geometry{
 		public void consume(float x, float y, float x2, float y2);
 	}
 	
-	public interface PositionConsumer{
-		public void consume(float x, float y);
-	}
 }

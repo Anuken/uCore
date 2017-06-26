@@ -1,6 +1,7 @@
 package io.anuke.ucore.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
@@ -20,6 +21,14 @@ public class Caches{
 			cache.caches.get(i).draw(cache.cacheIDs.get(i));
 			cache.caches.get(i).end();
 		}
+	}
+	
+	public static void color(Color color){
+		current.getCurrent().setColor(color);
+	}
+	
+	public static void color(){
+		color(Color.WHITE);
 	}
 	
 	public static void draw(TextureRegion region, float x, float y, float w, float h){

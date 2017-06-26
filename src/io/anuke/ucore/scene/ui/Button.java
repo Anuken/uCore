@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
 
+import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
@@ -54,6 +55,7 @@ public class Button extends Table implements Disableable {
 	private boolean programmaticChangeEvents = true;
 	private float transitionTime;
 	private boolean drawOver = false;
+	VisibilityProvider disabledProvider;
 	
 	public Button (String styleName) {
 		initialize();
@@ -81,6 +83,15 @@ public class Button extends Table implements Disableable {
 	/** Creates a button without setting the style or size. At least a style must be set before using this button. */
 	public Button () {
 		initialize();
+	}
+	
+	@Override
+	public void act(float delta){
+		super.act(delta);
+		
+		if(disabledProvider != null){
+			setDisabled(disabledProvider.visible());
+		}
 	}
 
 	private void initialize () {
@@ -156,6 +167,10 @@ public class Button extends Table implements Disableable {
 	public void setDisabled (boolean isDisabled) {
 		this.isDisabled = isDisabled;
 	}
+	
+	public void setDisabled (VisibilityProvider prov) {
+		this.disabledProvider = prov;
+	}
 
 	/** If false, {@link #setChecked(boolean)} and {@link #toggle()} will not fire {@link ChangeEvent}, event will be fired only
 	 * when user clicked the button */
@@ -228,6 +243,9 @@ public class Button extends Table implements Disableable {
 		if(drawOver)
 			background = style.up;
 		
+		//if(this instanceof TextButton && ((TextButton)this).getText().toString().equalsIgnoreCase("play"))
+		//	UCore.log(background);
+		
 		setBackground(background);
 
 		float offsetX = 0, offsetY = 0;
@@ -262,7 +280,8 @@ public class Button extends Table implements Disableable {
 			if(transitionTime > style.transition)
 				transitionTime = style.transition;
 			batch.setColor(getColor().r, getColor().g, getColor().b, (parentAlpha*(transitionTime/style.transition)));
-			style.over.draw(batch, getX(), getY(), getWidth(), getHeight());
+			//buggy
+			//style.over.draw(batch, getX(), getY(), getWidth(), getHeight());
 			batch.setColor(Color.WHITE);
 		}
 	}

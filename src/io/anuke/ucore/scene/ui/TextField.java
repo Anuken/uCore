@@ -111,6 +111,10 @@ public class TextField extends Element implements Disableable {
 
 	KeyRepeatTask keyRepeatTask = new KeyRepeatTask();
 	boolean programmaticChangeEvents;
+	
+	public TextField () {
+		this("");
+	}
 
 	public TextField (String text) {
 		this(text, skin.get(TextFieldStyle.class));

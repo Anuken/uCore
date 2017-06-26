@@ -8,7 +8,11 @@ import io.anuke.ucore.scene.ui.TextButton;
 public class button extends builder<button, TextButton>{
 	
 	public button(String text, Listenable listener){
-		element = new TextButton(text);
+		this(text, "default", listener);
+	}
+	
+	public button(String text, String style, Listenable listener){
+		element = new TextButton(text, style);
 		element.clicked(listener);
 		cell = context().add(element);
 	}

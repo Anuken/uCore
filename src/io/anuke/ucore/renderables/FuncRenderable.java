@@ -12,6 +12,7 @@ public class FuncRenderable extends Renderable{
 	
 	public FuncRenderable(DrawFunc draw){
 		this.drawable = draw;
+		sort(Sorter.object);
 	}
 	
 	

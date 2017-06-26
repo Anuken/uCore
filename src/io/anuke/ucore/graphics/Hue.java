@@ -181,7 +181,7 @@ public class Hue{
 	
 	public static Color mix(Color a, Color b, float s){
 		float i = 1f - s;
-		return new Color(a.r*i + b.r*s, a.g*i + b.g*s, a.b*i + b.b*s, 1f);
+		return new Color(a.r*i + b.r*s, a.g*i + b.g*s, a.b*i + b.b*s, a.a*i + b.a*s);
 	}
 	
 	public static Color mix(Color[] colors, Color out, float s){
@@ -203,6 +203,10 @@ public class Hue{
 		return new Color(( b.r*y + a.r*(1-y) ) * (x)  +  ( d.r*y + c.r*(1-y) ) * (1-x),
 				( b.g*y + a.g*(1-y) ) * (x)  +  ( d.g*y + c.g*(1-y) ) * (1-x),
 				( b.b*y + a.b*(1-y) ) * (x)  +  ( d.b*y + c.b*(1-y) ) * (1-x), 1f).clamp();
+	}
+	
+	public static Color rgb(int rgb, float lightness){
+		return new Color(rgb).mul(lightness, lightness, lightness, 1f);
 	}
 	
 	public static Color rgb(int r, int g, int b){

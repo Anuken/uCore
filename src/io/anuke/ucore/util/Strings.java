@@ -16,6 +16,15 @@ public class Strings{
 		return s.substring(0, 1).toUpperCase()+s.substring(1);
 	}
 	
+	public static boolean canParseInt(String s){
+		return parseInt(s) != Integer.MIN_VALUE;
+	}
+	
+	public static boolean canParsePostiveInt(String s){
+		int p = parseInt(s);
+		return p > 0;
+	}
+	
 	/**Returns Integer.MIN_VALUE if parsing failed.*/
 	public static int parseInt(String s){
 		try{

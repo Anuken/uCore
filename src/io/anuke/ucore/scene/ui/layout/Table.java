@@ -88,6 +88,12 @@ public class Table extends WidgetGroup {
 		setTransform(false);
 		setTouchable(Touchable.childrenOnly);
 	}
+	
+	public Table(String background){
+		this();
+		
+		background(background);
+	}
 
 	private Cell obtainCell () {
 		Cell cell = cellPool.obtain();
@@ -269,6 +275,13 @@ public class Table extends WidgetGroup {
 		l.setFontScale(scl);
 		return add(l);
 	}
+	
+	public Cell<Label> add (CharSequence text, Color color, float scl) {
+		Label l = new Label(text);
+		l.setColor(color);
+		l.setFontScale(scl);
+		return add(l);
+	}
 
 	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
 	public Cell<Label> add (CharSequence text, String labelStyleName) {
@@ -359,6 +372,19 @@ public class Table extends WidgetGroup {
 		return add(button);
 	}
 	
+	public Cell<ImageButton> addIButton(String icon, float isize, Listenable listener){
+		ImageButton button = newIButton(icon, listener);
+		button.resizeImage(isize);
+		return add(button);
+	}
+	
+	public Cell<ImageButton> addIButton(String style, String icon, float isize, Listenable listener){
+		ImageButton button = new ImageButton(icon, style);
+		button.clicked(listener);
+		button.resizeImage(isize);
+		return add(button);
+	}
+	
 	public TextField newField(String text, FieldListenable listener){
 		TextField field = new TextField(text);
 		if(listener != null)
@@ -387,6 +413,23 @@ public class Table extends WidgetGroup {
 		table.background(background);
 		add(table);
 		return table;
+	}
+	
+	public Cell<TextButton> addImageTextButton(String text, String image, float imagesize, Listenable clicked){
+		TextButton button = new TextButton(text);
+		button.add(new Image(image)).size(imagesize);
+		button.getCells().reverse();
+		button.clicked(clicked);
+		return add(button);
+	}
+	
+	public Cell<TextButton> addCenteredImageTextButton(String text, String image, float imagesize, Listenable clicked){
+		TextButton button = new TextButton(text);
+		button.add(new Image(image)).size(imagesize);
+		button.getCells().reverse();
+		button.clicked(clicked);
+		button.getLabelCell().padLeft(-imagesize);
+		return add(button);
 	}
 
 	public boolean removeChild (Element actor) {

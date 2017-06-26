@@ -299,10 +299,36 @@ public class Draw{
 		batch().draw(region, x - region.getRegionWidth()/2, y - region.getRegionHeight()/2);
 	}
 	
+	/**Floating side rect.*/
+	public static void sirect(String name, float x, float y, float rotation){
+		TextureRegion region = region(name);
+		batch().draw(region, x, y - region.getRegionHeight()/2f, 
+				0, region.getRegionHeight()/2f, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
+
+	}
+	
+	/**Floating side rect.*/
+	public static void borect(String name, float x, float y, float rotation){
+		TextureRegion region = region(name);
+		batch().draw(region,  x- region.getRegionWidth()/2f, y, 
+				region.getRegionWidth()/2f, 0, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
+
+	}
+	
 	/**Grounded rect.*/
 	public static void grect(String name, float x, float y){
 		TextureRegion region = region(name);
 		batch().draw(region, x - region.getRegionWidth()/2, y);
+	}
+	
+	/**Grounded rect.*/
+	public static void grect(String name, float x, float y, boolean flipx){
+		TextureRegion region = region(name);
+		if(flipx){
+			batch().draw(region, x + region.getRegionWidth()/2, y, -region.getRegionWidth(), region.getRegionHeight());
+		}else{
+			batch().draw(region, x - region.getRegionWidth()/2, y);
+		}
 	}
 	
 	/**Grounded rect.*/
@@ -353,6 +379,12 @@ public class Draw{
 	
 	public static void lineAngle(float x, float y, float angle, float length){
 		vector.setLength(length).setAngle(angle);
+		
+		line(x, y, x+vector.x, y+vector.y);
+	}
+	
+	public static void lineAngle(float x, float y, float offset, float angle, float length){
+		vector.setLength(length + offset).setAngle(angle);
 		
 		line(x, y, x+vector.x, y+vector.y);
 	}

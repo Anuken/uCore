@@ -13,9 +13,7 @@ import com.badlogic.gdx.utils.ObjectSet;
 
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.core.DrawContext;
-import io.anuke.ucore.function.Consumer;
-import io.anuke.ucore.function.Predicate;
-import io.anuke.ucore.function.TileCollider;
+import io.anuke.ucore.function.*;
 import io.anuke.ucore.util.*;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 
@@ -28,6 +26,7 @@ public class Entities{
 	public static RectQuadTree rtree;
 	public static boolean physics = false;
 	public static TileCollider collider;
+	public static TileHitboxProvider tileHitbox;
 	public static float tilesize;
 	
 	private static Vector2 vector = new Vector2();
@@ -38,9 +37,16 @@ public class Entities{
 	private static Rectangle viewport = new Rectangle();
 	private static final int maxObjects = 4;
 	
-	public static void setCollider(float atilesize, TileCollider acollider){
+	public static void setCollider(float atilesize, TileCollider acollider, TileHitboxProvider hitbox){
 		tilesize = atilesize;
 		collider = acollider;
+		tileHitbox = hitbox;
+	}
+	
+	public static void setCollider(float atilesize, TileCollider acollider){
+		setCollider(atilesize, acollider, (x, y, out)->{
+			out.setSize(tilesize).setCenter(x*tilesize, y*tilesize);
+		});
 	}
 	
 	public static void initPhysics(float x, float y, float w, float h){
@@ -89,13 +95,15 @@ public class Entities{
 		for(int dx = -r; dx <= r; dx++){
 			for(int dy = -r; dy <= r; dy++){
 				int wx = dx+tilex, wy = dy+tiley;
-				if(collider.solid(wx, wy) &&
-						Rectangle.tmp2.setSize(tilesize)
-						.setCenter(wx*tilesize, wy*tilesize).overlaps(rect)){
+				if(collider.solid(wx, wy)){
 					
-					Vector2 out = Physics.overlap(rect, Rectangle.tmp2);
-					rect.x += out.x*3f;
-					rect.y += out.y*3f;
+					tileHitbox.getHitbox(wx, wy, Rectangle.tmp2);
+					
+					if(Rectangle.tmp2.overlaps(rect)){
+						Vector2 out = Physics.overlap(rect, Rectangle.tmp2);
+						rect.x += out.x*3f;
+						rect.y += out.y*3f;
+					}
 				}
 			}
 		}
@@ -112,11 +120,12 @@ public class Entities{
 		for(int dx = -r; dx <= r; dx++){
 			for(int dy = -r; dy <= r; dy++){
 				int wx = dx+tilex, wy = dy+tiley;
-				if(collider.solid(wx, wy) &&
-						Rectangle.tmp2.setSize(tilesize)
-						.setCenter(wx*tilesize, wy*tilesize).overlaps(rect)){
+				if(collider.solid(wx, wy)){
+					tileHitbox.getHitbox(wx, wy, Rectangle.tmp2);
 					
-					return true;
+					if(Rectangle.tmp2.overlaps(rect)){
+						return true;
+					}
 				}
 			}
 		}
@@ -125,6 +134,12 @@ public class Entities{
 	
 	public static void getNearby(Rectangle rect, Consumer<SolidEntity> out){
 		tree.getIntersect(out, rect);
+	}
+	
+	public static Array<SolidEntity> getNearby(Rectangle rect){
+		array.clear();
+		tree.getIntersect(array, rect);
+		return array;
 	}
 	
 	public static void getNearby(float x, float y, float size, Consumer<SolidEntity> out){
@@ -250,7 +265,8 @@ public class Entities{
 		
 		if(a != b && a.collides(b) 
 				&& b.collides(a)
-				 && Mathf.intersect(entity.x, entity.y, a.hitsize/2, other.x, other.y, b.hitsize/2)){
+				 && Mathf.intersect(entity.x + a.hitoffsetx, entity.y + a.hitoffsety, a.hitsize/2, 
+						 other.x + b.hitoffsetx, other.y + b.hitoffsety, b.hitsize/2)){
 			a.collision(b);
 			b.collision(a);
 			return true;

@@ -26,6 +26,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
 import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.style.*;
@@ -139,8 +140,8 @@ public class Image extends Element {
 		if (drawable != null) drawable.draw(batch, x + imageX, y + imageY, imageWidth * scaleX, imageHeight * scaleY);
 	}
 
-	public void setDrawable (Skin skin, String drawableName) {
-		setDrawable(skin.getDrawable(drawableName));
+	public void setDrawable (String drawableName) {
+		setDrawable(DrawContext.skin.getDrawable(drawableName));
 	}
 
 	/** @param drawable May be null. */

@@ -203,8 +203,9 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
             if (bottomRightChild.bounds.overlaps(toCheck)) bottomRightChild.getIntersect(out, toCheck);
         }
         
-        for(T t : objects)
-        	out.accept(t);
+        for(int i = 0; i < objects.size; i ++){
+        	out.accept(objects.get(i));
+        }
     }
     
     /**

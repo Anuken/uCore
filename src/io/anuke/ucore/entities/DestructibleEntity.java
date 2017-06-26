@@ -36,6 +36,11 @@ public abstract class DestructibleEntity extends SolidEntity{
 		}
 	}
 	
+	public void setMaxHealth(int health){
+		maxhealth = health;
+		heal();
+	}
+	
 	public void clampHealth(){
 		health = Mathf.clamp(health, 0, maxhealth);
 	}
@@ -45,6 +50,7 @@ public abstract class DestructibleEntity extends SolidEntity{
 	}
 	
 	public void heal(){
+		dead = false;
 		health = maxhealth;
 	}
 }

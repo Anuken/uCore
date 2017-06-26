@@ -1,6 +1,5 @@
 package io.anuke.ucore.renderables;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
 
 public class RenderableHandler{
@@ -18,7 +17,7 @@ public class RenderableHandler{
 	
 	private RenderableHandler(){}
 
-	public void renderAll(Batch batch){
+	public void renderAll(){
 		if(updated){
 			renderables.sort();
 			updated = false;

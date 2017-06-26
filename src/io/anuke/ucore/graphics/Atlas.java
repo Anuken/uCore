@@ -75,6 +75,7 @@ public class Atlas extends TextureAtlas implements RegionProvider{
 	@Override
 	public AtlasRegion findRegion(String name){
 		AtlasRegion r = regionmap.get(name);
+		if(r == null && error == null && !(name.equals("error"))) throw new IllegalArgumentException("The region \"" + name + "\" does not exist!");
 		if(r == null) return error;
 		return r;
 	}
@@ -91,7 +92,7 @@ public class Atlas extends TextureAtlas implements RegionProvider{
 	 * @return whether or not the specified region is found.
 	 */
 	public boolean hasRegion(String s){
-		return !findRegion(s).equals(error);
+		return regionmap.containsKey(s);
 	}
 	
 	public void dispose(){

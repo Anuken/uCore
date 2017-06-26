@@ -15,7 +15,7 @@ public class TextDialog extends Dialog{
 		
 		for(String s : text){
 			Label label = new Label(s);
-			content().add(label);
+			content().add(label).left();
 			content().row();
 		}
 	}

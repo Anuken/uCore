@@ -74,6 +74,16 @@ public class Element extends BaseElement{
 		return click;
 	}
 	
+	/**Adds a touch listener.*/
+	public void tapped(Listenable r){
+		addListener(new InputListener(){
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				r.listen();
+				return true;
+			}
+		});
+	}
+	
 	/**Fires a change event on all listeners.*/
 	public void change(){
 		fire(new ChangeListener.ChangeEvent());

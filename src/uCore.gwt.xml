@@ -5,4 +5,5 @@
 	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene" />
 	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene.ui" />
 	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene.style.skin" />
+	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.renderables" />
 </module>
