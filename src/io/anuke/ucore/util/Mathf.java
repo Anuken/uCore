@@ -179,6 +179,10 @@ public class Mathf{
 	public static boolean inBounds(int x, int y, float[][] array){
 		return x >= 0 && y >= 0 && x < array.length && y < array[0].length;
 	}
+	
+	public static boolean inBounds(int x, int y, boolean[][] array){
+		return x >= 0 && y >= 0 && x < array.length && y < array[0].length;
+	}
 
 	public static <T> boolean inBounds(int x, int y, int z, T[][][] array){
 		return x >= 0 && y >= 0 && z >= 0 && x < array.length && y < array[0].length && z < array[0][0].length;

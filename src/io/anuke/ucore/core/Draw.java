@@ -29,6 +29,7 @@ public class Draw{
 	private static Stack<Batch> batches = new Stack<Batch>();
 
 	private static ObjectMap<String, Drawer> draws = new ObjectMap<>();
+	
 	private static ObjectMap<String, Surface> surfaces = new ObjectMap<>();
 	private static Stack<Surface> surfaceStack = new Stack<>();
 

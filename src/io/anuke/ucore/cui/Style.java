@@ -11,6 +11,14 @@ public class Style{
 		}
 	}
 	
+	public <T> T get(String name){
+		if(!has(name)){
+			throw new IllegalArgumentException("The specified resource \"" + name + "\" does not exist");
+		}
+		
+		return (T)map.get(name);
+	}
+	
 	public boolean has(String name){
 		return map.containsKey(name);
 	}

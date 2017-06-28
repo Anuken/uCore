@@ -9,6 +9,10 @@ public abstract class Section{
 	protected float x, y, width, height;
 	
 	public void draw(){
+		if(style.has("background")){
+			Drawable draw = style.get("background");
+			draw.draw(x, y, width, height);
+		}
 		
 	}
 	
