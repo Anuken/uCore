@@ -61,7 +61,7 @@ public class Musics{
 	}
 
 	public static void shuffleAll(){
-		TrackList list = new TrackList(music.toArray(Music.class));
+		TrackList list = new TrackList((Music[])music.toArray(Music.class));
 		playTracks(list);
 	}
 
@@ -123,6 +123,10 @@ public class Musics{
 	
 	static class TrackList{
 		Music[] tracks;
+		
+		TrackList(Music[] tracks){
+			this.tracks = tracks;
+		}
 		
 		TrackList(String[] tracknames){
 			tracks = new Music[tracknames.length];
