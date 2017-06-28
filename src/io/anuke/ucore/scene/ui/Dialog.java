@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.function.ActionProvider;
+import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.scene.Action;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
@@ -60,7 +61,7 @@ public class Dialog extends Window {
 	boolean cancelHide;
 	Element previousKeyboardFocus, previousScrollFocus;
 	FocusListener focusListener;
-	Runnable hideListener, showListener;
+	Listenable hideListener, showListener;
 
 	protected InputListener ignoreTouchDown = new InputListener() {
 		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -221,12 +222,12 @@ public class Dialog extends Window {
 	}
 	
 	/**Adds a show() listener.*/
-	public void shown(Runnable run){
+	public void shown(Listenable run){
 		this.showListener = run;
 	}
 	
 	/**Adds a hide() listener.*/
-	public void hidden(Runnable run){
+	public void hidden(Listenable run){
 		this.hideListener = run;
 	}
 	
@@ -240,7 +241,7 @@ public class Dialog extends Window {
 	public Dialog show (Scene stage, Action action) {
 		
 		if(showListener != null)
-			showListener.run();
+			showListener.listen();
 		clearActions();
 		removeCaptureListener(ignoreTouchDown);
 
@@ -282,7 +283,7 @@ public class Dialog extends Window {
 	/** Hides the dialog with the given action and then removes it from the stage. */
 	public void hide (Action action) {
 		if(hideListener != null)
-			hideListener.run();
+			hideListener.listen();
 		
 		Scene stage = getScene();
 		if (stage != null) {

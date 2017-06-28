@@ -1,9 +1,11 @@
 package io.anuke.ucore.scene.ui;
 
-public class ConfirmDialog extends Dialog{
-	Runnable confirm;
+import io.anuke.ucore.function.Listenable;
 
-	public ConfirmDialog(String title, String text, Runnable confirm) {
+public class ConfirmDialog extends Dialog{
+	Listenable confirm;
+
+	public ConfirmDialog(String title, String text, Listenable confirm) {
 		super(title, "dialog");
 		this.confirm = confirm;
 		text(text);
@@ -15,7 +17,7 @@ public class ConfirmDialog extends Dialog{
 	protected void result(Object object){
 		if(object == Boolean.TRUE){
 			hide();
-			confirm.run();
+			confirm.listen();
 		}
 	}
 

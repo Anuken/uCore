@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Array;
 
 import io.anuke.ucore.core.Musics;
 import io.anuke.ucore.core.Settings;
+import io.anuke.ucore.function.StringProcessor;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.ui.layout.Unit;
 
@@ -64,10 +65,6 @@ public class SettingsDialog extends Dialog{
 		for(Setting setting : list){
 			setting.add();
 		}
-	}
-	
-	public static interface StringProcessor{
-		String get(int i);
 	}
 	
 	private abstract class Setting{
