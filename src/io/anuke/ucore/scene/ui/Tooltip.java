@@ -32,7 +32,7 @@ import io.anuke.ucore.scene.ui.layout.Container;
 public class Tooltip<T extends Element> extends InputListener {
 	static Vector2 tmp = new Vector2();
 
-	private final TooltipManager manager;
+	protected final TooltipManager manager;
 	final Container<T> container;
 	boolean instant, always;
 	Element targetActor;
@@ -102,7 +102,7 @@ public class Tooltip<T extends Element> extends InputListener {
 		return true;
 	}
 
-	private void setContainerPosition (Element actor, float x, float y) {
+	protected void setContainerPosition (Element actor, float x, float y) {
 		this.targetActor = actor;
 		Scene stage = actor.getScene();
 		if (stage == null) return;
