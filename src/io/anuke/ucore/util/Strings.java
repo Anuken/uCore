@@ -34,12 +34,12 @@ public class Strings{
 		}
 	}
 	
-	/**Returns Float.NaN if parsing failed.*/
+	/**Returns Float.NEGATIVE_INFINITY if parsing failed.*/
 	public static float parseFloat(String s){
 		try{
 			return Float.parseFloat(s);
 		}catch (Exception e){
-			return Float.NaN;
+			return Float.NEGATIVE_INFINITY;
 		}
 	}
 }

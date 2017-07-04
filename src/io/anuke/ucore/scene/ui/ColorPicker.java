@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 
 import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.function.ColorListenable;
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.graphics.PixmapUtils;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
+import io.anuke.ucore.scene.ui.layout.Cell;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.util.Mathf;
 
@@ -19,6 +21,7 @@ public class ColorPicker extends Table{
 	
 	private Bar hbar, sbar, bbar;
 	private ColorListenable changed;
+	private TextField field;
 	private Color color = Color.CORAL.cpy(), tmp = new Color();
 	
 	public ColorPicker(){
@@ -54,6 +57,20 @@ public class ColorPicker extends Table{
 		c.add(image).size(50);
 		add(c).pad(10);
 		
+		row();
+		
+		Cell<TextField> cell = addField("", f->{
+			if(f.length() != 6) return;
+			
+			try{
+				Color color = Color.valueOf(f);
+				this.color.set(color);
+				setColor(this.color);
+			}catch (Exception e){}
+		});
+		
+		field = cell.getElement();
+		
 		setColor(color);
 	}
 	
@@ -82,6 +99,11 @@ public class ColorPicker extends Table{
 		bbar.to.set(tmp);
 		
 		Hue.fromHSB(hue, sat, bri, color);
+		
+		String hex = Integer.toHexString((0xFFFFFF & Color.rgb888(color)));
+		
+		if(DrawContext.scene.getKeyboardFocus() != field)
+		field.setText(hex);
 	}
 	
 	public void colorChanged(ColorListenable cons){

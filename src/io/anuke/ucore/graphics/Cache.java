@@ -36,6 +36,16 @@ public class Cache implements Disposable{
 		draw(r, x-r.getRegionWidth()/2, y-r.getRegionHeight()/2, r.getRegionWidth(), r.getRegionHeight());
 	}
 	
+	public void draw(String region, float x, float y, float rotation){
+		checkCache();
+		
+		TextureRegion r = Draw.region(region);
+		current.add(r, x-r.getRegionWidth()/2, y-r.getRegionHeight()/2, r.getRegionWidth()/2, r.getRegionHeight()/2,
+				r.getRegionWidth(), r.getRegionHeight(), 1, 1, rotation);
+		
+		draws ++;
+	}
+	
 	public SpriteCache getCurrent(){
 		return current;
 	}

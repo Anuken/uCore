@@ -73,6 +73,7 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 			camera.position.add(Mathf.range(intensity), Mathf.range(intensity), 0);
 			shakeIntensity -= 0.25f*delta();
 			shaketime -= delta();
+			shakeIntensity = Mathf.clamp(shakeIntensity, 0f, 100f);
 		}else{
 			shakeIntensity = 0f;
 		}

@@ -5,19 +5,19 @@ import com.badlogic.gdx.math.MathUtils;
 import io.anuke.ucore.util.Mathf;
 
 public class Fluidsim{
-	int iterations = 5;
+	public int iterations = 5;
 	
-	float maxValue = 1.0f;
-	float minValue = 0.005f;
+	public float maxValue = 1.0f;
+	public float minValue = 0.005f;
 
-	float maxCompression = 0.25f;
+	public float maxCompression = 0.25f;
 
-	float minFlow = 0.005f;
-	float maxFlow = 4f;
+	public float minFlow = 0.005f;
+	public float maxFlow = 4f;
 
-	float flowSpeed = 1f;
+	public float flowSpeed = 1f;
 	
-	FluidProvider provider;
+	public FluidProvider provider;
 	
 	public Fluidsim(FluidProvider provider){
 		this.provider = provider;

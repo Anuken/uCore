@@ -12,6 +12,7 @@ import io.anuke.ucore.util.Timers;
 
 public class LSystem{
 	private LSystemData data;
+	private String string;
 	
 	private Stack<Vector3> stack = new Stack<>();
 	private int maxstack = 0;
@@ -23,10 +24,11 @@ public class LSystem{
 	
 	private float cx, cy;
 	
-	public float x, y;
+	public float x, y, timeOffset;
 	
 	public LSystem(LSystemData data){
 		this.data = data;
+		string = LGen.gen(data.axiom, data.rules, data.iterations);
 	}
 	
 	public LSystem(FileHandle file){
@@ -34,16 +36,17 @@ public class LSystem{
 	}
 	
 	public void draw(){
+		Draw.thick(data.thickness);
 		angle = 90;
 		cx = cy = 0;
-		for(int i = 0; i < data.string.length(); i ++){
-			drawc(data.string.charAt(i));
+		for(int i = 0; i < string.length(); i ++){
+			drawc(string.charAt(i));
 		}
 		Draw.color();
 	}
 	
 	private void drawForward(){
-		float sway = data.swayscl*MathUtils.sin(Timers.time()/data.swayphase+stack.size()*data.swayspace);
+		float sway = data.swayscl*MathUtils.sin(timeOffset+Timers.time()/data.swayphase+stack.size()*data.swayspace);
 		
 		float radians = MathUtils.degRad*(-angle+180 + sway);
 		

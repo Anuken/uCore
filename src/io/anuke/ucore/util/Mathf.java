@@ -57,10 +57,15 @@ public class Mathf{
 		return MathUtils.lerp(from, to, alpha);
 	}
 	
+	public static boolean randBool(){
+		return MathUtils.randomBoolean();
+	}
+	
 	public static int random(int a, int b){
 		return MathUtils.random(a, b);
 	}
 	
+	/**0-range, inclusive*/
 	public static int random(int range){
 		return MathUtils.random(range);
 	}

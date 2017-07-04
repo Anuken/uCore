@@ -79,6 +79,10 @@ public class Entities{
 		overlapTile(rect, e.x , e.y + dy);
 		rect.getCenter(vector);
 		overlapTile(rect, vector.x + dx, vector.y);
+		rect.getCenter(vector);
+		overlapTile(rect, e.x , e.y + dy);
+		rect.getCenter(vector);
+		overlapTile(rect, vector.x + dx, vector.y);
 		
 		e.x = rect.x+hitw/2;
 		e.y = rect.y+hith/2;
@@ -87,6 +91,8 @@ public class Entities{
 	static void overlapTile(Rectangle rect, float x, float y){
 		int r = 1;
 		rect.setCenter(x, y);
+		
+		float scl = 3f;
 		
 		//assumes tilesize is centered
 		int tilex = Mathf.scl2(x, tilesize);
@@ -101,15 +107,15 @@ public class Entities{
 					
 					if(Rectangle.tmp2.overlaps(rect)){
 						Vector2 out = Physics.overlap(rect, Rectangle.tmp2);
-						rect.x += out.x*3f;
-						rect.y += out.y*3f;
+						rect.x += out.x*scl;
+						rect.y += out.y*scl;
 					}
 				}
 			}
 		}
 	}
 	
-	static boolean overlapsTile(Rectangle rect){
+	public static boolean overlapsTile(Rectangle rect){
 		rect.getCenter(vector);
 		int r = 1;
 		

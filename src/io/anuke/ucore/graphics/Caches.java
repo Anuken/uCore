@@ -41,6 +41,11 @@ public class Caches{
 		current.draw(region, x, y);
 	}
 	
+	public static void draw(String region, float x, float y, float rotation){
+		checkCache();
+		current.draw(region, x, y, rotation);
+	}
+	
 	/**Calls begin() with 2000 sprites per cache.*/
 	public static void begin(){
 		begin(2000);

@@ -68,7 +68,7 @@ public class Element extends BaseElement{
 		addListener(click = new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
-				r.listen();
+				if(r != null)r.listen();
 			}
 		});
 		return click;

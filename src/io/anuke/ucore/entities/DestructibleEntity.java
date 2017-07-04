@@ -21,8 +21,8 @@ public abstract class DestructibleEntity extends SolidEntity{
 	
 	@Override
 	public void collision(SolidEntity other){
-		
 		if(other instanceof Damager){
+
 			onHit(other);
 			damage(((Damager)other).getDamage());
 		}

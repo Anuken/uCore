@@ -50,16 +50,16 @@ public class KeyBinds{
 			throw new IllegalArgumentException("Section " + section + " not registered!");
 		
 		if(!map.get(section).containsKey(name))
-			throw new IllegalArgumentException("Key " + name + " not registered!");
+			throw new IllegalArgumentException("Key \"" + name + "\" not registered!");
 		
 		return map.get(section).get(name).get(type);
 	}
 
 	public static int getDefault(String section, String name){
 		if(!defaults.containsKey(section))
-			throw new IllegalArgumentException("Section " + section + " not registered!");
+			throw new IllegalArgumentException("Section \"" + section + "\" not registered!");
 		if(!defaults.get(section).containsKey(name))
-			throw new IllegalArgumentException("Key " + name + " not registered!");
+			throw new IllegalArgumentException("Key \"" + name + "\" not registered!");
 		
 		return defaults.get(section).get(name).get(getType(section));
 	}

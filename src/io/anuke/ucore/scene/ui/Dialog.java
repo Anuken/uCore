@@ -343,6 +343,14 @@ public class Dialog extends Window {
 		cancelHide = true;
 	}
 	
+	public static ActionProvider getHideAction(){
+		return defaultHideAction;
+	}
+	
+	public static ActionProvider getShowAction(){
+		return defaultShowAction;
+	}
+	
 	public static void setShowAction(ActionProvider prov){
 		defaultShowAction = prov;
 	}

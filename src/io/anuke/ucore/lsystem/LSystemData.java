@@ -1,5 +1,7 @@
 package io.anuke.ucore.lsystem;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.graphics.Color;
 
 public class LSystemData{
@@ -10,12 +12,15 @@ public class LSystemData{
 	public float swayscl;
 	public float swayphase;
 	public float swayspace;
+	public float thickness;
 	public int iterations;
-	public String string;
+	public String axiom;
+	public HashMap<Character, String> rules;
 	
-	public LSystemData(String string, int iterations, float swayspace, float swayphase, float swayscl, 
-			float len, float space, Color start, Color end){
-		this.string = string;
+	public LSystemData(String axiom, HashMap<Character, String> rules, int iterations, float swayspace, float swayphase, float swayscl, 
+			float len, float space, float thickness, Color start, Color end){
+		this.axiom = axiom;
+		this.rules = rules;
 		this.iterations = iterations;
 		this.swayphase = swayphase;
 		this.swayspace = swayspace;
@@ -24,7 +29,18 @@ public class LSystemData{
 		this.space = space;
 		this.start = start;
 		this.end = end;
+		this.thickness = thickness;
 	}
 	
 	private LSystemData(){}
+	
+	public void normalize(){
+		HashMap<Character, String> map = new HashMap<>();
+		
+		for(Object o : rules.keySet()){
+			map.put(((String)o).charAt(0), rules.get(o));
+		}
+		
+		rules = map;
+	}
 }

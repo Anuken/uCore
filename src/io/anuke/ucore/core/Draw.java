@@ -53,6 +53,10 @@ public class Draw{
 		batches.pop();
 		DrawContext.batch = batches.peek();
 	}
+	
+	public static Surface currentSurface(){
+		return surfaceStack.isEmpty() ? null : surfaceStack.peek();
+	}
 
 	/** Adds a custom surface that handles events. */
 	public static void addSurface(CustomSurface surface){
@@ -612,7 +616,11 @@ public class Draw{
 	public static void thick(float thick){
 		thickness = thick;
 	}
-
+	
+	public static float getThickness(){
+		return thickness;
+	}
+	
 	public static void tscl(float scl){
 		DrawContext.font.getData().setScale(scl);
 	}
@@ -689,4 +697,5 @@ public class Draw{
 	public interface Drawer{
 		public void draw(float x, float y);
 	}
+
 }

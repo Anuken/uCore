@@ -3,13 +3,8 @@ package io.anuke.ucore.lsystem;
 import java.util.HashMap;
 
 public class LGen{
-	
-	public static String gen(String axiom, int iterations, Object... objects){
-		 HashMap<Character, String> map = new HashMap<>();
-		 
-		 for(int i = 0; i < objects.length; i += 2){
-			 map.put((char)objects[i], (String)objects[i+1]);
-		 }
+
+	public static String gen(String axiom, HashMap<Character, String> map, int iterations){
 		 
 		 StringBuilder out = new StringBuilder(axiom);
 		 StringBuilder temp = new StringBuilder();
@@ -30,6 +25,16 @@ public class LGen{
 		 }
 		 
 		 return out.toString();
+	
+	}
+	
+	public static String gen(String axiom, int iterations, Object... objects){
+		 HashMap<Character, String> map = new HashMap<>();
+		 for(int i = 0; i < objects.length; i += 2){
+			 map.put((char)objects[i], (String)objects[i+1]);
+		 }
+		 
+		return gen(axiom, map, iterations);
 	}
 	
 }

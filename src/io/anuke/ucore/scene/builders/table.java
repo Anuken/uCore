@@ -41,8 +41,8 @@ public class table extends builder<table, Table>{
 		return element.defaults();
 	}
 	
-	public void row(){
-		element.row();
+	public Cell row(){
+		return element.row();
 	}
 	
 	public table aleft(){

@@ -8,7 +8,7 @@ import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 public abstract class SolidEntity extends Entity implements QuadTreeObject{
 	private static Vector2 mvector = new Vector2();
 	public float hitsize = 10, hitoffsetx, hitoffsety;
-	float tilehitwidth = 4, tilehitheight = 4, tilehoffsetx, tilehoffsety;
+	public float tilehitwidth = 4, tilehitheight = 4, tilehoffsetx, tilehoffsety;
 	
 	public void move(float x, float y){
 		vector.set(x, y);

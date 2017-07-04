@@ -864,9 +864,9 @@ public class Cell<T extends Element> implements Poolable {
 		return table;
 	}
 	
-	public Element getActor(){
-		return actor;
-	}
+	//public Element getActor(){
+	//	return actor;
+	//}
 
 	/** Sets all constraint fields to null. */
 	void clear () {
