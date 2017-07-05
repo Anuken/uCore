@@ -68,8 +68,12 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	}
 	
 	public void updateShake(){
+		updateShake(1f);
+	}
+	
+	public void updateShake(float scale){
 		if(shaketime > 0){
-			float intensity = shakeIntensity*(Settings.getInt("screenshake")/4f);
+			float intensity = shakeIntensity*(Settings.getInt("screenshake")/4f)*scale;
 			camera.position.add(Mathf.range(intensity), Mathf.range(intensity), 0);
 			shakeIntensity -= 0.25f*delta();
 			shaketime -= delta();
