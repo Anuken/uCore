@@ -13,7 +13,8 @@ public class Textures{
 	private static TextureMap textures;
 	
 	public static void load(String path){
-		if(textures != null) throw new GdxRuntimeException("Textures are already loaded! Did you forget to call Textures.dispose()?");
+		if(textures != null) 
+			throw new GdxRuntimeException("Textures are already loaded! Did you forget to call Textures.dispose()?");
 		textures = new TextureMap(path);
 	}
 	
@@ -40,6 +41,10 @@ public class Textures{
 	
 	public static void put(String name, Texture texture){
 		textures.put(name, texture);
+	}
+	
+	public static boolean isLoaded(){
+		return textures != null;
 	}
 	
 	public static void dispose(){

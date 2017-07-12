@@ -34,7 +34,7 @@ public class Tooltip<T extends Element> extends InputListener {
 
 	protected final TooltipManager manager;
 	final Container<T> container;
-	boolean instant, always;
+	boolean instant = true, always;
 	Element targetActor;
 	Listenable show;
 

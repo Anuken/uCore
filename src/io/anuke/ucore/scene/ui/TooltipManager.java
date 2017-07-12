@@ -44,7 +44,7 @@ public class TooltipManager {
 	/** If false, tooltips will not be shown. Default is true. */
 	public boolean enabled = true;
 	/** If false, tooltips will be shown without animations. Default is true. */
-	public boolean animations = true;
+	public boolean animations = false;
 	/** The maximum width of a {@link TextTooltip}. The label will wrap if needed. Default is Integer.MAX_VALUE. */
 	public float maxWidth = Integer.MAX_VALUE;
 	/** The distance from the mouse position to offset the tooltip actor. Default is 15,19. */

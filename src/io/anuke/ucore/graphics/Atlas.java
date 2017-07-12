@@ -25,9 +25,9 @@ public class Atlas extends TextureAtlas implements RegionProvider{
 		for(AtlasRegion r : super.getRegions()){
 			String[] split = r.name.split("/");
 			if(split.length > 1){
-				if(regionmap.containsKey(split[1])) Gdx.app.error("Atlas", "Texture conflict! (" + split[1] + ")");
-				regionmap.put(split[1], r);
-				r.name = split[1];
+				if(regionmap.containsKey(split[split.length-1])) Gdx.app.error("Atlas", "Texture conflict! (" + split[split.length-1] + ")");
+				regionmap.put(split[split.length-1], r);
+				r.name = split[split.length-1];
 			}else{
 				if(regionmap.containsKey(split[0])) Gdx.app.error("Atlas", "Texture conflict! (" + split[0] + ")");
 				regionmap.put(split[0], r);

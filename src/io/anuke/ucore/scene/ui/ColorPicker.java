@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 
 import io.anuke.ucore.core.Draw;
-import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.function.ColorListenable;
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.graphics.PixmapUtils;
@@ -101,8 +100,12 @@ public class ColorPicker extends Table{
 		Hue.fromHSB(hue, sat, bri, color);
 		
 		String hex = Integer.toHexString((0xFFFFFF & Color.rgb888(color)));
+		int l = 6 - hex.length();
+		for(int i = 0; i < l; i ++){
+			hex = "0" + hex;
+		}
 		
-		if(DrawContext.scene.getKeyboardFocus() != field)
+		//if(DrawContext.scene.getKeyboardFocus() != field)
 		field.setText(hex);
 	}
 	

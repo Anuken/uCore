@@ -61,7 +61,11 @@ public class Musics{
 	}
 
 	public static void shuffleAll(){
-		TrackList list = new TrackList((Music[])music.toArray(Music.class));
+		Music[] out = new Music[music.size];
+		for(int i = 0; i < music.size; i ++)
+			out[i] = music.get(i);
+		
+		TrackList list = new TrackList(out);
 		playTracks(list);
 	}
 
