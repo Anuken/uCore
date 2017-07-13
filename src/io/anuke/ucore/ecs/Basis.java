@@ -30,6 +30,10 @@ public class Basis{
 		listeners.clear();
 	}
 	
+	public Array<Processor> getProcessors(){
+		return processors;
+	}
+	
 	public void addProcessor(Processor pro){
 		processors.add(pro);
 	}
@@ -45,12 +49,19 @@ public class Basis{
 		}
 	}
 
-	public Processor getProcessor(Class<? extends Processor> type){
+	public <T extends Processor> T getProcessor(Class<T> type){
 		for(Processor p : processors){
 			if(p.getClass() == type)
-				return p;
+				return (T)p;
 		}
 		return null;
+	}
+	
+	/**Enables or disabled all processors.*/
+	public void setProcessorsEnabled(boolean enabled){
+		for(Processor p : processors){
+			p.setEnabled(enabled);
+		}
 	}
 	
 	public void addSpark(Spark spark){

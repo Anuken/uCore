@@ -11,10 +11,13 @@ public class Spark{
 	private int id;
 	private Basis basis;
 	
+	private final Prototype type;
 	private Array<Trait> traitlist;
 	private ObjectMap<Class<? extends Trait>, Trait> traitmap = new ObjectMap<>();
 	
 	public Spark(Prototype type){
+		this.type = type;
+		
 		id = lastid++;
 		
 		TraitList list = type.traits();
@@ -55,6 +58,10 @@ public class Spark{
 	
 	protected void setBasis(Basis basis){
 		this.basis = basis;
+	}
+	
+	public Prototype getType(){
+		return type;
 	}
 	
 	//shortcut trait methods...
