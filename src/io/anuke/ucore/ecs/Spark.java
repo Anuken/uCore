@@ -6,9 +6,9 @@ import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.ucore.ecs.extend.PosTrait;
 
 public class Spark{
-	private static long lastid;
+	private static int lastid;
 	
-	private long id;
+	private int id;
 	private Basis basis;
 	
 	private Array<Trait> traitlist;
@@ -17,9 +17,9 @@ public class Spark{
 	public Spark(Prototype type){
 		id = lastid++;
 		
-		TraitList list = type.createTraits();
+		TraitList list = type.traits();
 		
-		traitlist = list.copyArray();
+		traitlist = list.asArray();
 		for(Trait t : traitlist){
 			t.init(this);
 			traitmap.put(t.getClass(), t);
@@ -49,7 +49,7 @@ public class Spark{
 		basis.removeSpark(this);
 	}
 	
-	public long getID(){
+	public int getID(){
 		return id;
 	}
 	

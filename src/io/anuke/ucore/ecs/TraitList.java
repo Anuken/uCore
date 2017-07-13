@@ -10,12 +10,8 @@ public class TraitList{
 		traits = new DelayedRemovalArray<>(array);
 	}
 	
-	public Array<Trait> copyArray(){
-		Array<Trait> arr = new Array<Trait>(traits);
-		for(int i = 0; i < arr.size; i ++){
-			arr.set(i, arr.get(i).copy());
-		}
-		return arr;
+	public Array<Trait> asArray(){
+		return traits;
 	}
 	
 	public TraitList with(Trait... array){

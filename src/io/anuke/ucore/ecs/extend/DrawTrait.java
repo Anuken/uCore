@@ -13,9 +13,4 @@ public class DrawTrait extends Trait{
 	
 	//no-arg constructor for things like Kryo/JSON
 	private DrawTrait(){}
-
-	@Override
-	public Trait copy(){
-		return new DrawTrait(drawer);
-	}
 }

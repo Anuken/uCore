@@ -5,6 +5,7 @@ import java.util.Iterator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
+import io.anuke.ucore.function.BoundingBoxProvider;
 import io.anuke.ucore.function.Consumer;
 
 /**
@@ -15,7 +16,7 @@ import io.anuke.ucore.function.Consumer;
  * @param <T> The type of object this quad tree should contain. An object only requires some way of getting rough bounds.
  * @author xSke
  */
-public class QuadTree<T extends QuadTree.QuadTreeObject> {
+public class QuadTree<T> {
     private int maxObjectsPerNode;
 
     private int level;
@@ -23,6 +24,7 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
     private Array<T> objects;
 
     private static Rectangle tmp = new Rectangle();
+    private BoundingBoxProvider<T> provider;
 
     private boolean leaf;
     private QuadTree<T> bottomLeftChild;
@@ -47,6 +49,18 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
         this.maxObjectsPerNode = maxObjectsPerNode;
         objects = new Array<T>();
         leaf = true;
+        
+        provider = (obj, out)->{
+        	if(obj instanceof QuadTreeObject){
+        		((QuadTreeObject)obj).getBoundingBox(out);
+        	}else{
+        		throw new IllegalArgumentException("The provided object does not implement QuadTreeObject! Did you forget to pass a custom BoundingBoxProvider into the quadtree?");
+        	}
+        };
+    }
+    
+    public void setBoundingBoxProvider(BoundingBoxProvider<T> prov){
+    	provider = prov;
     }
 
     private void split() {
@@ -64,7 +78,7 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
         // Transfer objects to children if they fit entirely in one
         for (Iterator<T> iterator = objects.iterator(); iterator.hasNext(); ) {
             T obj = iterator.next();
-            obj.getBoundingBox(tmp);
+            provider.getBoundingBox(obj, tmp);
             QuadTree<T> child = getFittingChild(tmp);
             if (child != null) {
                 child.insert(obj);
@@ -88,7 +102,7 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
      * Inserts an object into this node or its child nodes. This will split a leaf node if it exceeds the object limit.
      */
     public void insert(T obj) {
-        obj.getBoundingBox(tmp);
+    	provider.getBoundingBox(obj, tmp);
         if (!bounds.overlaps(tmp)) {
             // New object not in quad tree, ignoring
             // throw an exception?
@@ -101,7 +115,7 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
             // Leaf, so no need to add to children, just add to root
             objects.add(obj);
         } else {
-            obj.getBoundingBox(tmp);
+        	provider.getBoundingBox(obj, tmp);
             // Add to relevant child, or root if can't fit completely in a child
             QuadTree<T> child = getFittingChild(tmp);
             if (child != null) {
@@ -121,7 +135,7 @@ public class QuadTree<T extends QuadTree.QuadTreeObject> {
             objects.removeValue(obj, true);
         } else {
             // Remove from relevant child
-            obj.getBoundingBox(tmp);
+        	provider.getBoundingBox(obj, tmp);
             QuadTree<T> child = getFittingChild(tmp);
 
             if (child != null) {

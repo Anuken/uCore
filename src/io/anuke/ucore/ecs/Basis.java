@@ -9,7 +9,7 @@ public class Basis{
 	private static Basis instance;
 	
 	private Array<Spark> sparks = new Array<>();
-	private HashMap<Long, Spark> sparkmap = new HashMap<Long, Spark>();
+	private HashMap<Integer, Spark> sparkmap = new HashMap<>();
 	
 	private ObjectSet<Spark> toAdd = new ObjectSet<>();
 	private ObjectSet<Spark> toRemove = new ObjectSet<>();

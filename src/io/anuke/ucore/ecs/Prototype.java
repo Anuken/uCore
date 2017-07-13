@@ -15,13 +15,14 @@ public abstract class Prototype{
 	}
 	
 	public abstract TraitList traits();
-	
+	/*
 	public TraitList createTraits(){
 		if(list == null)
 			list = traits();
 		
 		return list;
 	}
+	*/
 	
 	public int getTypeID(){
 		return id;

@@ -38,10 +38,5 @@ public class PosTrait extends Trait{
 	public void translate(Vector2 v){
 		translate(v.x, v.y);
 	}
-	
-	@Override
-	public Trait copy(){
-		return new PosTrait().set(x, y);
-	}
 
 }
