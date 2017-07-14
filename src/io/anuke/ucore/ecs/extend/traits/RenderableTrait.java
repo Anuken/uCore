@@ -1,4 +1,4 @@
-package io.anuke.ucore.ecs.extend;
+package io.anuke.ucore.ecs.extend.traits;
 
 import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.ecs.Trait;
@@ -14,5 +14,13 @@ public class RenderableTrait extends Trait{
 	}
 	
 	private RenderableTrait(){}
+	
+	public void init(Spark spark){
+		drawer.accept(spark);
+	}
+	
+	public void removed(Spark spark){
+		list.free();
+	}
 
 }

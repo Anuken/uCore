@@ -13,19 +13,43 @@ public abstract class Prototype{
 	private static Array<Prototype> types = new Array<>();
 	
 	private static ObjectMap<Class<? extends SparkEvent>, Method> methodCache = new ObjectMap<>();
+	private static ObjectMap<Class<?>, Class<?>> primitiveClassMap = new ObjectMap<Class<?>, Class<?>>(){{
+		put(Integer.class, int.class);
+		put(Float.class, float.class);
+		put(Boolean.class, boolean.class);
+		put(Double.class, double.class);
+		put(Byte.class, byte.class);
+		put(Short.class, short.class);
+		put(Long.class, long.class);
+	}};
 	
 	private final int id;
 	/**Current events. When overriding an already existing Prototype class, the new handler gets added onto the array.*/
 	private ObjectMap<Class<? extends SparkEvent>, Array<SparkEvent>> events = new ObjectMap<>();
+	private ObjectMap<Class<? extends SparkEvent>, Array<SparkEvent>> traitEvents = new ObjectMap<>();
+	
 	public abstract TraitList traits();
 	
 	public Prototype(){
 		id = lastid++;
 		types.add(this);
+		
+		TraitList list = traits();
+		for(Trait trait : list){
+			trait.registerEvents(this);
+		}
 	}
 	
 	public int getTypeID(){
 		return id;
+	}
+	
+	/**Registers a trait event listener.*/
+	public <T extends SparkEvent> void traitEvent(Class<T> type, T event){
+		if(!traitEvents.containsKey(type))
+			traitEvents.put(type, new Array<>());
+		
+		traitEvents.get(type).add(event);
 	}
 	
 	/**Registers an event listener. Do this in the constructor.*/
@@ -45,10 +69,27 @@ public abstract class Prototype{
 	/**Calls an event. This does not provide a return object.*/
 	public <T extends SparkEvent> void callEvent(Class<T> type, Object... arguments){
 		callEvent(type, 0, arguments);
+		
+		Array<SparkEvent> list = traitEvents.get(type);
+		
+		//no component handlers found for this event type
+		if(list == null || list.size == 0)
+			return;
+		
+		Method method = getMethod(type, arguments);
+		
+		for(SparkEvent handler : list){
+			try{
+				method.invoke(handler, arguments);
+			}catch (ReflectionException e){
+				throw new RuntimeException(e);
+			}
+		}
+		
 	}
 	
 	/**Calls an event on the last inherited prototype that implemented it. If there's nothing to call, nothing happens.*/
-	public <T extends SparkEvent> Object callSuper(Class<T> type, Object... arguments){
+	protected <T extends SparkEvent> Object callSuper(Class<T> type, Object... arguments){
 		return callEvent(type, 1, arguments);
 	}
 	
@@ -68,7 +109,7 @@ public abstract class Prototype{
 		try{
 			return method.invoke(handler, arguments);
 		}catch (ReflectionException e){
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException("Exception occurred calling event: wrong number or type of arguments!");
 		}
 	}
 	
@@ -78,7 +119,7 @@ public abstract class Prototype{
 		}else{
 			Class[] classes = new Class[args.length];
 			for(int i = 0; i < classes.length; i ++){
-				classes[i] = args[i].getClass();
+				classes[i] = primitiveClassMap.get(args[i].getClass(), args[i].getClass());
 			}
 			
 			try{
@@ -91,7 +132,7 @@ public abstract class Prototype{
 				throw new IllegalArgumentException("Unable to find method \"handle\" for class \"" 
 						+ ClassReflection.getSimpleName(type) + "\" and argument type(s) " 
 						+ Arrays.toString(classes) + ". Make sure you have a handle method declared, and that the argument "
-								+ "types are correct.", e);
+								+ "types are correct.");
 			}
 		}
 	}

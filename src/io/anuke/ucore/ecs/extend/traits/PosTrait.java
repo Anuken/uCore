@@ -1,4 +1,4 @@
-package io.anuke.ucore.ecs.extend;
+package io.anuke.ucore.ecs.extend.traits;
 
 import com.badlogic.gdx.math.Vector2;
 

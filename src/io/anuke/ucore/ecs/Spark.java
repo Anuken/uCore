@@ -3,7 +3,7 @@ package io.anuke.ucore.ecs;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
-import io.anuke.ucore.ecs.extend.PosTrait;
+import io.anuke.ucore.ecs.extend.traits.PosTrait;
 
 public class Spark{
 	private static int lastid;
@@ -14,6 +14,9 @@ public class Spark{
 	private final Prototype type;
 	private Array<Trait> traitlist;
 	private ObjectMap<Class<? extends Trait>, Trait> traitmap = new ObjectMap<>();
+	
+	//cached pos trait, since it's used so much anyway
+	private PosTrait pos;
 	
 	public Spark(Prototype type){
 		this.type = type;
@@ -67,6 +70,8 @@ public class Spark{
 	//shortcut trait methods...
 	
 	public PosTrait pos(){
-		return get(PosTrait.class);
+		if(pos == null)
+			pos = get(PosTrait.class);
+		return pos;
 	}
 }

@@ -1,4 +1,4 @@
-package io.anuke.ucore.ecs.extend;
+package io.anuke.ucore.ecs.extend.traits;
 
 import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.ecs.Trait;

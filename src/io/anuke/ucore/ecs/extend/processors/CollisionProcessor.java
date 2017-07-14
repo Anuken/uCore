@@ -1,6 +1,7 @@
-package io.anuke.ucore.ecs.extend;
+package io.anuke.ucore.ecs.extend.processors;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
 
@@ -8,11 +9,15 @@ import io.anuke.ucore.ecs.Processor;
 import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.ecs.extend.Events.Collision;
 import io.anuke.ucore.ecs.extend.Events.CollisionFilter;
+import io.anuke.ucore.ecs.extend.traits.ColliderTrait;
 import io.anuke.ucore.function.BoundingBoxProvider;
+import io.anuke.ucore.function.Consumer;
+import io.anuke.ucore.function.Predicate;
 import io.anuke.ucore.util.QuadTree;
 
 public class CollisionProcessor extends Processor{
 	private QuadTree<Spark> tree;
+	private Array<Spark> array = new Array<>();
 	private IntSet collided = new IntSet();
 	private BoundingBoxProvider<Spark> bounds = (obj, out)->{
 		ColliderTrait col = obj.get(ColliderTrait.class);
@@ -61,6 +66,42 @@ public class CollisionProcessor extends Processor{
 		}
 	}
 	
+	public void getNearby(Rectangle rect, Consumer<Spark> out){
+		tree.getIntersect(out, rect);
+	}
+	
+	public Array<Spark> getNearby(Rectangle rect){
+		array.clear();
+		tree.getIntersect(array, rect);
+		return array;
+	}
+	
+	public void getNearby(float x, float y, float size, Consumer<Spark> out){
+		tree.getIntersect(out, Rectangle.tmp.setSize(size).setCenter(x, y));
+	}
+	
+	public Array<Spark> getNearby(float x, float y, float size){
+		array.clear();
+		tree.getIntersect(array, Rectangle.tmp2.setSize(size).setCenter(x, y));
+		return array;
+	}
+	
+	public Spark getClosest(float x, float y, float range, Predicate<Spark> pred){
+		Spark closest = null;
+		float cdist = 0f;
+		for(Spark e : getNearby(x, y, range*2f)){
+			if(!pred.test(e)) continue;
+			
+			float dist = Vector2.dst(e.pos().x, e.pos().y, x, y);
+			if(dist < range)
+			if(closest == null || dist < cdist){
+				closest = e;
+				cdist = dist;
+			}
+		}
+		
+		return closest;
+	}
 	
 	public void resizeTree(float x, float y, float w, float h){
 		tree = new QuadTree<Spark>(5, new Rectangle(x, y, w, h));
@@ -68,7 +109,7 @@ public class CollisionProcessor extends Processor{
 		tree.setBoundingBoxProvider((obj, out)->{
 			ColliderTrait col = obj.get(ColliderTrait.class);
 			out.setSize(col.width, col.height);
-			out.setCenter(obj.pos().x, obj.pos().y);
+			out.setCenter(obj.pos().x + col.offsetx, obj.pos().y + col.offsety);
 		});
 	}
 }

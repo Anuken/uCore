@@ -3,6 +3,7 @@ package io.anuke.ucore.core;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
+import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.entities.Effect;
 import io.anuke.ucore.entities.Entity;
 import io.anuke.ucore.modules.ModuleController;
@@ -15,6 +16,10 @@ public class Effects{
 	
 	public static Effect effect(String name, Entity pos){
 		return effect(name, pos.x, pos.y);
+	}
+	
+	public static Effect effect(String name, Spark pos){
+		return effect(name, pos.pos().x, pos.pos().y);
 	}
 	
 	public static Effect effect(String name, Color color, float x, float y){
@@ -36,6 +41,11 @@ public class Effects{
 	/**Plays a sound, with distance and falloff calulated relative to camera position.*/
 	public static void sound(String name, Entity position){
 		sound(name, position.x, position.y);
+	}
+	
+	/**Plays a sound, with distance and falloff calulated relative to camera position.*/
+	public static void sound(String name, Spark position){
+		sound(name, position.pos().x, position.pos().y);
 	}
 	
 	/**Plays a sound, with distance and falloff calulated relative to camera position.*/

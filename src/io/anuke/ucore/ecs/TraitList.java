@@ -1,9 +1,11 @@
 package io.anuke.ucore.ecs;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 
-public class TraitList{
+public class TraitList implements Iterable<Trait>{
 	private DelayedRemovalArray<Trait> traits = new DelayedRemovalArray<>();
 	
 	public TraitList(Trait... array){
@@ -39,5 +41,10 @@ public class TraitList{
 		}
 		traits.end();
 		return this;
+	}
+
+	@Override
+	public Iterator<Trait> iterator(){
+		return traits.iterator();
 	}
 }

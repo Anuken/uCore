@@ -7,4 +7,6 @@ public abstract class Trait{
 	public void init(Spark spark){}
 	public void removed(Spark spark){}
 	
+	/**Register type-specific events. This not called for every Trait instance! Use it as you would a static method.*/
+	public void registerEvents(Prototype type){}
 }
