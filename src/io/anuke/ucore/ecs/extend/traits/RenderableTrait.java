@@ -5,6 +5,7 @@ import io.anuke.ucore.ecs.Trait;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.renderables.RenderableList;
 
+
 public class RenderableTrait extends Trait{
 	private Consumer<Spark> drawer;
 	private RenderableList list = new RenderableList();

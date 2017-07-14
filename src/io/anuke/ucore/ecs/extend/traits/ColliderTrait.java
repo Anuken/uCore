@@ -1,7 +1,9 @@
 package io.anuke.ucore.ecs.extend.traits;
 
+import io.anuke.ucore.ecs.Require;
 import io.anuke.ucore.ecs.Trait;
 
+@Require(PosTrait.class)
 public class ColliderTrait extends Trait{
 	public float width, height;
 	public float offsetx, offsety;

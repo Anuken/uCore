@@ -4,13 +4,12 @@ import java.util.Arrays;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.Method;
-import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.badlogic.gdx.utils.reflect.*;
 
 public abstract class Prototype{
 	private static int lastid;
 	private static Array<Prototype> types = new Array<>();
+	private static final boolean checkRequire = true;
 	
 	private static ObjectMap<Class<? extends SparkEvent>, Method> methodCache = new ObjectMap<>();
 	private static ObjectMap<Class<?>, Class<?>> primitiveClassMap = new ObjectMap<Class<?>, Class<?>>(){{
@@ -37,7 +36,20 @@ public abstract class Prototype{
 		TraitList list = traits();
 		for(Trait trait : list){
 			trait.registerEvents(this);
+			
+			if(checkRequire){
+				Annotation a = ClassReflection.getAnnotation(trait.getClass(), Require.class);
+				if(a != null){
+					Require req = a.getAnnotation(Require.class);
+					for(Class<? extends Trait> type : req.value()){
+						if(!list.contains(type))
+							throw new IllegalArgumentException("Required trait not found: Trait \"" + 
+						ClassReflection.getSimpleName(trait.getClass()) + "\" requires the trait \"" + ClassReflection.getSimpleName(type) + "\", but it was not found in the trait list. Make sure it exists!");
+					}
+				}
+			}
 		}
+		
 	}
 	
 	public int getTypeID(){

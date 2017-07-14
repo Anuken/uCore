@@ -42,6 +42,14 @@ public class TraitList implements Iterable<Trait>{
 		traits.end();
 		return this;
 	}
+	
+	public boolean contains(Class<? extends Trait> type){
+		for(int i = 0; i < traits.size; i ++){
+			if(traits.get(i).getClass() == type)
+				return true;
+		}
+		return false;
+	}
 
 	@Override
 	public Iterator<Trait> iterator(){
