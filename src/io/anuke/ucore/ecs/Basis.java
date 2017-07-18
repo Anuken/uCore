@@ -68,6 +68,10 @@ public class Basis{
 		for(BasisListener l : listeners)
 			l.added(spark);
 		
+		for(Trait trait : spark.getTraits()){
+			trait.added(spark);
+		}
+		
 		toAdd.add(spark);
 		spark.setBasis(this);
 	}
@@ -91,7 +95,8 @@ public class Basis{
 	}
 	
 	public void update(){
-		for(Processor pro : processors){
+		for(int i = 0; i < processors.size; i ++){
+			Processor pro = processors.get(i);
 			if(pro.isEnabled())
 				pro.update(sparks);
 		}

@@ -10,7 +10,10 @@ public class Mathf{
 	
 	/**X/Y flipped, returns degrees*/
 	public static float atan2(float x, float y){
-		return (float)Math.atan2(x, y) * MathUtils.radDeg;
+		float out = (float)Math.atan2(y, x) * MathUtils.radDeg;
+		out -= 180f;
+		if(out < 0) out += 360f;
+		return out;
 	}
 	
 	public static float sin(float in, float scl, float mag){

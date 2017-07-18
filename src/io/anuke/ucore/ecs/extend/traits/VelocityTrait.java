@@ -12,11 +12,21 @@ public class VelocityTrait extends Trait{
 	public Vector2 vector = new Vector2();
 	public float drag;
 	
+	public VelocityTrait(){}
+	
+	public VelocityTrait(float drag){
+		this.drag = drag;
+	}
+	
 	@Override
 	public void update(Spark spark){
 		PosTrait pos = spark.pos();
 		pos.x += vector.x;
 		pos.y += vector.y;
 		vector.scl(1f-drag*Mathf.delta());
+	}
+	
+	public float angle(){
+		return vector.angle();
 	}
 }

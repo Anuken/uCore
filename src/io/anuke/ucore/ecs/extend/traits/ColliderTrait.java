@@ -20,4 +20,8 @@ public class ColliderTrait extends Trait{
 		width = w;
 		height = h;
 	}
+	
+	public void setSize(float size){
+		width = height = size;
+	}
 }

@@ -8,6 +8,7 @@ import io.anuke.ucore.util.Mathf;
 
 public class HealthTrait extends Trait{
 	public int health, maxhealth;
+	public boolean dead = false;
 	
 	public HealthTrait(){
 		this(100);
@@ -25,8 +26,9 @@ public class HealthTrait extends Trait{
 			
 			htrait.health -= damage;
 			
-			if(htrait.health < 0){
+			if(htrait.health < 0 && !dead){
 				type.callEvent(Death.class, spark);
+				dead = true;
 			}
 		});
 	}

@@ -2,6 +2,7 @@ package io.anuke.ucore.ecs.extend.traits;
 
 import com.badlogic.gdx.math.Vector2;
 
+import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.ecs.Trait;
 import io.anuke.ucore.util.Mathf;
 
@@ -28,6 +29,14 @@ public class PosTrait extends Trait{
 	
 	public float angleTo(float x, float y){
 		return Mathf.atan2(this.x-x, this.y-y);
+	}
+	
+	public float angleTo(Spark other){
+		return angleTo(other.pos().x, other.pos().y);
+	}
+	
+	public float angleTo(Spark other, float offsetx, float offsety){
+		return angleTo(other.pos().x + offsetx, other.pos().y + offsety);
 	}
 	
 	public void translate(float x, float y){

@@ -64,6 +64,10 @@ public class Effects{
 	
 	//TODO
 	public static void shake(float intensity, float duration, Entity loc){
-		ModuleController.renderer().shake(intensity, duration);
+		shake(intensity, duration, loc.x, loc.y);
+	}
+	
+	public static void shake(float intensity, float duration, Spark loc){
+		shake(intensity, duration, loc.pos().x, loc.pos().y);
 	}
 }

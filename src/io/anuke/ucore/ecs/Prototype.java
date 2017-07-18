@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.*;
 
+/**Defines the type of a Spark.*/
 public abstract class Prototype{
 	private static int lastid;
 	private static Array<Prototype> types = new Array<>();
@@ -22,12 +23,22 @@ public abstract class Prototype{
 		put(Long.class, long.class);
 	}};
 	
+	/**Unique prototype ID.*/
 	private final int id;
-	/**Current events. When overriding an already existing Prototype class, the new handler gets added onto the array.*/
+	/**Traits for this prototype.*/
+	private ObjectMap<Class<? extends Trait>, Trait> typeTraits = new ObjectMap<>();
+	/**Current events handlers. When overriding an already existing Prototype class, the new handler gets added onto the array.*/
 	private ObjectMap<Class<? extends SparkEvent>, Array<SparkEvent>> events = new ObjectMap<>();
+	/**Event handlers registered by traits.*/
 	private ObjectMap<Class<? extends SparkEvent>, Array<SparkEvent>> traitEvents = new ObjectMap<>();
 	
 	public abstract TraitList traits();
+	
+	public void update(Spark spark){}
+	public void added(Spark spark){}
+	public void removed(Spark spark){}
+	
+	public TraitList typeTraits(){return new TraitList();}
 	
 	public Prototype(){
 		id = lastid++;
@@ -50,10 +61,21 @@ public abstract class Prototype{
 			}
 		}
 		
+		TraitList typet = typeTraits();
+		for(Trait t : typet){
+			typeTraits.put(t.getClass(), t);
+		}
 	}
 	
 	public int getTypeID(){
 		return id;
+	}
+	
+	/**Returns a type trait by class-- this is different than the traits used for spark instances!*/
+	public <T extends Trait> T getTypeTrait(Class<T> c){
+		T t = (T)typeTraits.get(c);
+		if(t == null) throw new IllegalArgumentException("Trait type not found in spark: \"" + c + "\"");
+		return t;
 	}
 	
 	/**Registers a trait event listener.*/

@@ -3,7 +3,7 @@ package io.anuke.ucore.ecs;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
-import io.anuke.ucore.ecs.extend.traits.PosTrait;
+import io.anuke.ucore.ecs.extend.traits.*;
 
 public class Spark{
 	private static int lastid;
@@ -59,6 +59,10 @@ public class Spark{
 		return id;
 	}
 	
+	public Basis getBasis(){
+		return basis;
+	}
+	
 	protected void setBasis(Basis basis){
 		this.basis = basis;
 	}
@@ -73,5 +77,21 @@ public class Spark{
 		if(pos == null)
 			pos = get(PosTrait.class);
 		return pos;
+	}
+	
+	public HealthTrait health(){
+		return get(HealthTrait.class);
+	}
+	
+	public VelocityTrait velocity(){
+		return get(VelocityTrait.class);
+	}
+	
+	public LifetimeTrait life(){
+		return get(LifetimeTrait.class);
+	}
+	
+	public ProjectileTrait projectile(){
+		return get(ProjectileTrait.class);
 	}
 }

@@ -15,6 +15,11 @@ public class Events{
 		public boolean handle(Spark spark, Spark other);
 	}
 	
+	/**Tile collision event.*/
+	public interface TileCollision extends SparkEvent{
+		public void handle(Spark spark);
+	}
+	
 	public interface Damaged extends SparkEvent{
 		public void handle(Spark spark, Spark source, int damage);
 	}
