@@ -19,6 +19,7 @@ public class Element extends BaseElement{
 	
 	protected float alpha = 1f;
 	private VisibilityProvider visibility;
+	private Listenable update;
 	
 	@Override
 	public void draw (Batch batch, float parentAlpha) {
@@ -46,6 +47,8 @@ public class Element extends BaseElement{
 		super.act(delta);
 		if(visibility != null)
 			setVisible(visibility.visible());
+		if(update != null)
+			update.listen();
 	}
 	
 	public Vector2 worldPos(){
@@ -104,13 +107,7 @@ public class Element extends BaseElement{
 	}
 	
 	public void update(Listenable r){
-		addAction(new Action(){
-			@Override
-			public boolean act(float delta){
-				r.listen();
-				return false;
-			}
-		});
+		update = r;
 	}
 	
 	public void setVisible(VisibilityProvider vis){

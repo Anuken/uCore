@@ -13,6 +13,7 @@ import io.anuke.ucore.jbump.Item;
 import io.anuke.ucore.jbump.Response.Result;
 import io.anuke.ucore.jbump.World;
 import io.anuke.ucore.util.Mathf;
+import io.anuke.ucore.util.Tmp;
 
 public class TileCollisionProcessor extends Processor{
 	private static final int r = 1;
@@ -69,6 +70,30 @@ public class TileCollisionProcessor extends Processor{
 		for(Item item : items){
 			world.remove(item);
 		}
+	}
+	
+	public boolean collides(Spark spark, TileCollideTrait trait){
+		tmp.setSize(trait.width, trait.height);
+		tmp.setCenter(spark.pos().x + trait.offsetx, spark.pos().y + trait.offsety);
+		tmp.getCenter(Tmp.v1);
+		
+		//assumes tilesize is centered
+		int tilex = Mathf.scl2(Tmp.v1.x, tilesize);
+		int tiley = Mathf.scl2(Tmp.v1.y, tilesize);
+		
+		for(int dx = -r; dx <= r; dx++){
+			for(int dy = -r; dy <= r; dy++){
+				int wx = dx+tilex, wy = dy+tiley;
+				if(collider.solid(wx, wy)){
+					hitbox.getHitbox(wx, wy, Rectangle.tmp2);
+					
+					if(Rectangle.tmp2.overlaps(tmp)){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override

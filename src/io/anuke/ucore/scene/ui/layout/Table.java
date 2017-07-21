@@ -262,6 +262,11 @@ public class Table extends WidgetGroup {
 		for (int i = 0, n = actors.length; i < n; i++)
 			add(actors[i]);
 	}
+	
+	public Cell<Label> add (StringSupplier text) {
+		Cell<Label> cell = add(new Label(text));
+		return cell;
+	}
 
 	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
 	public Cell<Label> add (CharSequence text) {
@@ -430,6 +435,17 @@ public class Table extends WidgetGroup {
 		button.clicked(clicked);
 		button.getLabelCell().padLeft(-imagesize);
 		return add(button);
+	}
+	
+	public Cell<Slider> addSlider(float min, float max, float step, Consumer<Float> listener){
+		return addSlider(min, max, step, 0f, listener);
+	}
+	
+	public Cell<Slider> addSlider(float min, float max, float step, float defvalue, Consumer<Float> listener){
+		Slider slider = new Slider(min, max, step, false);
+		slider.setValue(defvalue);
+		slider.moved(listener);
+		return add(slider);
 	}
 
 	public boolean removeChild (Element actor) {

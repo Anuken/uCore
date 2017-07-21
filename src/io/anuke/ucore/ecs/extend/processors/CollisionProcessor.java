@@ -22,11 +22,11 @@ public class CollisionProcessor extends Processor{
 	private BoundingBoxProvider<Spark> bounds = (obj, out)->{
 		ColliderTrait col = obj.get(ColliderTrait.class);
 		out.setSize(col.width, col.height);
-		out.setCenter(obj.pos().x, obj.pos().y);
+		out.setCenter(obj.pos().x + col.offsetx, obj.pos().y + col.offsety);
 	};
 	
 	public CollisionProcessor(){
-		resizeTree(0, 0, 10, 10);
+		//resizeTree(0, 0, 10, 10);
 	}
 	
 	@Override
@@ -35,8 +35,9 @@ public class CollisionProcessor extends Processor{
 		tree.clear();
 		
 		for(int i = 0; i < sparks.size; i ++){
-			if(sparks.get(i).has(ColliderTrait.class))
+			if(sparks.get(i).has(ColliderTrait.class)){
 				tree.insert(sparks.get(i));
+			}
 		}
 		
 		for(int i = 0; i < sparks.size; i ++){
@@ -54,6 +55,7 @@ public class CollisionProcessor extends Processor{
 					return;
 				
 				bounds.getBoundingBox(other, Rectangle.tmp2);
+				
 				if(Rectangle.tmp.overlaps(Rectangle.tmp2) &&
 						other.getType().callEvent(true, CollisionFilter.class, other, spark) &&
 						spark.getType().callEvent(true, CollisionFilter.class, spark, other)){
@@ -106,10 +108,6 @@ public class CollisionProcessor extends Processor{
 	public void resizeTree(float x, float y, float w, float h){
 		tree = new QuadTree<Spark>(5, new Rectangle(x, y, w, h));
 		
-		tree.setBoundingBoxProvider((obj, out)->{
-			ColliderTrait col = obj.get(ColliderTrait.class);
-			out.setSize(col.width, col.height);
-			out.setCenter(obj.pos().x + col.offsetx, obj.pos().y + col.offsety);
-		});
+		tree.setBoundingBoxProvider(bounds);
 	}
 }

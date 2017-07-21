@@ -18,11 +18,7 @@ public class PixmapUtils{
 
 	public static Pixmap copy(Pixmap input){
 		Pixmap pixmap = new Pixmap(input.getWidth(), input.getHeight(), Format.RGBA8888);
-		for(int x = 0;x < pixmap.getWidth();x ++){
-			for(int y = 0;y < pixmap.getHeight();y ++){
-				pixmap.drawPixel(x, y, input.getPixel(x, y));
-			}
-		}
+		pixmap.drawPixmap(input, 0, 0);
 		return pixmap;
 	}
 

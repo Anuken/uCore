@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Pools;
 
+import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
@@ -154,6 +155,12 @@ public class Slider extends ProgressBar {
 		boolean valueSet = setValue(value);
 		if (value == oldValue) position = oldPosition;
 		return valueSet;
+	}
+	
+	public void moved(Consumer<Float> listener){
+		changed(()->{
+			listener.accept(getValue());
+		});
 	}
 
 	/** Returns a snapped value. */

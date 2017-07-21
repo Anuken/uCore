@@ -116,6 +116,10 @@ public class Basis{
 		toRemove.clear();
 	}
 	
+	public Array<Spark> getSparks(){
+		return sparks;
+	}
+	
 	public static Basis instance(){
 		if(instance == null) new Basis();
 		return instance;

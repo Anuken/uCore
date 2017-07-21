@@ -40,27 +40,26 @@ public class QuadTree<T> {
      * @param bounds            The total bounds of this root node
      */
     public QuadTree(int maxObjectsPerNode, Rectangle bounds) {
-        this(maxObjectsPerNode, 0, bounds);
-    }
-
-    private QuadTree(int maxObjectsPerNode, int level, Rectangle bounds) {
-        this.level = level;
-        this.bounds = bounds;
-        this.maxObjectsPerNode = maxObjectsPerNode;
-        objects = new Array<T>();
-        leaf = true;
-        
-        provider = (obj, out)->{
+        this(maxObjectsPerNode, 0, bounds, (obj, out)->{
         	if(obj instanceof QuadTreeObject){
         		((QuadTreeObject)obj).getBoundingBox(out);
         	}else{
         		throw new IllegalArgumentException("The provided object does not implement QuadTreeObject! Did you forget to pass a custom BoundingBoxProvider into the quadtree?");
         	}
-        };
+        });
+    }
+
+    private QuadTree(int maxObjectsPerNode, int level, Rectangle bounds, BoundingBoxProvider provider) {
+        this.level = level;
+        this.bounds = bounds;
+        this.maxObjectsPerNode = maxObjectsPerNode;
+        this.provider = provider;
+        objects = new Array<T>();
+        leaf = true;
     }
     
     public void setBoundingBoxProvider(BoundingBoxProvider<T> prov){
-    	provider = prov;
+    	this.provider = prov;
     }
 
     private void split() {
@@ -70,10 +69,10 @@ public class QuadTree<T> {
         float subH = bounds.height / 2;
 
         leaf = false;
-        bottomLeftChild = new QuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x, bounds.y, subW, subH));
-        bottomRightChild = new QuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x + subW, bounds.y, subW, subH));
-        topLeftChild = new QuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x, bounds.y + subH, subW, subH));
-        topRightChild = new QuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x + subW, bounds.y + subH, subW, subH));
+        bottomLeftChild = new QuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x, bounds.y, subW, subH), provider);
+        bottomRightChild = new QuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x + subW, bounds.y, subW, subH), provider);
+        topLeftChild = new QuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x, bounds.y + subH, subW, subH), provider);
+        topRightChild = new QuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x + subW, bounds.y + subH, subW, subH), provider);
 
         // Transfer objects to children if they fit entirely in one
         for (Iterator<T> iterator = objects.iterator(); iterator.hasNext(); ) {

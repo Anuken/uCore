@@ -69,6 +69,11 @@ public class Cell<T extends Element> implements Poolable {
 	public T getElement () {
 		return (T)actor;
 	}
+	
+	/**getElement shortcut*/
+	public T get(){
+		return getElement();
+	}
 
 	/** Returns true if the cell's actor is not null. */
 	public boolean hasActor () {

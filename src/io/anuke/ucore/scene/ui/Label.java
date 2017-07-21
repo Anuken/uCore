@@ -24,6 +24,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
 
+import io.anuke.ucore.function.StringSupplier;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.style.Drawable;
 /** A text label, with optional word wrapping.
@@ -47,6 +48,13 @@ public class Label extends Element {
 	private float fontScaleX = 1, fontScaleY = 1;
 	private boolean fontScaleChanged = false;
 	private String ellipsis;
+	
+	public Label(StringSupplier sup){
+		this("", skin.get(LabelStyle.class));
+		update(()->{
+			setText(sup.get());
+		});
+	}
 
 	public Label (CharSequence text) {
 		this(text, skin.get(LabelStyle.class));

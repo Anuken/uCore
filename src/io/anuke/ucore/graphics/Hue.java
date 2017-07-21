@@ -125,7 +125,7 @@ public class Hue{
 				break;
 			}
 		}
-		return color.set(r/255f, g/255f, b/255f, 1f);
+		return color.set(r/255f, g/255f, b/255f, color.a);
 	}
 	
 	public static float[] RGBtoHSB(int r, int g, int b, float[] hsbvals) {

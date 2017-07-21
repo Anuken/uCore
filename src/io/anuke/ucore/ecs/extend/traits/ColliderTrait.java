@@ -21,6 +21,13 @@ public class ColliderTrait extends Trait{
 		height = h;
 	}
 	
+	public ColliderTrait(float w, float h, float offsetx, float offsety){
+		width = w;
+		height = h;
+		this.offsetx = offsetx;
+		this.offsety = offsety;
+	}
+	
 	public void setSize(float size){
 		width = height = size;
 	}

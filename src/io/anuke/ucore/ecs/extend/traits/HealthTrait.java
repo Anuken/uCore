@@ -1,6 +1,7 @@
 package io.anuke.ucore.ecs.extend.traits;
 
 import io.anuke.ucore.ecs.Prototype;
+import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.ecs.Trait;
 import io.anuke.ucore.ecs.extend.Events.Damaged;
 import io.anuke.ucore.ecs.extend.Events.Death;
@@ -20,15 +21,25 @@ public class HealthTrait extends Trait{
 	}
 	
 	@Override
+	public void added(Spark spark){
+		dead = false;
+	}
+	
+	@Override
+	public void removed(Spark spark){
+		dead = false;
+	}
+	
+	@Override
 	public void registerEvents(Prototype type){
 		type.traitEvent(Damaged.class, (spark, source, damage)->{
 			HealthTrait htrait = spark.get(HealthTrait.class);
 			
 			htrait.health -= damage;
 			
-			if(htrait.health < 0 && !dead){
+			if(htrait.health < 0 && !htrait.dead){
 				type.callEvent(Death.class, spark);
-				dead = true;
+				htrait.dead = true;
 			}
 		});
 	}

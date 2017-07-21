@@ -21,8 +21,8 @@ public class VelocityTrait extends Trait{
 	@Override
 	public void update(Spark spark){
 		PosTrait pos = spark.pos();
-		pos.x += vector.x;
-		pos.y += vector.y;
+		pos.x += vector.x*Mathf.delta();
+		pos.y += vector.y*Mathf.delta();
 		vector.scl(1f-drag*Mathf.delta());
 	}
 	

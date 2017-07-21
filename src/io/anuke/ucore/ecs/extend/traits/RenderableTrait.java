@@ -32,6 +32,7 @@ public class RenderableTrait extends Trait{
 	@Override
 	public void removed(Spark spark){
 		list.free();
+		drawn = false;
 	}
 	
 	public void shadow(Spark spark, int size){
