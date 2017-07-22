@@ -27,6 +27,11 @@ public class PosTrait extends Trait{
 		return dst(pos.x, pos.y);
 	}
 	
+	/**Returns "rectangular" distance*/
+	public float rdist(float x, float y){
+		return Math.max(Math.abs(x-this.x), Math.abs(y-this.y));
+	}
+	
 	public float angleTo(float x, float y){
 		return Mathf.atan2(this.x-x, this.y-y);
 	}

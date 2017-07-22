@@ -87,6 +87,25 @@ public class Basis{
 		sparks.removeValue(spark, true);
 	}
 	
+	public boolean removeSpark(int id){
+		Spark spark = getSpark(id);
+		
+		if(spark != null){
+			removeSpark(spark);
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public Spark getSpark(int id){
+		return sparkmap.get(id);
+	}
+	
+	public Array<Spark> getSparks(){
+		return sparks;
+	}
+	
 	public void clearSparks(){
 		toAdd.clear();
 		toRemove.clear();
@@ -114,10 +133,6 @@ public class Basis{
 		}
 		
 		toRemove.clear();
-	}
-	
-	public Array<Spark> getSparks(){
-		return sparks;
 	}
 	
 	public static Basis instance(){

@@ -11,8 +11,9 @@ import io.anuke.ucore.renderables.Sorter;
 
 
 public class RenderableTrait extends Trait{
+	public RenderableList list = new RenderableList();
+	
 	private BiConsumer<RenderableTrait, Spark> drawer;
-	private RenderableList list = new RenderableList();
 	private boolean drawn = false;
 	
 	public RenderableTrait(BiConsumer<RenderableTrait, Spark> drawer){
@@ -45,6 +46,7 @@ public class RenderableTrait extends Trait{
 				+ (int) (size * 0.8f / 2f + Math.pow(size, 1.5f) / 200f) * 2;
 		
 		draw(p->{
+			Draw.color();
 			p.provider = Sorter.tile;
 			p.layer = Sorter.shadow;
 			Draw.rect(shadow, spark.pos().x, spark.pos().y + offsety);

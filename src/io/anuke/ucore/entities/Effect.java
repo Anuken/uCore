@@ -1,43 +1,32 @@
 package io.anuke.ucore.entities;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.utils.ObjectMap;
 
-import io.anuke.ucore.function.EffectRenderer;
+import io.anuke.ucore.core.Effects;
+import io.anuke.ucore.core.Effects.EffectDraw;
 
 public class Effect extends TimedEntity{
-	static ObjectMap<String, EffectDraw> draws = new ObjectMap<>();
-	
-	public EffectRenderer renderer;
+	public EffectDraw renderer;
 	public Color color = Color.WHITE;
 	
-	public static void create(String name, float life, EffectRenderer cons){
-		draws.put(name, new EffectDraw(cons, life));
-	}
-	
-	public Effect(float lifetime, EffectRenderer rend){
+	public Effect(float lifetime, EffectDraw rend){
 		renderer = rend;
 		this.lifetime = lifetime;
 	}
 	
 	public Effect(String name){
-		if(!draws.containsKey(name)) throw new IllegalArgumentException("The effect draw call \"" + name + "\" does not exist!");
-		renderer = draws.get(name).draw;
-		lifetime = draws.get(name).lifetime;
+		renderer = Effects.getEffect(name);
+		lifetime = Effects.getEffect(name).lifetime;
+	}
+	
+	public Effect(String name, Color color){
+		this(name);
+		this.color = color;
 	}
 	
 	@Override
 	public void drawOver(){
-		renderer.render(this);
+		Effects.renderEffect(renderer, color, time, x, y);
 	}
 	
-	static class EffectDraw{
-		EffectRenderer draw;
-		float lifetime;
-		
-		public EffectDraw(EffectRenderer draw, float life){
-			this.lifetime = life;
-			this.draw = draw;
-		}
-	}
 }

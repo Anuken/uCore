@@ -25,6 +25,7 @@ public class TileCollideTrait extends Trait{
 	@Override
 	public void update(Spark spark){
 		TileCollisionProcessor p = spark.getBasis().getProcessor(TileCollisionProcessor.class);
+		if(p == null) throw new IllegalArgumentException("No TileCollisionProcessor in basis. Add one before using a TileCollideTrait.");
 		if(p.collides(spark, this)){
 			spark.getType().callEvent(TileCollision.class, spark);
 		}
@@ -32,6 +33,7 @@ public class TileCollideTrait extends Trait{
 	
 	public void move(Spark spark, float x, float y){
 		TileCollisionProcessor p = spark.getBasis().getProcessor(TileCollisionProcessor.class);
+		if(p == null) throw new IllegalArgumentException("No TileCollisionProcessor in basis. Add one before using a TileCollideTrait.");
 		p.move(spark, this, x, y);
 	}
 }

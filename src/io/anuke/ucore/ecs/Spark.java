@@ -18,14 +18,22 @@ public class Spark{
 	//cached pos trait, since it's used so much anyway
 	private PosTrait pos;
 	
+	/**Only to be used for things like serialization. Uses the provided list of traits, instead of the prototype traits.*/
+	public static Spark createCustom(Prototype type, Array<Trait> traits){
+		Spark spark = new Spark(type, traits);
+		return spark;
+	}
+	
 	public Spark(Prototype type){
+		this(type, type.traits().asArray());
+	}
+	
+	//internal use only
+	private Spark(Prototype type, Array<Trait> traits){
 		this.type = type;
-		
 		id = lastid++;
 		
-		TraitList list = type.traits();
-		
-		traitlist = list.asArray();
+		traitlist = traits;
 		for(Trait t : traitlist){
 			t.init(this);
 			traitmap.put(t.getClass(), t);
@@ -69,6 +77,15 @@ public class Spark{
 	
 	public Prototype getType(){
 		return type;
+	}
+	
+	public boolean isType(Prototype type){
+		return this.type == type;
+	}
+	
+	/**Resets the entity ID- do not use!*/
+	public void resetID(int id){
+		this.id = id;
 	}
 	
 	//shortcut trait methods...

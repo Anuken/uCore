@@ -5,8 +5,11 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
+import io.anuke.ucore.function.Supplier;
+
 public class Mathf{
 	private static Random seedr = new Random();
+	private static Supplier<Float> deltaimpl = ()->Gdx.graphics.getDeltaTime()*60f;
 	
 	/**X/Y flipped, returns degrees*/
 	public static float atan2(float x, float y){
@@ -131,7 +134,11 @@ public class Mathf{
 	}
 	
 	public static float delta(){
-		return Gdx.graphics.getDeltaTime()*60f;
+		return deltaimpl.get();
+	}
+	
+	public static void setDeltaProvider(Supplier<Float> impl){
+		deltaimpl = impl;
 	}
 	
 	public static boolean inRect(float x, float y, float bx, float by, float tx, float ty){
