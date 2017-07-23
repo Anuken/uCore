@@ -13,15 +13,15 @@ import io.anuke.ucore.modules.ModuleController;
 
 public class Effects{
 	private static final ObjectMap<String, EffectDraw> draws = new ObjectMap<>();
-	private static EffectProvider provider = (name, color, x, y)-> new Effect(name, color).set(x, y);
+	private static EffectProvider provider = (name, color, x, y)-> new Effect(name, color).set(x, y).add();
 	private static final EffectContainer container = new EffectContainer();
 	
 	public static void setEffectProvider(EffectProvider prov){
 		provider = prov;
 	}
 	
-	public static void renderEffect(EffectDraw render, Color color, float life, float x, float y){
-		container.set(color, life, render.lifetime, x, y);
+	public static void renderEffect(int id, EffectDraw render, Color color, float life, float x, float y){
+		container.set(id, color, life, render.lifetime, x, y);
 		render.draw.render(container);
 	}
 	
@@ -104,9 +104,10 @@ public class Effects{
 	public static class EffectContainer{
 		public float x, y, time, lifetime;
 		public Color color;
+		public int id;
 		
-		public void set(Color color, float life, float lifetime, float x, float y){
-			this.x = x; this.y = y; this.color = color; this.time = life; this.lifetime = lifetime;
+		public void set(int id, Color color, float life, float lifetime, float x, float y){
+			this.x = x; this.y = y; this.color = color; this.time = life; this.lifetime = lifetime; this.id = id;
 		}
 		
 		public float fract(){

@@ -18,9 +18,9 @@ import io.anuke.ucore.util.*;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 
 public class Entities{
-	private static HashMap<Long, Entity> entities = new HashMap<Long, Entity>();
-	protected static ObjectSet<Long> entitiesToRemove = new ObjectSet<Long>();
-	protected static ObjectSet<Entity> entitiesToAdd = new ObjectSet<Entity>();
+	private static HashMap<Integer, Entity> entities = new HashMap<>();
+	protected static ObjectSet<Integer> entitiesToRemove = new ObjectSet<>();
+	protected static ObjectSet<Entity> entitiesToAdd = new ObjectSet<>();
 	
 	public static QuadTree<SolidEntity> tree;
 	public static RectQuadTree rtree;
@@ -332,7 +332,7 @@ public class Entities{
 			e.update();
 		}
 
-		for(Long l : entitiesToRemove){
+		for(Integer l : entitiesToRemove){
 			entities.remove(l);
 			
 		}

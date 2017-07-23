@@ -26,7 +26,7 @@ public class Effect extends TimedEntity{
 	
 	@Override
 	public void drawOver(){
-		Effects.renderEffect(renderer, color, time, x, y);
+		Effects.renderEffect(id, renderer, color, time, x, y);
 	}
 	
 }
