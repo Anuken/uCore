@@ -31,6 +31,10 @@ public class Mathf{
 		return MathUtils.isEqual(f, 0);
 	}
 	
+	public static boolean in(float value, float target, float range){
+		return Math.abs(value-target) < range;
+	}
+	
 	public static float pow(float a, float b){
 		return (float)Math.pow(a, b);
 	}
@@ -154,6 +158,7 @@ public class Mathf{
 		return(f < 0 ? -1 : 1);
 	}
 	
+	/**Returns 1 if true, -1 if false.*/
 	public static int sign(boolean b){
 		return b ? 1 : -1;
 	}

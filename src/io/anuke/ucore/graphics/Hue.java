@@ -79,7 +79,7 @@ public class Hue{
 	}
 	
 	public static Color fromHSB(float hue, float saturation, float brightness){
-		return Hue.fromHSB(hue, saturation, brightness, new Color());
+		return Hue.fromHSB(hue, saturation, brightness, new Color(1, 1, 1, 1));
 	}
 	
 	public static Color fromHSB(float hue, float saturation, float brightness, Color color){

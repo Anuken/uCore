@@ -55,6 +55,13 @@ public class Element extends BaseElement{
 		return localToStageCoordinates(vec.set(0, 0));
 	}
 	
+	public void keyDown(int key, Listenable l){
+		keyDown(k->{
+			if(k == key)
+				l.listen();
+		});
+	}
+	
 	/**Adds a keydown input listener.*/
 	public void keyDown(KeyListenable cons){
 		addListener(new InputListener(){

@@ -21,7 +21,7 @@ public class ColorPicker extends Table{
 	private Bar hbar, sbar, bbar;
 	private ColorListenable changed;
 	private TextField field;
-	private Color color = Color.CORAL.cpy(), tmp = new Color();
+	private Color color = Color.CORAL.cpy(), tmp = new Color(1, 1, 1, 1);
 	
 	public ColorPicker(){
 		setup();

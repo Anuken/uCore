@@ -113,8 +113,10 @@ public class PixmapUtils{
 
 	public static Pixmap huePixmap(int width, int height){
 		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
+		Color color = new Color(1, 1, 1, 1);
+		
 		for(int x = 0;x < width;x ++){
-			Color color = Hue.fromHSB(x / (float)width, 1f, 1f);
+			Hue.fromHSB(x / (float)width, 1f, 1, color);
 			pixmap.setColor(color);
 			for(int y = 0;y < height;y ++){
 				pixmap.drawPixel(x, y);

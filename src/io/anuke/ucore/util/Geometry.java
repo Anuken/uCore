@@ -144,8 +144,9 @@ public class Geometry{
 		random.setSeed(seed);
 		for(int i = 0; i < amount; i ++){
 			float scl = length;
-			float vx = random.nextFloat()-0.5f, vy = random.nextFloat()-0.5f;
-			cons.accept(vx*scl, vy*scl);
+			float vang = random.nextFloat()*360f;
+			Tmp.v3.set(scl, 0).setAngle(vang);
+			cons.accept(Tmp.v3.x, Tmp.v3.y);
 		}
 	}
 	

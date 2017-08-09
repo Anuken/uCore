@@ -1,8 +1,8 @@
 package io.anuke.ucore.graphics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.style.TextureRegionDrawable;
@@ -13,8 +13,11 @@ public class Textures{
 	private static TextureMap textures;
 	
 	public static void load(String path){
-		if(textures != null) 
-			throw new GdxRuntimeException("Textures are already loaded! Did you forget to call Textures.dispose()?");
+		if(textures != null){
+			Gdx.app.error("Textures", "Textures are already loaded! Did you forget to call Textures.dispose()?");
+			textures.dispose();
+		}
+		
 		textures = new TextureMap(path);
 	}
 	
@@ -49,7 +52,7 @@ public class Textures{
 	
 	public static void dispose(){
 		if(textures != null)
-		textures.dispose();
+			textures.dispose();
 		textures = null;
 	}
 	
