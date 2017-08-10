@@ -37,7 +37,7 @@ public class Surface implements Disposable{
 		
 		buffer = new FrameBuffer(Format.RGBA8888, Gdx.graphics.getWidth()/scale, Gdx.graphics.getHeight()/scale, false);
 		if(!linear)
-		buffer.getColorBufferTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+			buffer.getColorBufferTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 	}
 	
 	public Texture texture(){

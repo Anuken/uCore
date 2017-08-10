@@ -11,7 +11,6 @@ import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.core.DrawContext;
 import io.anuke.ucore.core.Settings;
 import io.anuke.ucore.graphics.Atlas;
-import io.anuke.ucore.graphics.Textures;
 import io.anuke.ucore.util.Mathf;
 
 public abstract class RendererModule<T extends ModuleController<T>> extends Module<T>{
@@ -130,10 +129,6 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	@Override
 	public void dispose(){
 		Draw.dispose();
-		
-		if(Textures.isLoaded()){
-			Textures.dispose();
-		}
 	}
 	
 	@Override

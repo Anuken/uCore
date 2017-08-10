@@ -11,9 +11,11 @@ import io.anuke.ucore.core.Draw;
 public class Cache implements Disposable{
 	protected Array<SpriteCache> caches = new Array<>();
 	protected IntArray cacheIDs = new IntArray();
+	
 	private int size = 2000;
 	private SpriteCache current;
 	private int draws = 0;
+	private boolean disposed = false;
 	
 	public Cache(int size){
 		this.size = size;
@@ -76,8 +78,12 @@ public class Cache implements Disposable{
 
 	@Override
 	public void dispose(){
+		if(disposed) return;
+		
 		for(SpriteCache cache : caches){
 			cache.dispose();
 		}
+		
+		disposed = true;
 	}
 }

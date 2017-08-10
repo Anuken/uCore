@@ -71,6 +71,13 @@ public class Caches{
 		return c;
 	}
 	
+	public static void dispose(){
+		for(Cache cache : caches){
+			cache.dispose();
+		}
+		caches.clear();
+	}
+	
 	private static void checkCache(){
 		if(current == null)
 			throw new RuntimeException("Call begin() before drawing!");

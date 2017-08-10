@@ -85,14 +85,14 @@ public class SceneModule<T extends ModuleController<T>> extends Module<T>{
 		return arr;
 	}
 	
-	@Override
-	public void update(){
-		act();
-	}
-	
 	/**Creates and adds a new layout to fill the stage.*/
 	public Table fill(){
 		return scene.table();
+	}
+	
+	@Override
+	public void update(){
+		act();
 	}
 	
 	@Override

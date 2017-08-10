@@ -685,9 +685,26 @@ public class Draw{
 	public static void dispose(){
 		blank.getTexture().dispose();
 		batch().dispose();
+		
+		for(Surface surface : surfaces.values()){
+			surface.dispose();
+		}
+		
+		surfaces.clear();
+		
+		Caches.dispose();
+		
+		if(Textures.isLoaded()){
+			Textures.dispose();
+		}
+		
+		if(DrawContext.scene != null){
+			DrawContext.scene.dispose();
+		}
 
-		if(DrawContext.atlas != null)
+		if(DrawContext.atlas != null){
 			DrawContext.atlas.dispose();
+		}
 
 		if(DrawContext.skin != null){
 			DrawContext.skin.dispose();
