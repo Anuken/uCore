@@ -8,11 +8,12 @@ import io.anuke.ucore.drawpointers.DrawHandler.PointerDrawHandler;
 import io.anuke.ucore.drawpointers.DrawPointer;
 
 public class DrawLayerManager implements LayerManager, PointerDrawHandler{
+	public Array<DrawLayer> allDrawLayers = Array.with(DrawLayers.shadow, DrawLayers.light, DrawLayers.darkness);
 	
 	@Override
 	public void draw(Array<DrawPointer> renderables){
 
-		Array<DrawLayer> blayers = new Array<DrawLayer>(DrawLayer.values());
+		Array<DrawLayer> blayers = new Array<>(allDrawLayers);
 
 		DrawLayer selected = null;
 
@@ -50,7 +51,7 @@ public class DrawLayerManager implements LayerManager, PointerDrawHandler{
 	@Override
 	public void drawRenderables(Array<Renderable> renderables){
 
-		Array<DrawLayer> blayers = new Array<DrawLayer>(DrawLayer.values());
+		Array<DrawLayer> blayers = new Array<>(allDrawLayers);
 
 		DrawLayer selected = null;
 

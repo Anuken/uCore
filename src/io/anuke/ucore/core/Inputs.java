@@ -52,6 +52,10 @@ public class Inputs{
 		scroll = 0;
 	}
 	
+	public static void clearProcessors(){
+		plex.getProcessors().clear();
+	}
+	
 	/**Adds another input processor to the chain.*/
 	public static void addProcessor(InputProcessor listener){
 		plex.addProcessor(listener);

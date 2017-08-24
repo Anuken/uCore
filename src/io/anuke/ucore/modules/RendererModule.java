@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Method;
 
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.core.DrawContext;
@@ -26,9 +28,17 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	public float shakeIntensity, shaketime;
 	
 	protected boolean pixelate;
+	protected Object recorder;
+	protected Class<?> recorderClass;
 	
 	public RendererModule(){
 		Settings.defaults("screenshake", 4);
+		
+		//setup recorder if possible
+		try{
+			recorderClass = ClassReflection.forName("io.anuke.gif.GifRecorder");
+			recorder = ClassReflection.getConstructor(recorderClass, SpriteBatch.class).newInstance(batch);
+		}catch (Exception e){}
 	}
 	
 	public void shake(float intensity, float duration){
@@ -108,6 +118,18 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	
 	/**override this*/
 	public void draw(){}
+	
+	/**Updates the gif recorder. Does nothing on GWT.*/
+	public void record(){
+		if(recorder == null) return;
+		
+		try{
+			Method method = ClassReflection.getMethod(recorderClass, "update");
+			method.invoke(recorder);
+		}catch (Exception e){
+			throw new RuntimeException(e);
+		}
+	}
 	
 	public void pixelate(){
 		pixelate(-1);

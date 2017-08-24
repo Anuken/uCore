@@ -4,26 +4,12 @@ import com.badlogic.gdx.math.MathUtils;
 
 import io.anuke.ucore.core.Draw;
 
-public enum DrawLayer{
-	shadow("shadow", Sorter.shadow, 0){
-		public void end(){
-			Draw.color(0,0,0,0.1f);
-			Draw.flushSurface();
-			Draw.color();
-		}
-	}, 
-	light("light", Sorter.light, 6){
-
-	},
-	darkness("darkness", Sorter.dark, 7){
-		
-	};
-
+public abstract class DrawLayer{
 	public final String name;
 	public final float layer;
 	public final int bind;
 
-	private DrawLayer(String name, float layer, int bind){
+	DrawLayer(String name, float layer, int bind){
 		this.name = name;
 		this.layer = layer;
 		this.bind = bind;

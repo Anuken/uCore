@@ -680,8 +680,9 @@ public class Draw{
 	}
 
 	/**
-	 * Disposes drawContext resources, as well as internal resources and skin.
+	 * Disposes drawContext resources, as well as internal resources, Texture(s) and skin.
 	 */
+	//TODO move this somewhere else
 	public static void dispose(){
 		blank.getTexture().dispose();
 		batch().dispose();
@@ -693,6 +694,8 @@ public class Draw{
 		surfaces.clear();
 		
 		Caches.dispose();
+		
+		Inputs.clearProcessors();
 		
 		if(Textures.isLoaded()){
 			Textures.dispose();
