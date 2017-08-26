@@ -2,6 +2,7 @@ package io.anuke.ucore.modules;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
@@ -37,7 +38,7 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 		//setup recorder if possible
 		try{
 			recorderClass = ClassReflection.forName("io.anuke.gif.GifRecorder");
-			recorder = ClassReflection.getConstructor(recorderClass, SpriteBatch.class).newInstance(batch);
+			recorder = ClassReflection.getConstructor(recorderClass, Batch.class).newInstance(batch);
 		}catch (Exception e){}
 	}
 	
