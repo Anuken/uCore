@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
+import io.anuke.ucore.jbump.World;
 import io.anuke.ucore.lights.shaders.LightShader;
 import io.anuke.ucore.lights.shaders.PixelShader;
 import io.anuke.ucore.noise.Noise;
@@ -721,17 +722,19 @@ public class RayHandler implements Disposable {
 			}
 		}
 		
-		//closest.sub(start).setLength(closest.len() + Mathf.range(80)).add(start);
-		float dst = closest.dst(start);
-		float frac = dst/start.dst(end);
-		
 		float noise = 0;
 		
 		if(light.noisemag > 0)
-			noise = Noise.fnoise(light.m_index, Timers.time()/light.noisetime, light.noisescl, light.noisemag)/dst;
+			noise = Noise.fnoise(light.m_index, Timers.time()/light.noisetime, light.noisescl, light.noisemag);
+		
+		//closest.sub(start).setLength(closest.len() + Mathf.range(80)).add(start);
+		float dst = closest.dst(start) - Math.abs(noise);
+		float frac = dst/start.dst(end);
+		
+		
 		
 		light.mx[light.m_index] = closest.x;
 		light.my[light.m_index] = closest.y;
-		light.f[light.m_index] = frac + noise;
+		light.f[light.m_index] = frac;
 	}
 }

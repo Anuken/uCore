@@ -34,6 +34,7 @@ import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.ui.*;
 import io.anuke.ucore.scene.ui.Label.LabelStyle;
 import io.anuke.ucore.scene.ui.layout.Value.Fixed;
+import io.anuke.ucore.scene.utils.Elements;
 import io.anuke.ucore.scene.utils.Layout;
 
 /** A group that sizes and positions children using table constraints. By default, {@link #getTouchable()} is
@@ -326,59 +327,35 @@ public class Table extends WidgetGroup {
 		return add(new Image(Draw.getPatch(name)));
 	}
 	
-	public CheckBox newCheck(String text, CheckListenable listener){
-		CheckBox button = new CheckBox(text);
-		if(listener != null)
-		button.changed(()->{
-			listener.listen(button.isChecked());
-		});
-		return button;
-	}
-	
 	public Cell<CheckBox> addCheck(String text, CheckListenable listener){
-		CheckBox button = newCheck(text, listener);
+		CheckBox button = Elements.newCheck(text, listener);
 		return add(button);
 	}
 	
 	public Cell<CheckBox> addCheck(String text, boolean checked, CheckListenable listener){
-		CheckBox button = newCheck(text, listener);
+		CheckBox button = Elements.newCheck(text, listener);
 		button.setChecked(checked);
 		return add(button);
 	}
 	
-	public TextButton newButton(String text, Listenable listener){
-		TextButton button = new TextButton(text);
-		if(listener != null)
-		button.changed(listener);
-		
-		return button;
-	}
-	
 	public Cell<TextButton> addButton(String text, Listenable listener){
-		TextButton button = newButton(text, listener);
+		TextButton button = Elements.newButton(text, listener);
 		return add(button);
 	}
 	
 	public Cell<TextButton> addButton(String text, Listenable listener, ButtonTweaker cons){
-		TextButton button = newButton(text, listener);
+		TextButton button = Elements.newButton(text, listener);
 		cons.tweak(button);
 		return add(button);
 	}
 	
-	public ImageButton newIButton(String icon, Listenable listener){
-		ImageButton button = new ImageButton(skin.getDrawable(icon));
-		if(listener != null)
-		button.changed(listener);
-		return button;
-	}
-	
 	public Cell<ImageButton> addIButton(String icon, Listenable listener){
-		ImageButton button = newIButton(icon, listener);
+		ImageButton button = Elements.newImageButton(icon, listener);
 		return add(button);
 	}
 	
 	public Cell<ImageButton> addIButton(String icon, float isize, Listenable listener){
-		ImageButton button = newIButton(icon, listener);
+		ImageButton button = Elements.newImageButton(icon, listener);
 		button.resizeImage(isize);
 		return add(button);
 	}
@@ -390,18 +367,8 @@ public class Table extends WidgetGroup {
 		return add(button);
 	}
 	
-	public TextField newField(String text, FieldListenable listener){
-		TextField field = new TextField(text);
-		if(listener != null)
-			field.changed(()->{
-				listener.listen(field.getText());
-			});
-		
-		return field;
-	}
-	
 	public Cell<TextField> addField(String text, FieldListenable listener){
-		TextField field = newField(text, listener);
+		TextField field = Elements.newField(text, listener);
 		return add(field);
 	}
 	
@@ -444,7 +411,8 @@ public class Table extends WidgetGroup {
 	public Cell<Slider> addSlider(float min, float max, float step, float defvalue, Consumer<Float> listener){
 		Slider slider = new Slider(min, max, step, false);
 		slider.setValue(defvalue);
-		slider.moved(listener);
+		if(listener != null)
+			slider.moved(listener);
 		return add(slider);
 	}
 

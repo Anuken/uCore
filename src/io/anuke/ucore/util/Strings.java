@@ -13,7 +13,12 @@ public class Strings{
 	}
 	
 	public static String capitalize(String s){
-		return s.substring(0, 1).toUpperCase()+s.substring(1);
+		String out = s.substring(0, 1).toUpperCase()+s.substring(1);
+		int idx = out.indexOf('_');
+		if(idx != -1){
+			out = out.substring(0, idx) + " " + Character.toUpperCase(out.charAt(idx+1)) + out.substring(idx+2);
+		}
+		return out;
 	}
 	
 	public static boolean canParseInt(String s){

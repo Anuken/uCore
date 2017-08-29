@@ -2,6 +2,7 @@ package io.anuke.ucore.util;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectMap.Values;
 
 public class ValueMap{
 	private ObjectMap<String, Object> map = new ObjectMap<String, Object>();
@@ -16,6 +17,18 @@ public class ValueMap{
 	
 	public boolean has(String name){
 		return map.containsKey(name);
+	}
+	
+	public int size(){
+		return map.size;
+	}
+	
+	public Iterable<String> keys(){
+		return map.keys();
+	}
+	
+	public Values<Object> values(){
+		return map.values();
 	}
 	
 	public int getInt(String name){
