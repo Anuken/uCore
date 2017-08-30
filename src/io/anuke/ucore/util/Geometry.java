@@ -2,6 +2,7 @@ package io.anuke.ucore.util;
 
 import java.util.Random;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.FloatArray;
@@ -18,6 +19,33 @@ public class Geometry{
 	private final static Vector2 ep2 = new Vector2();
 	private final static Vector2 s = new Vector2();
 	private final static Vector2 e = new Vector2();
+	
+	private final static GridPoint2[] d4points = {
+		new GridPoint2(1, 0), 
+		new GridPoint2(0, 1), 
+		new GridPoint2(-1, 0), 
+		new GridPoint2(0, -1)
+	};
+	
+	private final static GridPoint2[] d8points = {
+		new GridPoint2(1, 0), 
+		new GridPoint2(0, 1), 
+		new GridPoint2(-1, 0), 
+		new GridPoint2(0, -1),
+		
+		new GridPoint2(1, 1), 
+		new GridPoint2(-1, 1), 
+		new GridPoint2(-1, -1),
+		new GridPoint2(1, -1)
+	};
+	
+	private final static GridPoint2[] d8edgepoints = {
+		new GridPoint2(1, 1), 
+		new GridPoint2(-1, 1),
+		new GridPoint2(-1, -1),
+		new GridPoint2(1, -1)
+	};
+	
 	
 	/**returns a regular polygon with {amount} sides*/
 	public static float[] regPoly(int amount, float size){
@@ -126,6 +154,18 @@ public class Geometry{
 			float y = vertices[i+1];
 			path.accept(x, y);
 		}
+	}
+	
+	public static GridPoint2[] getD4Points(){
+		return d4points;
+	}
+	
+	public static GridPoint2[] getD8Points(){
+		return d8points;
+	}
+	
+	public static GridPoint2[] getD8EdgePoints(){
+		return d8edgepoints;
 	}
 	
 	public static void circle(int points, Consumer<Float> cons){

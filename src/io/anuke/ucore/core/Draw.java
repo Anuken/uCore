@@ -350,6 +350,11 @@ public class Draw{
 		TextureRegion region = region(name);
 		batch().draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2, region.getRegionWidth() / 2, region.getRegionHeight() / 2, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
 	}
+	
+	public static void rect(String name, float x, float y, float w, float h, float rotation){
+		TextureRegion region = region(name);
+		batch().draw(region, x - w / 2, y - h / 2, w / 2, h / 2, w, h, 1, 1, rotation);
+	}
 
 	public static void rect(String name, float x, float y, float w, float h){
 		TextureRegion region = region(name);

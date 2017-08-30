@@ -60,6 +60,16 @@ public class Elements{
 		return button;
 	}
 	
+	public static ImageButton newToggleImageButton(String icon, float size, boolean on, CheckListenable listener){
+		ImageButton button = new ImageButton(icon, "toggle");
+		button.setChecked(on);
+		button.resizeImage(size);
+		button.clicked(()->{
+			listener.listen(button.isChecked());
+		});
+		return button;
+	}
+	
 	public static TextField newField(String text, FieldListenable listener){
 		TextField field = new TextField(text);
 		if(listener != null)
