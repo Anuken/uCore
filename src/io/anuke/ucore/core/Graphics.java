@@ -17,12 +17,12 @@ public class Graphics{
 	}
 	
 	public static Vector2 mouseWorld(){
-		DrawContext.camera.unproject(vec3.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+		Core.camera.unproject(vec3.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 		return mouse.set(vec3.x, vec3.y);
 	}
 	
 	public static Vector2 world(float screenx, float screeny){
-		DrawContext.camera.unproject(vec3.set(screenx, screeny, 0));
+		Core.camera.unproject(vec3.set(screenx, screeny, 0));
 		return mouse.set(vec3.x, vec3.y);
 	}
 	

@@ -17,7 +17,7 @@ public class Events{
 	
 	/**Tile collision event.*/
 	public interface TileCollision extends SparkEvent{
-		public void handle(Spark spark);
+		public void handle(Spark spark, int x, int y);
 	}
 	
 	public interface Damaged extends SparkEvent{

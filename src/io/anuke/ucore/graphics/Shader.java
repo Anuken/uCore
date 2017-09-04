@@ -1,31 +1,34 @@
 package io.anuke.ucore.graphics;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
-public class Shader{
-	ShaderProgram program;
-	ShaderController control;
+import io.anuke.ucore.core.Draw;
+
+public abstract class Shader{
+	public final ShaderProgram shader;
 	
-	public Shader(ShaderProgram program, ShaderController control){
-		this.program = program;
-		this.control = control;
+	public TextureRegion region;
+	
+	public Shader(String frag, String vert){
+		this.shader = new ShaderProgram(Gdx.files.internal("shaders/"+vert+".vertex"),
+				Gdx.files.internal("shaders/"+frag+".fragment"));
 		
-		if(!program.isCompiled()){
-			throw new RuntimeException(program.getLog());
+		if(!shader.isCompiled()){
+			throw new RuntimeException(shader.getLog());
 		}
+		
+		Draw.addShader(this);
 	}
 	
-	public void setParams(Object...objects){
-		program.begin();
-		control.setParams(program, objects);
-		program.end();
+	public Shader(String frag){
+		this(frag, "default");
 	}
+	
+	public abstract void apply();
 	
 	public ShaderProgram program(){
-		return program;
-	}
-	
-	public interface ShaderController{
-		void setParams(ShaderProgram shader, Object... params);
+		return shader;
 	}
 }

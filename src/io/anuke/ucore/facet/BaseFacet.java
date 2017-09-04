@@ -1,22 +1,22 @@
-package io.anuke.ucore.renderables;
+package io.anuke.ucore.facet;
 
-public class FuncRenderable extends Renderable{
+public class BaseFacet extends Facet{
 	public float layer = 0f;
 	DrawFunc drawable;
 	
-	public FuncRenderable(float layer, Sorter sort, DrawFunc draw){
+	public BaseFacet(float layer, Sorter sort, DrawFunc draw){
 		this.layer = layer;
 		this.drawable = draw;
 		this.sort(sort);
 	}
 	
-	public FuncRenderable(DrawFunc draw){
+	public BaseFacet(DrawFunc draw){
 		this.drawable = draw;
 		sort(Sorter.object);
 	}
 	
 	
-	public FuncRenderable(){
+	public BaseFacet(){
 		
 	}
 	
@@ -27,13 +27,13 @@ public class FuncRenderable extends Renderable{
 
 	@Override
 	public void draw(){
-		RenderableHandler.instance().requestSort();
+		Facets.instance().requestSort();
 		
 		if(drawable != null) drawable.draw(this);
 	}
 
 	@Override
-	public Renderable set(float x, float y){
+	public Facet set(float x, float y){
 		return this;
 	}
 
@@ -43,6 +43,6 @@ public class FuncRenderable extends Renderable{
 	}
 	
 	public static interface DrawFunc{
-		public void draw(FuncRenderable l);
+		public void draw(BaseFacet l);
 	}
 }

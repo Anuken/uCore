@@ -60,7 +60,7 @@ public class Surface implements Disposable{
 	public void begin(boolean clear){
 		buffer.begin();
 		buffer.getColorBufferTexture().bind(bind);
-		//for(Texture texture : DrawContext.atlas.getTextures()){
+		//for(Texture texture : Core.atlas.getTextures()){
 		//	texture.bind(0);
 		//}
 		
@@ -72,6 +72,9 @@ public class Surface implements Disposable{
 	public void end(boolean render){
 		buffer.end();
 		buffer.getColorBufferTexture().bind(0);
+		//for(Texture texture : Core.atlas.getTextures()){
+		//	texture.bind(0);
+		//}
 	}
 	
 	@Override

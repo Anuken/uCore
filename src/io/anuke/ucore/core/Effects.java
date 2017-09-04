@@ -1,23 +1,29 @@
 package io.anuke.ucore.core;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.entities.Effect;
 import io.anuke.ucore.entities.Entity;
+import io.anuke.ucore.function.BiConsumer;
 import io.anuke.ucore.function.EffectProvider;
 import io.anuke.ucore.function.EffectRenderer;
-import io.anuke.ucore.modules.ModuleController;
 
 public class Effects{
 	private static final ObjectMap<String, EffectDraw> draws = new ObjectMap<>();
 	private static EffectProvider provider = (name, color, x, y)-> new Effect(name, color).set(x, y).add();
+	private static BiConsumer<Float, Float> shakeProvider;
 	private static final EffectContainer container = new EffectContainer();
 	
 	public static void setEffectProvider(EffectProvider prov){
 		provider = prov;
+	}
+	
+	public static void setScreenShakeProvider(BiConsumer<Float, Float> provider){
+		shakeProvider = provider;
 	}
 	
 	public static void renderEffect(int id, EffectDraw render, Color color, float life, float x, float y){
@@ -70,16 +76,19 @@ public class Effects{
 	
 	/**Plays a sound, with distance and falloff calulated relative to camera position.*/
 	public static void sound(String name, float x, float y){
-		Sounds.playDistance(name, Vector2.dst(DrawContext.camera.position.x, DrawContext.camera.position.y, x, y));
+		Sounds.playDistance(name, Vector2.dst(Core.camera.position.x, Core.camera.position.y, x, y));
 	}
 	
 	public static void shake(float intensity, float duration){
-		ModuleController.renderer().shake(intensity, duration);
+		if(shakeProvider == null)
+			throw new RuntimeException("Screenshake provider is null! Set it first.");
+		
+		shakeProvider.accept(intensity, duration);
 	}
 	
 	//TODO
 	public static void shake(float intensity, float duration, float x, float y){
-		ModuleController.renderer().shake(intensity, duration);
+		shake(intensity, duration);
 	}
 	
 	//TODO
@@ -116,6 +125,10 @@ public class Effects{
 		
 		public float ifract(){
 			return time/lifetime;
+		}
+		
+		public float powfract(){
+			return Interpolation.pow3Out.apply(ifract());
 		}
 		
 		public float sfract(){

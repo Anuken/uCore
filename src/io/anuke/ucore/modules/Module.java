@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 
 
-public abstract class Module<T extends ModuleController<T>> extends InputAdapter{
+public abstract class Module<T extends ModuleCore<T>> extends InputAdapter{
 	public static Vector2 vector = new Vector2();
 	public static Vector2 screen = new Vector2();
 	public T main;

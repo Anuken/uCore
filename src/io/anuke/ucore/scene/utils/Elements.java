@@ -1,6 +1,6 @@
 package io.anuke.ucore.scene.utils;
 
-import static io.anuke.ucore.core.DrawContext.skin;
+import static io.anuke.ucore.core.Core.skin;
 
 import com.badlogic.gdx.graphics.Color;
 

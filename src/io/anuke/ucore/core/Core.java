@@ -9,12 +9,12 @@ import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
 
-/**Provides context for drawing things. Values are usually set in a RendererModule.*/
-public class DrawContext{
+public class Core{
 	public static OrthographicCamera camera;
 	public static Batch batch;
 	public static Atlas atlas;
 	public static BitmapFont font;
+	public static int cameraScale = 1;
 	
 	public static Scene scene;
 	public static Skin skin;

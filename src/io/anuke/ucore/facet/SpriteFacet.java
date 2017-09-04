@@ -1,4 +1,4 @@
-package io.anuke.ucore.renderables;
+package io.anuke.ucore.facet;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -8,78 +8,78 @@ import com.badlogic.gdx.math.MathUtils;
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.graphics.Atlas;
 
-public class SpriteRenderable extends Renderable{
+public class SpriteFacet extends Facet{
 	public Sprite sprite;
 	public boolean layerSet;
 	public float layer;
 	
-	protected SpriteRenderable(){
+	protected SpriteFacet(){
 		sprite = new Sprite();
 	}
 
-	public SpriteRenderable(TextureRegion region) {
+	public SpriteFacet(TextureRegion region) {
 		sprite = new Sprite(region);
 	}
 	
-	public SpriteRenderable(String region) {
+	public SpriteFacet(String region) {
 		sprite = new Sprite(Draw.region(region));
 	}
 	
-	public SpriteRenderable addShadow(RenderableList list, float offset){
+	public SpriteFacet addShadow(FacetList list, float offset){
 		list.add(generateShadow().add(0, offset));
 		return this;
 	}
 	
-	public SpriteRenderable addShadow(RenderableList list, String region, float offset){
+	public SpriteFacet addShadow(FacetList list, String region, float offset){
 		list.add(generateShadow(region).add(0, offset));
 		return this;
 	}
 	
-	public SpriteRenderable addShadow(RenderableGroup g, Atlas atlas, float offset){
+	public SpriteFacet addShadow(FacetMap g, Atlas atlas, float offset){
 		g.add("shadow", generateShadow().add(0, offset));
 		return this;
 	}
 	
-	public SpriteRenderable region(TextureRegion region){
+	public SpriteFacet region(TextureRegion region){
 		sprite.setRegion(region);
 		sprite.setSize(region.getRegionWidth(), region.getRegionHeight());
 		return this;
 	}
 	
-	public SpriteRenderable generateShadow(){
+	public SpriteFacet generateShadow(){
 		return generateShadow("shadow"
 				+ (int) (sprite.getRegionWidth() * 0.8f / 2f + Math.pow(sprite.getRegionWidth(), 1.5f) / 200f) * 2);
 	}
 	
-	public SpriteRenderable generateShadow(String region){
-		return new SpriteRenderable(region)
+	public SpriteFacet generateShadow(String region){
+		return new SpriteFacet(region)
 						.set(sprite.getX() + (int) (sprite.getWidth() / 2), sprite.getY(), true, true)
 						.color(new Color(0, 0, 0, 1f)).layer(-999999);
 	}
 	
-	public SpriteRenderable scale(float x, float y){
+	public SpriteFacet scale(float x, float y){
 		sprite.setSize(sprite.getWidth() + x, sprite.getHeight()+y);
 		return this;
 	}
 
-	public SpriteRenderable set(float x, float y){
+	public SpriteFacet set(float x, float y){
 		if(!MathUtils.isEqual(y, sprite.getY(), 0.001f))
-			RenderableHandler.instance().requestSort();
+			Facets.instance().requestSort();
 
 		sprite.setPosition(x, y);
 		return this;
 	}
 	
-	public SpriteRenderable size(float x, float y){
+	public SpriteFacet size(float x, float y){
 		sprite.setSize(x, y);
 		return this;
 	}
 
-	public SpriteRenderable set(float x, float y, boolean center){
+	public SpriteFacet set(float x, float y, boolean center){
 		return set(x, y, center, false);
 	}
 
-	public SpriteRenderable set(float x, float y, boolean center, boolean block){
+	public SpriteFacet set(float x, float y, boolean center, boolean block){
 		sprite.setPosition(x, y);
 		if(center){
 			if(block){
@@ -91,47 +91,47 @@ public class SpriteRenderable extends Renderable{
 		return this;
 	}
 
-	public SpriteRenderable centerX(){
+	public SpriteFacet centerX(){
 		sprite.translateX((int) (-sprite.getWidth() / 2));
 		return this;
 	}
 
-	public SpriteRenderable centerY(){
+	public SpriteFacet centerY(){
 		sprite.translateY((int) (-sprite.getHeight() / 2));
 		return this;
 	}
 
-	public SpriteRenderable center(){
+	public SpriteFacet center(){
 		return this.centerX().centerY();
 	}
 
-	public SpriteRenderable add(float x, float y){
+	public SpriteFacet add(float x, float y){
 		sprite.translate(x, y);
 		return this;
 	}
 
-	public SpriteRenderable layer(float layer){
+	public SpriteFacet layer(float layer){
 		layerSet = true;
 		this.layer = layer;
 		return this;
 	}
 
-	public SpriteRenderable color(Color color){
+	public SpriteFacet color(Color color){
 		sprite.setColor(color);
 		return this;
 	}
 
-	public SpriteRenderable color(float r, float g, float b){
+	public SpriteFacet color(float r, float g, float b){
 		sprite.setColor(r, g, b, 1f);
 		return this;
 	}
 	
-	public SpriteRenderable alpha(float a){
+	public SpriteFacet alpha(float a){
 		sprite.setAlpha(a);
 		return this;
 	}
 	
-	public Renderable shadow(){
+	public Facet shadow(){
 		return layer(Sorter.shadow);
 	}
 

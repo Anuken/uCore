@@ -1,15 +1,15 @@
-package io.anuke.ucore.renderables;
+package io.anuke.ucore.facet;
 
 import com.badlogic.gdx.math.MathUtils;
 
 import io.anuke.ucore.core.Draw;
 
-public abstract class DrawLayer{
+public abstract class FacetLayer{
 	public final String name;
 	public final float layer;
 	public final int bind;
 
-	DrawLayer(String name, float layer, int bind){
+	FacetLayer(String name, float layer, int bind){
 		this.name = name;
 		this.layer = layer;
 		this.bind = bind;

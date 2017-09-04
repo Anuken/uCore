@@ -33,7 +33,7 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import io.anuke.ucore.core.DrawContext;
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.scene.event.*;
 import io.anuke.ucore.scene.event.InputEvent.Type;
 import io.anuke.ucore.scene.ui.layout.Table;
@@ -122,8 +122,8 @@ public class Scene extends InputAdapter implements Disposable {
 
 		if (!root.isVisible()) return;
 		
-		Batch old = DrawContext.batch;
-		DrawContext.batch = (SpriteBatch)batch;
+		Batch old = Core.batch;
+		Core.batch = (SpriteBatch)batch;
 		
 		Batch batch = this.batch;
 		batch.setProjectionMatrix(camera.combined);
@@ -131,7 +131,7 @@ public class Scene extends InputAdapter implements Disposable {
 		root.draw(batch, 1);
 		batch.end();
 		
-		DrawContext.batch = old;
+		Core.batch = old;
 
 		if (debug) drawDebug();
 	}

@@ -174,6 +174,13 @@ public class Geometry{
 		}
 	}
 	
+	public static void circleVectors(int points, float length, PositionConsumer pos){
+		for(int i = 0; i < points; i ++){
+			Angles.translation(i*360f/points, length);
+			pos.accept(Angles.vector.x, Angles.vector.y);
+		}
+	}
+	
 	public static void shotgun(int points, float spacing, float offset, Consumer<Float> cons){
 		for(int i = 0; i < points; i ++){
 			cons.accept(i*spacing-(points-1)*spacing/2f+offset);
@@ -184,6 +191,16 @@ public class Geometry{
 		random.setSeed(seed);
 		for(int i = 0; i < amount; i ++){
 			float scl = length;
+			float vang = random.nextFloat()*360f;
+			Tmp.v3.set(scl, 0).setAngle(vang);
+			cons.accept(Tmp.v3.x, Tmp.v3.y);
+		}
+	}
+	
+	public static void randLenVectors(long seed, int amount, float length, PositionConsumer cons){
+		random.setSeed(seed);
+		for(int i = 0; i < amount; i ++){
+			float scl = length * random.nextFloat();
 			float vang = random.nextFloat()*360f;
 			Tmp.v3.set(scl, 0).setAngle(vang);
 			cons.accept(Tmp.v3.x, Tmp.v3.y);

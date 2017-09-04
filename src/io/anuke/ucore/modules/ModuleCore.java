@@ -7,18 +7,25 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 import io.anuke.ucore.core.Draw;
-import io.anuke.ucore.core.Inputs;
 import io.anuke.ucore.graphics.Hue;
-import io.anuke.ucore.util.Timers;
 
-public abstract class ModuleController<T extends ModuleController<T>> extends ApplicationAdapter{
-	private static ModuleController<?> instance;
+public abstract class ModuleCore<T extends ModuleCore<T>> extends ApplicationAdapter{
+	private static ModuleCore<?> instance;
 	protected ObjectMap<Class<? extends Module<T>>, Module<T>> modules = new ObjectMap<Class<? extends Module<T>>, Module<T>>();
 	protected Array<Module<T>> modulearray = new Array<Module<T>>();
 	
 	{
 		instance=this; 
 		Hue.init();
+	}
+	
+	abstract public void init();
+	public void preInit(){}
+	public void postInit(){}
+	public void update(){}
+	
+	public <N extends Module<T>> void add(N t){
+		addModule(t);
 	}
 	
 	public void addModule(Class<? extends Module<T>> c){
@@ -59,31 +66,6 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 		return (N)(instance.getModule(c));
 	}
 	
-	public static RendererModule<?> renderer(){
-		for(Module<?> m : instance.modules.values()){
-			if(m instanceof RendererModule)
-				return (RendererModule<?>) m;
-		}
-		return null;
-	}
-	
-	public static SceneModule<?> ui(){
-		for(Module<?> m : instance.modules.values()){
-			if(m instanceof SceneModule)
-				return (SceneModule<?>) m;
-		}
-		return null;
-	}
-	
-	abstract public void init();
-	public void preInit(){}
-	public void postInit(){}
-	
-	public void update(){
-		Inputs.update();
-		Timers.update(Gdx.graphics.getDeltaTime()*60f);
-	}
-	
 	@Override
 	public void resize(int width, int height){
 		Module.screen.set(width, height);
@@ -108,6 +90,7 @@ public abstract class ModuleController<T extends ModuleController<T>> extends Ap
 		for(Module<T> module : modulearray){
 			module.update();
 		}
+		
 		update();
 	}
 	

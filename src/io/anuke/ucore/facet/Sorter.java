@@ -1,8 +1,8 @@
-package io.anuke.ucore.renderables;
+package io.anuke.ucore.facet;
 
 public enum Sorter{
 	tile{
-		public int compare(Renderable a, Renderable b){
+		public int compare(Facet a, Facet b){
 			if(b.provider == tile){
 				if(a.getLayer() == b.getLayer())
 					return 0;
@@ -14,7 +14,7 @@ public enum Sorter{
 		}
 	},
 	object{
-		public int compare(Renderable a, Renderable b){
+		public int compare(Facet a, Facet b){
 			if(b.provider == object){
 				if(a.getLayer() == b.getLayer())
 					return 0;
@@ -29,5 +29,5 @@ public enum Sorter{
 	public static final float light = 999999;
 	public static final float dark = 999999+1;
 	
-	public abstract int compare(Renderable a, Renderable b);
+	public abstract int compare(Facet a, Facet b);
 }

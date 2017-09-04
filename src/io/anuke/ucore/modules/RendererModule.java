@@ -10,13 +10,11 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 
-import io.anuke.ucore.core.Draw;
-import io.anuke.ucore.core.DrawContext;
-import io.anuke.ucore.core.Settings;
+import io.anuke.ucore.core.*;
 import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.util.Mathf;
 
-public abstract class RendererModule<T extends ModuleController<T>> extends Module<T>{
+public abstract class RendererModule<T extends ModuleCore<T>> extends Module<T>{
 	private static Vector3 pan = new Vector3();
 	
 	public OrthographicCamera camera = new OrthographicCamera();
@@ -24,7 +22,6 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	public Atlas atlas;
 	public BitmapFont font;
 	
-	public int cameraScale = 1;
 	public Color clearColor = Color.BLACK;
 	public float shakeIntensity, shaketime;
 	
@@ -34,6 +31,10 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	
 	public RendererModule(){
 		Settings.defaults("screenshake", 4);
+		
+		Effects.setScreenShakeProvider((intensity, duration)->{
+			shake(intensity, duration);
+		});
 		
 		//setup recorder if possible
 		try{
@@ -137,7 +138,7 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	}
 	
 	public void pixelate(int scl){
-		Draw.addSurface("pixel", scl == -1 ? cameraScale : scl);
+		Draw.addSurface("pixel", scl == -1 ? Core.cameraScale : scl);
 		pixelate = true;
 	}
 	
@@ -156,12 +157,12 @@ public abstract class RendererModule<T extends ModuleController<T>> extends Modu
 	
 	@Override
 	public void preInit(){
-		DrawContext.set(batch, camera, atlas, font);
+		Core.set(batch, camera, atlas, font);
 	}
 	
 	@Override
 	public void resize(int width, int height){
-		camera.setToOrtho(false, width/cameraScale, height/cameraScale);
+		camera.setToOrtho(false, width/Core.cameraScale, height/Core.cameraScale);
 		
 		resize();
 	}

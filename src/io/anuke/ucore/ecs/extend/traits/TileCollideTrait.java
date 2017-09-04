@@ -1,5 +1,7 @@
 package io.anuke.ucore.ecs.extend.traits;
 
+import com.badlogic.gdx.math.GridPoint2;
+
 import io.anuke.ucore.ecs.Require;
 import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.ecs.Trait;
@@ -26,8 +28,11 @@ public class TileCollideTrait extends Trait{
 	public void update(Spark spark){
 		TileCollisionProcessor p = spark.getBasis().getProcessor(TileCollisionProcessor.class);
 		if(p == null) throw new IllegalArgumentException("No TileCollisionProcessor in basis. Add one before using a TileCollideTrait.");
-		if(p.collides(spark, this)){
-			spark.getType().callEvent(TileCollision.class, spark);
+		
+		GridPoint2 point = p.collides(spark, this);
+		
+		if(point != null){
+			spark.getType().callEvent(TileCollision.class, spark, point.x, point.y);
 		}
 	}
 	

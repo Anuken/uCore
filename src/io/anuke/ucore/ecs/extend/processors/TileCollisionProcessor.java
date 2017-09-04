@@ -1,5 +1,6 @@
 package io.anuke.ucore.ecs.extend.processors;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -26,6 +27,7 @@ public class TileCollisionProcessor extends Processor{
 	private float tilesize;
 	private TileCollider collider;
 	private TileHitboxProvider hitbox;
+	private GridPoint2 point = new GridPoint2();
 	
 	public TileCollisionProcessor(float tilesize, TileCollider collider, TileHitboxProvider hitbox){
 		this.tilesize = tilesize;
@@ -72,7 +74,7 @@ public class TileCollisionProcessor extends Processor{
 		}
 	}
 	
-	public boolean collides(Spark spark, TileCollideTrait trait){
+	public GridPoint2 collides(Spark spark, TileCollideTrait trait){
 		tmp.setSize(trait.width, trait.height);
 		tmp.setCenter(spark.pos().x + trait.offsetx, spark.pos().y + trait.offsety);
 		tmp.getCenter(Tmp.v1);
@@ -88,12 +90,12 @@ public class TileCollisionProcessor extends Processor{
 					hitbox.getHitbox(wx, wy, Rectangle.tmp2);
 					
 					if(Rectangle.tmp2.overlaps(tmp)){
-						return true;
+						return point.set(wx, wy);
 					}
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 
 	@Override

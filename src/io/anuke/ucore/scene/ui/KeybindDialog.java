@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
-import io.anuke.ucore.core.DrawContext;
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Inputs;
 import io.anuke.ucore.core.Inputs.DeviceType;
 import io.anuke.ucore.core.Inputs.InputDevice;
@@ -23,7 +23,7 @@ public class KeybindDialog extends Dialog{
 
 	public KeybindDialog() {
 		super("Rebind Keys");
-		style = DrawContext.skin.get(KeybindDialogStyle.class);
+		style = Core.skin.get(KeybindDialogStyle.class);
 		setup();
 		addCloseButton();
 

@@ -1,4 +1,4 @@
-package io.anuke.ucore.renderables;
+package io.anuke.ucore.facet;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Align;
 
 import io.anuke.ucore.core.Draw;
 
-public class TextRenderable extends Renderable{
+public class TextFacet extends Facet{
 	private static GlyphLayout layout = new GlyphLayout();
 	public float x,y;
 	public String text;
@@ -16,25 +16,25 @@ public class TextRenderable extends Renderable{
 	public int align = Align.center;
 	public Color color = Color.WHITE;
 	
-	public TextRenderable(BitmapFont font, String text){
+	public TextFacet(BitmapFont font, String text){
 		this.text = text;
 		this.font = font;
 	}
 	
-	public TextRenderable setColor(Color color){
+	public TextFacet setColor(Color color){
 		this.color = color;
 		return this;
 	}
 	
-	public TextRenderable align(int align){
+	public TextFacet align(int align){
 		this.align = align;
 		return this;
 	}
 	
 	@Override
-	public TextRenderable set(float x, float y){
+	public TextFacet set(float x, float y){
 		if(!MathUtils.isEqual(y, this.y, 0.001f))
-			RenderableHandler.instance().requestSort();
+			Facets.instance().requestSort();
 		this.x = x;
 		this.y = y;
 		return this;

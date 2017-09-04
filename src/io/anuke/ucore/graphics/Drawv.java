@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.math.EarClippingTriangulator;
 
-import io.anuke.ucore.core.DrawContext;
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.util.Angles;
 
 //TODO
@@ -63,11 +63,11 @@ public class Drawv{
 	}
 	
 	private static void check(){
-		if(batch.getProjectionMatrix() != DrawContext.batch.getProjectionMatrix()){
+		if(batch.getProjectionMatrix() != Core.batch.getProjectionMatrix()){
 			boolean drawing = batch.isDrawing();
 			if(drawing)
 				batch.end();
-			batch.setProjectionMatrix(DrawContext.batch.getProjectionMatrix());
+			batch.setProjectionMatrix(Core.batch.getProjectionMatrix());
 			if(drawing)
 				batch.begin();
 		}

@@ -1,13 +1,10 @@
-package io.anuke.ucore.tween;
+package io.anuke.ucore.util;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-
-import io.anuke.ucore.util.Mathf;
-import io.anuke.ucore.util.Timers;
 
 //TODO
 public class Tween{

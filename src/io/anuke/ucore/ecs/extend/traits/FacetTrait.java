@@ -3,24 +3,25 @@ package io.anuke.ucore.ecs.extend.traits;
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.ecs.Trait;
+import io.anuke.ucore.facet.BaseFacet;
+import io.anuke.ucore.facet.FacetList;
+import io.anuke.ucore.facet.Sorter;
+import io.anuke.ucore.facet.BaseFacet.DrawFunc;
 import io.anuke.ucore.function.BiConsumer;
-import io.anuke.ucore.renderables.FuncRenderable;
-import io.anuke.ucore.renderables.FuncRenderable.DrawFunc;
-import io.anuke.ucore.renderables.RenderableList;
-import io.anuke.ucore.renderables.Sorter;
+import io.anuke.ucore.function.Listenable;
 
 
-public class RenderableTrait extends Trait{
-	public RenderableList list = new RenderableList();
+public class FacetTrait extends Trait{
+	public FacetList list = new FacetList();
 	
-	private BiConsumer<RenderableTrait, Spark> drawer;
+	private BiConsumer<FacetTrait, Spark> drawer;
 	private boolean drawn = false;
 	
-	public RenderableTrait(BiConsumer<RenderableTrait, Spark> drawer){
+	public FacetTrait(BiConsumer<FacetTrait, Spark> drawer){
 		this.drawer = drawer;
 	}
 	
-	private RenderableTrait(){}
+	private FacetTrait(){}
 	
 	@Override
 	public void added(Spark spark){
@@ -53,7 +54,15 @@ public class RenderableTrait extends Trait{
 		});
 	}
 	
+	public void draw(Spark spark, int shadowsize, Listenable d){
+		drawShadow(spark, shadowsize, 0);
+		list.add(new BaseFacet(0, Sorter.object, p->{
+			p.layer = spark.pos().y;
+			d.listen();
+		}));
+	}
+	
 	public void draw(DrawFunc d){
-		list.add(new FuncRenderable(0, Sorter.object, d));
+		list.add(new BaseFacet(0, Sorter.object, d));
 	}
 }

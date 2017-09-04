@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.Matrix4;
 
-/**A 'batch' that calls Caches.draw() for most operations.*/
+/**A 'batch' that calls Caches.draw() for most operations.
+ * */
 //TODO implementation
 public class CacheBatch implements Batch{
 
@@ -42,7 +43,6 @@ public class CacheBatch implements Batch{
 	@Override
 	public void setColor(float color){
 		stub();
-		
 	}
 
 	@Override

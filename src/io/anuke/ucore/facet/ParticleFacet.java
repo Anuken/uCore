@@ -1,14 +1,14 @@
-package io.anuke.ucore.renderables;
+package io.anuke.ucore.facet;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 
 import io.anuke.ucore.core.Draw;
 
-public class ParticleRenderable extends Renderable{
+public class ParticleFacet extends Facet{
 	public PooledEffect effect;
 	
-	public ParticleRenderable(PooledEffect effect){
+	public ParticleFacet(PooledEffect effect){
 		this.effect = effect;
 		sort(Sorter.object);
 	}
@@ -19,7 +19,7 @@ public class ParticleRenderable extends Renderable{
 	}
 
 	@Override
-	public Renderable set(float x, float y){
+	public Facet set(float x, float y){
 		effect.getEmitters().get(0).setPosition(x, y);
 		return this;
 	}

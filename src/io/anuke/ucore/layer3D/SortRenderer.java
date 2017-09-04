@@ -1,4 +1,4 @@
-package io.anuke.ucore.layers;
+package io.anuke.ucore.layer3D;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;

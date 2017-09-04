@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.ObjectSet;
 
 import io.anuke.ucore.core.Draw;
-import io.anuke.ucore.core.DrawContext;
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.*;
 import io.anuke.ucore.util.*;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
@@ -291,7 +291,7 @@ public class Entities{
 	}
 	
 	public static void draw(){
-		OrthographicCamera cam = DrawContext.camera;
+		OrthographicCamera cam = Core.camera;
 		viewport.set(cam.position.x - cam.viewportWidth/2*cam.zoom, cam.position.y - cam.viewportHeight/2*cam.zoom, cam.viewportWidth*cam.zoom, cam.viewportHeight*cam.zoom);
 		
 		for(Entity e : entities.values()){
