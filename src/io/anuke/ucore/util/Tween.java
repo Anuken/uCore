@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 
+import io.anuke.ucore.core.Timers;
+
 //TODO
 public class Tween{
 	private static ObjectMap<Class<?>, Field> fieldCache = new ObjectMap<>();
@@ -20,7 +22,7 @@ public class Tween{
 		
 		Timers.runFor(duration, ()->{
 			try{
-				accumulator[0] += 1f/duration*Mathf.delta();
+				accumulator[0] += 1f/duration*Timers.delta();
 				cfield.set(object, in.apply(from, to, accumulator[0]));
 			}catch (ReflectionException e){
 				throw new RuntimeException(e);

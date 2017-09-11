@@ -5,6 +5,7 @@ import java.util.Iterator;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 
+//TODO change to a hashmap?
 public class TraitList implements Iterable<Trait>{
 	private DelayedRemovalArray<Trait> traits = new DelayedRemovalArray<>();
 	
@@ -41,6 +42,15 @@ public class TraitList implements Iterable<Trait>{
 		}
 		traits.end();
 		return this;
+	}
+	
+	public <T extends Trait> T get(Class<T> type){
+		for(Trait t : traits){
+			if(t.getClass() == type)
+				return (T)t;
+		}
+		
+		return null;
 	}
 	
 	public boolean contains(Class<? extends Trait> type){

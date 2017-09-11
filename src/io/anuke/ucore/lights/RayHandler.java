@@ -9,13 +9,13 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
+import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.jbump.World;
 import io.anuke.ucore.lights.shaders.LightShader;
 import io.anuke.ucore.lights.shaders.PixelShader;
 import io.anuke.ucore.noise.Noise;
 import io.anuke.ucore.util.Physics;
 import io.anuke.ucore.util.RectQuadTree;
-import io.anuke.ucore.util.Timers;
 
 /**
  * Handler that manages everything related to lights updating and rendering
@@ -730,8 +730,6 @@ public class RayHandler implements Disposable {
 		//closest.sub(start).setLength(closest.len() + Mathf.range(80)).add(start);
 		float dst = closest.dst(start) - Math.abs(noise);
 		float frac = dst/start.dst(end);
-		
-		
 		
 		light.mx[light.m_index] = closest.x;
 		light.my[light.m_index] = closest.y;

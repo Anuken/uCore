@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Json;
 
 import io.anuke.ucore.core.Draw;
-import io.anuke.ucore.util.Timers;
+import io.anuke.ucore.core.Timers;
 
 public class LSystem{
 	private LSystemData data;

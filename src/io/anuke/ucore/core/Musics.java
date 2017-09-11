@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.util.Mathf;
-import io.anuke.ucore.util.Timers;
 
 public class Musics{
 	private static Array<Music> music = new Array<>();
@@ -101,7 +100,7 @@ public class Musics{
 			Timers.runFor(fadeTime, ()->{
 				select.setVolume(Mathf.clamp(fading/fadeTime*baseVolume()));
 				playing.setVolume(Mathf.clamp((1f-fading/fadeTime)*baseVolume()));
-				fading += Mathf.delta();
+				fading += Timers.delta();
 			}, ()->{
 				current = list;
 				playing.stop();

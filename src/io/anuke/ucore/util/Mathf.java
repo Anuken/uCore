@@ -2,14 +2,10 @@ package io.anuke.ucore.util;
 
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
-
-import io.anuke.ucore.function.Supplier;
 
 public class Mathf{
 	private static Random seedr = new Random();
-	private static Supplier<Float> deltaimpl = ()->Gdx.graphics.getDeltaTime()*60f;
 	
 	/**X/Y flipped, returns degrees*/
 	public static float atan2(float x, float y){
@@ -29,6 +25,10 @@ public class Mathf{
 	
 	public static boolean zero(float f){
 		return MathUtils.isEqual(f, 0);
+	}
+	
+	public static boolean zero(float f, float tolerance){
+		return MathUtils.isEqual(f, 0, tolerance);
 	}
 	
 	public static boolean in(float value, float target, float range){
@@ -97,6 +97,11 @@ public class Mathf{
 		return seedr.nextInt(max-min+1)+min;
 	}
 	
+	public static float randomSeed(int seed){
+		seedr.setSeed(seed);
+		return seedr.nextFloat();
+	}
+	
 	public static float range(float range){
 		return random(-range, range);
 	}
@@ -135,14 +140,6 @@ public class Mathf{
 	
 	public static int scl2(float a, float b){
 		return Math.round(a/b);
-	}
-	
-	public static float delta(){
-		return deltaimpl.get();
-	}
-	
-	public static void setDeltaProvider(Supplier<Float> impl){
-		deltaimpl = impl;
 	}
 	
 	public static boolean inRect(float x, float y, float bx, float by, float tx, float ty){

@@ -1,17 +1,14 @@
 package io.anuke.ucore.util;
 
-import java.util.Random;
-
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.FloatArray;
 
-import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.PositionConsumer;
+import io.anuke.ucore.function.SegmentConsumer;
 
 public class Geometry{
-	private final static Random random = new Random();
 	private final static FloatArray floatArray = new FloatArray();
 	private final static FloatArray floatArray2 = new FloatArray();
 	private final static Vector2 ip = new Vector2();
@@ -144,7 +141,8 @@ public class Geometry{
 				x2 = vertices[i+2];
 				y2 = vertices[i+3];
 			}
-			it.consume(x, y, x2, y2);
+			
+			it.accept(x, y, x2, y2);
 		}
 	}
 	
@@ -167,48 +165,4 @@ public class Geometry{
 	public static GridPoint2[] getD8EdgePoints(){
 		return d8edgepoints;
 	}
-	
-	public static void circle(int points, Consumer<Float> cons){
-		for(int i = 0; i < points; i ++){
-			cons.accept(i*360f/points);
-		}
-	}
-	
-	public static void circleVectors(int points, float length, PositionConsumer pos){
-		for(int i = 0; i < points; i ++){
-			Angles.translation(i*360f/points, length);
-			pos.accept(Angles.vector.x, Angles.vector.y);
-		}
-	}
-	
-	public static void shotgun(int points, float spacing, float offset, Consumer<Float> cons){
-		for(int i = 0; i < points; i ++){
-			cons.accept(i*spacing-(points-1)*spacing/2f+offset);
-		}
-	}
-	
-	public static void randVectors(long seed, int amount, float length, PositionConsumer cons){
-		random.setSeed(seed);
-		for(int i = 0; i < amount; i ++){
-			float scl = length;
-			float vang = random.nextFloat()*360f;
-			Tmp.v3.set(scl, 0).setAngle(vang);
-			cons.accept(Tmp.v3.x, Tmp.v3.y);
-		}
-	}
-	
-	public static void randLenVectors(long seed, int amount, float length, PositionConsumer cons){
-		random.setSeed(seed);
-		for(int i = 0; i < amount; i ++){
-			float scl = length * random.nextFloat();
-			float vang = random.nextFloat()*360f;
-			Tmp.v3.set(scl, 0).setAngle(vang);
-			cons.accept(Tmp.v3.x, Tmp.v3.y);
-		}
-	}
-	
-	public interface SegmentConsumer{
-		public void consume(float x, float y, float x2, float y2);
-	}
-	
 }

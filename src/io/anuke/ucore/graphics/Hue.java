@@ -71,11 +71,12 @@ public class Hue{
 		return Math.abs(a.r - b.r) + Math.abs(a.g - b.g) + Math.abs(a.b - b.b);
 	}
 	
-	public static void addu(Color a, Color b){
+	public static Color addu(Color a, Color b){
 		a.r += b.r;
 		a.g += b.g;
 		a.b += b.b;
 		a.a += b.a;
+		return a;
 	}
 	
 	public static Color fromHSB(float hue, float saturation, float brightness){

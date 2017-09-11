@@ -34,6 +34,7 @@ public abstract class Prototype{
 	
 	public abstract TraitList traits();
 	
+	public void init(Spark spark){}
 	public void update(Spark spark){}
 	public void added(Spark spark){}
 	public void removed(Spark spark){}
@@ -41,8 +42,17 @@ public abstract class Prototype{
 	public TraitList typeTraits(){return new TraitList();}
 	
 	public Prototype(){
-		id = lastid++;
-		types.add(this);
+		this(false);
+	}
+	
+	public Prototype(boolean internal){
+		
+		if(!internal){
+			id = lastid++;
+			types.add(this);
+		}else{
+			id = -1;
+		}
 		
 		TraitList list = traits();
 		for(Trait trait : list){
@@ -143,7 +153,8 @@ public abstract class Prototype{
 		try{
 			return method.invoke(handler, arguments);
 		}catch (ReflectionException e){
-			throw new IllegalArgumentException("Exception occurred calling event: wrong number or type of arguments!");
+			e.printStackTrace();
+			throw new IllegalArgumentException("Exception occurred calling event: event exception, or wrong number or type of arguments!");
 		}
 	}
 	

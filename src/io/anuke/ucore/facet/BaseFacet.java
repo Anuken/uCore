@@ -10,6 +10,12 @@ public class BaseFacet extends Facet{
 		this.sort(sort);
 	}
 	
+	public BaseFacet(float layer, DrawFunc draw){
+		this.layer = layer;
+		this.drawable = draw;
+		sort(Sorter.object);
+	}
+	
 	public BaseFacet(DrawFunc draw){
 		this.drawable = draw;
 		sort(Sorter.object);

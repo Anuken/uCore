@@ -2,10 +2,10 @@ package io.anuke.ucore.ecs.extend.traits;
 
 import com.badlogic.gdx.math.Vector2;
 
+import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.ecs.Require;
 import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.ecs.Trait;
-import io.anuke.ucore.util.Mathf;
 
 @Require(PosTrait.class)
 public class VelocityTrait extends Trait{
@@ -21,9 +21,9 @@ public class VelocityTrait extends Trait{
 	@Override
 	public void update(Spark spark){
 		PosTrait pos = spark.pos();
-		pos.x += vector.x*Mathf.delta();
-		pos.y += vector.y*Mathf.delta();
-		vector.scl(1f-drag*Mathf.delta());
+		pos.x += vector.x*Timers.delta();
+		pos.y += vector.y*Timers.delta();
+		vector.scl(1f-drag*Timers.delta());
 	}
 	
 	public float angle(){

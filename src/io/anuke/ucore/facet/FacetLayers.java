@@ -6,6 +6,8 @@ public class FacetLayers{
 	public static final FacetLayer 
 	
 	shadow = new FacetLayer("shadow", Sorter.shadow, 0){
+		
+		@Override
 		public void end(){
 			Draw.color(0,0,0,0.1f);
 			Draw.flushSurface();
@@ -15,7 +17,7 @@ public class FacetLayers{
 	light = new FacetLayer("light", Sorter.light, 6){
 
 	},
-	darkness = new FacetLayer("darkness", Sorter.dark, 7){
+	darkness = new FacetLayer("darkness", Sorter.dark, 0){
 		
 	};
 }

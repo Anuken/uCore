@@ -12,6 +12,7 @@ import io.anuke.ucore.ecs.extend.processors.TileCollisionProcessor;
 @Require({PosTrait.class})
 public class TileCollideTrait extends Trait{
 	public float width = 4, height = 4, offsetx, offsety;
+	public boolean trigger = false;
 	
 	public TileCollideTrait(){
 		
@@ -22,6 +23,11 @@ public class TileCollideTrait extends Trait{
 		this.offsety = offsety;
 		this.width = w;
 		this.height = h;
+	}
+	
+	public TileCollideTrait(float offsetx, float offsety, float w, float h, boolean trigger){
+		this(offsetx, offsety, w, h);
+		this.trigger = trigger;
 	}
 	
 	@Override
@@ -39,6 +45,12 @@ public class TileCollideTrait extends Trait{
 	public void move(Spark spark, float x, float y){
 		TileCollisionProcessor p = spark.getBasis().getProcessor(TileCollisionProcessor.class);
 		if(p == null) throw new IllegalArgumentException("No TileCollisionProcessor in basis. Add one before using a TileCollideTrait.");
-		p.move(spark, this, x, y);
+		
+		if(!trigger){
+			p.move(spark, this, x, y);
+		}else{
+			spark.pos().x += x;
+			spark.pos().y += y;
+		}
 	}
 }

@@ -1,8 +1,8 @@
 package io.anuke.ucore.ecs.extend.traits;
 
+import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.ecs.Trait;
-import io.anuke.ucore.util.Mathf;
 
 public class LifetimeTrait extends Trait{
 	public float lifetime;
@@ -18,7 +18,7 @@ public class LifetimeTrait extends Trait{
 	
 	@Override
 	public void update(Spark spark){
-		life += Mathf.delta();
+		life += Timers.delta();
 		
 		if(life > lifetime){
 			spark.remove();

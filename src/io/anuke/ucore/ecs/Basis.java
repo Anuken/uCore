@@ -72,6 +72,8 @@ public class Basis{
 			trait.added(spark);
 		}
 		
+		spark.getType().added(spark);
+		
 		toAdd.add(spark);
 		spark.setBasis(this);
 	}
@@ -83,6 +85,8 @@ public class Basis{
 		for(Trait trait : spark.getTraits()){
 			trait.removed(spark);
 		}
+		
+		spark.getType().removed(spark);
 		
 		sparks.removeValue(spark, true);
 	}
@@ -116,8 +120,9 @@ public class Basis{
 	public void update(){
 		for(int i = 0; i < processors.size; i ++){
 			Processor pro = processors.get(i);
-			if(pro.isEnabled())
+			if(pro.isEnabled()){
 				pro.update(sparks);
+			}
 		}
 		
 		for(Spark spark : toAdd){

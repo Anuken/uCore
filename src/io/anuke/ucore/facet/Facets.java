@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class Facets{
 	private static Facets instance;
-	private Array<Facet> renderables = new Array<Facet>();
+	private Array<Facet> facets = new Array<Facet>();
 	private boolean updated;
 	
 	private FacetHandler manager = new FacetHandler(){
@@ -19,11 +19,16 @@ public class Facets{
 
 	public void renderAll(){
 		if(updated){
-			renderables.sort();
+			facets.sort();
 			updated = false;
 		}
 
-		manager.drawRenderables(renderables);
+		manager.drawRenderables(facets);
+	}
+	
+	public void forceSort(){
+		facets.sort();
+		updated = false;
 	}
 	
 	public void setLayerManager(FacetHandler manager){
@@ -32,26 +37,31 @@ public class Facets{
 
 	public void add(Facet renderable){
 		updated = true;
-		renderables.add(renderable);
+		facets.add(renderable);
 	}
 
 	public void remove(Facet renderable){
-		renderables.removeValue(renderable, true);
+		facets.removeValue(renderable, true);
 		renderable.onFree();
 	}
 
 	public void remove(Iterable<? extends Facet> list){
-		for(Facet r : list)
+		for(Facet r : list){
 			remove(r);
+		}
 	}
 	
 	public void clear(){
-		renderables.clear();
+		facets.clear();
 	}
 	
 	/**Returns the current amount of renderables.*/
 	public int getSize(){
-		return renderables.size;
+		return facets.size;
+	}
+	
+	public Array<Facet> getFacets(){
+		return facets;
 	}
 	
 	public void requestSort(){

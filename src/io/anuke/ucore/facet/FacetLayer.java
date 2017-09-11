@@ -2,6 +2,7 @@ package io.anuke.ucore.facet;
 
 import com.badlogic.gdx.math.MathUtils;
 
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Draw;
 
 public abstract class FacetLayer{
@@ -14,7 +15,7 @@ public abstract class FacetLayer{
 		this.layer = layer;
 		this.bind = bind;
 		
-		Draw.addSurface(name, 1, bind);
+		Draw.addSurface(name, Core.cameraScale, bind);
 	}
 
 	public void end(){
@@ -26,6 +27,6 @@ public abstract class FacetLayer{
 	}
 
 	public boolean layerEquals(float f){
-		return MathUtils.isEqual(f, layer, 0.01f);
+		return MathUtils.isEqual(f, layer, 1f);
 	}
 }

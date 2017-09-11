@@ -218,6 +218,7 @@ public class Draw{
 		surface("effects1");
 	}
 	
+	//FIXME does not work with multiple shaders
 	/**End the postprocessing shader.*/
 	public static void endShaders(){
 		
@@ -225,7 +226,7 @@ public class Draw{
 		
 		if(currentShaders.length == 1){
 			Class<? extends Shader> type = currentShaders[0];
-			tempregion.setTexture(Draw.currentSurface().texture());
+			tempregion.setRegion(Draw.currentSurface().texture());
 			
 			Shader shader = Draw.getShader(type);
 			
@@ -247,7 +248,7 @@ public class Draw{
 				
 				Shader shader = Draw.getShader(type);
 				
-				tempregion.setTexture(currentSurface().texture());
+				tempregion.setRegion(currentSurface().texture());
 				
 				Draw.shader(type);
 				shader.program().begin();
@@ -268,6 +269,7 @@ public class Draw{
 		}
 	}
 
+	//TODO apply shader prefs
 	/** Set the shader by class and returns the reference.*/
 	public static <T extends Shader> T shader(Class<T> type){
 		boolean rendering = batch().isDrawing();

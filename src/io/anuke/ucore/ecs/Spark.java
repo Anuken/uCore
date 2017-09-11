@@ -38,6 +38,8 @@ public class Spark{
 			t.init(this);
 			traitmap.put(t.getClass(), t);
 		}
+		
+		type.init(this);
 	}
 	
 	public <T extends Trait> boolean has(Class<T> c){

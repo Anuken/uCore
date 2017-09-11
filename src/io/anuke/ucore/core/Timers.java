@@ -1,16 +1,18 @@
-package io.anuke.ucore.util;
+package io.anuke.ucore.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 import io.anuke.ucore.function.Callable;
+import io.anuke.ucore.function.Supplier;
 
 public class Timers{
 	private static float time;
 	private static ObjectMap<String, Float> timers = new ObjectMap<String, Float>();
 	private static DelayedRemovalArray<DelayRun> runs = new  DelayedRemovalArray<>();
 	private static long lastMark = 0;
+	private static Supplier<Float> deltaimpl = ()->Gdx.graphics.getDeltaTime()*60f;
 	
 	public static void run(float delay, Callable r){
 		DelayRun run = new DelayRun();
@@ -119,5 +121,13 @@ public class Timers{
 			delay = 0;
 			run = finish = null;
 		}
+	}
+
+	public static float delta(){
+		return deltaimpl.get();
+	}
+
+	public static void setDeltaProvider(Supplier<Float> impl){
+		deltaimpl = impl;
 	}
 }

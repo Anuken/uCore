@@ -27,7 +27,7 @@ public enum Sorter{
 	};
 	public static final float shadow = -999999;
 	public static final float light = 999999;
-	public static final float dark = 999999+1;
+	public static final float dark = 9999999;
 	
 	public abstract int compare(Facet a, Facet b);
 }
