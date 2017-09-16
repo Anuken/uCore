@@ -34,7 +34,7 @@ public class PixelShader{
 		"	c.r = round(1.0-clamp(1.0/dst*scl, 0.0, 1.0))*tint.r;",
 		"	c.g = round(1.0-clamp(1.0/pow(c.g, pr)*scl, 0.0, 1.0))*tint.g;",
 		"	c.b = round(1.0-clamp(1.0/pow(c.b, pr)*scl, 0.0, 1.0))*tint.b;",
-		"	gl_FragColor.rgb = (ambient.rgb , c.rgb);",
+		"	gl_FragColor.rgb = c.rgb + ambient.rgb;",
 		"	gl_FragColor.a = 1.0;",
 		"}");
 		//TODO fix posturization

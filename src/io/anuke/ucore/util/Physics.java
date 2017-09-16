@@ -6,6 +6,11 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Physics{
 	static Vector2 vector = new Vector2();
+	
+	public static Vector2 raycastRect(float startx, float starty, float endx, float endy, Rectangle rectangle){
+		return raycastRect(startx, starty, endx, endy, rectangle.x + rectangle.width/2, rectangle.y + rectangle.height/2, 
+				rectangle.width/2f, rectangle.height/2f);
+	}
 
 	public static Vector2 raycastRect(float startx, float starty, float endx, float endy, float x, float y, float halfx, float halfy){
 		float posx = startx, posy = starty, 

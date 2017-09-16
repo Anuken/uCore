@@ -1,10 +1,11 @@
 package io.anuke.ucore.facet;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool.Poolable;
 
 import io.anuke.ucore.facet.BaseFacet.DrawFunc;
 
-public class FacetList{
+public class FacetList implements Poolable{
 	public Array<Facet> renderables = new Array<Facet>();
 	
 	public void add(float layer, Sorter sort, DrawFunc draw){
@@ -29,6 +30,11 @@ public class FacetList{
 	
 	public void free(){
 		Facets.instance().remove(renderables);
+		renderables.clear();
+	}
+
+	@Override
+	public void reset(){
 		renderables.clear();
 	}
 }

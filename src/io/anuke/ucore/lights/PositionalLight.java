@@ -203,9 +203,9 @@ public abstract class PositionalLight extends Light {
 			segments[size++] = colorF;
 			final float s = (1f-f[i]);
 			segments[size++] = s;
-			//TODO ???
-			segments[size++] = mx[i] + softShadowLength * cos[i]/(s);
-			segments[size++] = my[i] + softShadowLength * sin[i]/(s);
+			
+			segments[size++] = mx[i] + softShadowLength * cos[i];
+			segments[size++] = my[i] + softShadowLength * sin[i];
 			segments[size++] = zeroColorBits;
 			segments[size++] = 0f;
 		}

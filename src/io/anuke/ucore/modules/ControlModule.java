@@ -14,7 +14,7 @@ import io.anuke.ucore.core.*;
 import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.util.Mathf;
 
-public abstract class RendererModule<T extends ModuleCore<T>> extends Module<T>{
+public abstract class ControlModule<T extends ModuleCore<T>> extends Module<T>{
 	private static Vector3 pan = new Vector3();
 	
 	public OrthographicCamera camera = new OrthographicCamera();
@@ -29,7 +29,7 @@ public abstract class RendererModule<T extends ModuleCore<T>> extends Module<T>{
 	protected Object recorder;
 	protected Class<?> recorderClass;
 	
-	public RendererModule(){
+	public ControlModule(){
 		Settings.defaults("screenshake", 4);
 		
 		Effects.setScreenShakeProvider((intensity, duration)->{

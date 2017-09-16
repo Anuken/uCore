@@ -710,6 +710,7 @@ public class RayHandler implements Disposable {
 		//tmprects.addAll(rectangles);
 		
 		for(Rectangle rect : tmprects){
+			
 			Vector2 vect = Physics.raycastRect(start.x, start.y, end.x, end.y, rect.x+rect.width/2, rect.y+rect.height/2, rect.width/2, rect.height/2);
 			
 			if(vect == null) continue;

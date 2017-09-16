@@ -2,7 +2,9 @@ package io.anuke.ucore.lights;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
@@ -47,6 +49,8 @@ public abstract class Light implements Disposable {
 	
 	protected Mesh lightMesh;
 	protected Mesh softShadowMesh;
+	
+	protected Array<Rectangle> cacheRects = new Array<>();
 
 	protected float segments[];
 	protected float[] mx;

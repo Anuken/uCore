@@ -9,7 +9,7 @@ public class FacetLayers{
 		
 		@Override
 		public void end(){
-			Draw.color(0,0,0,0.1f);
+			Draw.color(0,0,0,0.13f);
 			Draw.flushSurface();
 			Draw.color();
 		}

@@ -92,12 +92,15 @@ public class Mathf{
 		return MathUtils.random;
 	}
 	
-	public static int randomSeed(int seed, int min, int max){
+	public static int randomSeed(long seed, int min, int max){
 		seedr.setSeed(seed);
+		if(MathUtils.isPowerOfTwo(max)){
+			seedr.nextInt();
+		}
 		return seedr.nextInt(max-min+1)+min;
 	}
 	
-	public static float randomSeed(int seed){
+	public static float randomSeed(long seed){
 		seedr.setSeed(seed);
 		return seedr.nextFloat();
 	}

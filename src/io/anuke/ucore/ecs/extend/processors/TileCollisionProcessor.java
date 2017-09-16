@@ -17,7 +17,7 @@ import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Tmp;
 
 public class TileCollisionProcessor extends Processor{
-	private static final int r = 1;
+	private static final int r = 2;
 	
 	private World world = new World();
 	

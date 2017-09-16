@@ -22,17 +22,31 @@ public final class LightShader {
 				+ "   v_color = s * quad_colors;\n" //				
 				+ "   gl_Position =  u_projTrans * vertex_positions;\n" //
 				+ "}\n";
-		final String fragmentShader = "#ifdef GL_ES\n"
-				+ "precision lowp float;\n" //
-				+ "#define MED mediump\n"
-				+ "#else\n"
-				+ "#define MED \n"
-				+ "#endif\n" //
-				+ "varying vec4 v_color;\n" //
-				+ "void main()\n"//
-				+ "{\n" //
-				+ "  gl_FragColor = "+gamma+"(v_color);\n" //
-				+ "}";
+		final String fragmentShader = 
+				String.join("\n",
+				"#ifdef GL_ES",
+				"precision lowp float;",
+				"#define MED mediump",
+				"#else",
+				"#define MED ",
+				"#endif",
+				
+				"#define rval 0.1",
+				
+				"float round(float f){",
+				"	return float(int(f/rval))*rval;",
+				"}",
+				
+				"varying vec4 v_color;\n",
+				
+				"void main(){",
+				"	vec4 vc = v_color;",
+				//"	vc.r = round(v_color.r);",
+				//"	vc.g = round(v_color.g);",
+				//"	vc.b = round(v_color.b);",
+				//"	vc.a = round(v_color.a);",
+				"	gl_FragColor = "+gamma+"(vc);",
+				"}");
 		
 		ShaderProgram.pedantic = false;
 		ShaderProgram lightShader = new ShaderProgram(vertexShader,

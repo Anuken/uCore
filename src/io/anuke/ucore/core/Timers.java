@@ -12,7 +12,16 @@ public class Timers{
 	private static ObjectMap<String, Float> timers = new ObjectMap<String, Float>();
 	private static DelayedRemovalArray<DelayRun> runs = new  DelayedRemovalArray<>();
 	private static long lastMark = 0;
-	private static Supplier<Float> deltaimpl = ()->Gdx.graphics.getDeltaTime()*60f;
+	private static Supplier<Float> deltaimpl = ()->{
+		float delta = Gdx.graphics.getDeltaTime()*60f;
+		
+		//this caps the delta to 4x, so everything lower than 60/4=15 FPS experiences slowdown
+		if(delta > 4f){
+			return 4f;
+		}
+		
+		return delta;
+	};
 	
 	public static void run(float delay, Callable r){
 		DelayRun run = new DelayRun();

@@ -14,21 +14,31 @@ public final class ShadowShader {
 				+ "   v_texCoords = a_texCoord;\n" //
 				+ "   gl_Position = a_position;\n" //
 				+ "}\n";
-		final String fragmentShader = "#ifdef GL_ES\n" //
-			+ "precision lowp float;\n" //
-			+ "#define MED mediump\n"
-			+ "#else\n"
-			+ "#define MED \n"
-			+ "#endif\n" //
-				+ "varying MED vec2 v_texCoords;\n" //
-				+ "uniform sampler2D u_texture;\n" //
-				+ "uniform vec4 ambient;\n"				
-				+ "void main()\n"//
-				+ "{\n" //
-				+ "vec4 c = texture2D(u_texture, v_texCoords);\n"//
-				+ "gl_FragColor.rgb = c.rgb * c.a + ambient.rgb;\n"//
-				+ "gl_FragColor.a = ambient.a - c.a;\n"//				
-				+ "}\n";
+		final String fragmentShader = 
+			String.join("\n",
+			"#ifdef GL_ES",
+			"precision lowp float;",
+			"#define MED mediump",
+			"#else",
+			"#define MED ",
+			"#endif",
+			
+			"#define rval 0.1",
+			
+			"varying MED vec2 v_texCoords;",
+			
+			"uniform sampler2D u_texture;",
+			"uniform vec4 ambient;",	
+			
+			"float round(float f){",
+			"	return float(int(f/rval))*rval;",
+			"}",
+			
+			"void main(){",
+			"	vec4 c = texture2D(u_texture, v_texCoords);",
+			"	gl_FragColor.rgb = c.rgb * c.a + ambient.rgb;",
+			"	gl_FragColor.a = ambient.a - c.a;",
+			"}");
 		
 		
 		ShaderProgram.pedantic = false;

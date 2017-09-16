@@ -19,6 +19,9 @@ public class Drawv{
 	private static float[] circleVertTmp;
 	private static short[] circleInd;
 	
+	private static float[] triVert;
+	private static short[] triInd;
+	
 	static{
 		int circleEdges = 40;
 		
@@ -32,6 +35,9 @@ public class Drawv{
 		}
 		
 		circleInd = tri.computeTriangles(circleVert).toArray();
+		
+		triVert = new float[3 * 5];
+		triInd = new short[]{0, 1, 2};
 	}
 	
 	public static void begin(){
@@ -60,6 +66,30 @@ public class Drawv{
 		}
 		
 		batch.draw(blank, circleVertTmp, 0, circleVertTmp.length, circleInd, 0, circleInd.length);
+	}
+	
+	public static void tri(float x1, float y1, float x2, float y2, float x3, float y3){
+		
+		tri(x1, y1, x2, y2, x3, y3, batch.getPackedColor(), batch.getPackedColor(), batch.getPackedColor());
+	}
+			
+	
+	public static void tri(float x1, float y1, float x2, float y2, float x3, float y3
+			, float c1, float c2, float c3){
+		check();
+		triVert[0 + 0*1] = x1; 
+		triVert[1 + 0*1] = y1; 
+		triVert[2 + 0*1] = c1; 
+		
+		triVert[0 + 5*1] = x2; 
+		triVert[1 + 5*1] = y2; 
+		triVert[2 + 5*1] = c2; 
+
+		triVert[0 + 5*2] = x3; 
+		triVert[1 + 5*2] = y3; 
+		triVert[2 + 5*2] = c3; 
+		
+		batch.draw(blank, triVert, 0, triVert.length, triInd, 0, triInd.length);
 	}
 	
 	private static void check(){
