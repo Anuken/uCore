@@ -415,6 +415,22 @@ public class Table extends WidgetGroup {
 			slider.moved(listener);
 		return add(slider);
 	}
+	
+	public Cell<Slider> addSlider(float min, float max, float step, float defvalue, boolean onUp, Consumer<Float> listener){
+		Slider slider = new Slider(min, max, step, false);
+		slider.setValue(defvalue);
+		if(listener != null){
+			if(!onUp){
+				slider.moved(listener);
+			}else{
+				slider.released(()->{
+					listener.accept(slider.getValue());
+				});
+			}
+			
+		}
+		return add(slider);
+	}
 
 	public boolean removeChild (Element actor) {
 		return removeChild(actor, true);

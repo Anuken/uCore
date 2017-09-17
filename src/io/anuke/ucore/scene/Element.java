@@ -94,6 +94,19 @@ public class Element extends BaseElement{
 		});
 	}
 	
+	/**Adds a mouse up listener.*/
+	public void released(Listenable r){
+		addListener(new InputListener(){
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
+			
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button){
+				r.listen();
+			}
+		});
+	}
+	
 	/**Fires a change event on all listeners.*/
 	public void change(){
 		fire(new ChangeListener.ChangeEvent());

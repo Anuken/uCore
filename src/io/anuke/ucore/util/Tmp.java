@@ -21,6 +21,7 @@ public class Tmp{
 	public static final Color c1 = new Color();
 	public static final Color c2 = new Color();
 	public static final Color c3 = new Color();
+	public static final Color c4 = new Color();
 	
 	public static final TextureRegion tr1 = new TextureRegion();
 	public static final TextureRegion tr2 = new TextureRegion();

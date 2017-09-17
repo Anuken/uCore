@@ -37,6 +37,10 @@ public class Hue{
 		return new Color(MathUtils.random(), MathUtils.random(), MathUtils.random(), 1f);
 	}
 	
+	public static Color random(Color color){
+		return color.set(MathUtils.random(), MathUtils.random(), MathUtils.random(), 1f);
+	}
+	
 	public static Color round(Color color, float amount){
 		color.r = (int)(color.r/amount) * amount;
 		color.g = (int)(color.g/amount) * amount;
