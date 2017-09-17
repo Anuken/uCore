@@ -20,6 +20,7 @@ import static io.anuke.ucore.core.Core.skin;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
@@ -325,6 +326,10 @@ public class Table extends WidgetGroup {
 	
 	public Cell<Image> addImage(String name){
 		return add(new Image(Draw.getPatch(name)));
+	}
+	
+	public Cell<Image> addImage(TextureRegion region){
+		return add(new Image(region));
 	}
 	
 	public Cell<CheckBox> addCheck(String text, CheckListenable listener){
