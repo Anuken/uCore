@@ -1,14 +1,12 @@
 package io.anuke.ucore.facet;
 
-import com.badlogic.gdx.utils.Array;
-
 public class Facets{
 	private static Facets instance;
-	private Array<Facet> facets = new Array<Facet>();
+	private FacetContainer container = FacetContainers.array;
 	private boolean updated;
 	
 	private FacetHandler manager = new FacetHandler(){
-		public void drawRenderables(Array<Facet> renderables){
+		public void drawRenderables(Iterable<Facet> renderables){
 			for(Facet renderable : renderables){
 				renderable.draw();
 			}
@@ -19,29 +17,33 @@ public class Facets{
 
 	public void renderAll(){
 		if(updated){
-			facets.sort();
+			container.sort();
 			updated = false;
 		}
 
-		manager.drawRenderables(facets);
+		manager.drawRenderables(container.getFacets());
 	}
 	
 	public void forceSort(){
-		facets.sort();
+		container.sort();
 		updated = false;
 	}
 	
 	public void setLayerManager(FacetHandler manager){
 		this.manager = manager;
 	}
+	
+	public void setFacetContainer(FacetContainer cont){
+		this.container = cont;
+	}
 
 	public void add(Facet renderable){
 		updated = true;
-		facets.add(renderable);
+		container.addFacet(renderable);
 	}
 
 	public void remove(Facet renderable){
-		facets.removeValue(renderable, true);
+		container.removeFacet(renderable);
 		renderable.onFree();
 	}
 
@@ -52,16 +54,16 @@ public class Facets{
 	}
 	
 	public void clear(){
-		facets.clear();
+		container.clear();
 	}
 	
 	/**Returns the current amount of renderables.*/
 	public int getSize(){
-		return facets.size;
+		return container.size();
 	}
 	
-	public Array<Facet> getFacets(){
-		return facets;
+	public Iterable<Facet> getFacets(){
+		return container.getFacets();
 	}
 	
 	public void requestSort(){

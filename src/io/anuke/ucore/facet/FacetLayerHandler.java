@@ -6,7 +6,7 @@ public class FacetLayerHandler implements FacetHandler{
 	public Array<FacetLayer> allDrawLayers = Array.with(FacetLayers.shadow, FacetLayers.light, FacetLayers.darkness);
 
 	@Override
-	public void drawRenderables(Array<Facet> renderables){
+	public void drawRenderables(Iterable<Facet> renderables){
 
 		Array<FacetLayer> blayers = new Array<>(allDrawLayers);
 

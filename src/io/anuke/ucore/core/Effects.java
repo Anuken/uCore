@@ -11,12 +11,14 @@ import io.anuke.ucore.entities.Entity;
 import io.anuke.ucore.function.BiConsumer;
 import io.anuke.ucore.function.EffectProvider;
 import io.anuke.ucore.function.EffectRenderer;
+import io.anuke.ucore.util.Mathf;
 
 public class Effects{
 	private static final ObjectMap<String, EffectDraw> draws = new ObjectMap<>();
 	private static EffectProvider provider = (name, color, x, y)-> new Effect(name, color).set(x, y).add();
 	private static BiConsumer<Float, Float> shakeProvider;
 	private static final EffectContainer container = new EffectContainer();
+	private static float shakeFalloff = 1000f;
 	
 	public static void setEffectProvider(EffectProvider prov){
 		provider = prov;
@@ -79,6 +81,10 @@ public class Effects{
 		Sounds.playDistance(name, Vector2.dst(Core.camera.position.x, Core.camera.position.y, x, y));
 	}
 	
+	public static void setShakeFalloff(float falloff){
+		shakeFalloff = falloff;
+	}
+	
 	public static void shake(float intensity, float duration){
 		if(shakeProvider == null)
 			throw new RuntimeException("Screenshake provider is null! Set it first.");
@@ -86,12 +92,13 @@ public class Effects{
 		shakeProvider.accept(intensity, duration);
 	}
 	
-	//TODO
 	public static void shake(float intensity, float duration, float x, float y){
-		shake(intensity, duration);
+		float distance = Core.camera.position.dst(x, y, 0);
+		if(distance < 1) distance = 1;
+		
+		shake(Mathf.clamp(1f/(distance*distance/shakeFalloff))*intensity, duration);
 	}
 	
-	//TODO
 	public static void shake(float intensity, float duration, Entity loc){
 		shake(intensity, duration, loc.x, loc.y);
 	}
