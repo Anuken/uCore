@@ -11,8 +11,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.ObjectSet;
 
-import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.core.Core;
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.function.*;
 import io.anuke.ucore.util.*;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
@@ -339,6 +339,7 @@ public class Entities{
 		entitiesToRemove.clear();
 
 		for(Entity e : entitiesToAdd){
+			if(e == null) continue;
 			entities.put(e.id, e);
 			e.added();
 		}
