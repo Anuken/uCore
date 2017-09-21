@@ -2,7 +2,6 @@ package io.anuke.ucore.entities;
 
 import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
@@ -322,8 +321,6 @@ public class Entities{
 	}
 	
 	public static void update(boolean callupdate){
-		Entity.delta = Gdx.graphics.getDeltaTime() * 60f;
-		
 		if(physics)
 			updatePhysics();
 		

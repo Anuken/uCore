@@ -15,21 +15,21 @@ public class Timers{
 	private static Supplier<Float> deltaimpl = ()->Math.min(Gdx.graphics.getDeltaTime()*60f, 4f);
 	
 	public static void run(float delay, Callable r){
-		DelayRun run = new DelayRun();
+		DelayRun run = Pools.obtain(DelayRun.class);
 		run.finish = r;
 		run.delay = delay;
 		runs.add(run);
 	}
 	
 	public static void runFor(float duration, Callable r){
-		DelayRun run = new DelayRun();
+		DelayRun run = Pools.obtain(DelayRun.class);
 		run.run = r;
 		run.delay = duration;
 		runs.add(run);
 	}
 	
 	public static void runFor(float duration, Callable r, Callable finish){
-		DelayRun run = new DelayRun();
+		DelayRun run = Pools.obtain(DelayRun.class);
 		run.run = r;
 		run.delay = duration;
 		run.finish = finish;
@@ -76,10 +76,6 @@ public class Timers{
 		return time;
 	}
 	
-	public static void update(){
-		update(Gdx.graphics.getDeltaTime()*60f);
-	}
-	
 	public static void mark(){
 		lastMark = TimeUtils.millis();
 	}
@@ -89,7 +85,8 @@ public class Timers{
 	}
 	
 	/**Use normal delta time (e. g. gdx delta * 60)*/
-	public static void update(float delta){
+	public static void update(){
+		float delta = delta();
 		time += delta;
 		
 		runs.begin();

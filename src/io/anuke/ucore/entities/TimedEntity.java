@@ -1,12 +1,14 @@
 package io.anuke.ucore.entities;
 
+import io.anuke.ucore.core.Timers;
+
 public abstract class TimedEntity extends Entity{
 	public float lifetime;
 	public float time;
 	
 	@Override
 	public void update(){
-		time += delta;
+		time += Timers.delta();
 		
 		if(time >= lifetime) remove();
 	}

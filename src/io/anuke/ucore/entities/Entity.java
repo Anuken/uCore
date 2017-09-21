@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class Entity{
 	private static int lastid;
 	protected static Vector2 vector = new Vector2();
-	public static float delta;
 	
 	public final int id;
 	public float x,y;

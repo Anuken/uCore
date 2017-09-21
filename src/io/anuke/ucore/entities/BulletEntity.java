@@ -2,6 +2,8 @@ package io.anuke.ucore.entities;
 
 import com.badlogic.gdx.math.Vector2;
 
+import io.anuke.ucore.core.Timers;
+
 public abstract class BulletEntity extends SolidEntity implements Damager{
 	public BaseBulletType type;
 	public Entity owner;
@@ -25,12 +27,12 @@ public abstract class BulletEntity extends SolidEntity implements Damager{
 	public void update(){
 		type.update(this);
 		
-		x += velocity.x*delta;
-		y += velocity.y*delta;
+		x += velocity.x*Timers.delta();
+		y += velocity.y*Timers.delta();
 		
-		velocity.scl(1f - drag * delta);
+		velocity.scl(1f - drag * Timers.delta());
 		
-		time += delta;
+		time += Timers.delta();
 		
 		
 		if(time >= type.lifetime){
