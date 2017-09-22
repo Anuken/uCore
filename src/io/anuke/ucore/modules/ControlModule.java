@@ -62,8 +62,8 @@ public abstract class ControlModule<T extends ModuleCore<T>> extends Module<T>{
 	}
 	
 	public void clampCamera(float minx, float miny, float maxx, float maxy){
-		float vw = camera.viewportWidth/2f;
-		float vh = camera.viewportHeight/2f;
+		float vw = camera.viewportWidth/2f * camera.zoom;
+		float vh = camera.viewportHeight/2f * camera.zoom;
 		Vector3 pos = camera.position;
 		
 		if(pos.x - vw < minx)
