@@ -1,27 +1,19 @@
 package io.anuke.ucore.modules;
 
+import static io.anuke.ucore.core.Core.*;
+
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 
 import io.anuke.ucore.core.*;
-import io.anuke.ucore.graphics.Atlas;
 import io.anuke.ucore.util.Mathf;
 
-public abstract class ControlModule<T extends ModuleCore<T>> extends Module<T>{
+public abstract class RendererModule<T extends ModuleCore<T>> extends Module<T>{
 	private static Vector3 pan = new Vector3();
-	
-	public OrthographicCamera camera = new OrthographicCamera();
-	public SpriteBatch batch = new SpriteBatch();
-	public Atlas atlas;
-	public BitmapFont font;
-	
 	public Color clearColor = Color.BLACK;
 	public float shakeIntensity, shaketime;
 	
@@ -29,7 +21,7 @@ public abstract class ControlModule<T extends ModuleCore<T>> extends Module<T>{
 	protected Object recorder;
 	protected Class<?> recorderClass;
 	
-	public ControlModule(){
+	public RendererModule(){
 		Settings.defaults("screenshake", 4);
 		
 		Effects.setScreenShakeProvider((intensity, duration)->{
@@ -153,11 +145,6 @@ public abstract class ControlModule<T extends ModuleCore<T>> extends Module<T>{
 	@Override
 	public void dispose(){
 		Draw.dispose();
-	}
-	
-	@Override
-	public void preInit(){
-		Core.set(batch, camera, atlas, font);
 	}
 	
 	@Override
