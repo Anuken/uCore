@@ -280,6 +280,10 @@ public class Draw{
 		T shader = (T)shaders.get(type);
 
 		batch().setShader(shader.program());
+		
+		shader.program().begin();
+		shader.apply();
+		shader.program().end();
 
 		if(rendering)
 			batch().begin();
