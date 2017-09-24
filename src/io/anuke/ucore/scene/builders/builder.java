@@ -6,6 +6,7 @@ import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.ui.layout.Cell;
 import io.anuke.ucore.scene.ui.layout.Table;
+import io.anuke.ucore.scene.ui.layout.Unit;
 
 public abstract class builder<T extends builder, N extends Element>{
 	public Cell<N> cell;
@@ -300,6 +301,12 @@ public abstract class builder<T extends builder, N extends Element>{
 
 	public T uniform (boolean x, boolean y) {
 		cell.uniform(x, y);
+		return (T)this;
+	}
+	
+	/**Sets the size units of the cell.*/
+	public T units(Unit unit){
+		cell.units(unit);
 		return (T)this;
 	}
 }
