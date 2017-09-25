@@ -2,6 +2,7 @@ package io.anuke.ucore.scene.builders;
 
 import com.badlogic.gdx.utils.Align;
 
+import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.ui.layout.Cell;
@@ -18,6 +19,11 @@ public abstract class builder<T extends builder, N extends Element>{
 	
 	public void visible(VisibilityProvider vis){
 		element.setVisible(vis);
+	}
+	
+	public T update(Listenable l){
+		element.update(l);
+		return (T)this;
 	}
 	
 	/**Returns the element being built.*/
