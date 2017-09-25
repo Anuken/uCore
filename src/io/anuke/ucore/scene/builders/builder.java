@@ -2,7 +2,7 @@ package io.anuke.ucore.scene.builders;
 
 import com.badlogic.gdx.utils.Align;
 
-import io.anuke.ucore.function.Listenable;
+import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.ui.layout.Cell;
@@ -21,8 +21,10 @@ public abstract class builder<T extends builder, N extends Element>{
 		element.setVisible(vis);
 	}
 	
-	public T update(Listenable l){
-		element.update(l);
+	public T update(Consumer<N> l){
+		element.update(()->{
+			l.accept(element);
+		});
 		return (T)this;
 	}
 	

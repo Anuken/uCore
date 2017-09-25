@@ -24,13 +24,6 @@ public class label extends builder<label, Label>{
 		});
 	}
 	
-	public label update(LabelUpdater run){
-		element.update(()->{
-			run.accept(element);
-		});
-		return this;
-	}
-	
 	public label scale(float scale){
 		element.setFontScale(scale);
 		return this;
@@ -49,9 +42,5 @@ public class label extends builder<label, Label>{
 	public label color(String name){
 		element.setColor(Colors.get(name));
 		return this;
-	}
-	
-	public interface LabelUpdater{
-		public void accept(Label label);
 	}
 }
