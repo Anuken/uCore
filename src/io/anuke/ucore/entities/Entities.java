@@ -91,7 +91,7 @@ public class Entities{
 		int r = 1;
 		rect.setCenter(x, y);
 		
-		float scl = 3f;
+		float scl = 2f;
 		
 		//assumes tilesize is centered
 		int tilex = Mathf.scl2(x, tilesize);
