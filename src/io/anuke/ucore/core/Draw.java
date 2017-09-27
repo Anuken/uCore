@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.ObjectMap;
 
-import io.anuke.ucore.UCore;
 import io.anuke.ucore.graphics.*;
 import io.anuke.ucore.scene.style.Drawable;
 
@@ -238,7 +237,6 @@ public class Draw{
 			Draw.flushSurface();
 			Draw.shader();
 		}else{
-			UCore.log("\n\n\n");
 			
 			int i = 0;
 			int index = 2;

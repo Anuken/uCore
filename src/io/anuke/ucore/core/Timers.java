@@ -2,9 +2,9 @@ package io.anuke.ucore.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.*;
-import com.badlogic.gdx.utils.Pool.Poolable;
 
 import io.anuke.ucore.function.Callable;
+import io.anuke.ucore.function.DelayRun;
 import io.anuke.ucore.function.Supplier;
 
 public class Timers{
@@ -106,18 +106,6 @@ public class Timers{
 		}
 		
 		runs.end();
-	}
-	
-	static class DelayRun implements Poolable{
-		float delay;
-		Callable run;
-		Callable finish;
-		
-		@Override
-		public void reset(){
-			delay = 0;
-			run = finish = null;
-		}
 	}
 
 	public static float delta(){
