@@ -11,9 +11,10 @@ import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.ui.Dialog;
 import io.anuke.ucore.scene.ui.layout.Table;
 
-public class SceneModule<T extends ModuleCore<T>> extends Module<T>{
+public class SceneModule extends Module{
 	private static String[] colorTypes = {"accent", "title"};
 	
 	public Scene scene;
@@ -48,6 +49,10 @@ public class SceneModule<T extends ModuleCore<T>> extends Module<T>{
 	
 	public boolean hasMouse(){
 		return scene.hit(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true) != null;
+	}
+	
+	public boolean hasDialog(){
+		return scene.getKeyboardFocus() instanceof Dialog || scene.getScrollFocus() instanceof Dialog;
 	}
 	
 	/**Updates and draws the stage.*/

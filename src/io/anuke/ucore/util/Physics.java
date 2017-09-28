@@ -1,11 +1,46 @@
 package io.anuke.ucore.util;
 
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
+
+import io.anuke.ucore.function.TileCollider;
 
 public class Physics{
-	static Vector2 vector = new Vector2();
+	private final static Vector2 vector = new Vector2();
+	private final static GridPoint2 point = new GridPoint2();
+	
+	public static GridPoint2 vectorCast(float x0f, float y0f, float x1f, float y1f, TileCollider collider){
+		int x0 = (int)x0f;
+		int y0 = (int)y0f;
+		int x1 = (int)x1f;
+		int y1 = (int)y1f;
+		int dx = Math.abs(x1 - x0);
+		int dy = Math.abs(y1 - y0);
+
+		int sx = x0 < x1 ? 1 : -1;
+		int sy = y0 < y1 ? 1 : -1;
+
+		int err = dx - dy;
+		int e2;
+		while(true){
+
+			if(collider.solid(x0, y0)){
+				return point.set(x0, y0);
+			}
+			if(x0 == x1 && y0 == y1) break;
+
+			e2 = 2 * err;
+			if(e2 > -dy){
+				err = err - dy;
+				x0 = x0 + sx;
+			}
+
+			if(e2 < dx){
+				err = err + dx;
+				y0 = y0 + sy;
+			}
+		}
+		return null;
+	}
 	
 	public static Vector2 raycastRect(float startx, float starty, float endx, float endy, Rectangle rectangle){
 		return raycastRect(startx, starty, endx, endy, rectangle.x + rectangle.width/2, rectangle.y + rectangle.height/2, 

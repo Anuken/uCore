@@ -7,10 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 
 
-public abstract class Module<T extends ModuleCore<T>> extends InputAdapter{
+public abstract class Module extends InputAdapter{
 	public static Vector2 vector = new Vector2();
 	public static Vector2 screen = new Vector2();
-	public T main;
 	
 	public void update(){}
 	public void init(){}
@@ -20,14 +19,6 @@ public abstract class Module<T extends ModuleCore<T>> extends InputAdapter{
 	public void dispose(){}
 	public void resize(int width, int height){resize();}
 	public void resize(){}
-	
-	public <N> N getModule(Class<N> c){
-		return (N)(main.getModule((Class<? extends Module<T>>)c));
-	}
-	
-	public <N> N get(Class<N> c){
-		return (N)(main.getModule((Class<? extends Module<T>>)c));
-	}
 	
 	public void clearScreen(){
 		clearScreen(Color.BLACK);

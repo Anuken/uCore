@@ -10,8 +10,6 @@ import io.anuke.ucore.util.Mathf;
 public class Hue{
 	static private float[] hsv = new float[3];
 	
-	public static void init(){}
-	
 	public static boolean approximate(Color a, Color b, float r){
 		return MathUtils.isEqual(a.r, b.r, r) && MathUtils.isEqual(a.g, b.g, r) && MathUtils.isEqual(a.b, b.b, r);
 	}

@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.reflect.Method;
 import io.anuke.ucore.core.*;
 import io.anuke.ucore.util.Mathf;
 
-public abstract class RendererModule<T extends ModuleCore<T>> extends Module<T>{
+public abstract class RendererModule extends Module{
 	private static Vector3 pan = new Vector3();
 	public Color clearColor = Color.BLACK;
 	public float shakeIntensity, shaketime;

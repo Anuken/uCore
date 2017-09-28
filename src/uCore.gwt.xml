@@ -6,4 +6,6 @@
 	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.ecs.extend.traits" />
 	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene" />
 	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.renderables" />
+	<extend-configuration-property name="gdx.reflect.include" value="java.lang.Class" />
+	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.function.DelayRun" />
 </module>
