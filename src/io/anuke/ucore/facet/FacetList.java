@@ -6,35 +6,35 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 import io.anuke.ucore.facet.BaseFacet.DrawFunc;
 
 public class FacetList implements Poolable{
-	public Array<Facet> renderables = new Array<Facet>();
+	public Array<Facet> facets = new Array<Facet>();
 	
 	public void add(float layer, Sorter sort, DrawFunc draw){
 		BaseFacet r = new BaseFacet(layer, sort, draw);
 		r.add();
-		renderables.add(r);
+		facets.add(r);
 	}
 	
 	public Facet first(){
-		return renderables.first();
+		return facets.first();
 	}
 	
 	public void add(Facet renderable){
 		renderable.add();
-		renderables.add(renderable);
+		facets.add(renderable);
 	}
 	
 	public void setPosition(float x, float y){
-		for(Facet r : renderables)
+		for(Facet r : facets)
 			r.set(x, y);
 	}
 	
 	public void free(){
-		Facets.instance().remove(renderables);
-		renderables.clear();
+		Facets.instance().remove(facets);
+		facets.clear();
 	}
 
 	@Override
 	public void reset(){
-		renderables.clear();
+		facets.clear();
 	}
 }

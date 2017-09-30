@@ -104,7 +104,9 @@ public class Draw{
 
 		if(drawing())
 			end();
+		
 		surface.begin();
+		
 		begin();
 	}
 
