@@ -10,7 +10,7 @@ public abstract class FacetLayer{
 	public final float layer;
 	public final int bind;
 
-	FacetLayer(String name, float layer, int bind){
+	public FacetLayer(String name, float layer, int bind){
 		this.name = name;
 		this.layer = layer;
 		this.bind = bind;
