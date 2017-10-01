@@ -1,5 +1,7 @@
 package io.anuke.ucore.facet;
 
+import com.badlogic.gdx.utils.Array;
+
 public class Facets{
 	private static Facets instance;
 	private FacetContainer container = FacetContainers.array;
@@ -64,6 +66,10 @@ public class Facets{
 	
 	public Iterable<Facet> getFacets(){
 		return container.getFacets();
+	}
+	
+	public Array<Facet> getFacetArray(){
+		return container.getFacetArray();
 	}
 	
 	public void requestSort(){

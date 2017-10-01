@@ -16,7 +16,7 @@ public class FacetLayerHandler implements FacetHandler{
 
 			boolean ended = false;
 
-			if(selected != null && (!selected.layerEquals(layer.getLayer()))){
+			if(selected != null && (!selected.acceptFacet(layer))){
 				endBufferLayer(selected, blayers);
 				selected = null;
 				ended = true;
@@ -25,7 +25,7 @@ public class FacetLayerHandler implements FacetHandler{
 			if(selected == null){
 
 				for(FacetLayer fl : blayers){
-					if(fl.layerEquals(layer.getLayer())){
+					if(fl.acceptFacet(layer)){
 						if(ended)
 							layer.draw();
 						selected = fl;

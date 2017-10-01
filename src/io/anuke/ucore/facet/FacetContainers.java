@@ -10,7 +10,7 @@ public class FacetContainers{
 		Array<Facet> facets = new Array<Facet>();
 
 		@Override
-		public Iterable<Facet> getFacets(){
+		public Array<Facet> getFacets(){
 			return facets;
 		}
 
@@ -38,6 +38,11 @@ public class FacetContainers{
 		public void clear(){
 			facets.clear();
 		}
+
+		@Override
+		public Array<Facet> getFacetArray(){
+			return facets;
+		}
 	},
 	unsortedSet = new FacetContainer(){
 		ObjectSet<Facet> facets = new ObjectSet<Facet>();
@@ -62,7 +67,6 @@ public class FacetContainers{
 		@Override
 		public void sort(){
 			//hahahahahaha
-			
 		}
 
 		@Override
@@ -73,6 +77,11 @@ public class FacetContainers{
 		@Override
 		public void clear(){
 			facets.clear();
+		}
+
+		@Override
+		public Array<Facet> getFacetArray(){
+			throw new IllegalArgumentException("Facet array not supported.");
 		}
 	};
 }

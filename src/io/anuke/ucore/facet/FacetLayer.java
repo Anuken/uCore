@@ -25,6 +25,10 @@ public abstract class FacetLayer{
 	public void begin(){
 		Draw.surface(name);
 	}
+	
+	public boolean acceptFacet(Facet facet){
+		return layerEquals(facet.getLayer());
+	}
 
 	public boolean layerEquals(float f){
 		return MathUtils.isEqual(f, layer, 1f);
