@@ -343,6 +343,13 @@ public class Table extends WidgetGroup {
 		return add(button);
 	}
 	
+	public Cell<CheckBox> addCheck(String text, float imagesize, boolean checked, CheckListenable listener){
+		CheckBox button = Elements.newCheck(text, listener);
+		button.getImageCell().size(imagesize);
+		button.setChecked(checked);
+		return add(button);
+	}
+	
 	public Cell<TextButton> addButton(String text, Listenable listener){
 		TextButton button = Elements.newButton(text, listener);
 		return add(button);

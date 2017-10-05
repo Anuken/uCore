@@ -16,6 +16,7 @@
 
 package io.anuke.ucore.scene.ui.layout;
 
+import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.utils.Layout;
 
@@ -30,6 +31,15 @@ abstract public class Value {
 
 	/** A value that is always zero. */
 	static public final Fixed zero = new Fixed(0);
+	
+	public static Value create(Supplier<Float> prov){
+		return new Value(){
+			@Override
+			public float get(Element context){
+				return prov.get();
+			}
+		};
+	}
 
 	/** A fixed value that is not computed each time it is used.
 	 * @author Nathan Sweet */

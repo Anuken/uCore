@@ -18,11 +18,10 @@ public class LSystem{
 	private int maxstack = 0;
 	
 	private boolean moving = false;
-	private float lastx, lasty;
 	
 	private float angle = 90;
 	
-	private float cx, cy;
+	private float lastx, lasty;
 	
 	public float x, y, timeOffset;
 	
@@ -38,7 +37,7 @@ public class LSystem{
 	public void draw(){
 		Draw.thick(data.thickness);
 		angle = 90;
-		cx = cy = 0;
+		lastx = lasty = 0;
 		for(int i = 0; i < string.length(); i ++){
 			drawc(string.charAt(i));
 		}
@@ -63,22 +62,22 @@ public class LSystem{
 		float scl = (float)stack.size()/(maxstack-2);
 		
 		Draw.color(data.start, data.end, scl);
-		Draw.line(x + cx, y + cy, x + cx+nx, y + cy+ny);
+		Draw.line(x + lastx, y + lasty, x + lastx+nx, y + lasty+ny);
 		
-		cx += nx;
-		cy += ny;
+		lastx += nx;
+		lasty += ny;
 	}
 	
 	private void push(){
-		stack.push(new Vector3(cx, cy, angle));
+		stack.push(new Vector3(lastx, lasty, angle));
 		maxstack = Math.max(stack.size(), maxstack);
 	}
 	
 	private void pop(){
 		if(stack.isEmpty()) return;
 		Vector3 vec = stack.pop();
-		cx = vec.x;
-		cy = vec.y;
+		lastx = vec.x;
+		lasty = vec.y;
 		angle = vec.z;
 	}
 	

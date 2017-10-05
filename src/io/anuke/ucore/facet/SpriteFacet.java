@@ -2,6 +2,7 @@ package io.anuke.ucore.facet;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
@@ -88,6 +89,12 @@ public class SpriteFacet extends Facet{
 				sprite.translate((-sprite.getWidth() / 2), (-sprite.getHeight() / 2));
 			}
 		}
+		return this;
+	}
+	
+	public SpriteFacet skewX(float amount){
+		sprite.getVertices()[SpriteBatch.X2] = sprite.getX() + amount;
+		sprite.getVertices()[SpriteBatch.X3] = sprite.getX() + sprite.getWidth() + amount;
 		return this;
 	}
 

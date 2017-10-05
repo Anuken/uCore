@@ -48,6 +48,16 @@ public abstract class RendererModule extends Module{
 		camera.position.interpolate(pan.set(x, y, 0), alpha*delta(), Interpolation.linear);
 	}
 	
+	public void limitCamera(float lim, float targetX, float targetY){
+		if(Math.abs(targetX - camera.position.x) > lim){
+			camera.position.x = targetX - Mathf.clamp(targetX - camera.position.x, -lim, lim);
+		}
+		
+		if(Math.abs(targetY - camera.position.y) > lim){
+			camera.position.y = targetY - Mathf.clamp(targetY - camera.position.y, -lim, lim);
+		}
+	}
+	
 	public void roundCamera(){
 		camera.position.x = (int)camera.position.x;
 		camera.position.y = (int)camera.position.y;

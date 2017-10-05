@@ -71,6 +71,7 @@ public class Mathf{
 		return MathUtils.randomBoolean();
 	}
 	
+	/**Inclusive.*/
 	public static int random(int a, int b){
 		return MathUtils.random(a, b);
 	}

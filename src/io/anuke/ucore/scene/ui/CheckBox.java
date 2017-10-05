@@ -45,7 +45,7 @@ public class CheckBox extends TextButton {
 		super(text, style);
 		clearChildren();
 		Label label = getLabel();
-		imageCell = add(image = new Image(style.checkboxOff, Scaling.none));
+		imageCell = add(image = new Image(style.checkboxOff, Scaling.stretch));
 		add(label).padLeft(4);
 		label.setAlignment(Align.left);
 		setSize(getPrefWidth(), getPrefHeight());
