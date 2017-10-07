@@ -47,4 +47,31 @@ public class Strings{
 			return Float.NEGATIVE_INFINITY;
 		}
 	}
+	
+	public static String toFixed(double d, int decimalPlaces) {
+	    if (decimalPlaces < 0 || decimalPlaces > 8) {
+	        throw new IllegalArgumentException("Unsupported number of "
+	                + "decimal places: " + decimalPlaces);
+	    }
+	    String s = "" + Math.round(d * Math.pow(10, decimalPlaces));
+	    int len = s.length();
+	    int decimalPosition = len - decimalPlaces;
+	    StringBuilder result = new StringBuilder();
+	    if (decimalPlaces == 0) {
+	        return s;
+	    } else if (decimalPosition > 0) {
+	        // Insert a dot in the right place
+	        result.append(s.substring(0, decimalPosition));
+	        result.append(".");
+	        result.append(s.substring(decimalPosition));
+	    } else {
+	        result.append("0.");
+	        // Insert leading zeroes into the decimal part
+	        while (decimalPosition++ < 0) {
+	            result.append("0");
+	        }
+	        result.append(s);
+	    }
+	    return result.toString();
+	}
 }
