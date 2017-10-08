@@ -1,5 +1,6 @@
 package io.anuke.ucore.graphics;
 
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 
 import com.badlogic.gdx.Gdx;
@@ -17,16 +18,16 @@ public class PixmapUtils{
 	private static ByteBuffer bytes = ByteBuffer.allocateDirect(4);
 
 	public static void flip(Pixmap pixmap){
-		ByteBuffer pixels = pixmap.getPixels();
+		Buffer pixels = pixmap.getPixels();
 		int numBytes = pixmap.getWidth() * pixmap.getHeight() * 4;
 		byte[] lines = new byte[numBytes];
 		int numBytesPerLine = pixmap.getWidth() * 4;
 		for(int i = 0; i < pixmap.getHeight(); i++){
 			pixels.position((pixmap.getHeight() - i - 1) * numBytesPerLine);
-			pixels.get(lines, i * numBytesPerLine, numBytesPerLine);
+			((ByteBuffer)pixels).get(lines, i * numBytesPerLine, numBytesPerLine);
 		}
 		pixels.clear();
-		pixels.put(lines);
+		((ByteBuffer)pixels).put(lines);
 	}
 
 	public static Pixmap copy(Pixmap input){

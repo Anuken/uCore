@@ -81,6 +81,7 @@ public class Effects{
 		Sounds.playDistance(name, Vector2.dst(Core.camera.position.x, Core.camera.position.y, x, y));
 	}
 	
+	/**Default value is 1000. Higher numbers mean more powerful shake (less falloff).*/
 	public static void setShakeFalloff(float falloff){
 		shakeFalloff = falloff;
 	}

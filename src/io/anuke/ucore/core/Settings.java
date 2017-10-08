@@ -2,11 +2,20 @@ package io.anuke.ucore.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
+
+import io.anuke.ucore.function.Listenable;
 
 public class Settings{
 	private static Preferences prefs;
 	private static ObjectMap<String, Object> defaults = new ObjectMap<>();
+	private static boolean disabled = false;
+	private static Listenable errorHandler;
+	
+	public static void setErrorHandler(Listenable handler){
+		errorHandler = handler;
+	}
 	
 	public static void load(String name){
 		prefs = Gdx.app.getPreferences(name);
@@ -85,7 +94,19 @@ public class Settings{
 	}
 	
 	public static void save(){
-		prefs.flush();
+		try{
+			prefs.flush();
+		}catch (GdxRuntimeException e){
+			if(errorHandler != null){
+				if(!disabled){
+					errorHandler.listen();
+				}
+			}else{
+				throw e;
+			}
+			
+			disabled = true;
+		}
 	}
 	
 	public static Object def(String name){
