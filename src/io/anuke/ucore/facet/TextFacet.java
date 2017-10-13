@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 
-import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.Core;
 
 public class TextFacet extends Facet{
 	private static GlyphLayout layout = new GlyphLayout();
@@ -46,7 +46,7 @@ public class TextFacet extends Facet{
 		font.setColor(color);
 		layout.setText(font, text);
 		
-		font.draw(Draw.batch(), text, x, y, 0.5f, align, false);
+		font.draw(Core.batch, text, x, y, 0.5f, align, false);
 	}
 
 	@Override

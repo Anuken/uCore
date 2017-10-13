@@ -6,16 +6,17 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
-import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.Core;
 
 public class Caches{
 	private static Array<Cache> caches = new Array<>();
 	private static Cache current;
+	private static Color color = Color.WHITE.cpy();
 	
 	public static void render(Cache cache){
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		for(int i = 0; i < cache.caches.size; i ++){
-			cache.caches.get(i).setProjectionMatrix(Draw.batch().getProjectionMatrix());
+			cache.caches.get(i).setProjectionMatrix(Core.batch.getProjectionMatrix());
 			
 			cache.caches.get(i).begin();
 			cache.caches.get(i).draw(cache.cacheIDs.get(i));
@@ -23,8 +24,12 @@ public class Caches{
 		}
 	}
 	
+	public static Color getColor(){
+		return color;
+	}
+	
 	public static void color(Color color){
-		current.getCurrent().setColor(color);
+		Caches.color.set(color);
 	}
 	
 	public static void color(){

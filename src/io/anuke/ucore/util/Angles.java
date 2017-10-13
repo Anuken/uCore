@@ -67,7 +67,7 @@ public class Angles{
 	
 	static public Vector2 translation(float angle, float amount){
 		if(amount < 0) angle += 180f;
-		return vector.setAngle(angle).setLength(amount);
+		return vector.set(amount, 0).setAngle(angle);
 	}
 
 	static public float mouseAngle(OrthographicCamera camera, float cx, float cy){

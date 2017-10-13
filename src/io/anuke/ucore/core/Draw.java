@@ -1,43 +1,41 @@
 package io.anuke.ucore.core;
 
-import java.util.Stack;
+import static io.anuke.ucore.core.Core.batch;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
-import com.badlogic.gdx.utils.ObjectMap;
 
-import io.anuke.ucore.graphics.*;
+import io.anuke.ucore.graphics.Hue;
+import io.anuke.ucore.graphics.PixmapUtils;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.util.Tmp;
 
-//TODO maybe move some surface stuff to Graphics class, and keep actual drawing stuff here?*/
 public class Draw{
 	private static TextureRegion blank = PixmapUtils.blankTextureRegion();
 	private static TextureRegion blankregion = blank;
-	private static TextureRegion tempregion = new TextureRegion();
+
 	private static float thickness = 1f;
 	private static Vector2 vector = new Vector2();
-	private static Vector2[] circle = new Vector2[30];
+	private static Vector2[] circle;
 	private static Sprite sprite;
 	private static Color tmpcolor = new Color();
 
-	private static Stack<Batch> batches = new Stack<Batch>();
-
-	private static ObjectMap<String, Drawer> draws = new ObjectMap<>();
-	
-	private static ObjectMap<String, Surface> surfaces = new ObjectMap<>();
-	private static Stack<Surface> surfaceStack = new Stack<>();
-	
-	private static ObjectMap<Class<? extends Shader>, Shader> shaders = new ObjectMap<>();
-	private static Class<? extends Shader>[] currentShaders;
-
 	static{
+		setCircleVertices(30);
+	}
+	
+	/**Set the vertices used for drawing a line circle.*/
+	public static void setCircleVertices(int amount){
+		circle = new Vector2[amount];
 		float step = 360f / circle.length;
 		vector.set(1f, 0);
 		for(int i = 0; i < circle.length; i++){
@@ -46,278 +44,12 @@ public class Draw{
 		}
 	}
 
-	public static void useBatch(Batch batch){
-		if(batches.isEmpty())
-			batches.push(Core.batch);
-		batches.push(batch);
-		Core.batch = batch;
-	}
-
-	public static void popBatch(){
-		batches.pop();
-		Core.batch = batches.peek();
-	}
-	
-	public static Surface currentSurface(){
-		return surfaceStack.isEmpty() ? null : surfaceStack.peek();
-	}
-
-	/** Adds a custom surface that handles events. */
-	public static void addSurface(CustomSurface surface){
-		surfaces.put(surface.name(), surface);
-	}
-
-	/** Creates a surface, sized to the screen */
-	public static void addSurface(String name){
-		addSurface(name, 1, 0);
-	}
-
-	public static void addSurface(String name, int scale){
-		addSurface(name, scale, 0);
-	}
-
-	/**
-	 * Creates a surface, scale times smaller than the screen. Useful for
-	 * pixelated things.
-	 */
-	public static void addSurface(String name, int scale, int bind){
-		surfaces.put(name, new Surface(name, scale, bind));
-	}
-
-	public static Surface getSurface(String name){
-		if(!surfaces.containsKey(name))
-			throw new IllegalArgumentException("The surface \"" + name + "\" does not exist!");
-
-		return surfaces.get(name);
-	}
-
-	/** Begins drawing on a surface. */
-	public static void surface(String name){
-		if(!surfaceStack.isEmpty()){
-			end();
-			surfaceStack.peek().end(false);
-		}
-
-		Surface surface = getSurface(name);
-
-		surfaceStack.push(surface);
-
-		if(drawing())
-			end();
-		
-		surface.begin();
-		
-		begin();
-	}
-
-	public static void surface(){
-		surface(false);
-	}
-
-	/** Ends drawing on the current surface. */
-	public static void surface(boolean end){
-		checkSurface();
-
-		Surface surface = surfaceStack.pop();
-
-		end();
-		surface.end(true);
-
-		if(!end){
-			Surface current = surfaceStack.empty() ? null : surfaceStack.peek();
-
-			if(current != null)
-				current.begin(false);
-			begin();
-		}
-	}
-
-	/** Ends the current surface and draws its contents onto the screen. */
-	public static void flushSurface(){
-		flushSurface(null);
-	}
-	
-	/** Ends the current surface and draws its contents onto the specified surface. */
-	public static void flushSurface(String name){
-		checkSurface();
-
-		Surface surface = surfaceStack.pop();
-
-		end();
-		surface.end(true);
-
-		Surface current = surfaceStack.empty() ? null : surfaceStack.peek();
-
-		if(current != null)
-			current.begin(false);
-
-		setScreen();
-		
-		if(name != null)
-			surface(name);
-		
-		batch().draw(surface.texture(), 0, Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), -Gdx.graphics.getHeight());
-		
-		if(name != null)
-			surface();
-		
-		end();
-
-		beginCam();
-	}
-	
-	/**Registers a shader, internal use only.*/
-	public static void addShader(Shader shader){
-		shaders.put(shader.getClass(), shader);
-	}
-	
-	public static <T extends Shader> T getShader(Class<T> type){
-		return (T)shaders.get(type);
-	}
-
-	/** Sets the batch projection matrix to the screen, without the camera. */
-	public static void setScreen(){
-		boolean drawing = batch().isDrawing();
-
-		if(drawing)
-			end();
-		batch().getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		begin();
-	}
-
-	/** Begins the batch and sets the camera projection matrix. */
-	public static void beginCam(){
-		batch().setProjectionMatrix(Core.camera.combined);
-		batch().begin();
-	}
-
-	/** Begins the batch. */
-	public static void begin(){
-		batch().begin();
-	}
-
-	/** Ends the batch */
-	public static void end(){
-		batch().end();
-	}
-
-	public static boolean drawing(){
-		return batch().isDrawing();
-	}
-
-	private static void checkSurface(){
-		if(surfaceStack.isEmpty())
-			throw new RuntimeException("Surface stack is empty! Set a surface first.");
-	}
-	
-	/**Begin the postprocessing shaders.*/
-	public static void beginShaders(Class<? extends Shader>... types){
-		currentShaders = types;
-		
-		batch().flush();
-		
-		surface("effects1");
-	}
-	
-	//FIXME does not work with multiple shaders
-	/**End the postprocessing shader.*/
-	public static void endShaders(){
-		
-		//batch().flush();
-		
-		if(currentShaders.length == 1){
-			Class<? extends Shader> type = currentShaders[0];
-			tempregion.setRegion(Draw.currentSurface().texture());
-			
-			Shader shader = Draw.getShader(type);
-			
-			Draw.shader(type);
-			shader.program().begin();
-			shader.region = tempregion;
-			shader.apply();
-			shader.program().end();
-			Draw.flushSurface();
-			Draw.shader();
-		}else{
-			
-			int i = 0;
-			int index = 2;
-			
-			for(Class<? extends Shader> type : currentShaders){
-				boolean ending = i == currentShaders.length - 1;
-				
-				Shader shader = Draw.getShader(type);
-				
-				tempregion.setRegion(currentSurface().texture());
-				
-				Draw.shader(type);
-				shader.program().begin();
-				shader.region = tempregion;
-				shader.apply();
-				shader.program().end();
-				Draw.flushSurface(ending ? null : ("effects" + index));
-				Draw.shader();
-				
-				if(!ending){
-					Draw.surface("effects" + index);
-				}
-				
-				index = (index == 2 ? 1 : 2);
-				
-				i ++;
-			}
-		}
-	}
-
-	//TODO apply shader prefs
-	/** Set the shader by class and returns the reference.*/
-	public static <T extends Shader> T shader(Class<T> type){
-		boolean rendering = batch().isDrawing();
-
-		if(rendering)
-			batch().end();
-		
-		T shader = (T)shaders.get(type);
-
-		batch().setShader(shader.program());
-		
-		shader.program().begin();
-		shader.apply();
-		shader.program().end();
-
-		if(rendering)
-			batch().begin();
-		
-		return (T)shader;
-	}
-
-	/** Revert to the default shader. */
-	public static void shader(){
-		boolean rendering = batch().isDrawing();
-
-		if(rendering)
-			batch().end();
-
-		batch().setShader(null);
-
-		if(rendering)
-			batch().begin();
-	}
-
 	public static void sprite(Sprite sprite){
-		sprite.draw(batch());
-	}
-
-	public static void drawable(String name, Drawer run){
-		draws.put(name, run);
-	}
-
-	public static void draw(String name, float x, float y){
-		draws.get(name).draw(x, y);
+		sprite.draw(batch);
 	}
 
 	public static void patch(String name, float x, float y, float width, float height){
-		getPatch(name).draw(batch(), x, y, width, height);
+		getPatch(name).draw(batch, x, y, width, height);
 	}
 
 	public static Drawable getPatch(String name){
@@ -326,24 +58,29 @@ public class Draw{
 
 	/** Sets the batch color to this color AND the previous alpha. */
 	public static void tint(Color color){
-		color(color.r, color.g, color.b, batch().getColor().a);
+		color(color.r, color.g, color.b, batch.getColor().a);
 	}
 
 	public static void color(Color color){
-		batch().setColor(color);
+		batch.setColor(color);
+	}
+	
+	/**Sets the color to the provided color multiplied by the factor.*/
+	public static void colorl(Color color, float multiply){
+		batch.setColor(Tmp.c1.set(color).mul(multiply, multiply, multiply, 1f));
 	}
 
 	/** Automatically mixes colors. */
 	public static void color(Color a, Color b, float s){
-		batch().setColor(Hue.mix(a, b, s, tmpcolor));
+		batch.setColor(Hue.mix(a, b, s, tmpcolor));
 	}
 
 	public static void color(String name){
-		batch().setColor(Colors.get(name));
+		batch.setColor(Colors.get(name));
 	}
 
 	public static void color(int color){
-		batch().setColor(NumberUtils.intBitsToFloat(color));
+		batch.setColor(NumberUtils.intBitsToFloat(color));
 	}
 
 	public static void color(){
@@ -351,11 +88,11 @@ public class Draw{
 	}
 
 	public static void color(float r, float g, float b){
-		batch().setColor(r, g, b, 1f);
+		batch.setColor(r, g, b, 1f);
 	}
 
 	public static void color(float r, float g, float b, float a){
-		batch().setColor(r, g, b, a);
+		batch.setColor(r, g, b, a);
 	}
 
 	/** Lightness color. */
@@ -369,8 +106,8 @@ public class Draw{
 	}
 
 	public static void alpha(float alpha){
-		Color color = batch().getColor();
-		batch().setColor(color.r, color.g, color.b, alpha);
+		Color color = batch.getColor();
+		batch.setColor(color.r, color.g, color.b, alpha);
 	}
 
 	public static void gradient(Color left, Color right, float alpha, float x, float y, float w, float h){
@@ -394,77 +131,85 @@ public class Draw{
 		v[SpriteBatch.C3] = cr;
 		v[SpriteBatch.C4] = cr;
 
-		sprite.draw(batch());
+		sprite.draw(batch);
+	}
+	
+	public static void rect(Texture texture, float x, float y){
+		batch.draw(texture, x - texture.getWidth() / 2, y - texture.getHeight() / 2);
 	}
 	
 	public static void rect(TextureRegion region, float x, float y){
-		batch().draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2);
+		batch.draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2);
 	}
 
 	public static void rect(String name, float x, float y){
 		TextureRegion region = region(name);
-		batch().draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2);
+		batch.draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2);
 	}
 
 	/** Floating side rect. */
 	public static void sirect(String name, float x, float y, float rotation){
 		TextureRegion region = region(name);
-		batch().draw(region, x, y - region.getRegionHeight() / 2f, 0, region.getRegionHeight() / 2f, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
+		batch.draw(region, x, y - region.getRegionHeight() / 2f, 0, region.getRegionHeight() / 2f, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
 
 	}
 
 	/** Floating side rect. */
 	public static void borect(String name, float x, float y, float rotation){
 		TextureRegion region = region(name);
-		batch().draw(region, x - region.getRegionWidth() / 2f, y, region.getRegionWidth() / 2f, 0, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
+		batch.draw(region, x - region.getRegionWidth() / 2f, y, region.getRegionWidth() / 2f, 0, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
 
 	}
 
 	/** Grounded rect. */
 	public static void grect(String name, float x, float y){
 		TextureRegion region = region(name);
-		batch().draw(region, x - region.getRegionWidth() / 2, y);
+		batch.draw(region, x - region.getRegionWidth() / 2, y);
 	}
 
 	/** Grounded rect. */
 	public static void grect(String name, float x, float y, boolean flipx){
 		TextureRegion region = region(name);
 		if(flipx){
-			batch().draw(region, x + region.getRegionWidth() / 2, y, -region.getRegionWidth(), region.getRegionHeight());
+			batch.draw(region, x + region.getRegionWidth() / 2, y, -region.getRegionWidth(), region.getRegionHeight());
 		}else{
-			batch().draw(region, x - region.getRegionWidth() / 2, y);
+			batch.draw(region, x - region.getRegionWidth() / 2, y);
 		}
 	}
 
 	/** Grounded rect. */
 	public static void grect(String name, float x, float y, float w, float h){
 		TextureRegion region = region(name);
-		batch().draw(region, x - w / 2, y, w, h);
+		batch.draw(region, x - w / 2, y, w, h);
 	}
 
 	public static void rect(String name, float x, float y, float rotation){
 		TextureRegion region = region(name);
-		batch().draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2, region.getRegionWidth() / 2, region.getRegionHeight() / 2, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
+		batch.draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2, region.getRegionWidth() / 2, region.getRegionHeight() / 2, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
 	}
 	
 	public static void rect(String name, float x, float y, float w, float h, float rotation){
 		TextureRegion region = region(name);
-		batch().draw(region, x - w / 2, y - h / 2, w / 2, h / 2, w, h, 1, 1, rotation);
+		batch.draw(region, x - w / 2, y - h / 2, w / 2, h / 2, w, h, 1, 1, rotation);
 	}
 
 	public static void rect(String name, float x, float y, float w, float h){
 		TextureRegion region = region(name);
-		batch().draw(region, x - w / 2, y - h / 2, w, h);
+		batch.draw(region, x - w / 2, y - h / 2, w, h);
+	}
+	
+	public static void crect(Texture texture, float x, float y, float w, float h){
+		batch.draw(texture, x, y, w, h);
 	}
 
 	public static void crect(String name, float x, float y, float w, float h){
 		TextureRegion region = region(name);
-		batch().draw(region, x, y, w, h);
+		batch.draw(region, x, y, w, h);
 	}
 
 	public static void crect(String name, float x, float y){
 		TextureRegion region = region(name);
-		batch().draw(region, x, y);
+		batch.draw(region, x, y);
 	}
 
 	public static void laser(String line, String edge, float x, float y, float x2, float y2){
@@ -473,8 +218,6 @@ public class Draw{
 
 	public static void laser(String line, String edge, float x, float y, float x2, float y2, float rotation){
 
-		//Draw.colorl(0.75f + MathUtils.random(0.2f) + Math.abs(MathUtils.sin(Timers.time()/3f)/4f));
-
 		thickness = 12f;
 		Draw.line(region(line), x, y, x2, y2);
 		thickness = 1f;
@@ -482,8 +225,6 @@ public class Draw{
 		Draw.rect(edge, x, y, rotation + 180);
 
 		Draw.rect(edge, x2, y2, rotation);
-
-		//Draw.color();
 	}
 
 	public static void lineAngle(float x, float y, float angle, float length){
@@ -508,14 +249,14 @@ public class Draw{
 		float length = Vector2.dst(x, y, x2, y2) + thickness / 2;
 		float angle = ((float) Math.atan2(y2 - y, x2 - x) * MathUtils.radDeg);
 		
-		batch().draw(blankregion, x - thickness / 2, y - thickness / 2, thickness / 2, thickness / 2, length, thickness, 1f, 1f, angle);
+		batch.draw(blankregion, x - thickness / 2, y - thickness / 2, thickness / 2, thickness / 2, length, thickness, 1f, 1f, angle);
 	}
 
 	public static void line(TextureRegion texture, float x, float y, float x2, float y2){
 		float length = Vector2.dst(x, y, x2, y2) + thickness / 2;
 		float angle = ((float) Math.atan2(y2 - y, x2 - x) * MathUtils.radDeg);
 
-		batch().draw(texture, x - thickness / 2, y - thickness / 2, thickness / 2, thickness / 2, length, thickness, 1f, 1f, angle);
+		batch.draw(texture, x - thickness / 2, y - thickness / 2, thickness / 2, thickness / 2, length, thickness, 1f, 1f, angle);
 	}
 
 	public static void circle(float x, float y, float rad){
@@ -574,7 +315,7 @@ public class Draw{
 
 	public static void curve(float x1, float y1, float cx1, float cy1, float cx2, float cy2, float x2, float y2, int segments){
 
-		// Algorithm shamelessly stolen from shapenrenderer class
+		// Algorithm shamelessly stolen from shaperenderer class
 		float subdiv_step = 1f / segments;
 		float subdiv_step2 = subdiv_step * subdiv_step;
 		float subdiv_step3 = subdiv_step * subdiv_step * subdiv_step;
@@ -678,11 +419,11 @@ public class Draw{
 	}
 
 	public static void fillrect(float x, float y, float width, float height){
-		batch().draw(blankregion, x - width / 2f, y - height / 2f, width, height);
+		batch.draw(blankregion, x - width / 2f, y - height / 2f, width, height);
 	}
 
 	public static void fillcrect(float x, float y, float width, float height){
-		batch().draw(blankregion, x, y, width, height);
+		batch.draw(blankregion, x, y, width, height);
 	}
 
 	public static void linerect(float x, float y, float width, float height, int xspace, int yspace){
@@ -691,11 +432,11 @@ public class Draw{
 		width += xspace * 2;
 		height += yspace * 2;
 
-		batch().draw(blankregion, x, y, width, thickness);
-		batch().draw(blankregion, x, y + height, width, -thickness);
+		batch.draw(blankregion, x, y, width, thickness);
+		batch.draw(blankregion, x, y + height, width, -thickness);
 
-		batch().draw(blankregion, x + width, y, -thickness, height);
-		batch().draw(blankregion, x, y, thickness, height);
+		batch.draw(blankregion, x + width, y, -thickness, height);
+		batch.draw(blankregion, x, y, thickness, height);
 	}
 
 	public static void linerect(float x, float y, float width, float height){
@@ -731,7 +472,7 @@ public class Draw{
 	}
 
 	public static void text(String text, float x, float y, int align){
-		Core.font.draw(batch(), text, x, y, 0, align, false);
+		Core.font.draw(batch, text, x, y, 0, align, false);
 	}
 
 	public static void tcolor(Color color){
@@ -770,59 +511,10 @@ public class Draw{
 		return Core.atlas.hasRegion(name);
 	}
 
-	public static Batch batch(){
-		return Core.batch;
-	}
-
-	public static void resize(){
-		if(!surfaces.containsKey("effects1")){
-			addSurface("effects1", Core.cameraScale);
-			addSurface("effects2", Core.cameraScale);
-		}
-		
-		for(Surface surface : surfaces.values()){
-			surface.resize();
-		}
-		
-	}
-
-	/**
-	 * Disposes drawContext resources, as well as internal resources, Texture(s) and skin.
-	 */
-	//TODO move this somewhere else
-	public static void dispose(){
+	static void dispose(){
 		blank.getTexture().dispose();
-		batch().dispose();
-		
-		for(Surface surface : surfaces.values()){
-			surface.dispose();
-		}
-		
-		surfaces.clear();
-		
-		Caches.dispose();
-		
-		Inputs.clearProcessors();
-		
-		if(Textures.isLoaded()){
-			Textures.dispose();
-		}
-		
-		if(Core.scene != null){
-			Core.scene.dispose();
-		}
-
-		if(Core.atlas != null){
-			Core.atlas.dispose();
-		}
-
-		if(Core.skin != null){
-			Core.skin.dispose();
-		}
-	}
-
-	public interface Drawer{
-		public void draw(float x, float y);
+		blank = null;
+		blankregion = null;
 	}
 
 }

@@ -8,7 +8,7 @@ import io.anuke.ucore.util.Mathf;
 
 public class Sounds{
 	private static ObjectMap<String, Sound> map = new ObjectMap<>();
-	private static float volume = 1f;
+	private static float volume = 1f, globalVolume = 1f;
 	private static float falloff = 20000f;
 	
 	public static void load(String... names){
@@ -39,10 +39,16 @@ public class Sounds{
 	public static void play(String name, float tvol){
 		if(!map.containsKey(name)) throw new IllegalArgumentException("Sound \""+name+"\" does not exist!");
 		float vol = Settings.getInt("sfxvol")/10f;
-		get(name).play(volume*vol*tvol);
+		get(name).play(volume*vol*tvol*globalVolume);
 	}
 	
+	/**This is modified by things such as settings dialogs.*/
 	public static void setVolume(float vol){
 		volume = vol;
+	}
+	
+	/**Global volume; everything is multiplied by this.*/
+	public static void setGlobalVolume(float vol){
+		globalVolume = vol;
 	}
 }

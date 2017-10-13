@@ -3,7 +3,7 @@ package io.anuke.ucore.facet;
 import com.badlogic.gdx.math.MathUtils;
 
 import io.anuke.ucore.core.Core;
-import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.Graphics;
 
 public abstract class FacetLayer{
 	public final String name;
@@ -15,15 +15,15 @@ public abstract class FacetLayer{
 		this.layer = layer;
 		this.bind = bind;
 		
-		Draw.addSurface(name, Core.cameraScale, bind);
+		Graphics.addSurface(name, Core.cameraScale, bind);
 	}
 
 	public void end(){
-		Draw.surface();
+		Graphics.surface();
 	}
 
 	public void begin(){
-		Draw.surface(name);
+		Graphics.surface(name);
 	}
 	
 	public boolean acceptFacet(Facet facet){

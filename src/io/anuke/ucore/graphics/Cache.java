@@ -74,6 +74,8 @@ public class Cache implements Disposable{
 				checkCache();
 			}
 		}
+		
+		current.setColor(Caches.getColor());
 	}
 
 	@Override

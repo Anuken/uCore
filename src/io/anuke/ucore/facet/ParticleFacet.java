@@ -3,7 +3,7 @@ package io.anuke.ucore.facet;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 
-import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.Core;
 
 public class ParticleFacet extends Facet{
 	public PooledEffect effect;
@@ -15,7 +15,7 @@ public class ParticleFacet extends Facet{
 	
 	@Override
 	public void draw(){
-		effect.draw(Draw.batch(), Gdx.graphics.getDeltaTime());
+		effect.draw(Core.batch, Gdx.graphics.getDeltaTime());
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.graphics.Atlas;
+import io.anuke.ucore.graphics.Caches;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
 
@@ -34,7 +35,33 @@ public class Core{
 	}
 	
 	public static void setScene(Scene ascene, Skin askin){
-		if(ascene != null)scene = ascene;
-		if(askin != null)skin = askin;
+		if(ascene != null) scene = ascene;
+		if(askin != null) skin = askin;
+	}
+
+	/**
+	 * Disposes drawContext resources, as well as internal resources, Texture(s) and skin.
+	 */
+	public static void dispose(){
+		Draw.dispose();
+		Graphics.dispose();
+		
+		batch.dispose();
+		
+		Caches.dispose();
+		
+		Inputs.clearProcessors();
+		
+		if(scene != null){
+			scene.dispose();
+		}
+	
+		if(atlas != null){
+			atlas.dispose();
+		}
+	
+		if(skin != null){
+			skin.dispose();
+		}
 	}
 }

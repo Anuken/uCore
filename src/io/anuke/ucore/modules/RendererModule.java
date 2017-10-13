@@ -101,7 +101,7 @@ public abstract class RendererModule extends Module{
 	public void drawDefault(){
 		camera.update();
 		
-		Draw.beginCam();
+		Graphics.beginCam();
 		
 		if(pixelate) 
 			beginPixel();
@@ -115,7 +115,7 @@ public abstract class RendererModule extends Module{
 		if(pixelate) 
 			endPixel();
 		
-		Draw.end();
+		Graphics.end();
 	}
 	
 	public void postDraw(){}
@@ -140,21 +140,21 @@ public abstract class RendererModule extends Module{
 	}
 	
 	public void pixelate(int scl){
-		Draw.addSurface("pixel", scl == -1 ? Core.cameraScale : scl);
+		Graphics.addSurface("pixel", scl == -1 ? Core.cameraScale : scl);
 		pixelate = true;
 	}
 	
 	public void beginPixel(){
-		Draw.surface("pixel");
+		Graphics.surface("pixel");
 	}
 	
 	public void endPixel(){
-		Draw.flushSurface();
+		Graphics.flushSurface();
 	}
 	
 	@Override
 	public void dispose(){
-		Draw.dispose();
+		Core.dispose();
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ import io.anuke.ucore.scene.style.TextureRegionDrawable;
 
 /**Static utility class for loading textures as requested.
 */
+@Deprecated
 public class Textures{
 	private static TextureMap textures;
 	

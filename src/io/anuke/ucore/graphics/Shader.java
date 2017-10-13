@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
-import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.Graphics;
 
 public abstract class Shader{
 	public final ShaderProgram shader;
@@ -16,10 +16,10 @@ public abstract class Shader{
 				Gdx.files.internal("shaders/"+frag+".fragment"));
 		
 		if(!shader.isCompiled()){
-			throw new RuntimeException(shader.getLog());
+			throw new RuntimeException("Error compiling shaders \"" + frag + "\" and \"" + vert + "\": " + shader.getLog());
 		}
 		
-		Draw.addShader(this);
+		Graphics.addShader(this);
 	}
 	
 	public Shader(String frag){

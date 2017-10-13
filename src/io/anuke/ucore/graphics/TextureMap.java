@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 /**
  * Utility class for loading and storing textures.
  */
+@Deprecated
 public class TextureMap implements Disposable{
 	private ObjectMap<String, Texture> map = new ObjectMap<String, Texture>();
 	public String path = "", errortexture = "error";
@@ -31,8 +32,7 @@ public class TextureMap implements Disposable{
 	}
 
 	/**
-	 * @param name
-	 *            of texture you want to find.
+	 * @param name name of texture you want to find.
 	 * @return The texture, or the error texture if it isn't found and
 	 *         autoloading is disabled.
 	 */

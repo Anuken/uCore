@@ -4,7 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
-import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.Graphics;
 
 public abstract class ModuleCore extends ApplicationAdapter{
 	private static ModuleCore instance;
@@ -34,7 +34,7 @@ public abstract class ModuleCore extends ApplicationAdapter{
 	@Override
 	public void resize(int width, int height){
 		Module.screen.set(width, height);
-		Draw.resize();
+		Graphics.resize();
 		for(Module module : modulearray){
 			module.resize(width, height);
 		}

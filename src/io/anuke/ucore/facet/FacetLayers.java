@@ -1,6 +1,7 @@
 package io.anuke.ucore.facet;
 
 import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.Graphics;
 
 public class FacetLayers{
 	public static final FacetLayer 
@@ -10,7 +11,7 @@ public class FacetLayers{
 		@Override
 		public void end(){
 			Draw.color(0,0,0,0.13f);
-			Draw.flushSurface();
+			Graphics.flushSurface();
 			Draw.color();
 		}
 	}, 

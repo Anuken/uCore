@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.graphics.Atlas;
 
@@ -144,7 +145,7 @@ public class SpriteFacet extends Facet{
 
 	@Override
 	public void draw(){
-		sprite.draw(Draw.batch());
+		sprite.draw(Core.batch);
 	}
 
 	@Override
