@@ -11,33 +11,31 @@ import com.badlogic.gdx.utils.reflect.Method;
 
 import io.anuke.ucore.core.*;
 import io.anuke.ucore.util.Mathf;
+import io.anuke.ucore.util.Tmp;
 
 public abstract class RendererModule extends Module{
-	private static Vector3 pan = new Vector3();
 	public Color clearColor = Color.BLACK;
 	public float shakeIntensity, shaketime;
 	
 	protected boolean pixelate;
-	protected Object recorder;
-	protected Class<?> recorderClass;
+	
+	private Object recorder;
+	private Class<?> recorderClass;
 	
 	public RendererModule(){
 		Settings.defaults("screenshake", 4);
 		
-		Effects.setScreenShakeProvider((intensity, duration)->{
-			shake(intensity, duration);
+		Effects.setScreenShakeProvider((intensity, duration) -> {
+			shakeIntensity = Math.max(intensity, shakeIntensity);
+			shaketime = Math.max(shaketime, duration);
 		});
 		
-		//setup recorder if possible
+		//set up recorder if possible; ignore if it doesn't work
+		//(to disable the recorder, just don't call record(), or remove GifRecorder from the classpath)
 		try{
 			recorderClass = ClassReflection.forName("io.anuke.gif.GifRecorder");
 			recorder = ClassReflection.getConstructor(recorderClass, Batch.class).newInstance(batch);
 		}catch (Exception e){}
-	}
-	
-	public void shake(float intensity, float duration){
-		shakeIntensity = Math.max(intensity, shakeIntensity);
-		shaketime = Math.max(shaketime, duration);
 	}
 	
 	public void setCamera(float x, float y){
@@ -45,7 +43,7 @@ public abstract class RendererModule extends Module{
 	}
 	
 	public void smoothCamera(float x, float y, float alpha){
-		camera.position.interpolate(pan.set(x, y, 0), alpha*delta(), Interpolation.linear);
+		camera.position.interpolate(Tmp.v31.set(x, y, 0), alpha*delta(), Interpolation.linear);
 	}
 	
 	public void limitCamera(float lim, float targetX, float targetY){
@@ -123,7 +121,7 @@ public abstract class RendererModule extends Module{
 	/**override this*/
 	public void draw(){}
 	
-	/**Updates the gif recorder. Does nothing on GWT.*/
+	/**Updates the gif recorder. Does nothing on GWT or projects without it on the classpath.*/
 	public void record(){
 		if(recorder == null) return;
 		
@@ -150,11 +148,6 @@ public abstract class RendererModule extends Module{
 	
 	public void endPixel(){
 		Graphics.flushSurface();
-	}
-	
-	@Override
-	public void dispose(){
-		Core.dispose();
 	}
 	
 	@Override

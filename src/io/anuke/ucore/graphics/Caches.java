@@ -80,6 +80,7 @@ public class Caches{
 		for(Cache cache : caches){
 			cache.dispose();
 		}
+		
 		caches.clear();
 	}
 	

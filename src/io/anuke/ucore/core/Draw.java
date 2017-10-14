@@ -15,12 +15,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
 
 import io.anuke.ucore.graphics.Hue;
-import io.anuke.ucore.graphics.PixmapUtils;
+import io.anuke.ucore.graphics.Pixmaps;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.util.Tmp;
 
 public class Draw{
-	private static TextureRegion blank = PixmapUtils.blankTextureRegion();
+	private static TextureRegion blank = Pixmaps.blankTextureRegion();
 	private static TextureRegion blankregion = blank;
 
 	private static float thickness = 1f;

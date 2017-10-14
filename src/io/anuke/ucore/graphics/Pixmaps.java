@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.ucore.UCore;
 
-public class PixmapUtils{
+public class Pixmaps{
 	private static ByteBuffer bytes = ByteBuffer.allocateDirect(4);
 
 	public static void flip(Pixmap pixmap){

@@ -124,6 +124,19 @@ public class Musics{
 		return tracks.get(name);
 	}
 	
+	static void dispose(){
+		music = new Array<>();
+		tracks = new ObjectMap<>();
+		playing = null;
+		current = null;
+		volume = 1f;
+		fading = 100f;
+		
+		for(Music music : map.values()){
+			music.dispose();
+		}
+	}
+	
 	static class TrackList{
 		Music[] tracks;
 		

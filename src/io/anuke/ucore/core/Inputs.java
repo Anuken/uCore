@@ -110,6 +110,10 @@ public class Inputs{
 		return Math.abs(scroll) > 0;
 	}
 	
+	static void dispose(){
+		plex.getProcessors().clear();
+	}
+	
 	public static class InputDevice{
 		public final DeviceType type;
 		public final String name;

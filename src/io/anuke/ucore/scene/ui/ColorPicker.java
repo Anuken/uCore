@@ -8,7 +8,7 @@ import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.function.ColorListenable;
 import io.anuke.ucore.graphics.Hue;
-import io.anuke.ucore.graphics.PixmapUtils;
+import io.anuke.ucore.graphics.Pixmaps;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
@@ -33,7 +33,7 @@ public class ColorPicker extends Table{
 		float space = 20;
 		
 		if(hue == null)
-			hue = PixmapUtils.hueTexture(w/2, 1);
+			hue = Pixmaps.hueTexture(w/2, 1);
 		
 		hbar = new Bar(hue);
 		sbar = new Bar();

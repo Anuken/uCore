@@ -115,4 +115,9 @@ public class Timers{
 	public static void setDeltaProvider(Supplier<Float> impl){
 		deltaimpl = impl;
 	}
+	
+	static void dispose(){
+		timers.clear();
+		runs.clear();
+	}
 }

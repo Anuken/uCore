@@ -19,6 +19,7 @@ public class Sounds{
 		}
 	}
 	
+	/**Default = 20000, bigger numbers mean higher volume.*/
 	public static void setFalloff(float afalloff){
 		falloff = afalloff;
 	}
@@ -50,5 +51,14 @@ public class Sounds{
 	/**Global volume; everything is multiplied by this.*/
 	public static void setGlobalVolume(float vol){
 		globalVolume = vol;
+	}
+	
+	static void dispose(){
+		volume = 1f;
+		globalVolume = 1f;
+		
+		for(Sound sound : map.values()){
+			sound.dispose();
+		}
 	}
 }

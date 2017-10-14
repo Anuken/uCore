@@ -39,18 +39,17 @@ public class Core{
 		if(askin != null) skin = askin;
 	}
 
-	/**
-	 * Disposes drawContext resources, as well as internal resources, Texture(s) and skin.
-	 */
+	/* Disposes of all resources, as well as internal resources and skin.*/
 	public static void dispose(){
 		Draw.dispose();
 		Graphics.dispose();
+		Caches.dispose();
+		Inputs.dispose();
+		Sounds.dispose();
+		Musics.dispose();
+		Timers.dispose();
 		
 		batch.dispose();
-		
-		Caches.dispose();
-		
-		Inputs.clearProcessors();
 		
 		if(scene != null){
 			scene.dispose();
@@ -62,6 +61,10 @@ public class Core{
 	
 		if(skin != null){
 			skin.dispose();
+		}
+		
+		if(font != null){
+			font.dispose();
 		}
 	}
 }

@@ -8,11 +8,11 @@ import com.badlogic.gdx.math.EarClippingTriangulator;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.util.Angles;
 
-//TODO
+//TODO make this work properly
 public class Drawv{
 	private static final PolygonSpriteBatch batch = new PolygonSpriteBatch();
 	//private static final PolygonRegion region = new PolygonRegion();
-	private static final Texture blank = PixmapUtils.blankTexture();
+	private static final Texture blank = Pixmaps.blankTexture();
 	private static final EarClippingTriangulator tri = new EarClippingTriangulator();
 	
 	private static float[] circleVert;

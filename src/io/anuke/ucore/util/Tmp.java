@@ -2,9 +2,7 @@ package io.anuke.ucore.util;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.*;
 
 /**Temporary stuff.*/
 public class Tmp{
@@ -22,6 +20,10 @@ public class Tmp{
 	public static final Color c2 = new Color();
 	public static final Color c3 = new Color();
 	public static final Color c4 = new Color();
+	
+	public static final GridPoint2 g1 = new GridPoint2();
+	public static final GridPoint2 g2 = new GridPoint2();
+	public static final GridPoint2 g3 = new GridPoint2();
 	
 	public static final TextureRegion tr1 = new TextureRegion();
 	public static final TextureRegion tr2 = new TextureRegion();

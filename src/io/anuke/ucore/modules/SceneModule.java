@@ -67,7 +67,7 @@ public class SceneModule extends Module{
 	}
 	
 	/**Find an element by name, or by class if prefixed by #.*/
-	public <N> N $(String name){
+	public <N> N find(String name){
 		if(name.startsWith("#")){
 			for(Element a : scene.getElements()){
 				if(a.getClass().getSimpleName().toLowerCase().equals(name.substring(0, 1))){
@@ -79,7 +79,7 @@ public class SceneModule extends Module{
 		return (N)scene.find(name);
 	}
 	
-	public <N> Array<N> $list(Class<N> type){
+	public <N> Array<N> findList(Class<N> type){
 		Array<N> arr = new Array<N>();
 		for(Element actor : scene.getElements()){
 			if(actor.getClass() == type){

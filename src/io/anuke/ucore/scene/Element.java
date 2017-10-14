@@ -7,6 +7,7 @@ import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.function.KeyListenable;
 import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.function.VisibilityProvider;
+import io.anuke.ucore.scene.event.EventListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.utils.ChangeListener;
@@ -72,13 +73,22 @@ public class Element extends BaseElement{
 		});
 	}
 	
+	/**Fakes a click event on all ClickListeners.*/
+	public void fireClick(){
+		for(EventListener listener : getListeners()){
+			if(listener instanceof ClickListener){
+				((ClickListener)listener).clicked(new InputEvent(), -1, -1);
+			}
+		}
+	}
+	
 	/**Adds a click listener.*/
 	public ClickListener clicked(Listenable r){
 		ClickListener click;
 		addListener(click = new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
-				if(r != null)r.listen();
+				if(r != null) r.listen();
 			}
 		});
 		return click;

@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Graphics;
 
 public abstract class ModuleCore extends ApplicationAdapter{
@@ -75,5 +76,7 @@ public abstract class ModuleCore extends ApplicationAdapter{
 	public void dispose(){
 		for(Module module : modulearray)
 			module.dispose();
+		
+		Core.dispose();
 	}
 }
