@@ -14,7 +14,7 @@ import io.anuke.ucore.scene.utils.ChangeListener;
 import io.anuke.ucore.scene.utils.ClickListener;
 
 /**Extends the BaseElement (Actor) class to provide more functionality.
- * (that is probably a terrible idea)*/
+ * (this is probably a terrible idea)*/
 public class Element extends BaseElement{
 	private static final Vector2 vec = new Vector2();
 	
@@ -120,10 +120,6 @@ public class Element extends BaseElement{
 	/**Fires a change event on all listeners.*/
 	public void change(){
 		fire(new ChangeListener.ChangeEvent());
-		//for(EventListener listener : this.getListeners()){
-		//	if(listener instanceof ChangeListener)
-		//		((ChangeListener)listener).changed(null, this);
-		//}
 	}
 	
 	/**Adds a click listener.*/

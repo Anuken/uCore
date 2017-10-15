@@ -29,8 +29,7 @@ public class Graphics{
 	private static ObjectMap<String, Surface> surfaces = new ObjectMap<>();
 	private static Stack<Surface> surfaceStack = new Stack<>();
 	
-	private static ObjectMap<Class<? extends Shader>, Shader> shaders = new ObjectMap<>();
-	private static Class<? extends Shader>[] currentShaders;
+	private static Shader[] currentShaders;
 	
 	/**Mouse coords.*/
 	public static Vector2 mouse(){
@@ -185,15 +184,6 @@ public class Graphics{
 		beginCam();
 	}
 
-	/**Registers a shader, internal use only.*/
-	public static void addShader(Shader shader){
-		shaders.put(shader.getClass(), shader);
-	}
-
-	public static <T extends Shader> T getShader(Class<T> type){
-		return (T)shaders.get(type);
-	}
-
 	/** Sets the batch projection matrix to the screen, without the camera. */
 	public static void setScreen(){
 		boolean drawing = batch.isDrawing();
@@ -210,7 +200,7 @@ public class Graphics{
 	}
 
 	/**Begin the postprocessing shaders.*/
-	public static void beginShaders(Class<? extends Shader>... types){
+	public static void beginShaders(Shader... types){
 		currentShaders = types;
 		
 		batch.flush();
@@ -225,12 +215,10 @@ public class Graphics{
 		//batch.flush();
 		
 		if(currentShaders.length == 1){
-			Class<? extends Shader> type = currentShaders[0];
+			Shader shader = currentShaders[0];
 			tempregion.setRegion(currentSurface().texture());
 			
-			Shader shader = getShader(type);
-			
-			Graphics.shader(type);
+			Graphics.shader(shader);
 			shader.program().begin();
 			shader.region = tempregion;
 			shader.apply();
@@ -242,14 +230,12 @@ public class Graphics{
 			int i = 0;
 			int index = 2;
 			
-			for(Class<? extends Shader> type : currentShaders){
+			for(Shader shader : currentShaders){
 				boolean ending = i == currentShaders.length - 1;
-				
-				Shader shader = getShader(type);
 				
 				tempregion.setRegion(currentSurface().texture());
 				
-				Graphics.shader(type);
+				Graphics.shader(shader);
 				shader.program().begin();
 				shader.region = tempregion;
 				shader.apply();
@@ -268,15 +254,12 @@ public class Graphics{
 		}
 	}
 
-	//TODO apply shader prefs
 	/** Set the shader by class and returns the reference.*/
-	public static <T extends Shader> T shader(Class<T> type){
+	public static void shader(Shader shader){
 		boolean rendering = batch.isDrawing();
 	
 		if(rendering)
 			batch.end();
-		
-		T shader = (T)shaders.get(type);
 	
 		batch.setShader(shader.program());
 		
@@ -286,8 +269,6 @@ public class Graphics{
 	
 		if(rendering)
 			batch.begin();
-		
-		return (T)shader;
 	}
 
 	/** Revert to the default shader. */

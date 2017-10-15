@@ -15,7 +15,7 @@ import io.anuke.ucore.util.Mathf;
 
 public class Effects{
 	private static final ObjectMap<String, EffectDraw> draws = new ObjectMap<>();
-	private static EffectProvider provider = (name, color, x, y)-> new Effect(name, color).set(x, y).add();
+	private static EffectProvider provider = (name, color, x, y) -> new Effect(name, color).set(x, y).add();
 	private static BiConsumer<Float, Float> shakeProvider;
 	private static final EffectContainer container = new EffectContainer();
 	private static float shakeFalloff = 1000f;
