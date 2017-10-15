@@ -9,6 +9,7 @@ import io.anuke.ucore.core.Core;
 import io.anuke.ucore.util.Angles;
 
 //TODO make this work properly
+/**Draws filled polygons using a PolygonSpriteBatch. Unfinished.*/
 public class Drawv{
 	private static final PolygonSpriteBatch batch = new PolygonSpriteBatch();
 	//private static final PolygonRegion region = new PolygonRegion();

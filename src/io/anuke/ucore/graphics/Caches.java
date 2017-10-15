@@ -41,6 +41,11 @@ public class Caches{
 		current.draw(region, x, y, w, h);
 	}
 	
+	public static void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation){
+		checkCache();
+		current.draw(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
+	}
+	
 	public static void draw(String region, float x, float y){
 		checkCache();
 		current.draw(region, x, y);

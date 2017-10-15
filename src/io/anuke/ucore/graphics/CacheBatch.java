@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.Matrix4;
 
+import io.anuke.ucore.util.Tmp;
+
 /**A 'batch' that calls Caches.draw() for most operations.
- * */
+ * mostly unfinished*/
 //TODO implementation
 public class CacheBatch implements Batch{
 
@@ -30,127 +32,110 @@ public class CacheBatch implements Batch{
 
 	@Override
 	public void setColor(Color tint){
-		stub();
-		
+		Caches.color(tint);
 	}
 
 	@Override
 	public void setColor(float r, float g, float b, float a){
-		stub();
-		
+		setColor(Tmp.c1.set(r, g, b, a));
 	}
 
 	@Override
 	public void setColor(float color){
-		stub();
+		//TODO probably incorrect color
+		Color.abgr8888ToColor(Tmp.c1, color);
+		setColor(Tmp.c1);
 	}
 
 	@Override
 	public Color getColor(){
-		stub();
-		return null;
+		return Caches.getColor();
 	}
 
 	@Override
 	public float getPackedColor(){
-		stub();
-		return 0;
+		return Caches.getColor().toFloatBits();
 	}
 
 	@Override
 	public void draw(Texture texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY){
 		stub();
-		
 	}
 
 	@Override
 	public void draw(Texture texture, float x, float y, float width, float height, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY){
 		stub();
-		
 	}
 
 	@Override
 	public void draw(Texture texture, float x, float y, int srcX, int srcY, int srcWidth, int srcHeight){
 		stub();
-		
 	}
 
 	@Override
 	public void draw(Texture texture, float x, float y, float width, float height, float u, float v, float u2, float v2){
 		stub();
-		
 	}
 
 	@Override
 	public void draw(Texture texture, float x, float y){
 		stub();
-		
 	}
 
 	@Override
 	public void draw(Texture texture, float x, float y, float width, float height){
 		stub();
-		
 	}
 
 	@Override
 	public void draw(Texture texture, float[] spriteVertices, int offset, int count){
 		stub();
-		
 	}
 
 	@Override
 	public void draw(TextureRegion region, float x, float y){
-		stub();
-		
+		draw(region, x, y, region.getRegionWidth(), region.getRegionHeight());
 	}
 
 	@Override
 	public void draw(TextureRegion region, float x, float y, float width, float height){
-		stub();
-		
+		Caches.draw(region, x, y, width, height);
 	}
 
 	@Override
 	public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation){
-		stub();
-		
+		Caches.draw(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
 	}
 
 	@Override
 	public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, boolean clockwise){
 		stub();
-		
+		draw(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation, false);
 	}
 
 	@Override
 	public void draw(TextureRegion region, float width, float height, Affine2 transform){
 		stub();
-		
 	}
 
 	@Override
 	public void flush(){
 		stub();
-		
 	}
 
 	@Override
 	public void disableBlending(){
 		stub();
-		
 	}
 
 	@Override
 	public void enableBlending(){
 		stub();
-		
 	}
 
 	@Override
 	public void setBlendFunction(int srcFunc, int dstFunc){
 		stub();
-		
 	}
 
 	@Override
@@ -180,19 +165,16 @@ public class CacheBatch implements Batch{
 	@Override
 	public void setProjectionMatrix(Matrix4 projection){
 		stub();
-		
 	}
 
 	@Override
 	public void setTransformMatrix(Matrix4 transform){
 		stub();
-		
 	}
 
 	@Override
 	public void setShader(ShaderProgram shader){
 		stub();
-		
 	}
 
 	@Override

@@ -33,6 +33,14 @@ public class Cache implements Disposable{
 		draws ++;
 	}
 	
+	public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation){
+		checkCache();
+		
+		current.add(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
+		
+		draws ++;
+	}
+	
 	public void draw(String region, float x, float y){
 		TextureRegion r = Draw.region(region);
 		draw(r, x-r.getRegionWidth()/2, y-r.getRegionHeight()/2, r.getRegionWidth(), r.getRegionHeight());

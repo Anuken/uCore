@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.ucore.UCore;
 
+/**Various pixmap utilities.*/
 public class Pixmaps{
 	private static ByteBuffer bytes = ByteBuffer.allocateDirect(4);
 
