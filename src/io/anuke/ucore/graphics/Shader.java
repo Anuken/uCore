@@ -16,6 +16,9 @@ public abstract class Shader{
 		if(!shader.isCompiled()){
 			throw new RuntimeException("Error compiling shaders \"" + frag + "\" and \"" + vert + "\": " + shader.getLog());
 		}
+		
+		if(shader.getLog().length() > 0)
+			Gdx.app.error("Shaders", "Shader Log (" + frag + "/" + vert + "): " + shader.getLog());
 	}
 	
 	public Shader(String frag){

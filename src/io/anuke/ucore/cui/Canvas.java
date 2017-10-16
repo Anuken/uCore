@@ -1,5 +1,6 @@
 package io.anuke.ucore.cui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
 public class Canvas{
@@ -15,6 +16,20 @@ public class Canvas{
 	
 	public void addLayout(Layout layout){
 		layouts.add(layout);
+	}
+	
+	public void draw(){
+		for(Layout layout : layouts){
+			layout.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			layout.draw();
+		}
+	}
+	
+	public void update(){
+		for(Layout layout : layouts){
+			layout.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			layout.update();
+		}
 	}
 	
 	public Stylesheet getStylesheet(){
