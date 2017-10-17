@@ -5,10 +5,16 @@ public abstract class Layout extends Section{
 	public abstract void layout();
 	
 	@Override
-	public void update(){
-		//TODO only layout when needed
+	public void add(Section section){
+		super.add(section);
 		layout();
-		
-		super.update();
+		updateSize();
+	}
+	
+	@Override
+	public void remove(Section section){
+		super.remove(section);
+		layout();
+		updateSize();
 	}
 }

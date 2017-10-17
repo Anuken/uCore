@@ -1,33 +1,37 @@
 package io.anuke.ucore.cui.layout;
 
-import com.badlogic.gdx.utils.Align;
-
 import io.anuke.ucore.cui.Layout;
 import io.anuke.ucore.cui.Section;
 
 public class VerticalLayout extends Layout{
-	public int align = Align.top;
+	public boolean top = true;
 	
 	public VerticalLayout(){
 		
 	}
 	
-	public VerticalLayout(int align){
-		this.align = align;
+	public VerticalLayout(boolean top){
+		this.top = top;
 	}
 
 	@Override
 	public void layout(){
-		float currentY = y;
+		float currentY = style.padBottom;
+		
+		prefWidth = 0;
+		prefHeight = 0;
 		
 		//TODO proper layout, filling, etc
 		for(Section child : children){
 			child.y = currentY;
-			child.x = x;
-			if(child.isMode(Mode.fillX)){
-				child.width = width;
+			child.x = style.padLeft;
+			if(child.style.fillX){
+				child.width = width - style.padLeft - style.padRight;
 			}
 			currentY += child.height;
+			prefWidth = Math.max(prefWidth, child.width);
 		}
+		
+		prefHeight = currentY + style.padTop;
 	}
 }

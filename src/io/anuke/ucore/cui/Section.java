@@ -1,45 +1,28 @@
 package io.anuke.ucore.cui;
 
-import java.util.EnumSet;
-
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Draw;
-import io.anuke.ucore.cui.layout.Mode;
 import io.anuke.ucore.cui.style.Style;
 
 public abstract class Section{
 	private Array<String> styles = new Array<String>();
-	private EnumSet<Mode> modes = EnumSet.noneOf(Mode.class);
-	
-	protected Style style = new Style();
+
+	public Style style = new Style();
 	protected Array<Section> children = new Array<>();
+	protected Section parent;
 	
-	public float x, y, width = 100, height = 100;
-	
-	public Section(){
-		Canvas.instance().getStylesheet().getStyle(style, getTypeName(), styles);
+	/**Do not modify unless laying out.*/
+	public float x, y, width, height;
+	protected float prefWidth = 50f, prefHeight = 50f;
+	protected boolean setWidth, setHeight;
+
+	public Section() {
+		updateStyle();
 	}
-	
-	public void modes(Mode...modes){
-		for(Mode mode : modes){
-			this.modes.add(mode);
-		}
-	}
-	
-	public boolean isMode(Mode mode){
-		return modes.contains(mode);
-	}
-	
-	public void setMode(Mode mode, boolean set){
-		if(set){
-			modes.add(mode);
-		}else{
-			modes.remove(mode);
-		}
-	}
-	
+
 	public void setBounds(float x, float y, float width, float height){
 		this.x = x;
 		this.y = y;
@@ -47,45 +30,92 @@ public abstract class Section{
 		this.height = height;
 	}
 	
+	public void setWidth(float width){
+		this.width = width;
+		setWidth = true;
+	}
+	
+	public void setHeight(float height){
+		this.height = height;
+		setHeight = true;
+	}
+	
+	public void setSize(float width, float height){
+		setWidth(width);
+		setHeight(height);
+	}
+	
 	public void draw(){
 		Draw.color(style.color);
-		
+
 		if(style.background != null){
 			style.background.draw(x, y, width, height);
 		}
-		
+
 		if(style.border != null){
 			Draw.color(style.border.color);
 			Draw.thick(style.border.thickness);
 			Draw.linerect(x, y, width, height);
 			Draw.reset();
 		}
-		
-		for(Section child : children){
-			child.draw();
+
+		if(children.size > 0){
+			Core.batch.end();
+			Core.batch.getTransformMatrix().translate(x, y, 0);
+			Core.batch.begin();
+
+			for(Section child : children){
+				child.draw();
+			}
+
+			Core.batch.end();
+			Core.batch.getTransformMatrix().translate(-x, -y, 0);
+			Core.batch.begin();
 		}
 	}
-	
+
 	public void update(){
 		for(Section child : children){
 			child.update();
 		}
 	}
-	
+
 	public void add(Section section){
+		if(section.parent != null){
+			throw new RuntimeException("A section cannot have two parents.");
+		}
 		children.add(section);
+		section.parent = this;
+		section.updateStyle();
+		section.updateSize();
 	}
-	
+
 	public void remove(Section section){
+		if(section.parent == null){
+			throw new RuntimeException("A section must have a parent to remove it.");
+		}
 		children.removeValue(section, true);
+		section.parent = null;
+		section.updateStyle();
 	}
-	
+
+	public void updateSize(){
+		if(!setWidth)
+			width = prefWidth + style.padLeft + style.padRight;
+		if(!setHeight)
+			height = prefHeight + style.padBottom + style.padTop;
+	}
+
 	public String getTypeName(){
 		return ClassReflection.getSimpleName(getClass()).toLowerCase();
 	}
-	
+
+	public void updateStyle(){
+		Canvas.instance().getStylesheet().getStyle(this, style, styles);
+	}
+
 	public void addStyle(String newstyle){
 		styles.add(newstyle);
-		Canvas.instance().getStylesheet().getStyle(style, getTypeName(), styles);
+		updateStyle();
 	}
 }

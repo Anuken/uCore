@@ -9,10 +9,16 @@ import io.anuke.ucore.cui.Section;
 
 public class Label extends Section{
 	public String text = "";
-	public boolean wrap = true;
+	public float wrapWidth = 10;
+	public boolean wrap = false;
 	
 	public Label(String text){
 		this.text = text;
+		
+		GlyphLayout layout = Pools.obtain(GlyphLayout.class);
+		layout.setText(Core.font, text, style.color, wrapWidth, Align.center, false);
+		prefWidth = layout.width;
+		prefHeight = layout.height;
 	}
 	
 	public Label(){
@@ -28,7 +34,7 @@ public class Label extends Section{
 		layout.setText(Core.font, text, style.color, width, Align.center, true);
 		//TODO
 		Core.font.setColor(style.color);
-		Core.font.draw(Core.batch, text, x, y + height/2 + layout.height/2f, width, Align.center, true);
+		Core.font.draw(Core.batch, text, x, y + height/2 + layout.height/2f, width, Align.center, false);
 		
 		Pools.free(layout);
 	}
