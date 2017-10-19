@@ -17,8 +17,10 @@ import io.anuke.ucore.cui.style.Style;
 import io.anuke.ucore.graphics.Atlas;
 
 public class Stylesheet{
+	public static final char typeSeperator = '.';
+	public static final char stateSeperator = ';';
+	
 	private final Json json = new Json();
-	/** ??? */
 	private ObjectMap<String, Drawable> drawables = new ObjectMap<>();
 	/** Map of style names to actual styles (e.g. "background" -> drawable) */
 	private ObjectMap<String, Style> styles = new ObjectMap<>();
@@ -142,21 +144,52 @@ public class Stylesheet{
 		});
 	}
 
-	public void getStyle(Section section, Style style, Array<String> extraStyles){
+	public void getStyle(Section section, Style style, Style finalStyle, Array<String> extraStyles){
 
 		try{
 
-			for(Field field : styleFields){
-				field.set(style, field.get(blankStyle));
-			}
-
+			clearStyle(style);
+			
+			Enum<?>[] states = section instanceof Stateful ? ((Stateful)section).stateValues() : null;
+			
 			//check for possible matches before going to the actual style classes
 			for(Style checkStyle : styleArray){
-				if(checkApplyStyle(section, checkStyle)){
+				if(checkApplyStyle(section, checkStyle, null)){
 					applyStyle(style, checkStyle);
 				}
 			}
-
+			
+			//if there's a state, setup state stuff
+			if(section instanceof Stateful){
+				//setup state style map if it's null
+				if(section.stateStyles == null){
+					section.stateStyles = new ObjectMap<>();
+					for(Enum<?> state : states){
+						section.stateStyles.put(state, new Style());
+					}
+				}
+				
+				//go through each state
+				for(Enum<?> state : states){
+					
+					Style stateStyle = section.stateStyles.get(state);
+					//clear state style
+					clearStyle(stateStyle);
+					//for every style, check if it applies, and put it on top
+					for(Style current : styleArray){
+						if(checkApplyStyle(section, current, state)){
+							applyStyle(stateStyle, current);
+						}
+					}
+					
+					//make sure there's no nulls
+					fixPrimitives(stateStyle);
+					
+					//UCore.log(stateStyle.transition);
+				}
+			}
+			
+			//apply the section specific styles
 			for(String currentName : extraStyles){
 				Style current = styles.get(currentName);
 
@@ -168,30 +201,65 @@ public class Stylesheet{
 
 			}
 			
-			for(Field field : styleFields){
-				if(defaultPrimitives.containsKey(field.getType()) &&
-						field.get(style) == null){
-					field.set(style, defaultPrimitives.get(field.getType()));
-				}
-			}
-
+			clearStyle(finalStyle);
+			applyStyle(finalStyle, style);
+		
+			fixPrimitives(finalStyle);
 		}catch(ReflectionException e){
 			throw new RuntimeException(e);
 		}
 	}
-
-	private void applyStyle(Style style, Style applicant) throws ReflectionException{
+	
+	public void getStateStyle(Section section, Style from, Style finalStyle){
+		try{
+			//nothing to interpolate here, we're done
+			if(section.targetState != null){
+				applyStyle(finalStyle, from);
+			}else{ //else, time to interpolate the values
+				Style to = section.stateStyles.get(section.targetState);
+				float alpha = section.stateTime / to.transition;
+			}
+		
+		}catch(ReflectionException e){
+			throw new RuntimeException(e);
+		}
+	}
+	
+	//set all primitive values to 0/false
+	private void fixPrimitives(Style style) throws ReflectionException{
 		for(Field field : styleFields){
-			Object value = field.get(applicant);
-			//TODO ??
-			if(value != null/* && !value.equals(field.get(blankStyle))*/){
+			if(defaultPrimitives.containsKey(field.getType()) &&
+					field.get(style) == null){
+				field.set(style, defaultPrimitives.get(field.getType()));
+			}
+		}
+	}
+	
+	private void clearStyle(Style style) throws ReflectionException{
+		for(Field field : styleFields){
+			field.set(style, field.get(blankStyle));
+		}
+	}
+
+	private void applyStyle(Style style, Style topStyle) throws ReflectionException{
+		for(Field field : styleFields){
+			Object value = field.get(topStyle);
+			
+			if(value != null){
 				field.set(style, value);
 			}
 		}
 	}
 
-	private boolean checkApplyStyle(Section section, Style style){
+	private boolean checkApplyStyle(Section section, Style style, Enum<?> state){
 		Section current = section;
+		
+		if(state != null && !state.name().equals(style.stateName)){
+			return false;
+		}else if(state == null && style.stateName != null){
+			return false;
+		}
+		
 		for(int i = style.typeNames.length - 1; i >= 0; i--){
 			if(current == null){
 				return false;
@@ -209,8 +277,17 @@ public class Stylesheet{
 		String str = value.toString().substring(name.length() + 1);
 		try{
 			Style style = json.fromJson(Style.class, str);
-			style.name = name;
-			style.typeNames = !name.contains(".") ? new String[] { name } : name.split("\\.");
+			
+			if(name.indexOf(stateSeperator) != -1){
+				String[] split = name.split(stateSeperator + "");
+				style.name = split[0];
+				style.stateName = split[1];
+			}else{
+				style.name = name;
+			}
+			
+			style.typeNames = style.name.indexOf(typeSeperator) != -1 ? new String[] { style.name } : style.name.split("\\" + typeSeperator);
+			
 			styles.put(name, style);
 			styleArray.add(style);
 		}catch(RuntimeException e){

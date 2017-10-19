@@ -1,18 +1,26 @@
 package io.anuke.ucore.cui;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
-import io.anuke.ucore.core.Core;
-import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.core.*;
 import io.anuke.ucore.cui.style.Style;
+import io.anuke.ucore.util.Tmp;
 
 public abstract class Section{
 	private Array<String> styles = new Array<String>();
 
 	public Style style = new Style();
+	protected Style computedStyle = new Style();
+	protected ObjectMap<Enum<?>, Style> stateStyles;
 	protected Array<Section> children = new Array<>();
 	protected Section parent;
+	
+	protected Enum<?> state;
+	protected Enum<?> targetState;
+	protected float stateTime;
 	
 	/**Do not modify unless laying out.*/
 	public float x, y, width, height;
@@ -21,6 +29,31 @@ public abstract class Section{
 
 	public Section() {
 		updateStyle();
+	}
+	
+	protected void updateState(){
+		
+		if(targetState != null && targetState != state){
+			stateTime += Timers.delta();
+			if(stateTime > stateStyles.get(targetState).transition){
+				state = targetState;
+				stateTime = 0f;
+				targetState = null;
+			}
+		}
+	}
+	
+	protected void updateStateStyle(){
+		
+	}
+	
+	public Vector2 getRelativeMousePosition(){
+		Core.batch.getTransformMatrix().getTranslation(Tmp.v31);
+		return Graphics.mouse().sub(Tmp.v31.x, Tmp.v31.y);
+	}
+	
+	public boolean hasMouse(){
+		return Tmp.r1.set(x, y, width, height).contains(getRelativeMousePosition());
 	}
 
 	public void setBounds(float x, float y, float width, float height){
@@ -52,9 +85,9 @@ public abstract class Section{
 			style.background.draw(x, y, width, height);
 		}
 
-		if(style.border != null){
-			Draw.color(style.border.color);
-			Draw.thick(style.border.thickness);
+		if(style.borderColor != null){
+			Draw.color(style.borderColor);
+			Draw.thick(style.borderThickness);
 			Draw.linerect(x, y, width, height);
 			Draw.reset();
 		}
@@ -71,6 +104,8 @@ public abstract class Section{
 			Core.batch.end();
 			Core.batch.getTransformMatrix().translate(-x, -y, 0);
 			Core.batch.begin();
+			
+			
 		}
 	}
 
@@ -111,7 +146,7 @@ public abstract class Section{
 	}
 
 	public void updateStyle(){
-		Canvas.instance().getStylesheet().getStyle(this, style, styles);
+		Canvas.instance().getStylesheet().getStyle(this, computedStyle, style, styles);
 	}
 
 	public void addStyle(String newstyle){
