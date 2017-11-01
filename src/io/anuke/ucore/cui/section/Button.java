@@ -38,7 +38,13 @@ public class Button extends HorizontalLayout implements Stateful{
 		return State.values();
 	}
 	
+	@Override
+	public Enum<?> defaultState(){
+		return State.up;
+	}
+	
 	enum State{
 		up, over, down;
 	}
+
 }

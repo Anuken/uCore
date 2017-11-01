@@ -20,8 +20,7 @@ import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.util.Tmp;
 
 public class Draw{
-	private static TextureRegion blank = Pixmaps.blankTextureRegion();
-	private static TextureRegion blankregion = blank;
+	private static TextureRegion blankregion = Pixmaps.blankTextureRegion();
 
 	private static float thickness = 1f;
 	private static Vector2 vector = new Vector2();
@@ -112,7 +111,7 @@ public class Draw{
 
 	public static void gradient(Color left, Color right, float alpha, float x, float y, float w, float h){
 		if(sprite == null)
-			sprite = new Sprite(blank);
+			sprite = new Sprite(blankregion);
 
 		sprite.setBounds(x, y, w, h);
 
@@ -211,20 +210,26 @@ public class Draw{
 		TextureRegion region = region(name);
 		batch.draw(region, x, y);
 	}
-
-	public static void laser(String line, String edge, float x, float y, float x2, float y2){
-		laser(line, edge, x, y, x2, y2, vector.set(x2 - x, y2 - y).angle());
+	
+	public static void laser(String line, String edge, float x, float y, float x2, float y2, float scale){
+		laser(line, edge, x, y, x2, y2, vector.set(x2 - x, y2 - y).angle(), scale);
 	}
 
-	public static void laser(String line, String edge, float x, float y, float x2, float y2, float rotation){
+	public static void laser(String line, String edge, float x, float y, float x2, float y2){
+		laser(line, edge, x, y, x2, y2, vector.set(x2 - x, y2 - y).angle(), 1f);
+	}
 
-		thickness = 12f;
-		Draw.line(region(line), x, y, x2, y2);
+	public static void laser(String line, String edge, float x, float y, float x2, float y2, float rotation, float scale){
+
+		thickness = 12f*scale;
+		Draw.unspacedLine(region(line), x, y, x2, y2);
 		thickness = 1f;
+		
+		TextureRegion region = region(edge);
 
-		Draw.rect(edge, x, y, rotation + 180);
+		Draw.rect(edge, x, y, region.getRegionWidth(), region.getRegionHeight() * scale, rotation + 180);
 
-		Draw.rect(edge, x2, y2, rotation);
+		Draw.rect(edge, x2, y2, region.getRegionWidth(), region.getRegionHeight() * scale, rotation);
 	}
 
 	public static void lineAngle(float x, float y, float angle, float length){
@@ -257,6 +262,13 @@ public class Draw{
 		float angle = ((float) Math.atan2(y2 - y, x2 - x) * MathUtils.radDeg);
 
 		batch.draw(texture, x - thickness / 2, y - thickness / 2, thickness / 2, thickness / 2, length, thickness, 1f, 1f, angle);
+	}
+	
+	public static void unspacedLine(TextureRegion texture, float x, float y, float x2, float y2){
+		float length = Vector2.dst(x, y, x2, y2);
+		float angle = ((float) Math.atan2(y2 - y, x2 - x) * MathUtils.radDeg);
+
+		batch.draw(texture, x, y - thickness/2, 0, thickness / 2, length, thickness, 1f, 1f, angle);
 	}
 
 	public static void circle(float x, float y, float rad){
@@ -442,6 +454,11 @@ public class Draw{
 	public static void linerect(float x, float y, float width, float height){
 		linerect(x, y, width, height, 0);
 	}
+	
+	public static void linecrect(float x, float y, float width, float height){
+		linerect(x - width/2, y - height/2, width, height, 0);
+	}
+
 
 	public static void linerect(Rectangle rect){
 		linerect(rect.x, rect.y, rect.width, rect.height, 0);
@@ -497,6 +514,13 @@ public class Draw{
 
 	/** Resets thickness, color and text color */
 	public static void reset(){
+		//TODO move this to initialization of some sort
+		//check if Draw can use the atlas for blank regions
+		if(Core.atlas != null && blankregion.getTexture().getWidth() == 1
+				 && Core.atlas.hasRegion("blank")){
+			blankregion = Core.atlas.getRegion("blank");
+		}
+		
 		thickness(1f);
 		color();
 		if(Core.font != null)
@@ -512,8 +536,8 @@ public class Draw{
 	}
 
 	static void dispose(){
-		blank.getTexture().dispose();
-		blank = null;
+		if(blankregion.getTexture().getWidth() == 1)
+			blankregion.getTexture().dispose();
 		blankregion = null;
 	}
 

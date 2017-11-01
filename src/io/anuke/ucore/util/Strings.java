@@ -21,6 +21,18 @@ public class Strings{
 		return out;
 	}
 	
+	public static String kebabToCamel(String s){
+		String out = s;
+		int idx = out.indexOf('-');
+		int lastidx = 0;
+		while(idx != -1){
+			out = out.substring(lastidx, idx) + Character.toUpperCase(out.charAt(idx+1)) + out.substring(idx+2);
+			lastidx = idx;
+			idx = out.indexOf(idx + 1, '-');
+		}
+		return out;
+	}
+	
 	public static boolean canParseInt(String s){
 		return parseInt(s) != Integer.MIN_VALUE;
 	}

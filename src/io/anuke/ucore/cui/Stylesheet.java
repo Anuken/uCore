@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.Json.Serializer;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
@@ -15,10 +16,12 @@ import io.anuke.ucore.cui.drawables.NinePatchDrawable;
 import io.anuke.ucore.cui.drawables.TextureRegionDrawable;
 import io.anuke.ucore.cui.style.Style;
 import io.anuke.ucore.graphics.Atlas;
+import io.anuke.ucore.util.Strings;
+import io.anuke.ucore.util.Tmp;
 
 public class Stylesheet{
 	public static final char typeSeperator = '.';
-	public static final char stateSeperator = ';';
+	public static final char stateSeperator = ':';
 	
 	private final Json json = new Json();
 	private ObjectMap<String, Drawable> drawables = new ObjectMap<>();
@@ -81,6 +84,20 @@ public class Stylesheet{
 			style.spaceLeft = style.spaceTop = style.spaceRight = style.spaceBottom = space;
 		});
 		
+		styleProperties.put("border", (value, style)->{
+			String[] out = value.asString().split(" ");
+			if(out.length == 2){
+				style.borderColor = parseColor(out[0]);
+				style.borderThickness = Float.parseFloat(out[1]);
+			}else if(out.length == 3){
+				style.borderColor = parseColor(out[0]);
+				style.borderThickness = Float.parseFloat(out[1]);
+				style.borderRadius = Float.parseFloat(out[2]);
+			}else{
+				throw new RuntimeException("Invalid border property: \"" + value.asString() + "\"");
+			}
+		});
+		
 		json.setSerializer(Drawable.class, new Serializer<Drawable>(){
 			@Override
 			public void write(Json json, Drawable object, Class knownType){}
@@ -103,13 +120,7 @@ public class Stylesheet{
 			public Color read(Json json, JsonValue jsonData, Class type){
 				String name = jsonData.asString();
 
-				if(name.startsWith("#")){
-					return Color.valueOf(name);
-				}else{
-					if(!Colors.getColors().containsKey(name))
-						throw new RuntimeException("Color not found: \"" + name + "\"!");
-					return Colors.get(name);
-				}
+				return parseColor(name);
 			}
 		});
 
@@ -126,9 +137,16 @@ public class Stylesheet{
 					while(child != null){
 						String fieldname = child.name;
 						
+						if(fieldname.indexOf('-') != -1){
+							fieldname = Strings.kebabToCamel(fieldname);
+						}
+						
 						if(!styleProperties.containsKey(fieldname)){
 							Field field = styleFieldMap.get(fieldname);
-							Object obj = json.fromJson(field.getType(), child.toString().substring(fieldname.length() + 1));
+							if(field == null){
+								throw new RuntimeException("No field found with name \"" + fieldname + "\"!");
+							}
+							Object obj = json.fromJson(field.getType(), child.toString().substring(child.name.length() + 1));
 							field.set(style, obj);
 						}else{
 							styleProperties.get(fieldname).parseProperty(child, style);
@@ -143,11 +161,20 @@ public class Stylesheet{
 
 		});
 	}
+	
+	private Color parseColor(String name){
+		if(name.startsWith("#")){
+			return Color.valueOf(name);
+		}else{
+			if(!Colors.getColors().containsKey(name))
+				throw new RuntimeException("Color not found: \"" + name + "\"!");
+			return Colors.get(name).cpy();
+		}
+	}
 
 	public void getStyle(Section section, Style style, Style finalStyle, Array<String> extraStyles){
 
 		try{
-
 			clearStyle(style);
 			
 			Enum<?>[] states = section instanceof Stateful ? ((Stateful)section).stateValues() : null;
@@ -184,8 +211,6 @@ public class Stylesheet{
 					
 					//make sure there's no nulls
 					fixPrimitives(stateStyle);
-					
-					//UCore.log(stateStyle.transition);
 				}
 			}
 			
@@ -213,11 +238,53 @@ public class Stylesheet{
 	public void getStateStyle(Section section, Style from, Style finalStyle){
 		try{
 			//nothing to interpolate here, we're done
-			if(section.targetState != null){
-				applyStyle(finalStyle, from);
+			if(section.targetState == null){
+				Style to = section.stateStyles.get(section.state);
+				applyStyle(finalStyle, to);
 			}else{ //else, time to interpolate the values
 				Style to = section.stateStyles.get(section.targetState);
+				//UCore.log(section.targetState);
 				float alpha = section.stateTime / to.transition;
+				if(Float.isNaN(alpha)){
+					alpha = 1f;
+				}
+				for(Field field : styleFields){
+					if(field.getType() == Color.class){
+						Color fromC = (Color)field.get(from);
+						Color toC = (Color)field.get(to);
+						Color value = (Color)field.get(finalStyle);
+						
+						if(fromC == null && toC == null){
+							continue;
+						}
+						
+						if(value == null){
+							field.set(finalStyle, value = new Color());
+						}
+						
+						if(fromC == null){
+							fromC = Tmp.c1.set(toC);
+							fromC.a = 0f;
+						}
+						
+						if(toC == null){
+							toC = Tmp.c1.set(fromC);
+							toC.a = 0f;
+						}
+						
+						value.set(fromC).mul(1f-alpha).add(toC.r * alpha, toC.g * alpha, toC.b * alpha, toC.a * alpha);
+						
+					}else if(field.getType() == Float.class){
+						Float fromF = (Float)field.get(from);
+						Float toF = (Float)field.get(to);
+						
+						if(fromF == null || toF == null){
+							continue;
+						}
+						
+						field.set(finalStyle, MathUtils.lerp(fromF, toF, alpha));
+					}
+				}
 			}
 		
 		}catch(ReflectionException e){
@@ -237,7 +304,13 @@ public class Stylesheet{
 	
 	private void clearStyle(Style style) throws ReflectionException{
 		for(Field field : styleFields){
-			field.set(style, field.get(blankStyle));
+			Object value = field.get(blankStyle);
+			
+			if(!(value instanceof Color)){
+				field.set(style, value);
+			}else{
+				((Color)field.get(style)).set((Color)value);
+			}
 		}
 	}
 
@@ -246,7 +319,11 @@ public class Stylesheet{
 			Object value = field.get(topStyle);
 			
 			if(value != null){
-				field.set(style, value);
+				if(!(value instanceof Color)){
+					field.set(style, value);
+				}else{
+					((Color)field.get(style)).set((Color)value);
+				}
 			}
 		}
 	}
@@ -277,18 +354,21 @@ public class Stylesheet{
 		String str = value.toString().substring(name.length() + 1);
 		try{
 			Style style = json.fromJson(Style.class, str);
+			String tname = null;
 			
 			if(name.indexOf(stateSeperator) != -1){
 				String[] split = name.split(stateSeperator + "");
-				style.name = split[0];
+				style.name = name;
+				tname = split[0];
 				style.stateName = split[1];
 			}else{
 				style.name = name;
+				tname = name;
 			}
 			
-			style.typeNames = style.name.indexOf(typeSeperator) != -1 ? new String[] { style.name } : style.name.split("\\" + typeSeperator);
+			style.typeNames = tname.indexOf(typeSeperator) != -1 ? new String[] { tname } : tname.split("\\" + typeSeperator);
 			
-			styles.put(name, style);
+			styles.put(style.name, style);
 			styleArray.add(style);
 		}catch(RuntimeException e){
 			throw new RuntimeException("Error parsing style \"" + name + "\"!", e);

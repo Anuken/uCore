@@ -108,9 +108,14 @@ public class Graphics{
 	
 		return surfaces.get(name);
 	}
+	
+	/** Begins drawing on a surface, clearing it. */
+	public static void surface(String name){
+		surface(name, true);
+	}
 
 	/** Begins drawing on a surface. */
-	public static void surface(String name){
+	public static void surface(String name, boolean clear){
 		if(!surfaceStack.isEmpty()){
 			end();
 			surfaceStack.peek().end(false);
@@ -123,7 +128,7 @@ public class Graphics{
 		if(drawing())
 			end();
 		
-		surface.begin();
+		surface.begin(clear);
 		
 		begin();
 	}

@@ -24,15 +24,18 @@ public class SceneModule extends Module{
 		scene = new Scene(Core.batch);
 		Inputs.addProcessor(scene);
 		
+		loadSkin();
+		
+		loadContext();
+	}
+	
+	protected void loadSkin(){
 		if(Gdx.files.internal("ui/uiskin.json").exists()){
 			skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 			skin.font().setUseIntegerPositions(false);
 		}else{
 			Gdx.app.error("UI", "ERROR: No skin file found in ui/uiskin.json. UI features are disabled.");
 		}
-		
-		loadContext();
-
 	}
 	
 	protected void loadContext(){

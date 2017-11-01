@@ -41,6 +41,12 @@ public abstract class Section{
 				targetState = null;
 			}
 		}
+		
+		if(state == targetState){
+			targetState = null;
+		}
+		
+		Canvas.instance().getStylesheet().getStateStyle(this, computedStyle, style);
 	}
 	
 	protected void updateStateStyle(){
@@ -85,7 +91,7 @@ public abstract class Section{
 			style.background.draw(x, y, width, height);
 		}
 
-		if(style.borderColor != null){
+		if(style.borderThickness > 0.0001f){
 			Draw.color(style.borderColor);
 			Draw.thick(style.borderThickness);
 			Draw.linerect(x, y, width, height);
