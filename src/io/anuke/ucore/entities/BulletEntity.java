@@ -20,7 +20,7 @@ public abstract class BulletEntity extends SolidEntity implements Damager{
 		this.owner = owner;
 		
 		velocity.set(0, type.speed).setAngle(angle);
-		hitsize = 4;
+		hitbox.setSize(4f);
 	}
 	
 	@Override

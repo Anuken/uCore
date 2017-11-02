@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity{
 	private static int lastid;
+	//TODO *sigh*
 	protected static Vector2 vector = new Vector2();
 	
 	public final int id;
@@ -30,10 +31,6 @@ public abstract class Entity{
 	public <T extends Entity> T add(){
 		Entities.entitiesToAdd.add(this);
 		return (T)this;
-	}
-	
-	public void move(float x, float y, float hitsize){
-		Entities.moveTiled(this, hitsize, hitsize, x, y);
 	}
 	
 	public float angleTo(Entity other){

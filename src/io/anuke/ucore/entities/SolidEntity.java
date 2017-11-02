@@ -1,14 +1,13 @@
 package io.anuke.ucore.entities;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
+import io.anuke.ucore.util.Tmp;
 
 public abstract class SolidEntity extends Entity implements QuadTreeObject{
-	private static Vector2 mvector = new Vector2();
-	public float hitsize = 10, hitoffsetx, hitoffsety;
-	public float tilehitwidth = 4, tilehitheight = 4, tilehoffsetx, tilehoffsety;
+	public transient Hitbox hitbox = new Hitbox(10f);
+	public transient Hitbox hitboxTile = new Hitbox(4f);
 	
 	public void move(float x, float y){
 		vector.set(x, y);
@@ -16,23 +15,19 @@ public abstract class SolidEntity extends Entity implements QuadTreeObject{
 		float segment = 2f;
 		
 		if(vector.len() > segment){
-			mvector.set(vector).setLength(segment);
+			Tmp.v3.set(vector).setLength(segment);
 			while(vector.len() > segment){
-				Entities.moveTiled(this, tilehitwidth, tilehitheight, mvector.x, mvector.y);
+				Entities.moveTiled(this, hitboxTile, Tmp.v3.x, Tmp.v3.y);
 				vector.setLength(vector.len()-segment);
 			}
-			Entities.moveTiled(this, tilehitwidth, tilehitheight, vector.x, vector.y);
+			Entities.moveTiled(this, hitboxTile, vector.x, vector.y);
 		}else{
-			Entities.moveTiled(this, tilehitwidth, tilehitheight, x, y);
+			Entities.moveTiled(this, hitboxTile, x, y);
 		}
 	}
 	
-	public void move(float x, float y, float hitsize){
-		Entities.moveTiled(this, hitsize, hitsize, x, y);
-	}
-	
 	public boolean collidesTile(){
-		return Entities.overlapsTile(Rectangle.tmp.setSize(tilehitwidth, tilehitheight).setCenter(x, y));
+		return Entities.overlapsTile(hitbox.getRect(x, y));
 	}
 	
 	public boolean collides(SolidEntity other){
@@ -43,7 +38,6 @@ public abstract class SolidEntity extends Entity implements QuadTreeObject{
 
 	@Override
 	public void getBoundingBox(Rectangle out){
-		out.setSize(hitsize);
-		out.setCenter(x, y);
+		hitbox.getRect(out, x, y);
 	}
 }
