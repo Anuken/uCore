@@ -102,7 +102,7 @@ public class Mathf{
 	}
 	
 	public static float randomSeed(long seed){
-		seedr.setSeed(seed);
+		seedr.setSeed(seed*99999);
 		return seedr.nextFloat();
 	}
 	

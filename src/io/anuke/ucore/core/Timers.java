@@ -9,7 +9,7 @@ import io.anuke.ucore.function.Supplier;
 
 public class Timers{
 	private static float time;
-	private static ObjectMap<String, Float> timers = new ObjectMap<String, Float>();
+	private static ObjectMap<Integer, Float> timers = new ObjectMap<>();
 	private static DelayedRemovalArray<DelayRun> runs = new  DelayedRemovalArray<>();
 	private static long lastMark = 0;
 	private static Supplier<Float> deltaimpl = ()->Math.min(Gdx.graphics.getDeltaTime()*60f, 3f);
@@ -37,7 +37,7 @@ public class Timers{
 	}
 	
 	public static void reset(Object o, String label, float duration){
-		timers.put(o.hashCode() + label, time - duration);
+		timers.put(hash(o, label), time - duration);
 	}
 	
 	public static void clear(){
@@ -46,28 +46,28 @@ public class Timers{
 	}
 	
 	public static float getTime(Object object, String label){
-		return time() - timers.get(object.hashCode() + label, 0f);
+		return time() - timers.get(hash(object, label), 0f);
 	}
 	
-	public static boolean get(Object object, float frames){
-		return get(object.hashCode() +"", frames);
+	public static boolean get(String label, float frames){
+		return get(hash(label), frames);
 	}
 	
 	public static boolean get(Object object, String label, float frames){
-		return get(object.hashCode() +label, frames);
+		return get(hash(object, label), frames);
 	}
 	
-	public static boolean get(String name, float frames){
-		if(timers.containsKey(name)){
-			float out = timers.get(name);
+	public static boolean get(int hash, float frames){
+		if(timers.containsKey(hash)){
+			float out = timers.get(hash);
 			if(time - out > frames){
-				timers.put(name, time);
+				timers.put(hash, time);
 				return true;
 			}else{
 				return false;
 			}
 		}else{
-			timers.put(name, time);
+			timers.put(hash, time);
 			return true;
 		}
 	}
@@ -114,6 +114,14 @@ public class Timers{
 
 	public static void setDeltaProvider(Supplier<Float> impl){
 		deltaimpl = impl;
+	}
+	
+	private static int hash(Object object, String label){
+		return hash(label) + object.hashCode();
+	}
+	
+	private static int hash(String label){
+		return label.hashCode();
 	}
 	
 	static void dispose(){
