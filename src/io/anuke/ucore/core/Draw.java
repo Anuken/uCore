@@ -140,6 +140,10 @@ public class Draw{
 	public static void rect(TextureRegion region, float x, float y){
 		batch.draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2);
 	}
+	
+	public static void rect(TextureRegion region, float x, float y, float width, float height){
+		batch.draw(region, x - width / 2, y - height / 2, width, height);
+	}
 
 	public static void rect(String name, float x, float y){
 		TextureRegion region = region(name);

@@ -49,6 +49,12 @@ public class Graphics{
 		return mouse.set(vec3.x, vec3.y);
 	}
 	
+	/**Screen coordinates for supplied world coords.*/
+	public static Vector2 screen(float worldx, float worldy){
+		Core.camera.project(vec3.set(worldx, worldy, 0));
+		return mouse.set(vec3.x, vec3.y);
+	}
+	
 	/**Screen size.*/
 	public static Vector2 size(){
 		return size.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

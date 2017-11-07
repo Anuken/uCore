@@ -15,6 +15,15 @@ public class Mathf{
 		return out;
 	}
 	
+	/**Mod function that works properly for negative integers..*/
+	public static int mod(int i, int m){
+		if(i >= 0){
+			return i % m;
+		}else{
+			return i % m + m;
+		}
+	}
+	
 	public static float sin(float in, float scl, float mag){
 		return MathUtils.sin(in/scl)*mag;
 	}
