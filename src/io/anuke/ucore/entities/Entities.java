@@ -177,6 +177,23 @@ public class Entities{
 
 		return closest;
 	}
+	
+	public static SolidEntity getClosest(Array<SolidEntity> entities, float x, float y, float range, Predicate<Entity> pred){
+		SolidEntity closest = null;
+		float cdist = 0f;
+		for(SolidEntity e : entities){
+			if(!pred.test(e))
+				continue;
+
+			float dist = Vector2.dst(e.x, e.y, x, y);
+			if(dist < range)
+				if(closest == null || dist < cdist){
+					closest = e;
+					cdist = dist;
+				}
+		}
+		return closest;
+	}
 
 	public static void clear(){
 		entitiesToAdd.clear();
