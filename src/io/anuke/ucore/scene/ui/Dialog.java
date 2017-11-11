@@ -18,10 +18,8 @@ package io.anuke.ucore.scene.ui;
 import static io.anuke.ucore.core.Core.skin;
 import static io.anuke.ucore.scene.actions.Actions.sequence;
 
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.ActionProvider;
@@ -33,12 +31,8 @@ import io.anuke.ucore.scene.actions.Actions;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.ui.ImageButton.ImageButtonStyle;
-import io.anuke.ucore.scene.ui.Label.LabelStyle;
-import io.anuke.ucore.scene.ui.TextButton.TextButtonStyle;
-import io.anuke.ucore.scene.ui.layout.Cell;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.ui.layout.Unit;
-import io.anuke.ucore.scene.utils.ChangeListener;
 import io.anuke.ucore.scene.utils.FocusListener;
 /** Displays a dialog, which is a modal window containing a content table with a button table underneath it. Methods are provided
  * to add a label to the content table and buttons to the button table, but any widgets can be added. When a button is clicked,
@@ -49,16 +43,10 @@ public class Dialog extends Window {
 	public static float closePadT, closePadR;
 	
 	private static ActionProvider 
-	defaultShowAction = ()->{
-		return sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade));
-	}, 
-	defaultHideAction = ()->{
-		return Actions.fadeOut(0.4f, Interpolation.fade);
-	};
+	defaultShowAction = ()-> sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)), 
+	defaultHideAction = ()-> Actions.fadeOut(0.4f, Interpolation.fade);
 	
 	Table contentTable, buttonTable;
-	ObjectMap<Element, Object> values = new ObjectMap();
-	boolean cancelHide;
 	Element previousKeyboardFocus, previousScrollFocus;
 	FocusListener focusListener;
 	Listenable hideListener, showListener;
@@ -98,17 +86,6 @@ public class Dialog extends Window {
 		contentTable.defaults().space(6);
 		buttonTable.defaults().space(6);
 
-		buttonTable.addListener(new ChangeListener() {
-			public void changed (ChangeEvent event, Element actor) {
-				if (!values.containsKey(actor)) return;
-				while (actor.getParent() != buttonTable)
-					actor = actor.getParent();
-				result(values.get(actor));
-				if (!cancelHide) hide();
-				cancelHide = false;
-			}
-		});
-
 		focusListener = new FocusListener() {
 			public void keyboardFocusChanged (FocusEvent event, Element actor, boolean focused) {
 				if (!focused) focusChanged(event);
@@ -145,7 +122,6 @@ public class Dialog extends Window {
 
 		ImageButton closeButton = new ImageButton(skin.get("close-window", ImageButtonStyle.class));
 		
-		//closeButton.getImageCell().size(32);
 		float scl = Unit.dp.inPixels(1f);
 		
 		titleTable.add(closeButton).padRight(-getPadRight()/scl)
@@ -155,12 +131,17 @@ public class Dialog extends Window {
 			hide();
 		});
 
-		if (titleLabel.getLabelAlign() == Align.center && titleTable.getChildren().size == 2)
+		if (titleLabel.getLabelAlign() == Align.center && titleTable.getChildren().size == 2){
 			titleTable.getCell(titleLabel).padLeft(closeButton.getWidth() * 2);
+		}
 	}
 	
 	public Table content(){
 		return contentTable;
+	}
+	
+	public Table buttons(){
+		return buttonTable;
 	}
 	
 	public Label title(){
@@ -173,52 +154,6 @@ public class Dialog extends Window {
 
 	public Table getButtonTable () {
 		return buttonTable;
-	}
-
-	/** Adds a label to the content table. The dialog must have been constructed with a skin to use this method. */
-	public Cell<Label> text (String text) {
-		return text(text, skin.get(LabelStyle.class));
-	}
-
-	/** Adds a label to the content table. */
-	public Cell<Label> text (String text, LabelStyle labelStyle) {
-		return text(new Label(text, labelStyle));
-	}
-
-	/** Adds the given Label to the content table */
-	public Cell<Label> text (Label label) {
-		return contentTable.add(label);
-	}
-
-	/** Adds a text button to the button table. Null will be passed to {@link #result(Object)} if this button is clicked. The dialog
-	 * must have been constructed with a skin to use this method. */
-	public Cell<Button> button (String text) {
-		return button(text, null);
-	}
-
-	/** Adds a text button to the button table. The dialog must have been constructed with a skin to use this method.
-	 * @param object The object that will be passed to {@link #result(Object)} if this button is clicked. May be null. */
-	public Cell<Button> button (String text, Object object) {
-		return button(text, object, skin.get(TextButtonStyle.class));
-	}
-
-	/** Adds a text button to the button table.
-	 * @param object The object that will be passed to {@link #result(Object)} if this button is clicked. May be null. */
-	public Cell<Button> button (String text, Object object, TextButtonStyle buttonStyle) {
-		return button(new TextButton(text, buttonStyle), object);
-	}
-
-	/** Adds the given button to the button table. */
-	public Cell<Button> button (Button button) {
-		return button(button, null);
-	}
-
-	/** Adds the given button to the button table.
-	 * @param object The object that will be passed to {@link #result(Object)} if this button is clicked. May be null. */
-	public Cell<Button> button (Button button, Object object) {
-		Cell<Button> c = buttonTable.add(button);
-		setObject(button, object);
-		return c;
 	}
 	
 	/**Adds a show() listener.*/
@@ -312,35 +247,6 @@ public class Dialog extends Window {
 		setTransform(true);
 		
 		hide(defaultHideAction.get());
-	}
-
-	public void setObject (Element actor, Object object) {
-		values.put(actor, object);
-	}
-
-	/** If this key is pressed, {@link #result(Object)} is called with the specified object.
-	 * @see Keys */
-	public Dialog key (final int keycode, final Object object) {
-		addListener(new InputListener() {
-			public boolean keyDown (InputEvent event, int keycode2) {
-				if (keycode == keycode2) {
-					result(object);
-					if (!cancelHide) hide();
-					cancelHide = false;
-				}
-				return false;
-			}
-		});
-		return this;
-	}
-
-	/** Called when a button is clicked. The dialog will be hidden after this method returns unless {@link #cancel()} is called.
-	 * @param object The object specified when the button was added. */
-	protected void result (Object object) {
-	}
-
-	public void cancel () {
-		cancelHide = true;
 	}
 	
 	public static ActionProvider getHideAction(){

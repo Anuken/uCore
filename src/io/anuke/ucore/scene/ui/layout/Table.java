@@ -328,6 +328,12 @@ public class Table extends WidgetGroup {
 		return add(new Image(Draw.getPatch(name)));
 	}
 	
+	public Cell<Image> addImage(String name, Color color){
+		Image image = new Image(Draw.getPatch(name));
+		image.setColor(color);
+		return add(image);
+	}
+	
 	public Cell<Image> addImage(TextureRegion region){
 		return add(new Image(region));
 	}

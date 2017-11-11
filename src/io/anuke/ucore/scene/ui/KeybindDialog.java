@@ -168,7 +168,7 @@ public class KeybindDialog extends Dialog{
 		rebindKey = name;
 
 		rebindDialog.getTitleTable().getCells().first().pad(4);
-		rebindDialog.button("Cancel", -1).pad(4);
+		rebindDialog.addButton("Cancel", ()-> hide()).pad(4);
 
 		if(KeyBinds.getType(section) == DeviceType.keyboard)
 			rebindDialog.keyDown(i -> {

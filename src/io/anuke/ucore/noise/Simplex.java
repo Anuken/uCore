@@ -100,7 +100,7 @@ public class Simplex{
 	//
 	// For each octave, a higher frequency/lower amplitude function will be added to the original.
 	// The higher the persistence [0-1], the more of each succeeding octave will be added.
-	public double octave_noise_3d(double octaves,double persistence,double scale,double x,double y,double z ) {
+	public double octaveNoise3D(double octaves,double persistence,double scale,double x,double y,double z ) {
 	    double total = 0;
 	    double frequency = scale;
 	    double amplitude = 1;
@@ -110,7 +110,7 @@ public class Simplex{
 	    double maxAmplitude = 0;
 
 	    for( int i=0; i < octaves; i++ ) {
-	        total += raw_noise_3d( x * frequency, y * frequency, z * frequency ) * amplitude;
+	        total += (raw_noise_3d( x * frequency, y * frequency, z * frequency ) + 1f) / 2f * amplitude;
 
 	        frequency *= 2;
 	        maxAmplitude += amplitude;
@@ -125,7 +125,7 @@ public class Simplex{
 	//
 	// For each octave, a higher frequency/lower amplitude function will be added to the original.
 	// The higher the persistence [0-1], the more of each succeeding octave will be added.
-	public double octave_noise_4d(double octaves,double persistence,double scale,double x,double y,double z,double w ) {
+	public double octaveNoise4D(double octaves,double persistence,double scale,double x,double y,double z,double w ) {
 	    double total = 0;
 	    double frequency = scale;
 	    double amplitude = 1;
@@ -159,14 +159,14 @@ public class Simplex{
 	//
 	// Returned value will be between loBound and hiBound.
 	public double scaled_octave_noise_3d(double octaves,double persistence,double scale,double loBound,double hiBound,double x,double y,double z ) {
-	    return octave_noise_3d(octaves, persistence, scale, x, y, z) * (hiBound - loBound) / 2 + (hiBound + loBound) / 2;
+	    return octaveNoise3D(octaves, persistence, scale, x, y, z) * (hiBound - loBound) / 2 + (hiBound + loBound) / 2;
 	}
 
 	// 4D Scaled Multi-octave Simplex noise.
 	//
 	// Returned value will be between loBound and hiBound.
 	public double scaled_octave_noise_4d(double octaves,double persistence,double scale,double loBound,double hiBound,double x,double y,double z,double w ) {
-	    return octave_noise_4d(octaves, persistence, scale, x, y, z, w) * (hiBound - loBound) / 2 + (hiBound + loBound) / 2;
+	    return octaveNoise4D(octaves, persistence, scale, x, y, z, w) * (hiBound - loBound) / 2 + (hiBound + loBound) / 2;
 	}
 
 

@@ -21,7 +21,8 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 
-import io.anuke.ucore.scene.*;
+import io.anuke.ucore.scene.Action;
+import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.EventListener;
 import io.anuke.ucore.scene.event.Touchable;
 
@@ -60,6 +61,12 @@ public class Actions {
 		removeAction.setTarget(targetActor);
 		removeAction.setAction(action);
 		return removeAction;
+	}
+	
+	/**Sets the origin to the center.*/
+	static public Action originCenter(){
+		OriginAction action = new OriginAction();
+		return action;
 	}
 
 	/** Moves the actor instantly. */

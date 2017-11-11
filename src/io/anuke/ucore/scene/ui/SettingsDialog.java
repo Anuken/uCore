@@ -10,13 +10,18 @@ import io.anuke.ucore.scene.ui.layout.Unit;
 
 public class SettingsDialog extends Dialog{
 	private Array<Setting> list = new Array<>();
+	private Table table;
 
 	public SettingsDialog() {
 		super("Settings");
 		addCloseButton();
 		
-		getButtonTable().left();
-		getButtonTable().addButton("Reset to Defaults", ()->{
+		table = new Table();
+		
+		table.left();
+		content().add(table);
+		content().row();
+		content().addButton("Reset to Defaults", ()->{
 			for(Setting setting : list){
 				Settings.put(setting.name, Settings.getDefault(setting.name));
 				Settings.save();
@@ -60,7 +65,7 @@ public class SettingsDialog extends Dialog{
 	}
 	
 	void rebuild(){
-		content().clearChildren();
+		table.clearChildren();
 		
 		for(Setting setting : list){
 			setting.add();
@@ -82,7 +87,6 @@ public class SettingsDialog extends Dialog{
 		}
 		
 		void add(){
-			Table table = getContentTable();
 			CheckBox box = new CheckBox(title);
 			
 			box.setChecked(Settings.getBool(name));
@@ -93,7 +97,7 @@ public class SettingsDialog extends Dialog{
 			});
 			
 			box.left();
-			table.add(box).minWidth(box.getPrefWidth()+50).left();
+			table.add(box).minWidth(box.getPrefWidth()+50).left().padTop(3f).units(Unit.dp);
 			table.add().grow();
 			table.row();
 		}
@@ -112,7 +116,6 @@ public class SettingsDialog extends Dialog{
 		}
 		
 		void add(){
-			Table table = getContentTable();
 			Slider slider = new Slider(min, max, step, false);
 			
 			slider.setValue(Settings.getInt(name));
@@ -126,8 +129,8 @@ public class SettingsDialog extends Dialog{
 			
 			slider.change();
 			
-			table.add(label).minWidth(label.getPrefWidth()+50).left();
-			table.add(slider).width(Unit.dp.inPixels(180));
+			table.add(label).minWidth(label.getPrefWidth()+50).left().padTop(3f).units(Unit.dp);
+			table.add(slider).width(180).padTop(3f).units(Unit.dp);
 			table.row();
 		}
 	}
