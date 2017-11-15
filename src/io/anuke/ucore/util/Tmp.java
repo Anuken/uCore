@@ -11,6 +11,8 @@ public class Tmp{
 	public static final Vector2 v3 = new Vector2();
 	
 	public static final Vector3 v31 = new Vector3();
+	public static final Vector3 v32 = new Vector3();
+	public static final Vector3 v33 = new Vector3();
 	
 	public static final Rectangle r1 = new Rectangle();
 	public static final Rectangle r2 = new Rectangle();

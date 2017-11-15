@@ -75,7 +75,7 @@ public class Simplex{
 	//
 	// For each octave, a higher frequency/lower amplitude function will be added to the original.
 	// The higher the persistence [0-1], the more of each succeeding octave will be added.
-	public double octaveNoise2d(double octaves,double persistence,double scale,double x,double y ) {
+	public double octaveNoise2D(double octaves,double persistence,double scale,double x,double y ) {
 	    double total = 0;
 	    double frequency = scale;
 	    double amplitude = 1;
@@ -85,7 +85,7 @@ public class Simplex{
 	    double maxAmplitude = 0;
 
 	    for( int i=0; i < octaves; i++ ) {
-	        total += raw_noise_2d( x * frequency, y * frequency ) * amplitude;
+	        total += (raw_noise_2d( x * frequency, y * frequency ) + 1f) / 2f * amplitude;
 
 	        frequency *= 2;
 	        maxAmplitude += amplitude;
@@ -151,7 +151,7 @@ public class Simplex{
 	//
 	// Returned value will be between loBound and hiBound.
 	public double scaledOctaveNoise2d(double octaves,double persistence,double scale,double loBound,double hiBound,double x,double y ) {
-	    return octaveNoise2d(octaves, persistence, scale, x, y) * (hiBound - loBound) / 2 + (hiBound + loBound) / 2;
+	    return octaveNoise2D(octaves, persistence, scale, x, y) * (hiBound - loBound) / 2 + (hiBound + loBound) / 2;
 	}
 
 
