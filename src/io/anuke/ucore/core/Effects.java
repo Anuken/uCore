@@ -15,7 +15,7 @@ import io.anuke.ucore.util.Mathf;
 
 public class Effects{
 	private static final ObjectMap<String, EffectDraw> draws = new ObjectMap<>();
-	private static EffectProvider provider = (name, color, x, y) -> new Effect(name, color).set(x, y).add();
+	private static EffectProvider provider = (name, color, x, y, rotation) -> new Effect(name, color, rotation).set(x, y).add();
 	private static BiConsumer<Float, Float> shakeProvider;
 	private static final EffectContainer container = new EffectContainer();
 	private static float shakeFalloff = 1000f;
@@ -28,8 +28,8 @@ public class Effects{
 		shakeProvider = provider;
 	}
 	
-	public static void renderEffect(int id, EffectDraw render, Color color, float life, float x, float y){
-		container.set(id, color, life, render.lifetime, x, y);
+	public static void renderEffect(int id, EffectDraw render, Color color, float life, float rotation, float x, float y){
+		container.set(id, color, life, render.lifetime, rotation, x, y);
 		render.draw.render(container);
 	}
 	
@@ -42,8 +42,12 @@ public class Effects{
 		draws.put(name, new EffectDraw(cons, life));
 	}
 	
+	public static void effect(String name, float x, float y, float rotation){
+		provider.createEffect(name, Color.WHITE, x, y, rotation);
+	}
+	
 	public static void effect(String name, float x, float y){
-		provider.createEffect(name, Color.WHITE, x, y);;
+		effect(name, x, y, 0);
 	}
 	
 	public static void effect(String name, Entity pos){
@@ -55,7 +59,7 @@ public class Effects{
 	}
 	
 	public static void effect(String name, Color color, float x, float y){
-		provider.createEffect(name, color, x, y);
+		provider.createEffect(name, color, x, y, 0f);
 	}
 	
 	public static void effect(String name, Color color, Entity entity){
@@ -121,11 +125,11 @@ public class Effects{
 	}
 	
 	public static class EffectContainer{
-		public float x, y, time, lifetime;
+		public float x, y, time, lifetime, rotation;
 		public Color color;
 		public int id;
 		
-		public void set(int id, Color color, float life, float lifetime, float x, float y){
+		public void set(int id, Color color, float life, float lifetime, float rotation, float x, float y){
 			this.x = x; this.y = y; this.color = color; this.time = life; this.lifetime = lifetime; this.id = id;
 		}
 		
