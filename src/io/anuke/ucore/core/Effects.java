@@ -130,7 +130,7 @@ public class Effects{
 		public int id;
 		
 		public void set(int id, Color color, float life, float lifetime, float rotation, float x, float y){
-			this.x = x; this.y = y; this.color = color; this.time = life; this.lifetime = lifetime; this.id = id;
+			this.x = x; this.y = y; this.color = color; this.time = life; this.lifetime = lifetime; this.id = id; this.rotation = rotation;
 		}
 		
 		public float fract(){
