@@ -3,6 +3,7 @@ package io.anuke.ucore.entities;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.ucore.core.Effects;
+import io.anuke.ucore.core.Effects.Effect;
 
 /**presumably you would extends BulletType and put in default bullet entity type.*/
 public abstract class BaseBulletType<T extends BulletEntity>{
@@ -10,7 +11,7 @@ public abstract class BaseBulletType<T extends BulletEntity>{
 	public float speed = 1f;
 	public int damage = 1;
 	public float hitsize = 4;
-	public String hiteffect = null, despawneffect = null;
+	public Effect hiteffect = null, despawneffect = null;
 	
 	protected Vector2 vector = new Vector2();
 	

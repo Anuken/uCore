@@ -3,25 +3,25 @@ package io.anuke.ucore.entities;
 import com.badlogic.gdx.graphics.Color;
 
 import io.anuke.ucore.core.Effects;
-import io.anuke.ucore.core.Effects.EffectDraw;
+import io.anuke.ucore.core.Effects.Effect;
 
-public class Effect extends TimedEntity{
-	public EffectDraw renderer;
+public class EffectEntity extends TimedEntity{
+	public Effect renderer;
 	public Color color = Color.WHITE;
 	public float rotation = 0f;
 	
-	public Effect(float lifetime, EffectDraw rend){
+	public EffectEntity(float lifetime, Effect rend){
 		renderer = rend;
 		this.lifetime = lifetime;
 	}
 	
-	public Effect(String name){
-		renderer = Effects.getEffect(name);
-		lifetime = Effects.getEffect(name).lifetime;
+	public EffectEntity(Effect effect){
+		renderer = effect;
+		lifetime = effect.lifetime;
 	}
 	
-	public Effect(String name, Color color, float rotation){
-		this(name);
+	public EffectEntity(Effect effect, Color color, float rotation){
+		this(effect);
 		this.color = color;
 		this.rotation = rotation;
 	}
