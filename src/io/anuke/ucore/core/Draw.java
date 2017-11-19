@@ -30,18 +30,18 @@ public class Draw{
 	private static Color tmpcolor = new Color();
 
 	static{
-		int defCircle = 30, defDashCircle = 40;
+		int defCircle = 30, defDashCircle = 36;
 		
 		setCircleVertices(defCircle);
 		setDashedCircleVertices(defDashCircle);
 	}
 	
 	private static void setCircleVertices(Vector2[] vertices, int amount){
-		float step = 360f / circle.length;
+		float step = 360f / amount;
 		vector.set(1f, 0);
-		for(int i = 0; i < circle.length; i++){
+		for(int i = 0; i < amount; i++){
 			vector.setAngle(i * step);
-			circle[i] = vector.cpy();
+			vertices[i] = vector.cpy();
 		}
 	}
 	
