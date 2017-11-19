@@ -25,22 +25,36 @@ public class Draw{
 	private static float thickness = 1f;
 	private static Vector2 vector = new Vector2();
 	private static Vector2[] circle;
+	private static Vector2[] dashCircle;
 	private static Sprite sprite;
 	private static Color tmpcolor = new Color();
 
 	static{
-		setCircleVertices(30);
+		int defCircle = 30, defDashCircle = 40;
+		
+		setCircleVertices(defCircle);
+		setDashedCircleVertices(defDashCircle);
 	}
 	
-	/**Set the vertices used for drawing a line circle.*/
-	public static void setCircleVertices(int amount){
-		circle = new Vector2[amount];
+	private static void setCircleVertices(Vector2[] vertices, int amount){
 		float step = 360f / circle.length;
 		vector.set(1f, 0);
 		for(int i = 0; i < circle.length; i++){
 			vector.setAngle(i * step);
 			circle[i] = vector.cpy();
 		}
+	}
+	
+	/**Set the vertices used for drawing a line circle.*/
+	public static void setCircleVertices(int amount){
+		circle = new Vector2[amount];
+		setCircleVertices(circle, amount);
+	}
+	
+	/**Set the vertices used for drawing a dashed line circle.*/
+	public static void setDashedCircleVertices(int amount){
+		dashCircle = new Vector2[amount];
+		setCircleVertices(dashCircle, amount);
 	}
 
 	public static void sprite(Sprite sprite){
@@ -280,7 +294,7 @@ public class Draw{
 	}
 
 	public static void dashcircle(float x, float y, float scl){
-		dashpolygon(circle, x, y, scl);
+		dashpolygon(dashCircle, x, y, scl);
 	}
 
 	public static void spikes(float x, float y, float radius, float length, int spikes, float rot){
