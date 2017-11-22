@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Array;
 
 import io.anuke.ucore.core.Musics;
 import io.anuke.ucore.core.Settings;
+import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.StringProcessor;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.ui.layout.Unit;
@@ -59,7 +60,13 @@ public class SettingsDialog extends Dialog{
 	}
 	
 	public void checkPref(String name, String title, boolean def){
-		list.add(new CheckSetting(name, title, def));
+		list.add(new CheckSetting(name, title, def, null));
+		Settings.defaults(name, def);
+		rebuild();
+	}
+	
+	public void checkPref(String name, String title, boolean def, Consumer<Boolean> changed){
+		list.add(new CheckSetting(name, title, def, changed));
 		Settings.defaults(name, def);
 		rebuild();
 	}
@@ -81,9 +88,11 @@ public class SettingsDialog extends Dialog{
 	private class CheckSetting extends Setting{
 		String title;
 		boolean def;
+		Consumer<Boolean> changed;
 		
-		CheckSetting(String name, String title, boolean def){
+		CheckSetting(String name, String title, boolean def, Consumer<Boolean> changed){
 			this.name = name; this.title = title; this.def = def;
+			this.changed = changed;
 		}
 		
 		void add(){
@@ -94,6 +103,9 @@ public class SettingsDialog extends Dialog{
 			box.changed(()->{
 				Settings.putBool(name, box.isChecked);
 				Settings.save();
+				if(changed != null){
+					changed.accept(box.isChecked);
+				}
 			});
 			
 			box.left();
