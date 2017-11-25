@@ -43,7 +43,7 @@ public abstract class RendererModule extends Module{
 	}
 	
 	public void smoothCamera(float x, float y, float alpha){
-		camera.position.interpolate(Tmp.v31.set(x, y, 0), alpha*delta(), Interpolation.linear);
+		camera.position.interpolate(Tmp.v31.set(x, y, 0), Math.min(alpha*delta(), 1f), Interpolation.linear);
 	}
 	
 	public void limitCamera(float lim, float targetX, float targetY){
