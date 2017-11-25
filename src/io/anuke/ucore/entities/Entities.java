@@ -1,14 +1,12 @@
 package io.anuke.ucore.entities;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
-import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Draw;
@@ -17,16 +15,14 @@ import io.anuke.ucore.util.*;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 
 public class Entities{
-	private static HashMap<Integer, Entity> entities = new HashMap<>();
-	protected static ObjectSet<Integer> entitiesToRemove = new ObjectSet<>();
-	protected static ObjectSet<Entity> entitiesToAdd = new ObjectSet<>();
+	private static ObjectMap<Class<? extends Entity>, EntityGroup<?>> groups = new ObjectMap<>();
+	private static Array<EntityGroup<?>> groupArray = new Array<>();
 
-	public static QuadTree<SolidEntity> tree;
-	public static RectQuadTree rtree;
-	public static boolean physics = false;
-	public static TileCollider collider;
-	public static TileHitboxProvider tileHitbox;
-	public static float tilesize;
+	private static RectQuadTree rtree;
+	private static boolean physics = false;
+	private static TileCollider collider;
+	private static TileHitboxProvider tileHitbox;
+	private static float tilesize;
 
 	private static Vector2 vector = new Vector2();
 	private static IntSet collided = new IntSet();
@@ -34,7 +30,12 @@ public class Entities{
 	private static Array<Rectangle> rectarray = new Array<>();
 	private static Array<Rectangle> tmprects = new Array<>();
 	private static Rectangle viewport = new Rectangle();
-	private static final int maxObjects = 4;
+	
+	public static int maxLeafObjects = 4;
+	
+	static{
+		addGroup(Entity.class);
+	}
 
 	public static void setCollider(float atilesize, TileCollider acollider, TileHitboxProvider hitbox){
 		tilesize = atilesize;
@@ -49,8 +50,11 @@ public class Entities{
 	}
 
 	public static void initPhysics(float x, float y, float w, float h){
-		tree = new QuadTree(maxObjects, new Rectangle(x, y, w, h));
-		rtree = new RectQuadTree(maxObjects, new Rectangle(x, y, w, h));
+		for(EntityGroup group : groupArray){
+			if(group.useTree)
+				group.setTree(x, y, w, h);
+		}
+		rtree = new RectQuadTree(maxLeafObjects, new Rectangle(x, y, w, h));
 		physics = true;
 
 		updateRects();
@@ -140,48 +144,37 @@ public class Entities{
 		return false;
 	}
 
-	public static void getNearby(Rectangle rect, Consumer<SolidEntity> out){
-		tree.getIntersect(out, rect);
+	public static void getNearby(EntityGroup<?> group, Rectangle rect, Consumer<SolidEntity> out){
+		if(!group.useTree) throw new RuntimeException("This group does not support quadtrees! Enable quadtrees when creating it.");
+		group.tree().getIntersect(out, rect);
 	}
 
-	public static Array<SolidEntity> getNearby(Rectangle rect){
+	public static Array<SolidEntity> getNearby(EntityGroup<?> group, Rectangle rect){
 		array.clear();
-		tree.getIntersect(array, rect);
+		getNearby(group, rect, entity -> array.add(entity));
 		return array;
 	}
 
 	public static void getNearby(float x, float y, float size, Consumer<SolidEntity> out){
-		tree.getIntersect(out, Rectangle.tmp.setSize(size).setCenter(x, y));
-	}
-
-	public static Array<SolidEntity> getNearby(float x, float y, float size){
-		array.clear();
-		tree.getIntersect(array, Rectangle.tmp2.setSize(size).setCenter(x, y));
-		return array;
-	}
-
-	public static SolidEntity getClosest(float x, float y, float range, Predicate<Entity> pred){
-		SolidEntity closest = null;
-		float cdist = 0f;
-		for(SolidEntity e : getNearby(x, y, range * 2f)){
-			if(!pred.test(e))
-				continue;
-
-			float dist = Vector2.dst(e.x, e.y, x, y);
-			if(dist < range)
-				if(closest == null || dist < cdist){
-					closest = e;
-					cdist = dist;
-				}
-		}
-
-		return closest;
+		getNearby(defaultGroup(), Rectangle.tmp.setSize(size).setCenter(x, y), out);
 	}
 	
-	public static SolidEntity getClosest(Array<SolidEntity> entities, float x, float y, float range, Predicate<Entity> pred){
+	public static void getNearby(EntityGroup<?> group, float x, float y, float size, Consumer<SolidEntity> out){
+		getNearby(group, Rectangle.tmp.setSize(size).setCenter(x, y), out);
+	}
+	
+	public static Array<SolidEntity> getNearby(float x, float y, float size){
+		return getNearby(defaultGroup(), Rectangle.tmp.setSize(size).setCenter(x, y));
+	}
+
+	public static Array<SolidEntity> getNearby(EntityGroup<?> group, float x, float y, float size){
+		return getNearby(group, Rectangle.tmp.setSize(size).setCenter(x, y));
+	}
+
+	public static SolidEntity getClosest(EntityGroup<?> group, float x, float y, float range, Predicate<Entity> pred){
 		SolidEntity closest = null;
 		float cdist = 0f;
-		for(SolidEntity e : entities){
+		for(SolidEntity e : getNearby(group, x, y, range * 2f)){
 			if(!pred.test(e))
 				continue;
 
@@ -192,25 +185,49 @@ public class Entities{
 					cdist = dist;
 				}
 		}
+
 		return closest;
 	}
 
 	public static void clear(){
-		entitiesToAdd.clear();
-		entities.clear();
-		entitiesToRemove.clear();
+		for(EntityGroup group : groupArray){
+			group.clear();
+		}
+	}
+	
+	public static Iterable<Entity> get(){
+		return get(Entity.class);
 	}
 
-	public static Iterable<Entity> all(){
-		return entities.values();
+	public static <T extends Entity> Iterable<T> get(Class<T> type){
+		return getGroup(type).all();
 	}
 
-	public static int amount(){
-		return entities.size();
+	public static <T extends Entity> T get(Class<T> type, int id){
+		return getGroup(type).get(id);
 	}
-
-	public static Entity get(long id){
-		return entities.get(id);
+	
+	public static Entity get(int id){
+		return get(Entity.class, id);
+	}
+	
+	public static EntityGroup<Entity> defaultGroup(){
+		return (EntityGroup<Entity>) groups.get(Entity.class);
+	}
+	
+	public static <T extends Entity> EntityGroup<T> getGroup(Class<T> type){
+		return (EntityGroup<T>) groups.get(type);
+	}
+	
+	public static <T extends Entity> EntityGroup<T> addGroup(Class<T> type){
+		return addGroup(type, true);
+	}
+	
+	public static <T extends Entity> EntityGroup<T> addGroup(Class<T> type, boolean useTree){
+		EntityGroup<T> group = new EntityGroup<>(useTree);
+		groups.put(type, group);
+		groupArray.add(group);
+		return group;
 	}
 
 	public static Array<Rectangle> getRects(){
@@ -259,31 +276,30 @@ public class Entities{
 		e.x += movex;
 		e.y += movey;
 	}
+	
+	public static void debugColliders(EntityGroup<?> group){
+		Draw.color(Color.YELLOW);
+		for(Entity e : group.all()){
+			if(e instanceof SolidEntity){
+				SolidEntity s = (SolidEntity) e;
+				s.getBoundingBox(Rectangle.tmp);
+				Draw.linerect(Rectangle.tmp.x, Rectangle.tmp.y, Rectangle.tmp.width, Rectangle.tmp.height);
+			}
+		}
+		Draw.color();
+	}
 
-	private static void updatePhysics(){
+	private static void updatePhysics(EntityGroup<?> group){
 		collided.clear();
-
+		
+		QuadTree<SolidEntity> tree = group.tree();
+		
 		tree.clear();
 
-		for(Entity entity : all()){
-			if(entity instanceof SolidEntity)
+		for(Entity entity : group.all()){
+			if(entity instanceof SolidEntity){
 				tree.insert((SolidEntity) entity);
-		}
-
-		for(Entity entity : all()){
-			if(!(entity instanceof SolidEntity))
-				continue;
-			if(collided.contains((int) entity.id))
-				continue;
-
-			((QuadTreeObject) entity).getBoundingBox(Rectangle.tmp2);
-
-			tree.getIntersect(c -> {
-				if(!collided.contains((int) c.id))
-					checkCollide(entity, c);
-			}, Rectangle.tmp2);
-
-			collided.add((int) entity.id);
+			}
 		}
 	}
 
@@ -302,68 +318,64 @@ public class Entities{
 
 		return false;
 	}
+	
+	public static void collideGroups(EntityGroup<?> groupa, EntityGroup<?> groupb){
+		collided.clear();
+		
+		for(Entity entity : groupa.all()){
+			if(!(entity instanceof SolidEntity))
+				continue;
+			if(collided.contains(entity.id))
+				continue;
 
-	public static void updateAll(){
-		update();
-		draw();
+			((QuadTreeObject) entity).getBoundingBox(Rectangle.tmp2);
+
+			groupb.tree().getIntersect(c -> {
+				if(!collided.contains((int) c.id))
+					checkCollide(entity, c);
+			}, Rectangle.tmp2);
+
+			collided.add((int) entity.id);
+		}
 	}
-
-	public static void update(){
-		update(true);
-	}
-
+	
 	public static void draw(){
+		draw(getGroup(Entity.class));
+	}
+
+	public static void draw(EntityGroup<?> group){
 		OrthographicCamera cam = Core.camera;
 		viewport.set(cam.position.x - cam.viewportWidth / 2 * cam.zoom, cam.position.y - cam.viewportHeight / 2 * cam.zoom, cam.viewportWidth * cam.zoom, cam.viewportHeight * cam.zoom);
 
-		for(Entity e : entities.values()){
+		for(Entity e : group.all()){
 			Rectangle.tmp2.setSize(e.drawSize()).setCenter(e.x, e.y);
 
 			if(Rectangle.tmp2.overlaps(viewport))
 				e.draw();
 		}
 
-		for(Entity e : entities.values()){
+		for(Entity e : group.all()){
 			Rectangle.tmp2.setSize(e.drawSize()).setCenter(e.x, e.y);
 
 			if(Rectangle.tmp2.overlaps(viewport))
 				e.drawOver();
 		}
 	}
-
-	public static void debugColliders(){
-		Draw.color(Color.YELLOW);
-		for(Entity e : entities.values()){
-			if(e instanceof SolidEntity){
-				SolidEntity s = (SolidEntity) e;
-				s.getBoundingBox(Rectangle.tmp);
-				Draw.linerect(Rectangle.tmp.x, Rectangle.tmp.y, Rectangle.tmp.width, Rectangle.tmp.height);
-			}
-		}
-		Draw.color();
+	
+	public static void update(){
+		update(defaultGroup());
+		collideGroups(defaultGroup(), defaultGroup());
 	}
 
-	public static void update(boolean callupdate){
-		if(physics)
-			updatePhysics();
-
-		if(callupdate)
-			for(Entity e : entities.values()){
-				e.update();
-			}
-
-		for(Integer l : entitiesToRemove){
-			entities.remove(l);
-
+	public static void update(EntityGroup<?> group){
+		if(group.useTree){
+			updatePhysics(group);
 		}
-		entitiesToRemove.clear();
-
-		for(Entity e : entitiesToAdd){
-			if(e == null)
-				continue;
-			entities.put(e.id, e);
-			e.added();
+		
+		for(Entity e : group.all()){
+			e.update();
 		}
-		entitiesToAdd.clear();
+		
+		group.updateRemovals();
 	}
 }

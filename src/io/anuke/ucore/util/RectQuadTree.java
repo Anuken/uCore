@@ -295,14 +295,4 @@ public class RectQuadTree{
             bottomRightChild.getAllChildren(out);
         }
     }
-    
-    /**
-     * Represents an object in a QuadTree.
-     */
-    public interface QuadTreeObject {
-        /**
-         * Fills the out parameter with this element's rough bounding box. This should never be smaller than the actual object, but may be larger.
-         */
-        void getBoundingBox(Rectangle out);
-    }
 }

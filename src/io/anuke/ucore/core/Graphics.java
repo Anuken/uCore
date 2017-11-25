@@ -264,35 +264,32 @@ public class Graphics{
 			}
 		}
 	}
-
-	/** Set the shader by class and returns the reference.*/
-	public static void shader(Shader shader){
-		boolean rendering = batch.isDrawing();
 	
-		if(rendering)
-			batch.end();
+	public static void flush(){
+		Core.batch.flush();
+	}
+
+	/** Set the shader, applying immediately.*/
+	public static void shader(Shader shader){
+		shader(shader, true);
+	}
+	
+	public static void shader(Shader shader, boolean applyOnce){
 	
 		batch.setShader(shader.program());
 		
-		shader.program().begin();
-		shader.apply();
-		shader.program().end();
-	
-		if(rendering)
-			batch.begin();
+		if(applyOnce){
+			shader.program().begin();
+			shader.apply();
+			shader.program().end();
+		}
 	}
 
 	/** Revert to the default shader. */
 	public static void shader(){
-		boolean rendering = batch.isDrawing();
-	
-		if(rendering)
-			batch.end();
+		
 	
 		batch.setShader(null);
-	
-		if(rendering)
-			batch.begin();
 	}
 
 	public static void resize(){

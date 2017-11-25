@@ -37,7 +37,8 @@ public class Profiler{
 	}
 	
 	public static String formatDisplayTimes(){
-		if(!times.containsKey("total")) throw new RuntimeException("The profiler must include a 'total' section in order for display time formatting to work!");
+		if(!times.containsKey("total")) 
+			throw new RuntimeException("The profiler must include a 'total' section in order for display time formatting to work!");
 		
 		long total = times.get("total");
 		

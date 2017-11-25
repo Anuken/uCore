@@ -4,8 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity{
 	private static int lastid;
-	//TODO *sigh*
+	//TODO remove?
 	protected static Vector2 vector = new Vector2();
+	
+	protected transient EntityGroup<?> group;
 	
 	public final int id;
 	public float x,y;
@@ -28,9 +30,21 @@ public abstract class Entity{
 		return (T)this;
 	}
 	
-	public <T extends Entity> T add(){
-		Entities.entitiesToAdd.add(this);
+	public <T extends Entity> T add(EntityGroup group){
+		this.group = group;
+		group.add(this);
 		return (T)this;
+	}
+	
+	public <T extends Entity> T add(){
+		return (T) add(Entities.getGroup(Entity.class));
+	}
+	
+	public Entity remove(){
+		if(group != null)
+			((EntityGroup)group).remove(this);
+		removed();
+		return this;
 	}
 	
 	public float angleTo(Entity other){
@@ -55,12 +69,6 @@ public abstract class Entity{
 	
 	public float drawSize(){
 		return 20;
-	}
-	
-	public Entity remove(){
-		Entities.entitiesToRemove.add(id);
-		removed();
-		return this;
 	}
 	
 	public String toString(){
