@@ -17,7 +17,7 @@ public enum Unit{
 		public float inPixels(float amount){
 			//TODO rollback
 			float scl = ((Gdx.app.getType() == ApplicationType.Desktop || Gdx.app.getType() == ApplicationType.WebGL) 
-					? 1f : Mathf.round(Gdx.graphics.getDensity() / 1.5f, 0.1f));
+					? 1f : Mathf.round2(Gdx.graphics.getDensity() / 1.5f, 0.5f));
 			return amount*scl;
 		}
 	};
