@@ -28,6 +28,14 @@ public class Elements{
 		return button;
 	}
 	
+	public static TextButton newButton(String text, String style, Listenable listener){
+		TextButton button = new TextButton(text, style);
+		if(listener != null)
+		button.changed(listener);
+		
+		return button;
+	}
+	
 	public static ImageButton newImageButton(String icon, Listenable listener){
 		ImageButton button = new ImageButton(skin.getDrawable(icon));
 		if(listener != null)

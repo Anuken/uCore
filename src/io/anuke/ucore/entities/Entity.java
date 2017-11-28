@@ -55,6 +55,10 @@ public abstract class Entity{
 		return vector.set(other.x - x, other.y - (y+yoffset)).angle();
 	}
 	
+	public float angleTo(float ox, float oy){
+		return vector.set(ox - x, oy - y).angle();
+	}
+	
 	public float angleTo(Entity other, float xoffset, float yoffset){
 		return vector.set(other.x - (x+xoffset), other.y - (y+yoffset)).angle();
 	}

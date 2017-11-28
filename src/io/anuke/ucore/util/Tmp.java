@@ -14,6 +14,10 @@ public class Tmp{
 	public static final Vector3 v32 = new Vector3();
 	public static final Vector3 v33 = new Vector3();
 	
+	public static final Quaternion q1  = new Quaternion();
+	public static final Quaternion q2  = new Quaternion();
+	public static final Quaternion q3  = new Quaternion();
+	
 	public static final Rectangle r1 = new Rectangle();
 	public static final Rectangle r2 = new Rectangle();
 	public static final Rectangle r3 = new Rectangle();
@@ -29,4 +33,9 @@ public class Tmp{
 	
 	public static final TextureRegion tr1 = new TextureRegion();
 	public static final TextureRegion tr2 = new TextureRegion();
+	
+	public static final Matrix4 m1 = new Matrix4();
+	public static final Matrix4 m2 = new Matrix4();
+	public static final Matrix4 m3 = new Matrix4();
+	
 }

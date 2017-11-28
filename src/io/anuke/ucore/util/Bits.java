@@ -33,6 +33,18 @@ public class Bits{
 		return field & 0xFFF;
 	}
 	
+	public static byte getLeftByte(short field){
+		return (byte)(field >> 8);
+	}
+	
+	public static byte getRightByte(short field){
+		return (byte)field;
+	}
+	
+	public static short packShort(byte left, byte right){
+		return (short)((left << 8) | (right & 0xFF));
+	}
+	
 	/**The same array instance is returned each call.*/
 	public static byte[] getBytes(int i){
 	  result[0] = (byte) (i >> 24);
@@ -41,6 +53,10 @@ public class Bits{
 	  result[3] = (byte) (i /*>> 0*/);
 
 	  return result;
+	}
+	
+	public static int packInt(byte b1, byte b2, byte b3, byte b4){
+		return ((0xFF & b1) << 24) | ((0xFF & b2) << 16) | ((0xFF & b3) << 8) | (0xFF & b4);
 	}
 	
 	/**Packs 4 bytes into an int.*/

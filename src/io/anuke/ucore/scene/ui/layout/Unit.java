@@ -3,6 +3,8 @@ package io.anuke.ucore.scene.ui.layout;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 
+import io.anuke.ucore.util.Mathf;
+
 public enum Unit{
 	px{
 		@Override
@@ -15,7 +17,7 @@ public enum Unit{
 		public float inPixels(float amount){
 			//TODO rollback
 			float scl = ((Gdx.app.getType() == ApplicationType.Desktop || Gdx.app.getType() == ApplicationType.WebGL) 
-					? 1f : Gdx.graphics.getDensity() / 1.5f);
+					? 1f : Mathf.round(Gdx.graphics.getDensity() / 1.5f, 0.1f));
 			return amount*scl;
 		}
 	};
