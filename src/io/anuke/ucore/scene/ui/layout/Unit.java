@@ -15,12 +15,12 @@ public enum Unit{
 	dp{
 		@Override
 		public float inPixels(float amount){
-			//TODO rollback
 			float scl = ((Gdx.app.getType() == ApplicationType.Desktop || Gdx.app.getType() == ApplicationType.WebGL) 
 					? 1f : Mathf.round2(Gdx.graphics.getDensity() / 1.5f, 0.5f));
-			return amount*scl;
+			return amount * scl * multiplier;
 		}
 	};
+	public float multiplier = 1f;
 	
 	public abstract float inPixels(float amount);
 }
