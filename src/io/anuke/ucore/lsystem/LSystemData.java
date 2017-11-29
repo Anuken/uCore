@@ -16,6 +16,7 @@ public class LSystemData{
 	public int iterations;
 	public String axiom;
 	public HashMap<Character, String> rules;
+	//public transient String result; //is usually null
 	
 	public LSystemData(String axiom, HashMap<Character, String> rules, int iterations, float swayspace, float swayphase, float swayscl, 
 			float len, float space, float thickness, Color start, Color end){

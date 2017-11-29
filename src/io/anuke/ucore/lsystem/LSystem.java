@@ -5,25 +5,30 @@ import java.util.Stack;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.core.Timers;
 
 public class LSystem{
-	private LSystemData data;
-	private String string;
+	protected LSystemData data;
+	protected String string;
 	
-	private Stack<Vector3> stack = new Stack<>();
-	private int maxstack = 0;
+	protected final Array<Line> lines = new Array<Line>();
+	protected Stack<Vector3> stack = new Stack<>();
+	protected int maxstack = 0;
 	
-	private boolean moving = false;
+	protected boolean moving = false;
 	
-	private float angle = 90;
+	protected float angle = 90;
 	
-	private float lastx, lasty;
+	protected float lastx, lasty;
 	
 	public float x, y, timeOffset;
+	public boolean sortMode = true;
+	public boolean sort = true;
+	public boolean colorBoost = false;
 	
 	public LSystem(LSystemData data){
 		this.data = data;
@@ -36,15 +41,34 @@ public class LSystem{
 	
 	public void draw(){
 		Draw.thick(data.thickness);
+		
+		if(sort){
+			lines.clear();
+		}
+		
 		angle = 90;
 		lastx = lasty = 0;
+		
 		for(int i = 0; i < string.length(); i ++){
 			drawc(string.charAt(i));
 		}
+		
+		if(sort){
+			lines.sort();
+			drawLines();
+		}
+			
 		Draw.color();
 	}
 	
-	private void drawForward(){
+	protected void drawLines(){
+		for(Line line : lines){
+			Draw.color(data.start, data.end, (float)line.stack/(maxstack - (colorBoost ? 2 : 0)));
+			Draw.line(line.x1, line.y1, line.x2, line.y2);
+		}
+	}
+	
+	protected void drawForward(){
 		float sway = data.swayscl*MathUtils.sin(timeOffset+Timers.time()/data.swayphase+stack.size()*data.swayspace);
 		
 		float radians = MathUtils.degRad*(-angle+180 + sway);
@@ -59,21 +83,25 @@ public class LSystem{
 		nx = newX;
 		ny = newY;
 		
-		float scl = (float)stack.size()/(maxstack-2);
+		float scl = (float)stack.size()/(maxstack);
 		
-		Draw.color(data.start, data.end, scl);
-		Draw.line(x + lastx, y + lasty, x + lastx+nx, y + lasty+ny);
+		if(sort){
+			lines.add(new Line(stack.size(), x + lastx, y + lasty, x + lastx+nx, y + lasty+ny, scl));
+		}else{
+			Draw.color(data.start, data.end, scl);
+			Draw.line(x + lastx, y + lasty, x + lastx+nx, y + lasty+ny);
+		}
 		
 		lastx += nx;
 		lasty += ny;
 	}
 	
-	private void push(){
+	protected void push(){
 		stack.push(new Vector3(lastx, lasty, angle));
 		maxstack = Math.max(stack.size(), maxstack);
 	}
 	
-	private void pop(){
+	protected void pop(){
 		if(stack.isEmpty()) return;
 		Vector3 vec = stack.pop();
 		lastx = vec.x;
@@ -81,7 +109,7 @@ public class LSystem{
 		angle = vec.z;
 	}
 	
-	private void drawc(char c){
+	protected void drawc(char c){
 		if(c == 'F'){
 			drawForward();
 		}else if(c == '-'){
@@ -93,5 +121,26 @@ public class LSystem{
 		}else if(c == ']'){
 			pop();
 		}
+	}
+	
+	protected class Line implements Comparable<Line>{
+		public int stack;
+		public float x1, y1, x2, y2;
+		public float color;
+		
+		Line(int stack, float x1, float y1, float x2, float y2, float color){
+			this.stack = stack;
+			this.x1 = x1;
+			this.y1 = y1;
+			this.x2 = x2;
+			this.y2 = y2;
+			this.color = color;
+		}
+
+		@Override
+		public int compareTo(Line l){
+			return (l.stack == stack) ? 0 : sortMode ? (stack > l.stack ? -1 : 1) : (stack > l.stack ? 1 : -1);
+		}
+		
 	}
 }

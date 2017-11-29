@@ -12,7 +12,7 @@ public class EvolutionData{
 	public boolean changeSpace = true;
 	
 	public int variants = 10;
-	public int generations = 20;
+	public int generations = 40;
 	public int maxMutations = 5;
 	public int iterations = 3;
 	
@@ -27,8 +27,8 @@ public class EvolutionData{
 	public int maxrulesize = 50;
 	
 	public Color start = Color.BLACK, end = Color.WHITE;
-	public float thickness = 4f;
+	public float thickness = 1f;
 	public float swayspace = 0f, swayphase = 0f, swayscale = 4f;
-	public float length = 1f;
+	public float length = 4f;
 	
 }

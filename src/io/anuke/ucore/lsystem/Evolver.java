@@ -3,7 +3,6 @@ package io.anuke.ucore.lsystem;
 import java.util.HashMap;
 
 import io.anuke.ucore.UCore;
-import io.anuke.ucore.lsystem.LSystemData;
 import io.anuke.ucore.util.Mathf;
 
 public class Evolver {
@@ -12,6 +11,16 @@ public class Evolver {
 	HashMap<Character, String> current = new HashMap<Character, String>();
 	float currentSpace;
 	float currentScore;
+	
+	public LSystemData[] evolve(EvolutionData data, int amount){
+		LSystemData[] result = new LSystemData[amount];
+		
+		for(int i = 0; i < amount; i ++){
+			result[i] = evolve(data);
+		}
+		
+		return result;
+	}
 
 	public LSystemData evolve(EvolutionData data) {
 		current.clear();
@@ -53,8 +62,10 @@ public class Evolver {
 			currentScore = bestScore;
 		}
 
-		return new LSystemData(data.axiom, current, data.iterations, data.swayspace, 
-				data.swayscale, data.swayphase, data.thickness, currentSpace, data.length, data.start, data.end);
+		LSystemData result = new LSystemData(data.axiom, (HashMap<Character, String>) current.clone(), data.iterations, data.swayspace, 
+				data.swayscale, data.swayphase, data.length, currentSpace, data.thickness, data.start, data.end);
+		//result.result = LGen.gen(result.axiom, result.rules, result.iterations);
+		return result;
 	}
 
 	HashMap<Character, String> mutateCurrent(EvolutionData data) {
