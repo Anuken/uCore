@@ -36,7 +36,15 @@ public class Profiler{
 		return times;
 	}
 	
+	public static boolean updating(){
+		return update;
+	}
+	
 	public static String formatDisplayTimes(){
+		return formatDisplayTimes(true);
+	}
+	
+	public static String formatDisplayTimes(boolean useColor){
 		if(!times.containsKey("total")) 
 			throw new RuntimeException("The profiler must include a 'total' section in order for display time formatting to work!");
 		
@@ -45,7 +53,7 @@ public class Profiler{
 		int index = 0;
 		StringBuilder builder = new StringBuilder();
 		for(String section : times.keys()){
-			builder.append("["+displayColors[index]+"]");
+			if(useColor) builder.append("["+displayColors[index]+"]");
 			builder.append(section);
 			builder.append(": ");
 			builder.append(Strings.toFixed((float)times.get(section) / total * 100, 1));

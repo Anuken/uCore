@@ -12,6 +12,14 @@ public class GridMap<T>{
 		return map.get(getHash(x,y));
 	}
 	
+	public T get(int x, int y, T defaultValue){
+		long hash = getHash(x,y);
+		if(!map.containsKey(hash)){
+			return defaultValue;
+		}
+		return map.get(hash);
+	}
+	
 	public boolean containsKey(int x, int y){
 		return map.containsKey(getHash(x,y));
 	}
