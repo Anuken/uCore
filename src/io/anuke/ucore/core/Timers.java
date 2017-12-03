@@ -2,6 +2,7 @@ package io.anuke.ucore.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Timer.Task;
 
 import io.anuke.ucore.function.Callable;
 import io.anuke.ucore.function.DelayRun;
@@ -19,6 +20,15 @@ public class Timers{
 		run.finish = r;
 		run.delay = delay;
 		runs.add(run);
+	}
+	
+	public static void runTask(float delay, Callable r){
+		Timer.schedule(new Task(){
+			@Override
+			public void run(){
+				r.run();
+			}
+		}, delay / 60f);
 	}
 	
 	public static void runFor(float duration, Callable r){

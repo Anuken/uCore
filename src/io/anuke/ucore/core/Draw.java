@@ -274,6 +274,17 @@ public class Draw{
 		
 		batch.draw(blankregion, x - thickness / 2, y - thickness / 2, thickness / 2, thickness / 2, length, thickness, 1f, 1f, angle);
 	}
+	
+	public static void dashLine(float x1, float y1, float x2, float y2, int divisions){
+		float dx = x2 - x1, dy = y2 - y1;
+		
+		for(int i = 0; i < divisions; i ++){
+			if(i % 2 == 0){
+				line(x1 + ((float)i /divisions) * dx, y1 + ((float)i /divisions) * dy,
+						x1 + ((i+1f) /divisions) * dx, y1 + ((i + 1f) /divisions) * dy);
+			}
+		}
+	}
 
 	public static void line(TextureRegion texture, float x, float y, float x2, float y2){
 		float length = Vector2.dst(x, y, x2, y2) + thickness / 2;
@@ -293,7 +304,7 @@ public class Draw{
 		polygon(circle, x, y, rad);
 	}
 
-	public static void dashcircle(float x, float y, float scl){
+	public static void dashCircle(float x, float y, float scl){
 		dashpolygon(dashCircle, x, y, scl);
 	}
 
@@ -329,7 +340,7 @@ public class Draw{
 		}
 	}
 
-	public static void polysegment(int sides, int from, int to, float x, float y, float radius, float angle){
+	public static void polySegment(int sides, int from, int to, float x, float y, float radius, float angle){
 		vector.set(0, 0);
 
 		for(int i = from; i < to; i++){

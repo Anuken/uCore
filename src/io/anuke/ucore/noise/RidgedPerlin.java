@@ -7,12 +7,12 @@ public class RidgedPerlin{
 	static final int Z_NOISE_GEN = 6971;
 	static final int SEED_NOISE_GEN = 1013;
 	static final int SHIFT_NOISE_GEN = 8;
-	int octaves;
-	int seed;
+	private int octaves;
+	private int seed;
 
-	float lacunarity = 1.0f;
+	float lacunarity = 2f;
 	double[] spectralWeights = new double[20];
-
+	
 	public RidgedPerlin(int seed, int octaves, float falloff) {
 		this.octaves = octaves;
 		this.seed = seed;
@@ -24,6 +24,10 @@ public class RidgedPerlin{
 			this.spectralWeights[i] = Math.pow(frequency, -h);
 			frequency *= lacunarity;
 		}
+	}
+	
+	public void setSeed(int seed){
+		this.seed = seed;
 	}
 
 	public float getValue(int x, int y, float frequency){
