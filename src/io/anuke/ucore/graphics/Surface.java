@@ -66,7 +66,7 @@ public class Surface implements Disposable{
 		}
 		
 		if(clear)
-			Graphics.clear(Color.CLEAR);
+			Graphics.clear(Color.BLACK);
 	}
 	
 	//TODO bind all textures to 0 as well, maybe?
