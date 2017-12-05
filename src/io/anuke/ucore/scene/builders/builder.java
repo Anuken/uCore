@@ -17,8 +17,9 @@ public abstract class builder<T extends builder, N extends Element>{
 		return build.getTable();
 	}
 	
-	public void visible(VisibilityProvider vis){
+	public T visible(VisibilityProvider vis){
 		element.setVisible(vis);
+		return (T)this;
 	}
 	
 	public T update(Consumer<N> l){

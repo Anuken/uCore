@@ -64,12 +64,12 @@ public class LSystem{
 	protected void drawLines(){
 		for(Line line : lines){
 			Draw.color(data.start, data.end, (float)line.stack/(maxstack - (colorBoost ? 2 : 0)));
-			Draw.line(line.x1, line.y1, line.x2, line.y2);
+			Draw.line(line.x1 + x, line.y1 + y, line.x2 + x, line.y2 + y);
 		}
 	}
 	
 	protected void drawForward(){
-		float sway = data.swayscl*MathUtils.sin(timeOffset+Timers.time()/data.swayphase+stack.size()*data.swayspace);
+		float sway = data.swayscl*MathUtils.sin((timeOffset+getTime())/data.swayphase+stack.size()*data.swayspace);
 		
 		float radians = MathUtils.degRad*(-angle+180 + sway);
 		
@@ -86,7 +86,7 @@ public class LSystem{
 		float scl = (float)stack.size()/(maxstack);
 		
 		if(sort){
-			lines.add(new Line(stack.size(), x + lastx, y + lasty, x + lastx+nx, y + lasty+ny, scl));
+			lines.add(new Line(stack.size(), lastx, lasty, lastx+nx, lasty+ny, scl));
 		}else{
 			Draw.color(data.start, data.end, scl);
 			Draw.line(x + lastx, y + lasty, x + lastx+nx, y + lasty+ny);
@@ -94,6 +94,10 @@ public class LSystem{
 		
 		lastx += nx;
 		lasty += ny;
+	}
+	
+	protected float getTime(){
+		return Timers.time();
 	}
 	
 	protected void push(){
