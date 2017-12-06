@@ -2,14 +2,12 @@ package io.anuke.ucore.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Disposable;
 
-import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Graphics;
 
 /**A framebuffer wrapper.*/
@@ -62,12 +60,10 @@ public class Surface implements Disposable{
 	public void begin(boolean clear){
 		buffer.begin();
 		buffer.getColorBufferTexture().bind(bind);
-		for(Texture texture : Core.atlas.getTextures()){
-			texture.bind(0);
-		}
+		//for(Texture texture : Core.atlas.getTextures()){
+		//	texture.bind(0);
+		//}
 		
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		if(clear)
 			Graphics.clear(Color.CLEAR);
 	}
@@ -76,9 +72,9 @@ public class Surface implements Disposable{
 	public void end(boolean render){
 		buffer.end();
 		buffer.getColorBufferTexture().bind(0);
-		for(Texture texture : Core.atlas.getTextures()){
-			texture.bind(0);
-		}
+		//for(Texture texture : Core.atlas.getTextures()){
+		//	texture.bind(0);
+		//}
 	}
 	
 	@Override
