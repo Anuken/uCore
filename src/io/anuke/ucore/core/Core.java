@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.graphics.Atlas;
-import io.anuke.ucore.graphics.Caches;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
 
@@ -43,7 +42,6 @@ public class Core{
 	public static void dispose(){
 		Draw.dispose();
 		Graphics.dispose();
-		Caches.dispose();
 		Inputs.dispose();
 		Sounds.dispose();
 		Musics.dispose();

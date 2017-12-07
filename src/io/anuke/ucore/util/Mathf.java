@@ -3,9 +3,10 @@ package io.anuke.ucore.util;
 import java.util.Random;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.RandomXS128;
 
 public class Mathf{
-	private static Random seedr = new Random();
+	private static RandomXS128 seedr = new RandomXS128();
 	
 	/**X/Y flipped, returns degrees*/
 	public static float atan2(float x, float y){

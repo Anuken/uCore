@@ -218,6 +218,10 @@ public class Draw{
 	public static void crect(Texture texture, float x, float y, float w, float h){
 		batch.draw(texture, x, y, w, h);
 	}
+	
+	public static void crect(TextureRegion texture, float x, float y, float w, float h){
+		batch.draw(texture, x, y, w, h);
+	}
 
 	public static void crect(String name, float x, float y, float w, float h){
 		TextureRegion region = region(name);

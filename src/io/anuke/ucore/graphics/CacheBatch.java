@@ -3,73 +3,97 @@ package io.anuke.ucore.graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.Matrix4;
 
-import io.anuke.ucore.util.Tmp;
+import io.anuke.ucore.util.Mathf;
 
 /**A 'batch' that calls Caches.draw() for most operations.
  * mostly unfinished*/
 //TODO implementation
 public class CacheBatch implements Batch{
+	protected SpriteCache cache;
+	protected boolean drawing;
+	protected int lastCache;
+	
+	public CacheBatch(int size){
+		this.cache = new SpriteCache(size, false);
+	}
+	
+	public void beginDraw(){
+		cache.begin();
+	}
+	
+	public void endDraw(){
+		cache.end();
+	}
+	
+	public void drawCache(int id){
+		cache.draw(id);
+	}
+	
+	public int getLastCache(){
+		return lastCache;
+	}
 
 	@Override
 	public void dispose(){
-		stub();
+		cache.dispose();
 	}
 
 	@Override
 	public void begin(){
-		stub();
+		cache.beginCache();
+		drawing = true;
 	}
 
 	@Override
 	public void end(){
-		stub();
+		lastCache = cache.endCache();
+		drawing = false;
 	}
 
 	@Override
 	public void setColor(Color tint){
-		Caches.color(tint);
+		cache.setColor(tint);
 	}
 
 	@Override
 	public void setColor(float r, float g, float b, float a){
-		setColor(Tmp.c1.set(r, g, b, a));
+		cache.setColor(r, g, b, a);
 	}
 
 	@Override
 	public void setColor(float color){
-		//TODO probably incorrect color
-		Color.abgr8888ToColor(Tmp.c1, color);
-		setColor(Tmp.c1);
+		cache.setColor(color);
 	}
 
 	@Override
 	public Color getColor(){
-		return Caches.getColor();
+		return cache.getColor();
 	}
 
 	@Override
 	public float getPackedColor(){
-		return Caches.getColor().toFloatBits();
+		return cache.getColor().toFloatBits();
 	}
 
 	@Override
 	public void draw(Texture texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY){
-		stub();
+		cache.add(texture, x, y, originX, originY, width, height, scaleX, scaleY, rotation, srcX, srcY, srcWidth, srcHeight, flipX, flipY);
 	}
 
 	@Override
 	public void draw(Texture texture, float x, float y, float width, float height, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY){
-		stub();
+		cache.add(texture, x, y, width, height, srcX, srcY, srcWidth, srcHeight, flipX, flipY);
 	}
 
 	@Override
 	public void draw(Texture texture, float x, float y, int srcX, int srcY, int srcWidth, int srcHeight){
-		stub();
+		cache.add(texture, x, y, srcX, srcY, srcWidth, srcHeight);
 	}
 
 	@Override
@@ -79,7 +103,7 @@ public class CacheBatch implements Batch{
 
 	@Override
 	public void draw(Texture texture, float x, float y){
-		stub();
+		cache.add(texture, x, y);
 	}
 
 	@Override
@@ -94,23 +118,22 @@ public class CacheBatch implements Batch{
 
 	@Override
 	public void draw(TextureRegion region, float x, float y){
-		draw(region, x, y, region.getRegionWidth(), region.getRegionHeight());
+		cache.add(region, x, y);
 	}
 
 	@Override
 	public void draw(TextureRegion region, float x, float y, float width, float height){
-		Caches.draw(region, x, y, width, height);
+		cache.add(region, x, y, width, height);
 	}
 
 	@Override
 	public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation){
-		Caches.draw(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
+		cache.add(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
 	}
 
 	@Override
 	public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, boolean clockwise){
-		stub();
-		draw(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation, false);
+		cache.add(region, x, y, originX, originY, width, height, scaleX, scaleY, -1 * rotation * Mathf.sign(clockwise));
 	}
 
 	@Override
@@ -152,29 +175,27 @@ public class CacheBatch implements Batch{
 
 	@Override
 	public Matrix4 getProjectionMatrix(){
-		stub();
-		return null;
+		return cache.getProjectionMatrix();
 	}
 
 	@Override
 	public Matrix4 getTransformMatrix(){
-		stub();
-		return null;
+		return cache.getTransformMatrix();
 	}
 
 	@Override
 	public void setProjectionMatrix(Matrix4 projection){
-		stub();
+		cache.setProjectionMatrix(projection);
 	}
 
 	@Override
 	public void setTransformMatrix(Matrix4 transform){
-		stub();
+		cache.setTransformMatrix(transform);
 	}
 
 	@Override
 	public void setShader(ShaderProgram shader){
-		stub();
+		cache.setShader(shader);
 	}
 
 	@Override
@@ -191,8 +212,7 @@ public class CacheBatch implements Batch{
 
 	@Override
 	public boolean isDrawing(){
-		stub();
-		return false;
+		return drawing;
 	}
 	
 	private void stub(){

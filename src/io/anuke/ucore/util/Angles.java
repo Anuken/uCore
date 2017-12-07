@@ -1,19 +1,15 @@
 package io.anuke.ucore.util;
 
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.*;
 
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.PositionConsumer;
 
 public class Angles{
-	private static final Random random = new Random();
+	private static final RandomXS128 random = new RandomXS128();
 	static public Vector2 vector = new Vector2(1,1);
 	
 	public static float x(){
