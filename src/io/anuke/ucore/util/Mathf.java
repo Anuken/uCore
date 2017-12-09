@@ -5,8 +5,11 @@ import java.util.Random;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
 
+import io.anuke.ucore.core.Timers;
+
 public class Mathf{
 	private static RandomXS128 seedr = new RandomXS128();
+	private static RandomXS128 rand = new RandomXS128();
 	
 	/**X/Y flipped, returns degrees*/
 	public static float atan2(float x, float y){
@@ -77,6 +80,10 @@ public class Mathf{
 		return MathUtils.lerp(from, to, alpha);
 	}
 	
+	public static float lerpDelta(float from, float to, float alpha){
+		return MathUtils.lerp(from, to, Math.min(alpha * Timers.delta(), 1f));
+	}
+	
 	public static boolean randBool(){
 		return MathUtils.randomBoolean();
 	}
@@ -133,7 +140,7 @@ public class Mathf{
 	}
 	
 	public static boolean chance(double d){
-		return Math.random() < d;
+		return rand.nextFloat() < d;
 	}
 	
 	public static int roundi(float a, int b){

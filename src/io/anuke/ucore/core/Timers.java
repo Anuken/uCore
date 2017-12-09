@@ -10,7 +10,7 @@ import io.anuke.ucore.function.Supplier;
 
 public class Timers{
 	private static float time;
-	private static ObjectMap<Integer, Float> timers = new ObjectMap<>();
+	private static ObjectFloatMap<Integer> timers = new ObjectFloatMap<>();
 	private static DelayedRemovalArray<DelayRun> runs = new  DelayedRemovalArray<>();
 	private static long lastMark = 0;
 	private static Supplier<Float> deltaimpl = ()->Math.min(Gdx.graphics.getDeltaTime()*60f, 3f);
@@ -69,8 +69,9 @@ public class Timers{
 	
 	public static boolean get(int hash, float frames){
 		if(timers.containsKey(hash)){
-			float out = timers.get(hash);
-			if(time - out > frames){
+			float value = timers.get(hash, time);
+			
+			if(time - value > frames){
 				timers.put(hash, time);
 				return true;
 			}else{

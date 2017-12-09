@@ -2,10 +2,7 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN" "https://raw.githubusercontent.com/gwtproject/gwt/master/distro-source/core/src/gwt-module.dtd">
 <module>
 	<source path="io/anuke/ucore" />
-	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.ecs.extend.Events" />
-	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.ecs.extend.traits" />
 	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene" />
-	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.renderables" />
 	<extend-configuration-property name="gdx.reflect.include" value="java.lang.Class" />
 	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.function.DelayRun" />
 </module>

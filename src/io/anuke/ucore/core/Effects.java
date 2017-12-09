@@ -116,12 +116,19 @@ public class Effects{
 		public final int id;
 		public final EffectRenderer draw;
 		public final float lifetime;
+		/**Clip size.*/
+		public float size;
 		
-		public Effect(float life, EffectRenderer draw){
+		public Effect(float life, float clipsize, EffectRenderer draw){
 			this.id = lastid ++;
 			this.lifetime = life;
 			this.draw = draw;
+			this.size = clipsize;
 			effects.add(this);
+		}
+		
+		public Effect(float life, EffectRenderer draw){
+			this(life, 28f, draw);
 		}
 	}
 	
