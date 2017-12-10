@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
-import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Draw;
@@ -15,8 +14,8 @@ import io.anuke.ucore.util.*;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 
 public class Entities{
-	private static ObjectMap<Class<? extends Entity>, EntityGroup<?>> groups = new ObjectMap<>();
 	private static Array<EntityGroup<?>> groupArray = new Array<>();
+	private static EntityGroup<Entity> defaultGroup;
 
 	private static RectQuadTree rtree;
 	private static boolean physics = false;
@@ -34,7 +33,7 @@ public class Entities{
 	public static int maxLeafObjects = 4;
 	
 	static{
-		addGroup(Entity.class);
+		defaultGroup = addGroup(Entity.class);
 	}
 
 	public static void setCollider(float atilesize, TileCollider acollider, TileHitboxProvider hitbox){
@@ -195,28 +194,13 @@ public class Entities{
 		}
 	}
 	
-	public static Iterable<Entity> get(){
-		return get(Entity.class);
-	}
-
-	public static <T extends Entity> Iterable<T> get(Class<T> type){
-		return getGroup(type).all();
-	}
-
-	public static <T extends Entity> T get(Class<T> type, int id){
-		return getGroup(type).get(id);
+	public static Iterable<Entity> all(){
+		return defaultGroup.all();
 	}
 	
-	public static Entity get(int id){
-		return get(Entity.class, id);
-	}
 	
 	public static EntityGroup<Entity> defaultGroup(){
-		return (EntityGroup<Entity>) groups.get(Entity.class);
-	}
-	
-	public static <T extends Entity> EntityGroup<T> getGroup(Class<T> type){
-		return (EntityGroup<T>) groups.get(type);
+		return defaultGroup;//(EntityGroup<Entity>) groups.get(Entity.class);
 	}
 	
 	public static <T extends Entity> EntityGroup<T> addGroup(Class<T> type){
@@ -225,7 +209,7 @@ public class Entities{
 	
 	public static <T extends Entity> EntityGroup<T> addGroup(Class<T> type, boolean useTree){
 		EntityGroup<T> group = new EntityGroup<>(useTree);
-		groups.put(type, group);
+		//groups.put(type, group);
 		groupArray.add(group);
 		return group;
 	}
@@ -340,7 +324,7 @@ public class Entities{
 	}
 	
 	public static void draw(){
-		draw(getGroup(Entity.class));
+		draw(defaultGroup);
 	}
 
 	public static void draw(EntityGroup<?> group){

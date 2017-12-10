@@ -1,18 +1,14 @@
 package io.anuke.ucore.entities;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectSet;
 
 import io.anuke.ucore.util.QuadTree;
 
 public class EntityGroup<T extends Entity>{
-	private HashMap<Integer, T> entities = new HashMap<>();
 	private Array<T> entityArray = new Array<>();
-	private ObjectSet<T> entitiesToRemove = new ObjectSet<>();
-	private ObjectSet<T> entitiesToAdd = new ObjectSet<>();
+	private Array<T> entitiesToRemove = new Array<>();
+	private Array<T> entitiesToAdd = new Array<>();
 	private QuadTree<SolidEntity> tree;
 	
 	public  final boolean useTree;
@@ -24,7 +20,6 @@ public class EntityGroup<T extends Entity>{
 	public void updateRemovals(){
 
 		for(T e : entitiesToRemove){
-			entities.remove(e.id);
 			entityArray.removeValue(e, true);
 		}
 		
@@ -33,7 +28,6 @@ public class EntityGroup<T extends Entity>{
 		for(T e : entitiesToAdd){
 			if(e == null)
 				continue;
-			entities.put(e.id, e);
 			entityArray.add(e);
 			e.added();
 		}
@@ -52,26 +46,35 @@ public class EntityGroup<T extends Entity>{
 		return entityArray.size;
 	}
 	
-	public T get(int id){
-		return entities.get(id);
-	}
-	
 	public void add(T type){
+		if(type == null) throw new RuntimeException("Cannot add a null entity!");
+		if(type.group != null) return; //throw new RuntimeException("Entities cannot be added twice!");
+		type.group = this;
 		entitiesToAdd.add(type);
 	}
 	
 	public void remove(T type){
+		if(type == null) throw new RuntimeException("Cannot remove a null entity!");
+		type.group = null;
 		entitiesToRemove.add(type);
 	}
 	
 	public void clear(){
+		for(Entity entity : entityArray)
+			entity.group = null;
+		
+		for(Entity entity : entitiesToAdd)
+			entity.group = null;
+		
+		for(Entity entity : entitiesToRemove)
+			entity.group = null;
+		
 		entitiesToAdd.clear();
-		entities.clear();
 		entitiesToRemove.clear();
 		entityArray.clear();
 	}
 	
-	public Iterable<T> all(){
+	public Array<T> all(){
 		return entityArray;
 	}
 }

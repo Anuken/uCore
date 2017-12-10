@@ -26,6 +26,7 @@ public class Graphics{
 	
 	private static Stack<Batch> batches = new Stack<Batch>();
 	
+	//TODO stop mapping things to strings!
 	private static ObjectMap<String, Surface> surfaces = new ObjectMap<>();
 	private static Stack<Surface> surfaceStack = new Stack<>();
 	

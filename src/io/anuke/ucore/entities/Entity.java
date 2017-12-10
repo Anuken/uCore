@@ -31,13 +31,12 @@ public abstract class Entity{
 	}
 	
 	public <T extends Entity> T add(EntityGroup group){
-		this.group = group;
 		group.add(this);
 		return (T)this;
 	}
 	
 	public <T extends Entity> T add(){
-		return (T) add(Entities.getGroup(Entity.class));
+		return (T) add(Entities.defaultGroup());
 	}
 	
 	public Entity remove(){
@@ -73,6 +72,10 @@ public abstract class Entity{
 	
 	public float drawSize(){
 		return 20;
+	}
+	
+	public boolean isAdded(){
+		return group != null;
 	}
 	
 	public String toString(){
