@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 
 import io.anuke.ucore.core.*;
+import io.anuke.ucore.graphics.Surface;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Tmp;
 
@@ -17,7 +18,8 @@ public abstract class RendererModule extends Module{
 	public Color clearColor = Color.BLACK;
 	public float shakeIntensity, shaketime;
 	
-	protected boolean pixelate;
+	public boolean pixelate;
+	public Surface pixelSurface;
 	
 	private Object recorder;
 	private Class<?> recorderClass;
@@ -102,7 +104,7 @@ public abstract class RendererModule extends Module{
 		Graphics.beginCam();
 		
 		if(pixelate) 
-			beginPixel();
+			Graphics.surface(pixelSurface);
 		
 		clearScreen(clearColor);
 		
@@ -111,7 +113,7 @@ public abstract class RendererModule extends Module{
 		postDraw();
 		
 		if(pixelate) 
-			endPixel();
+			Graphics.flushSurface();
 		
 		Graphics.end();
 	}
@@ -138,16 +140,8 @@ public abstract class RendererModule extends Module{
 	}
 	
 	public void pixelate(int scl){
-		Graphics.addSurface("pixel", scl == -1 ? Core.cameraScale : scl);
+		Graphics.createSurface(scl == -1 ? Core.cameraScale : scl);
 		pixelate = true;
-	}
-	
-	public void beginPixel(){
-		Graphics.surface("pixel");
-	}
-	
-	public void endPixel(){
-		Graphics.flushSurface();
 	}
 	
 	@Override

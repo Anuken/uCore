@@ -4,18 +4,20 @@ import com.badlogic.gdx.math.MathUtils;
 
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Graphics;
+import io.anuke.ucore.graphics.Surface;
 
 public abstract class FacetLayer{
 	public final String name;
 	public final float layer;
 	public final int bind;
+	public final Surface surface;
 
 	public FacetLayer(String name, float layer, int bind){
 		this.name = name;
 		this.layer = layer;
 		this.bind = bind;
 		
-		Graphics.addSurface(name, Core.cameraScale, bind);
+		surface = Graphics.createSurface(Core.cameraScale, bind);
 	}
 
 	public void end(){
@@ -23,7 +25,7 @@ public abstract class FacetLayer{
 	}
 
 	public void begin(){
-		Graphics.surface(name);
+		Graphics.surface(surface);
 	}
 	
 	public boolean acceptFacet(Facet facet){

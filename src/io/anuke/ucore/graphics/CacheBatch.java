@@ -11,8 +11,7 @@ import com.badlogic.gdx.math.Matrix4;
 
 import io.anuke.ucore.util.Mathf;
 
-/**A 'batch' that calls Caches.draw() for most operations.
- * mostly unfinished*/
+/**A 'batch' that calls Caches.draw() for most operations. Many operations are unsupported.*/
 //TODO implementation
 public class CacheBatch implements Batch{
 	protected SpriteCache cache;

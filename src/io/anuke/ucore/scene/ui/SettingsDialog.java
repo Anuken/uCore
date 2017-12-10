@@ -32,16 +32,12 @@ public class SettingsDialog extends Dialog{
 	}
 	
 	public void screenshakePref(){
-		sliderPref("screenshake", "Screen Shake", 4, 0, 8, i -> {
-			return (i / 4f) + "x";
-		});
+		sliderPref("screenshake", "Screen Shake", 4, 0, 8, i -> (i / 4f) + "x");
 	}
 	
 	public void volumePrefs(){
 		
-		sliderPref("sfxvol", "SFX Volume", 10, 0, 10, 1, i->{
-			return (int)(i*10) + "%";
-		});
+		sliderPref("sfxvol", "SFX Volume", 10, 0, 10, 1, i-> (int)(i*10) + "%");
 		
 		sliderPref("musicvol", "Music Volume", 10, 0, 10, 1, i->{
 			Musics.updateVolume();

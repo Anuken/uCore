@@ -8,25 +8,20 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Disposable;
 
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Graphics;
 
 /**A framebuffer wrapper.*/
 public class Surface implements Disposable{
 	private FrameBuffer buffer;
 	private int scale = 1;
-	private String name;
 	private boolean linear = false;
 	private int bind = 0;
 	
-	public Surface(String name, int scale, int bind){
+	public Surface(int scale, int bind){
 		this.scale = scale;
-		this.name = name;
 		this.bind = bind;
 		resize();
-	}
-	
-	public String name(){
-		return name;
 	}
 	
 	public void resize(){
@@ -34,6 +29,8 @@ public class Surface implements Disposable{
 			buffer.dispose();
 			buffer = null;
 		}
+		
+		int scale = this.scale == -1 ? Core.cameraScale : this.scale;
 		
 		buffer = new FrameBuffer(Format.RGBA8888, Gdx.graphics.getWidth()/scale, Gdx.graphics.getHeight()/scale, false);
 		if(!linear)
@@ -59,7 +56,7 @@ public class Surface implements Disposable{
 	
 	public void begin(boolean clear){
 		buffer.begin();
-		buffer.getColorBufferTexture().bind(bind);
+		if(bind != 0) buffer.getColorBufferTexture().bind(bind);
 		//for(Texture texture : Core.atlas.getTextures()){
 		//	texture.bind(0);
 		//}
@@ -71,7 +68,7 @@ public class Surface implements Disposable{
 	//TODO bind all textures to 0 as well, maybe?
 	public void end(boolean render){
 		buffer.end();
-		buffer.getColorBufferTexture().bind(0);
+		if(bind != 0) buffer.getColorBufferTexture().bind(0);
 		//for(Texture texture : Core.atlas.getTextures()){
 		//	texture.bind(0);
 		//}
