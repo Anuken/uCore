@@ -569,7 +569,7 @@ public class Draw{
 	}
 
 	static void dispose(){
-		if(blankregion.getTexture().getWidth() == 1)
+		if(blankregion != null && blankregion.getTexture().getWidth() == 1)
 			blankregion.getTexture().dispose();
 		blankregion = null;
 	}
