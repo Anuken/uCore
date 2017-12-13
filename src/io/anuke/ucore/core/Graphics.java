@@ -233,7 +233,7 @@ public class Graphics{
 			Graphics.shader(shader);
 			shader.program().begin();
 			shader.region = tempregion;
-			shader.apply();
+			shader.applyParams();
 			shader.program().end();
 			flushSurface();
 			Graphics.shader();
@@ -250,7 +250,7 @@ public class Graphics{
 				Graphics.shader(shader);
 				shader.program().begin();
 				shader.region = tempregion;
-				shader.apply();
+				shader.applyParams();
 				shader.program().end();
 				flushSurface(ending ? null : (index ? effects2 : effects1));
 				Graphics.shader();
@@ -281,7 +281,7 @@ public class Graphics{
 		
 		if(applyOnce){
 			shader.program().begin();
-			shader.apply();
+			shader.applyParams();
 			shader.program().end();
 		}
 	}

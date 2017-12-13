@@ -1,12 +1,16 @@
 package io.anuke.ucore.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 public abstract class Shader{
-	public final ShaderProgram shader;
+	/**Whether to fallback on the default shader when things fail.*/
+	public static boolean useFallback = true;
 	
+	public final boolean isFallback;
+	public ShaderProgram shader;
 	public TextureRegion region;
 	
 	public Shader(String frag, String vert){
@@ -14,7 +18,15 @@ public abstract class Shader{
 				Gdx.files.internal("shaders/"+frag+".fragment"));
 		
 		if(!shader.isCompiled()){
-			throw new RuntimeException("Error compiling shaders \"" + frag + "\" and \"" + vert + "\": " + shader.getLog());
+			if(useFallback){
+				Gdx.app.error("Shaders", "Failed to load shaders\"" + frag + "\" and \"" + vert + "\", using fallback.");
+				isFallback = true;
+				shader = SpriteBatch.createDefaultShader();
+			}else{
+				throw new RuntimeException("Error compiling shaders \"" + frag + "\" and \"" + vert + "\": " + shader.getLog());
+			}
+		}else{
+			isFallback = false;
 		}
 		
 		if(shader.getLog().length() > 0)
@@ -25,7 +37,13 @@ public abstract class Shader{
 		this(frag, "default");
 	}
 	
-	public abstract void apply();
+	protected abstract void apply();
+	
+	public void applyParams(){
+		if(!isFallback){
+			apply();
+		}
+	}
 	
 	public ShaderProgram program(){
 		return shader;
