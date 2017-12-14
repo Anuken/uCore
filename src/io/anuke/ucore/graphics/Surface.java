@@ -32,7 +32,7 @@ public class Surface implements Disposable{
 		
 		int scale = this.scale == -1 ? Core.cameraScale : this.scale;
 		
-		buffer = new FrameBuffer(Format.RGBA4444, Gdx.graphics.getBackBufferWidth()/scale, Gdx.graphics.getBackBufferHeight()/scale, false);
+		buffer = new FrameBuffer(Format.RGBA8888, Gdx.graphics.getBackBufferWidth()/scale, Gdx.graphics.getBackBufferHeight()/scale, false);
 		if(!linear)
 			buffer.getColorBufferTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 	}
