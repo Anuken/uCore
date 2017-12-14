@@ -3,7 +3,6 @@ package io.anuke.ucore.core;
 import static io.anuke.ucore.core.Core.batch;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -86,10 +85,6 @@ public class Draw{
 	/** Automatically mixes colors. */
 	public static void color(Color a, Color b, float s){
 		batch.setColor(Hue.mix(a, b, s, tmpcolor));
-	}
-
-	public static void color(String name){
-		batch.setColor(Colors.get(name));
 	}
 
 	public static void color(int color){
