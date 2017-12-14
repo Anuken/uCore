@@ -1,5 +1,7 @@
 package io.anuke.ucore.graphics;
 
+import static com.badlogic.gdx.graphics.GL20.*;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -57,21 +59,19 @@ public class Surface implements Disposable{
 	public void begin(boolean clear){
 		buffer.begin();
 		if(bind != 0) buffer.getColorBufferTexture().bind(bind);
-		//for(Texture texture : Core.atlas.getTextures()){
-		//	texture.bind(0);
-		//}
 		
 		if(clear)
 			Graphics.clear(Color.CLEAR);
+		
+		Gdx.gl.glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	}
 	
 	//TODO bind all textures to 0 as well, maybe?
 	public void end(boolean render){
 		buffer.end();
 		if(bind != 0) buffer.getColorBufferTexture().bind(0);
-		//for(Texture texture : Core.atlas.getTextures()){
-		//	texture.bind(0);
-		//}
+		
+		Gdx.gl.glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	}
 	
 	@Override
