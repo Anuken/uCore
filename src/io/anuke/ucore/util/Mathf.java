@@ -167,6 +167,10 @@ public class Mathf{
 		return Math.round(a/b);
 	}
 	
+	public static int sclb(float a, float b, boolean round){
+		return round ? Math.round(a/b) : (int)(a/b);
+	}
+	
 	public static boolean inRect(float x, float y, float bx, float by, float tx, float ty){
 		return x > bx && y > by && x < tx && y < ty;
 	}
