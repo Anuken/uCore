@@ -101,24 +101,22 @@ public abstract class RendererModule extends Module{
 	public void drawDefault(){
 		camera.update();
 		
-		Graphics.beginCam();
+		batch.setProjectionMatrix(camera.combined);
 		
 		if(pixelate) 
 			Graphics.surface(pixelSurface);
+		else
+			batch.begin();
 		
 		clearScreen(clearColor);
 		
 		draw();
 		
-		postDraw();
-		
 		if(pixelate) 
 			Graphics.flushSurface();
-		
-		Graphics.end();
+		else
+			batch.end();
 	}
-	
-	public void postDraw(){}
 	
 	/**override this*/
 	public void draw(){}

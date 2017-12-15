@@ -1,9 +1,6 @@
 package io.anuke.ucore.graphics;
 
-import static com.badlogic.gdx.graphics.GL20.*;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -61,17 +58,13 @@ public class Surface implements Disposable{
 		if(bind != 0) buffer.getColorBufferTexture().bind(bind);
 		
 		if(clear)
-			Graphics.clear(Color.CLEAR);
-		
-		Gdx.gl.glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+			Graphics.clear(1f, 1f, 1f, 0f);
 	}
 	
 	//TODO bind all textures to 0 as well, maybe?
 	public void end(boolean render){
 		buffer.end();
 		if(bind != 0) buffer.getColorBufferTexture().bind(0);
-		
-		Gdx.gl.glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	}
 	
 	@Override
