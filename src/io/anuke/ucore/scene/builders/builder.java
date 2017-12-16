@@ -18,6 +18,13 @@ public abstract class builder<T extends builder, N extends Element>{
 		return build.getTable();
 	}
 	
+	public T margin(float margin){
+		if(element instanceof Table){
+			((Table)element).pad(Unit.dp.inPixels(margin));
+		}
+		return (T)this;
+	}
+	
 	public T visible(VisibilityProvider vis){
 		element.setVisible(vis);
 		return (T)this;
