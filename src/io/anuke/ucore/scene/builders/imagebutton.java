@@ -1,6 +1,9 @@
 package io.anuke.ucore.scene.builders;
 
+import com.badlogic.gdx.graphics.Color;
+
 import io.anuke.ucore.function.Listenable;
+import io.anuke.ucore.scene.ui.ButtonGroup;
 import io.anuke.ucore.scene.ui.ImageButton;
 import io.anuke.ucore.scene.ui.Label;
 import io.anuke.ucore.scene.ui.layout.Cell;
@@ -27,6 +30,11 @@ public class imagebutton extends builder<imagebutton, ImageButton>{
 		element.resizeImage(isize);
 	}
 	
+	public imagebutton group(ButtonGroup<ImageButton> group){
+		group.add(element);
+		return this;
+	}
+	
 	public Cell<Label> text(String text){
 		element.row();
 		return element.add(text);
@@ -34,6 +42,11 @@ public class imagebutton extends builder<imagebutton, ImageButton>{
 	
 	public imagebutton imageSize(float size){
 		element.resizeImage(size);
+		return this;
+	}
+	
+	public imagebutton imageColor(Color color){
+		element.getImage().setColor(color);
 		return this;
 	}
 }
