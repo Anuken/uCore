@@ -17,18 +17,11 @@ public enum Unit{
 		public float inPixels(float amount){
 			//if(true) return test()*amount;
 			float scl = ((Gdx.app.getType() == ApplicationType.Desktop || Gdx.app.getType() == ApplicationType.WebGL) 
-					? 1f : Mathf.round2(Gdx.graphics.getDensity() / 1.5f, 0.5f));
-			return amount * scl * multiplier;
-		}
-		
-		public float test(){
-			float density = Gdx.graphics.getDensity();
-			density = 1.4625f;
-			float scl = Mathf.round2(density / 1.5f, 0.5f);
-			return scl * multiplier;
+					? 1f : Mathf.round2(Gdx.graphics.getDensity() / 1.5f + addition, 0.5f));
+			return amount * scl;
 		}
 	};
-	public float multiplier = 1f;
+	public float addition = 0f;
 	
 	public abstract float inPixels(float amount);
 }
