@@ -54,6 +54,10 @@ public class SceneModule extends Module{
 		return scene.hit(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true) != null;
 	}
 	
+	public boolean hasMouse(float mousex, float mousey){
+		return scene.hit(mousex, Gdx.graphics.getHeight() - mousey, true) != null;
+	}
+	
 	public boolean hasDialog(){
 		return scene.getKeyboardFocus() instanceof Dialog || scene.getScrollFocus() instanceof Dialog;
 	}

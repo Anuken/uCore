@@ -25,8 +25,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
-import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.core.Core;
+import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.style.*;
@@ -37,8 +37,8 @@ import io.anuke.ucore.scene.style.*;
 public class Image extends Element {
 	private Scaling scaling;
 	private int align = Align.center;
-	private float imageX, imageY, imageWidth, imageHeight;
 	private Drawable drawable;
+	protected float imageX, imageY, imageWidth, imageHeight;
 
 	/** Creates an image with no region or patch, stretched, and aligned center. */
 	public Image () {

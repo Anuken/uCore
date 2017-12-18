@@ -13,11 +13,11 @@ public enum Unit{
 		}
 	},
 	dp{
+		float scl = ((Gdx.app.getType() == ApplicationType.Desktop || Gdx.app.getType() == ApplicationType.WebGL) 
+				? 1f : Mathf.round2(Gdx.graphics.getDensity() / 1.5f + addition, 0.5f));
+		
 		@Override
 		public float inPixels(float amount){
-			//if(true) return test()*amount;
-			float scl = ((Gdx.app.getType() == ApplicationType.Desktop || Gdx.app.getType() == ApplicationType.WebGL) 
-					? 1f : Mathf.round2(Gdx.graphics.getDensity() / 1.5f + addition, 0.5f));
 			return amount * scl;
 		}
 	};

@@ -47,22 +47,29 @@ public class Core{
 		Musics.dispose();
 		Timers.dispose();
 		
-		batch.dispose();
+		if(batch != null){
+			batch.dispose();
+			batch = null;
+		}
 		
 		if(scene != null){
 			scene.dispose();
+			scene = null;
 		}
 	
 		if(atlas != null){
 			atlas.dispose();
+			atlas = null;
 		}
 	
 		if(skin != null){
 			skin.dispose();
+			skin = null;
 		}
 		
 		if(font != null){
 			font.dispose();
+			font = null;
 		}
 	}
 }

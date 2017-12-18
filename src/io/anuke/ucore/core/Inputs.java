@@ -62,6 +62,12 @@ public class Inputs{
 		Gdx.input.setInputProcessor(plex);
 	}
 	
+	/**Adds another input processor to the chain at a specific index.*/
+	public static void addProcessor(int index, InputProcessor listener){
+		plex.addProcessor(index, listener);
+		Gdx.input.setInputProcessor(plex);
+	}
+	
 	public static void flipProcessors(){
 		plex.getProcessors().reverse();
 	}

@@ -24,12 +24,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.*;
 
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.function.*;
 import io.anuke.ucore.scene.Element;
-import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.ui.*;
@@ -267,6 +267,13 @@ public class Table extends WidgetGroup {
 	
 	public Cell<Label> add (StringSupplier text) {
 		Cell<Label> cell = add(new Label(text));
+		return cell;
+	}
+	
+	public Cell<Label> addWrap (StringSupplier text) {
+		Label label = new Label(text);
+		label.setWrap(true);
+		Cell<Label> cell = add(label);
 		return cell;
 	}
 
