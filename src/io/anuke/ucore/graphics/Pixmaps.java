@@ -83,6 +83,15 @@ public class Pixmaps{
 
 		return pixmap;
 	}
+	
+	public static Pixmap resize(Pixmap input, int width, int height, int backgroundColor){
+		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
+		pixmap.setColor(backgroundColor);
+		pixmap.fill();
+		pixmap.drawPixmap(input, width / 2 - input.getWidth() / 2, height / 2 - input.getHeight() / 2);
+
+		return pixmap;
+	}
 
 	public static Pixmap crop(Pixmap input, int x, int y, int width, int height){
 		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);

@@ -13,8 +13,8 @@ public enum Unit{
 		}
 	},
 	dp{
-		float scl = ((Gdx.app.getType() == ApplicationType.Desktop || Gdx.app.getType() == ApplicationType.WebGL) 
-				? 1f : Mathf.round2(Gdx.graphics.getDensity() / 1.5f + addition, 0.5f));
+		float scl = Math.max(((Gdx.app.getType() == ApplicationType.Desktop || Gdx.app.getType() == ApplicationType.WebGL) 
+				? 1f : Mathf.round2(Gdx.graphics.getDensity() / 1.5f + addition, 0.5f)), 1f);
 		
 		@Override
 		public float inPixels(float amount){
