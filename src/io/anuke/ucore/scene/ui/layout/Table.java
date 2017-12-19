@@ -266,12 +266,12 @@ public class Table extends WidgetGroup {
 			add(actors[i]);
 	}
 	
-	public Cell<Label> add (StringSupplier text) {
+	public Cell<Label> label (StringSupplier text) {
 		Cell<Label> cell = add(new Label(text));
 		return cell;
 	}
 	
-	public Cell<Label> addWrap (StringSupplier text) {
+	public Cell<Label> labelWrap (StringSupplier text) {
 		Label label = new Label(text);
 		label.setWrap(true);
 		Cell<Label> cell = add(label);
