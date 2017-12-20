@@ -43,7 +43,6 @@ public class Cell<T extends Element> implements Poolable {
 
 	public Cell () {
 		reset();
-		units(Unit.dp);
 	}
 
 	public void setLayout (Table table) {
