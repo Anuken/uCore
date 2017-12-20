@@ -122,7 +122,7 @@ public class Dialog extends Window {
 
 		ImageButton closeButton = new ImageButton(skin.get("close-window", ImageButtonStyle.class));
 		
-		float scl = Unit.dp.inPixels(1f);
+		float scl = Unit.dp.scl(1f);
 		
 		titleTable.add(closeButton).padRight(-getPadRight()/scl)
 		.padTop(-10+closePadT).size(40).units(Unit.dp);

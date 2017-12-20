@@ -51,7 +51,7 @@ abstract public class Value {
 		}
 
 		public float get (Element context) {
-			return unit.inPixels(value);
+			return unit.scl(value);
 		}
 	}
 

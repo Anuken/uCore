@@ -8,7 +8,7 @@ import io.anuke.ucore.util.Mathf;
 public enum Unit{
 	px{
 		@Override
-		public float inPixels(float amount){
+		public float scl(float amount){
 			return amount;
 		}
 	},
@@ -17,11 +17,11 @@ public enum Unit{
 				? 1f : Mathf.round2(Gdx.graphics.getDensity() / 1.5f + addition, 0.5f)), 1f);
 		
 		@Override
-		public float inPixels(float amount){
+		public float scl(float amount){
 			return amount * scl;
 		}
 	};
 	public float addition = 0f;
 	
-	public abstract float inPixels(float amount);
+	public abstract float scl(float amount);
 }
