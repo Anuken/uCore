@@ -51,7 +51,7 @@ abstract public class Value {
 		}
 
 		public float get (Element context) {
-			return unit.scl(value);
+			return Unit.dp.scl(value);
 		}
 	}
 
