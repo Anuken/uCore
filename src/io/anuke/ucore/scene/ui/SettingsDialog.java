@@ -7,7 +7,6 @@ import io.anuke.ucore.core.Settings;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.StringProcessor;
 import io.anuke.ucore.scene.ui.layout.Table;
-import io.anuke.ucore.scene.ui.layout.Unit;
 
 public class SettingsDialog extends Dialog{
 	private Array<Setting> list = new Array<>();
@@ -105,7 +104,7 @@ public class SettingsDialog extends Dialog{
 			});
 			
 			box.left();
-			table.add(box).minWidth(box.getPrefWidth()+50).left().padTop(3f).units(Unit.dp);
+			table.add(box).minWidth(box.getPrefWidth()+50).left().padTop(3f);
 			table.add().grow();
 			table.row();
 		}
@@ -137,8 +136,8 @@ public class SettingsDialog extends Dialog{
 			
 			slider.change();
 			
-			table.add(label).minWidth(label.getPrefWidth()+50).left().padTop(3f).units(Unit.dp);
-			table.add(slider).width(180).padTop(3f).units(Unit.dp);
+			table.add(label).minWidth(label.getPrefWidth()+50).left().padTop(3f);
+			table.add(slider).width(180).padTop(3f);
 			table.row();
 		}
 	}

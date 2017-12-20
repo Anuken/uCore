@@ -125,7 +125,7 @@ public class Dialog extends Window {
 		float scl = Unit.dp.scl(1f);
 		
 		titleTable.add(closeButton).padRight(-getPadRight()/scl)
-		.padTop(-10+closePadT).size(40).units(Unit.dp);
+		.padTop(-10+closePadT).size(40);
 		
 		closeButton.changed(()->{
 			hide();

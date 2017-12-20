@@ -86,7 +86,6 @@ public class Table extends WidgetGroup {
 	public Table () {
 
 		cellDefaults = obtainCell();
-		cellDefaults.units(Unit.dp);
 
 		setTransform(false);
 		setTouchable(Touchable.childrenOnly);
