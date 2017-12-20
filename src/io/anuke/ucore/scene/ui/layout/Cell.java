@@ -62,7 +62,7 @@ public class Cell<T extends Element> implements Poolable {
 	/** Removes the current actor for the cell, if any. */
 	public Cell<T> clearActor () {
 		setActor(null);
-		return this;
+		return update();
 	}
 
 	/** Returns the actor for this cell, or null. */
@@ -83,10 +83,7 @@ public class Cell<T extends Element> implements Poolable {
 	/**Sets the size units of the cell.*/
 	public Cell<T> units(Unit unit){
 		this.unit = unit;
-		minWidth.unit = minHeight.unit = maxWidth.unit = maxHeight.unit 
-				= spaceTop.unit = spaceBottom.unit = spaceLeft.unit = spaceRight.unit
-						= padTop.unit = padBottom.unit = padLeft.unit = padRight.unit = unit;
-		return this;
+		return update();
 	}
 
 	/** Sets the minWidth, prefWidth, maxWidth, minHeight, prefHeight, and maxHeight to the specified value. */
@@ -96,7 +93,7 @@ public class Cell<T extends Element> implements Poolable {
 		minHeight = size;
 		maxWidth = size;
 		maxHeight = size;
-		return this;
+		return update();
 	}
 
 	/** Sets the minWidth, prefWidth, maxWidth, minHeight, prefHeight, and maxHeight to the specified values. */
@@ -107,19 +104,19 @@ public class Cell<T extends Element> implements Poolable {
 		minHeight = height;
 		maxWidth = width;
 		maxHeight = height;
-		return this;
+		return update();
 	}
 
 	/** Sets the minWidth, prefWidth, maxWidth, minHeight, prefHeight, and maxHeight to the specified value. */
 	public Cell<T> size (float size) {
 		size(new Fixed(size));
-		return this;
+		return update();
 	}
 
 	/** Sets the minWidth, prefWidth, maxWidth, minHeight, prefHeight, and maxHeight to the specified values. */
 	public Cell<T> size (float width, float height) {
 		size(new Fixed(width), new Fixed(height));
-		return this;
+		return update();
 	}
 
 	/** Sets the minWidth, prefWidth, and maxWidth to the specified value. */
@@ -127,13 +124,13 @@ public class Cell<T extends Element> implements Poolable {
 		if (width == null) throw new IllegalArgumentException("width cannot be null.");
 		minWidth = width;
 		maxWidth = width;
-		return this;
+		return update();
 	}
 
 	/** Sets the minWidth, prefWidth, and maxWidth to the specified value. */
 	public Cell<T> width (float width) {
 		width(new Fixed(width));
-		return this;
+		return update();
 	}
 
 	/** Sets the minHeight, prefHeight, and maxHeight to the specified value. */
@@ -141,13 +138,13 @@ public class Cell<T extends Element> implements Poolable {
 		if (height == null) throw new IllegalArgumentException("height cannot be null.");
 		minHeight = height;
 		maxHeight = height;
-		return this;
+		return update();
 	}
 
 	/** Sets the minHeight, prefHeight, and maxHeight to the specified value. */
 	public Cell<T> height (float height) {
 		height(new Fixed(height));
-		return this;
+		return update();
 	}
 
 	/** Sets the minWidth and minHeight to the specified value. */
@@ -155,7 +152,7 @@ public class Cell<T extends Element> implements Poolable {
 		if (size == null) throw new IllegalArgumentException("size cannot be null.");
 		minWidth = size;
 		minHeight = size;
-		return this;
+		return update();
 	}
 
 	/** Sets the minWidth and minHeight to the specified values. */
@@ -164,84 +161,84 @@ public class Cell<T extends Element> implements Poolable {
 		if (height == null) throw new IllegalArgumentException("height cannot be null.");
 		minWidth = width;
 		minHeight = height;
-		return this;
+		return update();
 	}
 
 	public Cell<T> minWidth (Value minWidth) {
 		if (minWidth == null) throw new IllegalArgumentException("minWidth cannot be null.");
 		this.minWidth = minWidth;
-		return this;
+		return update();
 	}
 
 	public Cell<T> minHeight (Value minHeight) {
 		if (minHeight == null) throw new IllegalArgumentException("minHeight cannot be null.");
 		this.minHeight = minHeight;
-		return this;
+		return update();
 	}
 
 	/** Sets the minWidth and minHeight to the specified value. */
 	public Cell<T> minSize (float size) {
 		minSize(new Fixed(size));
-		return this;
+		return update();
 	}
 
 	/** Sets the minWidth and minHeight to the specified values. */
 	public Cell<T> minSize (float width, float height) {
 		minSize(new Fixed(width), new Fixed(height));
-		return this;
+		return update();
 	}
 
 	public Cell<T> minWidth (float minWidth) {
 		this.minWidth = new Fixed(minWidth);
-		return this;
+		return update();
 	}
 
 	public Cell<T> minHeight (float minHeight) {
 		this.minHeight = new Fixed(minHeight);
-		return this;
+		return update();
 	}
 
 	/** Sets the prefWidth and prefHeight to the specified value. */
 	public Cell<T> prefSize (Value size) {
 		if (size == null) throw new IllegalArgumentException("size cannot be null.");
-		return this;
+		return update();
 	}
 
 	/** Sets the prefWidth and prefHeight to the specified values. */
 	public Cell<T> prefSize (Value width, Value height) {
 		if (width == null) throw new IllegalArgumentException("width cannot be null.");
 		if (height == null) throw new IllegalArgumentException("height cannot be null.");
-		return this;
+		return update();
 	}
 
 	public Cell<T> prefWidth (Value prefWidth) {
 		if (prefWidth == null) throw new IllegalArgumentException("prefWidth cannot be null.");
-		return this;
+		return update();
 	}
 
 	public Cell<T> prefHeight (Value prefHeight) {
 		if (prefHeight == null) throw new IllegalArgumentException("prefHeight cannot be null.");
-		return this;
+		return update();
 	}
 
 	/** Sets the prefWidth and prefHeight to the specified value. */
 	public Cell<T> prefSize (float width, float height) {
 		prefSize(new Fixed(width), new Fixed(height));
-		return this;
+		return update();
 	}
 
 	/** Sets the prefWidth and prefHeight to the specified values. */
 	public Cell<T> prefSize (float size) {
 		prefSize(new Fixed(size));
-		return this;
+		return update();
 	}
 
 	public Cell<T> prefWidth (float prefWidth) {
-		return this;
+		return update();
 	}
 
 	public Cell<T> prefHeight (float prefHeight) {
-		return this;
+		return update();
 	}
 
 	/** Sets the maxWidth and maxHeight to the specified value. */
@@ -249,7 +246,7 @@ public class Cell<T extends Element> implements Poolable {
 		if (size == null) throw new IllegalArgumentException("size cannot be null.");
 		maxWidth = size;
 		maxHeight = size;
-		return this;
+		return update();
 	}
 
 	/** Sets the maxWidth and maxHeight to the specified values. */
@@ -258,41 +255,41 @@ public class Cell<T extends Element> implements Poolable {
 		if (height == null) throw new IllegalArgumentException("height cannot be null.");
 		maxWidth = width;
 		maxHeight = height;
-		return this;
+		return update();
 	}
 
 	public Cell<T> maxWidth (Value maxWidth) {
 		if (maxWidth == null) throw new IllegalArgumentException("maxWidth cannot be null.");
 		this.maxWidth = maxWidth;
-		return this;
+		return update();
 	}
 
 	public Cell<T> maxHeight (Value maxHeight) {
 		if (maxHeight == null) throw new IllegalArgumentException("maxHeight cannot be null.");
 		this.maxHeight = maxHeight;
-		return this;
+		return update();
 	}
 
 	/** Sets the maxWidth and maxHeight to the specified value. */
 	public Cell<T> maxSize (float size) {
 		maxSize(new Fixed(size));
-		return this;
+		return update();
 	}
 
 	/** Sets the maxWidth and maxHeight to the specified values. */
 	public Cell<T> maxSize (float width, float height) {
 		maxSize(new Fixed(width), new Fixed(height));
-		return this;
+		return update();
 	}
 
 	public Cell<T> maxWidth (float maxWidth) {
 		this.maxWidth = new Fixed(maxWidth);
-		return this;
+		return update();
 	}
 
 	public Cell<T> maxHeight (float maxHeight) {
 		this.maxHeight = new Fixed(maxHeight);
-		return this;
+		return update();
 	}
 
 	/** Sets the spaceTop, spaceLeft, spaceBottom, and spaceRight to the specified value. */
@@ -302,7 +299,7 @@ public class Cell<T extends Element> implements Poolable {
 		spaceLeft = space;
 		spaceBottom = space;
 		spaceRight = space;
-		return this;
+		return update();
 	}
 
 	public Cell<T> space (Value top, Value left, Value bottom, Value right) {
@@ -314,38 +311,38 @@ public class Cell<T extends Element> implements Poolable {
 		spaceLeft = left;
 		spaceBottom = bottom;
 		spaceRight = right;
-		return this;
+		return update();
 	}
 
 	public Cell<T> spaceTop (Value spaceTop) {
 		if (spaceTop == null) throw new IllegalArgumentException("spaceTop cannot be null.");
 		this.spaceTop = spaceTop;
-		return this;
+		return update();
 	}
 
 	public Cell<T> spaceLeft (Value spaceLeft) {
 		if (spaceLeft == null) throw new IllegalArgumentException("spaceLeft cannot be null.");
 		this.spaceLeft = spaceLeft;
-		return this;
+		return update();
 	}
 
 	public Cell<T> spaceBottom (Value spaceBottom) {
 		if (spaceBottom == null) throw new IllegalArgumentException("spaceBottom cannot be null.");
 		this.spaceBottom = spaceBottom;
-		return this;
+		return update();
 	}
 
 	public Cell<T> spaceRight (Value spaceRight) {
 		if (spaceRight == null) throw new IllegalArgumentException("spaceRight cannot be null.");
 		this.spaceRight = spaceRight;
-		return this;
+		return update();
 	}
 
 	/** Sets the spaceTop, spaceLeft, spaceBottom, and spaceRight to the specified value. */
 	public Cell<T> space (float space) {
 		if (space < 0) throw new IllegalArgumentException("space cannot be < 0.");
 		space(new Fixed(space));
-		return this;
+		return update();
 	}
 
 	public Cell<T> space (float top, float left, float bottom, float right) {
@@ -354,31 +351,31 @@ public class Cell<T extends Element> implements Poolable {
 		if (bottom < 0) throw new IllegalArgumentException("bottom cannot be < 0.");
 		if (right < 0) throw new IllegalArgumentException("right cannot be < 0.");
 		space(new Fixed(top), new Fixed(left), new Fixed(bottom), new Fixed(right));
-		return this;
+		return update();
 	}
 
 	public Cell<T> spaceTop (float spaceTop) {
 		if (spaceTop < 0) throw new IllegalArgumentException("spaceTop cannot be < 0.");
 		this.spaceTop = new Fixed(spaceTop);
-		return this;
+		return update();
 	}
 
 	public Cell<T> spaceLeft (float spaceLeft) {
 		if (spaceLeft < 0) throw new IllegalArgumentException("spaceLeft cannot be < 0.");
 		this.spaceLeft = new Fixed(spaceLeft);
-		return this;
+		return update();
 	}
 
 	public Cell<T> spaceBottom (float spaceBottom) {
 		if (spaceBottom < 0) throw new IllegalArgumentException("spaceBottom cannot be < 0.");
 		this.spaceBottom = new Fixed(spaceBottom);
-		return this;
+		return update();
 	}
 
 	public Cell<T> spaceRight (float spaceRight) {
 		if (spaceRight < 0) throw new IllegalArgumentException("spaceRight cannot be < 0.");
 		this.spaceRight = new Fixed(spaceRight);
-		return this;
+		return update();
 	}
 
 	/** Sets the padTop, padLeft, padBottom, and padRight to the specified value. */
@@ -388,7 +385,7 @@ public class Cell<T extends Element> implements Poolable {
 		padLeft = pad;
 		padBottom = pad;
 		padRight = pad;
-		return this;
+		return update();
 	}
 
 	public Cell<T> pad (Value top, Value left, Value bottom, Value right) {
@@ -400,114 +397,114 @@ public class Cell<T extends Element> implements Poolable {
 		padLeft = left;
 		padBottom = bottom;
 		padRight = right;
-		return this;
+		return update();
 	}
 
 	public Cell<T> padTop (Value padTop) {
 		if (padTop == null) throw new IllegalArgumentException("padTop cannot be null.");
 		this.padTop = padTop;
-		return this;
+		return update();
 	}
 
 	public Cell<T> padLeft (Value padLeft) {
 		if (padLeft == null) throw new IllegalArgumentException("padLeft cannot be null.");
 		this.padLeft = padLeft;
-		return this;
+		return update();
 	}
 
 	public Cell<T> padBottom (Value padBottom) {
 		if (padBottom == null) throw new IllegalArgumentException("padBottom cannot be null.");
 		this.padBottom = padBottom;
-		return this;
+		return update();
 	}
 
 	public Cell<T> padRight (Value padRight) {
 		if (padRight == null) throw new IllegalArgumentException("padRight cannot be null.");
 		this.padRight = padRight;
-		return this;
+		return update();
 	}
 
 	/** Sets the padTop, padLeft, padBottom, and padRight to the specified value. */
 	public Cell<T> pad (float pad) {
 		pad(new Fixed(pad));
-		return this;
+		return update();
 	}
 
 	public Cell<T> pad (float top, float left, float bottom, float right) {
 		pad(new Fixed(top), new Fixed(left), new Fixed(bottom), new Fixed(right));
-		return this;
+		return update();
 	}
 
 	public Cell<T> padTop (float padTop) {
 		this.padTop = new Fixed(padTop);
-		return this;
+		return update();
 	}
 
 	public Cell<T> padLeft (float padLeft) {
 		this.padLeft = new Fixed(padLeft);
-		return this;
+		return update();
 	}
 
 	public Cell<T> padBottom (float padBottom) {
 		this.padBottom = new Fixed(padBottom);
-		return this;
+		return update();
 	}
 
 	public Cell<T> padRight (float padRight) {
 		this.padRight = new Fixed(padRight);
-		return this;
+		return update();
 	}
 
 	/** Sets fillX and fillY to 1. */
 	public Cell<T> fill () {
 		fillX = onef;
 		fillY = onef;
-		return this;
+		return update();
 	}
 
 	/** Sets fillX to 1. */
 	public Cell<T> fillX () {
 		fillX = onef;
-		return this;
+		return update();
 	}
 
 	/** Sets fillY to 1. */
 	public Cell<T> fillY () {
 		fillY = onef;
-		return this;
+		return update();
 	}
 
 	public Cell<T> fill (float x, float y) {
 		fillX = x;
 		fillY = y;
-		return this;
+		return update();
 	}
 
 	/** Sets fillX and fillY to 1 if true, 0 if false. */
 	public Cell<T> fill (boolean x, boolean y) {
 		fillX = x ? onef : zerof;
 		fillY = y ? onef : zerof;
-		return this;
+		return update();
 	}
 
 	/** Sets fillX and fillY to 1 if true, 0 if false. */
 	public Cell<T> fill (boolean fill) {
 		fillX = fill ? onef : zerof;
 		fillY = fill ? onef : zerof;
-		return this;
+		return update();
 	}
 
 	/** Sets the alignment of the actor within the cell. Set to {@link Align#center}, {@link Align#top}, {@link Align#bottom},
 	 * {@link Align#left}, {@link Align#right}, or any combination of those. */
 	public Cell<T> align (int align) {
 		this.align = align;
-		return this;
+		return update();
 	}
 
 	/** Sets the alignment of the actor within the cell to {@link Align#center}. This clears any other alignment. */
 	public Cell<T> center () {
 		align = centeri;
-		return this;
+		return update();
 	}
 
 	/** Adds {@link Align#top} and clears {@link Align#bottom} for the alignment of the actor within the cell. */
@@ -516,7 +513,7 @@ public class Cell<T extends Element> implements Poolable {
 			align = topi;
 		else
 			align = (align | Align.top) & ~Align.bottom;
-		return this;
+		return update();
 	}
 
 	/** Adds {@link Align#left} and clears {@link Align#right} for the alignment of the actor within the cell. */
@@ -525,7 +522,7 @@ public class Cell<T extends Element> implements Poolable {
 			align = lefti;
 		else
 			align = (align | Align.left) & ~Align.right;
-		return this;
+		return update();
 	}
 
 	/** Adds {@link Align#bottom} and clears {@link Align#top} for the alignment of the actor within the cell. */
@@ -534,7 +531,7 @@ public class Cell<T extends Element> implements Poolable {
 			align = bottomi;
 		else
 			align = (align | Align.bottom) & ~Align.top;
-		return this;
+		return update();
 	}
 
 	/** Adds {@link Align#right} and clears {@link Align#left} for the alignment of the actor within the cell. */
@@ -543,7 +540,7 @@ public class Cell<T extends Element> implements Poolable {
 			align = righti;
 		else
 			align = (align | Align.right) & ~Align.left;
-		return this;
+		return update();
 	}
 
 	/** Sets expandX, expandY, fillX, and fillY to 1. */
@@ -552,83 +549,83 @@ public class Cell<T extends Element> implements Poolable {
 		expandY = onei;
 		fillX = onef;
 		fillY = onef;
-		return this;
+		return update();
 	}
 
 	/** Sets expandX and fillX to 1. */
 	public Cell<T> growX () {
 		expandX = onei;
 		fillX = onef;
-		return this;
+		return update();
 	}
 
 	/** Sets expandY and fillY to 1. */
 	public Cell<T> growY () {
 		expandY = onei;
 		fillY = onef;
-		return this;
+		return update();
 	}
 
 	/** Sets expandX and expandY to 1. */
 	public Cell<T> expand () {
 		expandX = onei;
 		expandY = onei;
-		return this;
+		return update();
 	}
 
 	/** Sets expandX to 1. */
 	public Cell<T> expandX () {
 		expandX = onei;
-		return this;
+		return update();
 	}
 
 	/** Sets expandY to 1. */
 	public Cell<T> expandY () {
 		expandY = onei;
-		return this;
+		return update();
 	}
 
 	public Cell<T> expand (int x, int y) {
 		expandX = x;
 		expandY = y;
-		return this;
+		return update();
 	}
 
 	/** Sets expandX and expandY to 1 if true, 0 if false. */
 	public Cell<T> expand (boolean x, boolean y) {
 		expandX = x ? onei : zeroi;
 		expandY = y ? onei : zeroi;
-		return this;
+		return update();
 	}
 
 	public Cell<T> colspan (int colspan) {
 		this.colspan = colspan;
-		return this;
+		return update();
 	}
 
 	/** Sets uniformX and uniformY to true. */
 	public Cell<T> uniform () {
 		uniformX = Boolean.TRUE;
 		uniformY = Boolean.TRUE;
-		return this;
+		return update();
 	}
 
 	/** Sets uniformX to true. */
 	public Cell<T> uniformX () {
 		uniformX = Boolean.TRUE;
-		return this;
+		return update();
 	}
 
 	/** Sets uniformY to true. */
 	public Cell<T> uniformY () {
 		uniformY = Boolean.TRUE;
-		return this;
+		return update();
 	}
 
 	public Cell<T> uniform (boolean x, boolean y) {
 		uniformX = x;
 		uniformY = y;
-		return this;
+		return update();
 	}
 
 	public void setActorBounds (float x, float y, float width, float height) {
@@ -959,6 +956,13 @@ public class Cell<T extends Element> implements Poolable {
 
 	public String toString () {
 		return actor != null ? actor.toString() : super.toString();
+	}
+	
+	private Cell<T> update(){
+		minWidth.unit = minHeight.unit = maxWidth.unit = maxHeight.unit 
+				= spaceTop.unit = spaceBottom.unit = spaceLeft.unit = spaceRight.unit
+						= padTop.unit = padBottom.unit = padLeft.unit = padRight.unit = unit;
+		return this;
 	}
 
 	/** Returns the defaults to use for all cells. This can be used to avoid needing to set the same defaults for every table (eg,

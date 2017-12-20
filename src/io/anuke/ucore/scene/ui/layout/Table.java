@@ -257,7 +257,6 @@ public class Table extends WidgetGroup {
 		cell.merge(rowDefaults);
 
 		if (actor != null) addChild(actor);
-		cell.units(Unit.dp);
 
 		return cell;
 	}
