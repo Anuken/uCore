@@ -1,13 +1,20 @@
 package io.anuke.ucore.util;
 
 public class Strings{
-	public static String parseException(Exception e){
+	public static String parseException(Exception e, boolean stacktrace){
 		StringBuilder build = new StringBuilder();
 		
-		build.append(e.getClass().getName() + ": " +e.getMessage());
-		
-		for(StackTraceElement s : e.getStackTrace()){
-			build.append("\n"+s.toString());
+		build.append(e.getClass().getName());
+		build.append(": ");
+		build.append(e.getMessage());
+		if(stacktrace) {
+			for (StackTraceElement s : e.getStackTrace()) {
+				build.append("\n");
+				build.append(s.toString());
+			}
+		}else{
+			build.append("\n");
+			build.append(e.getStackTrace()[0].toString());
 		}
 		return build.toString();
 	}
