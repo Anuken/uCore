@@ -37,6 +37,10 @@ public class CacheBatch implements Batch{
 	public int getLastCache(){
 		return lastCache;
 	}
+	
+	public void clear(){
+		cache.clear();
+	}
 
 	@Override
 	public void dispose(){
@@ -46,6 +50,11 @@ public class CacheBatch implements Batch{
 	@Override
 	public void begin(){
 		cache.beginCache();
+		drawing = true;
+	}
+	
+	public void begin(int cacheid){
+		cache.beginCache(cacheid);
 		drawing = true;
 	}
 

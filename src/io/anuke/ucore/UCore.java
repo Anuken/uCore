@@ -21,7 +21,7 @@ public class UCore{
 	
 	public static Object getPrivate(Object object, String name){
 		try{
-			Field field = ClassReflection.getField(object.getClass(), name);
+			Field field = ClassReflection.getDeclaredField(object.getClass(), name);
 			field.setAccessible(true);
 			return field.get(object);
 		}catch(Exception e){
