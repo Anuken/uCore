@@ -1,8 +1,12 @@
 package io.anuke.ucore.util;
 
 public class Strings{
-	public static String parseException(Exception e, boolean stacktrace){
+	public static String parseException(Throwable e, boolean stacktrace){
 		StringBuilder build = new StringBuilder();
+
+		while(e.getCause() != null){
+			e = e.getCause();
+		}
 		
 		build.append(e.getClass().getName());
 		build.append(": ");

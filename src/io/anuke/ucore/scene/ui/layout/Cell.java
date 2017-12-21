@@ -6,8 +6,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
+import io.anuke.ucore.function.Consumer;
+import io.anuke.ucore.function.Predicate;
+import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.ui.Button;
 import io.anuke.ucore.scene.ui.layout.Value.Fixed;
+import io.anuke.ucore.scene.utils.Disableable;
 
 /** A cell for a {@link Table}.
  * @author Nathan Sweet */
@@ -99,6 +104,19 @@ public class Cell<T extends Element> implements Poolable {
 		maxHeight = height;
 		return this;
 	}
+
+	public Cell<T> update(Consumer<T> updater){
+		getElement().update(() -> updater.accept(getElement()));
+		return this;
+	}
+
+	public Cell<T> disabled(Predicate<T> vis){
+		if(getElement() instanceof Button){
+			((Button)getElement()).setDisabled(() -> vis.test(getElement()));
+		}
+		return this;
+	}
+
 
 	/** Sets the minWidth, prefWidth, maxWidth, minHeight, prefHeight, and maxHeight to the specified value. */
 	public Cell<T> size (float size) {
