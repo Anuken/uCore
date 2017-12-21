@@ -156,6 +156,11 @@ public class DummyBatch implements Batch{
 	}
 
 	@Override
+	public void setBlendFunctionSeparate(int srcFuncColor, int dstFuncColor, int srcFuncAlpha, int dstFuncAlpha) {
+
+	}
+
+	@Override
 	public int getBlendSrcFunc(){
 		// TODO Auto-generated method stub
 		return 0;
@@ -164,6 +169,16 @@ public class DummyBatch implements Batch{
 	@Override
 	public int getBlendDstFunc(){
 		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getBlendSrcFuncAlpha() {
+		return 0;
+	}
+
+	@Override
+	public int getBlendDstFuncAlpha() {
 		return 0;
 	}
 

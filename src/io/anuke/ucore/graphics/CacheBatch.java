@@ -170,6 +170,11 @@ public class CacheBatch implements Batch{
 	}
 
 	@Override
+	public void setBlendFunctionSeparate(int srcFuncColor, int dstFuncColor, int srcFuncAlpha, int dstFuncAlpha) {
+		stub();
+	}
+
+	@Override
 	public int getBlendSrcFunc(){
 		stub();
 		return 0;
@@ -178,6 +183,16 @@ public class CacheBatch implements Batch{
 	@Override
 	public int getBlendDstFunc(){
 		stub();
+		return 0;
+	}
+
+	@Override
+	public int getBlendSrcFuncAlpha() {
+		return 0;
+	}
+
+	@Override
+	public int getBlendDstFuncAlpha() {
 		return 0;
 	}
 
