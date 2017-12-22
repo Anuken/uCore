@@ -14,8 +14,6 @@ repositories {
  		url "https://oss.sonatype.org/content/repositories/snapshots/"
  	}
     jcenter()
-    
-    
 }
 
 ext {
@@ -33,6 +31,7 @@ artifacts {
 
 dependencies {
 	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
 }
 
 test {

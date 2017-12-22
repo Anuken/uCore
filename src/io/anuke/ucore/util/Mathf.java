@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
 
 import io.anuke.ucore.core.Timers;
+import io.anuke.ucore.function.Consumer;
 
 public class Mathf{
 	private static RandomXS128 seedr = new RandomXS128();
@@ -55,7 +56,11 @@ public class Mathf{
 	public static <T> T choose(T... items){
 		return items[random(0, items.length-1)];
 	}
-	
+
+	public static <T> T select(int index, T... items){
+		return items[index];
+	}
+
 	public static <T> T select(T[] items){
 		return items[random(0, items.length-1)];
 	}
@@ -212,6 +217,12 @@ public class Mathf{
 		if(i > max)
 			i = max;
 		return i;
+	}
+
+	public static <T> void each(Consumer<T> cons, T... objects){
+		for(T t : objects){
+			cons.accept(t);
+		}
 	}
 	
 	public static <T> boolean inBounds(int x, int y, T[][] array){

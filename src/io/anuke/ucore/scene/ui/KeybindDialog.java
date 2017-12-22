@@ -82,9 +82,7 @@ public class KeybindDialog extends Dialog{
 					KeyBinds.setDevice(section, devices.get(i - 1));
 					setup();
 				}
-			}, b -> {
-				b.setDisabled(sectionControls.get(section) - 1 < 0);
-			}).size(40);
+			}).disabled(sectionControls.get(section) - 1 < 0).size(40);
 
 			stable.add(device).minWidth(device.getMinWidth() + 60);
 
@@ -98,9 +96,7 @@ public class KeybindDialog extends Dialog{
 					KeyBinds.setDevice(section, devices.get(i + 1));
 					setup();
 				}
-			}, b -> {
-				b.setDisabled(sectionControls.get(section) + 1 >= devices.size);
-			}).size(40);
+			}).disabled(sectionControls.get(section) + 1 >= devices.size).size(40);
 			
 			if(Inputs.controllersLoaded())
 				table.add(stable).colspan(3);
@@ -122,9 +118,7 @@ public class KeybindDialog extends Dialog{
 				table.row();
 			}
 
-			table.setVisible(() -> {
-				return this.section.equals(section);
-			});
+			table.setVisible(() -> this.section.equals(section));
 
 			table.addButton("Reset to Defaults", () -> {
 				for(String s : KeyBinds.getBinds(section))

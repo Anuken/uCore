@@ -5,7 +5,7 @@ public class ListDialog extends Dialog{
 
 	public ListDialog(String title) {
 		super(title);
-		content().padBottom(10f);
+		content().marginBottom(10f);
 	}
 	
 	/**Whether to hide after an option is selected.*/

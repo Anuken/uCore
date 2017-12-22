@@ -11,6 +11,7 @@ import io.anuke.ucore.function.Predicate;
 import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.ui.Button;
+import io.anuke.ucore.scene.ui.ButtonGroup;
 import io.anuke.ucore.scene.ui.layout.Value.Fixed;
 import io.anuke.ucore.scene.utils.Disableable;
 
@@ -117,6 +118,19 @@ public class Cell<T extends Element> implements Poolable {
 		return this;
 	}
 
+	public Cell<T> disabled(boolean disabled){
+		if(getElement() instanceof Button){
+			((Button)getElement()).setDisabled(disabled);
+		}
+		return this;
+	}
+
+	public <N extends Button> Cell<T> group(ButtonGroup<N> group){
+		if(getElement() instanceof Button){
+			group.add((N)getElement());
+		}
+		return this;
+	}
 
 	/** Sets the minWidth, prefWidth, maxWidth, minHeight, prefHeight, and maxHeight to the specified value. */
 	public Cell<T> size (float size) {
@@ -389,9 +403,9 @@ public class Cell<T extends Element> implements Poolable {
 		return this;
 	}
 
-	/** Sets the padTop, padLeft, padBottom, and padRight to the specified value. */
+	/** Sets the marginTop, marginLeft, marginBottom, and marginRight to the specified value. */
 	public Cell<T> pad (Value pad) {
-		if (pad == null) throw new IllegalArgumentException("pad cannot be null.");
+		if (pad == null) throw new IllegalArgumentException("margin cannot be null.");
 		padTop = pad;
 		padLeft = pad;
 		padBottom = pad;
@@ -412,30 +426,30 @@ public class Cell<T extends Element> implements Poolable {
 	}
 
 	public Cell<T> padTop (Value padTop) {
-		if (padTop == null) throw new IllegalArgumentException("padTop cannot be null.");
+		if (padTop == null) throw new IllegalArgumentException("marginTop cannot be null.");
 		this.padTop = padTop;
 		return this;
 	}
 
 	public Cell<T> padLeft (Value padLeft) {
-		if (padLeft == null) throw new IllegalArgumentException("padLeft cannot be null.");
+		if (padLeft == null) throw new IllegalArgumentException("marginLeft cannot be null.");
 		this.padLeft = padLeft;
 		return this;
 	}
 
 	public Cell<T> padBottom (Value padBottom) {
-		if (padBottom == null) throw new IllegalArgumentException("padBottom cannot be null.");
+		if (padBottom == null) throw new IllegalArgumentException("marginBottom cannot be null.");
 		this.padBottom = padBottom;
 		return this;
 	}
 
 	public Cell<T> padRight (Value padRight) {
-		if (padRight == null) throw new IllegalArgumentException("padRight cannot be null.");
+		if (padRight == null) throw new IllegalArgumentException("marginRight cannot be null.");
 		this.padRight = padRight;
 		return this;
 	}
 
-	/** Sets the padTop, padLeft, padBottom, and padRight to the specified value. */
+	/** Sets the marginTop, marginLeft, marginBottom, and marginRight to the specified value. */
 	public Cell<T> pad (float pad) {
 		pad(new Fixed(pad));
 		return this;

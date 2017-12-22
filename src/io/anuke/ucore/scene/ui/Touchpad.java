@@ -140,7 +140,7 @@ public class Touchpad extends Element {
 
 	@Override
 	public void layout () {
-		// Recalc pad and deadzone bounds
+		// Recalc margin and deadzone bounds
 		float halfWidth = getWidth() / 2;
 		float halfHeight = getHeight() / 2;
 		float radius = Math.min(halfWidth, halfHeight);
@@ -148,7 +148,7 @@ public class Touchpad extends Element {
 		if (style.knob != null) radius -= Math.max(style.knob.getMinWidth(), style.knob.getMinHeight()) / 2;
 		knobBounds.set(halfWidth, halfHeight, radius);
 		deadzoneBounds.set(halfWidth, halfHeight, deadzoneRadius);
-		// Recalc pad values and knob position
+		// Recalc margin values and knob position
 		knobPosition.set(halfWidth, halfHeight);
 		knobPercent.set(0, 0);
 	}

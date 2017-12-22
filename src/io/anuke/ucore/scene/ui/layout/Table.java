@@ -156,7 +156,7 @@ public class Table extends WidgetGroup {
 	public void setBackground (Drawable background) {
 		if (this.background == background) return;
 		float padTopOld = getPadTop(), padLeftOld = getPadLeft(), padBottomOld = getPadBottom(), padRightOld = getPadRight();
-		this.background = background; // The default pad values use the background's padding.
+		this.background = background; // The default margin values use the background's padding.
 		float padTopNew = getPadTop(), padLeftNew = getPadLeft(), padBottomNew = getPadBottom(), padRightNew = getPadRight();
 		if (padTopOld + padBottomOld != padTopNew + padBottomNew || padLeftOld + padRightOld != padLeftNew + padRightNew)
 			invalidateHierarchy();
@@ -367,10 +367,9 @@ public class Table extends WidgetGroup {
 		TextButton button = Elements.newButton(text, listener);
 		return add(button);
 	}
-	
-	public Cell<TextButton> addButton(String text, Listenable listener, ButtonTweaker cons){
-		TextButton button = Elements.newButton(text, listener);
-		cons.tweak(button);
+
+	public Cell<TextButton> addButton(String text, String style, Listenable listener){
+		TextButton button = Elements.newButton(text, style, listener);
 		return add(button);
 	}
 	
@@ -593,9 +592,9 @@ public class Table extends WidgetGroup {
 		return cellDefaults;
 	}
 
-	/** Sets the padTop, padLeft, padBottom, and padRight around the table to the specified value. */
-	public Table pad (Value pad) {
-		if (pad == null) throw new IllegalArgumentException("pad cannot be null.");
+	/** Sets the marginTop, marginLeft, marginBottom, and marginRight around the table to the specified value. */
+	public Table margin(Value pad) {
+		if (pad == null) throw new IllegalArgumentException("margin cannot be null.");
 		padTop = pad;
 		padLeft = pad;
 		padBottom = pad;
@@ -604,7 +603,7 @@ public class Table extends WidgetGroup {
 		return this;
 	}
 
-	public Table pad (Value top, Value left, Value bottom, Value right) {
+	public Table margin(Value top, Value left, Value bottom, Value right) {
 		if (top == null) throw new IllegalArgumentException("top cannot be null.");
 		if (left == null) throw new IllegalArgumentException("left cannot be null.");
 		if (bottom == null) throw new IllegalArgumentException("bottom cannot be null.");
@@ -618,44 +617,44 @@ public class Table extends WidgetGroup {
 	}
 
 	/** Padding at the top edge of the table. */
-	public Table padTop (Value padTop) {
-		if (padTop == null) throw new IllegalArgumentException("padTop cannot be null.");
+	public Table marginTop(Value padTop) {
+		if (padTop == null) throw new IllegalArgumentException("marginTop cannot be null.");
 		this.padTop = padTop;
 		sizeInvalid = true;
 		return this;
 	}
 
 	/** Padding at the left edge of the table. */
-	public Table padLeft (Value padLeft) {
-		if (padLeft == null) throw new IllegalArgumentException("padLeft cannot be null.");
+	public Table marginLeft(Value padLeft) {
+		if (padLeft == null) throw new IllegalArgumentException("marginLeft cannot be null.");
 		this.padLeft = padLeft;
 		sizeInvalid = true;
 		return this;
 	}
 
 	/** Padding at the bottom edge of the table. */
-	public Table padBottom (Value padBottom) {
-		if (padBottom == null) throw new IllegalArgumentException("padBottom cannot be null.");
+	public Table marginBottom(Value padBottom) {
+		if (padBottom == null) throw new IllegalArgumentException("marginBottom cannot be null.");
 		this.padBottom = padBottom;
 		sizeInvalid = true;
 		return this;
 	}
 
 	/** Padding at the right edge of the table. */
-	public Table padRight (Value padRight) {
-		if (padRight == null) throw new IllegalArgumentException("padRight cannot be null.");
+	public Table marginRight(Value padRight) {
+		if (padRight == null) throw new IllegalArgumentException("marginRight cannot be null.");
 		this.padRight = padRight;
 		sizeInvalid = true;
 		return this;
 	}
 
-	/** Sets the padTop, padLeft, padBottom, and padRight around the table to the specified value. */
-	public Table pad (float pad) {
-		pad(new Fixed(pad));
+	/** Sets the marginTop, marginLeft, marginBottom, and marginRight around the table to the specified value. */
+	public Table margin(float pad) {
+		margin(new Fixed(pad));
 		return this;
 	}
 
-	public Table pad (float top, float left, float bottom, float right) {
+	public Table margin(float top, float left, float bottom, float right) {
 		padTop = new Fixed(top);
 		padLeft = new Fixed(left);
 		padBottom = new Fixed(bottom);
@@ -665,28 +664,28 @@ public class Table extends WidgetGroup {
 	}
 
 	/** Padding at the top edge of the table. */
-	public Table padTop (float padTop) {
+	public Table marginTop(float padTop) {
 		this.padTop = new Fixed(padTop);
 		sizeInvalid = true;
 		return this;
 	}
 
 	/** Padding at the left edge of the table. */
-	public Table padLeft (float padLeft) {
+	public Table marginLeft(float padLeft) {
 		this.padLeft = new Fixed(padLeft);
 		sizeInvalid = true;
 		return this;
 	}
 
 	/** Padding at the bottom edge of the table. */
-	public Table padBottom (float padBottom) {
+	public Table marginBottom(float padBottom) {
 		this.padBottom = new Fixed(padBottom);
 		sizeInvalid = true;
 		return this;
 	}
 
 	/** Padding at the right edge of the table. */
-	public Table padRight (float padRight) {
+	public Table marginRight(float padRight) {
 		this.padRight = new Fixed(padRight);
 		sizeInvalid = true;
 		return this;

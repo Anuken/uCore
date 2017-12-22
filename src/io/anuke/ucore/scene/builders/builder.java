@@ -19,7 +19,35 @@ public abstract class builder<T extends builder, N extends Element>{
 	
 	public T margin(float margin){
 		if(element instanceof Table){
-			((Table)element).pad(/*Unit.dp.scl*/(margin));
+			((Table)element).margin(margin);
+		}
+		return (T)this;
+	}
+
+	public T marginTop(float margin){
+		if(element instanceof Table){
+			((Table)element).marginTop(margin);
+		}
+		return (T)this;
+	}
+
+	public T marginBottom(float margin){
+		if(element instanceof Table){
+			((Table)element).marginBottom(margin);
+		}
+		return (T)this;
+	}
+
+	public T marginLeft(float margin){
+		if(element instanceof Table){
+			((Table)element).marginLeft(margin);
+		}
+		return (T)this;
+	}
+
+	public T marginRight(float margin){
+		if(element instanceof Table){
+			((Table)element).marginRight(margin);
 		}
 		return (T)this;
 	}
@@ -152,7 +180,7 @@ public abstract class builder<T extends builder, N extends Element>{
 		return (T)this;
 	}
 
-	/** Sets the padTop, padLeft, padBottom, and padRight to the specified value. */
+	/** Sets the marginTop, marginLeft, marginBottom, and marginRight to the specified value. */
 	public T pad (float pad) {
 		cell.pad((pad));
 		return (T)this;

@@ -399,9 +399,9 @@ public class Container<T extends Element> extends WidgetGroup {
 		return this;
 	}
 
-	/** Sets the padTop, padLeft, padBottom, and padRight to the specified value. */
+	/** Sets the marginTop, marginLeft, marginBottom, and marginRight to the specified value. */
 	public Container<T> pad (Value pad) {
-		if (pad == null) throw new IllegalArgumentException("pad cannot be null.");
+		if (pad == null) throw new IllegalArgumentException("margin cannot be null.");
 		padTop = pad;
 		padLeft = pad;
 		padBottom = pad;
@@ -422,30 +422,30 @@ public class Container<T extends Element> extends WidgetGroup {
 	}
 
 	public Container<T> padTop (Value padTop) {
-		if (padTop == null) throw new IllegalArgumentException("padTop cannot be null.");
+		if (padTop == null) throw new IllegalArgumentException("marginTop cannot be null.");
 		this.padTop = padTop;
 		return this;
 	}
 
 	public Container<T> padLeft (Value padLeft) {
-		if (padLeft == null) throw new IllegalArgumentException("padLeft cannot be null.");
+		if (padLeft == null) throw new IllegalArgumentException("marginLeft cannot be null.");
 		this.padLeft = padLeft;
 		return this;
 	}
 
 	public Container<T> padBottom (Value padBottom) {
-		if (padBottom == null) throw new IllegalArgumentException("padBottom cannot be null.");
+		if (padBottom == null) throw new IllegalArgumentException("marginBottom cannot be null.");
 		this.padBottom = padBottom;
 		return this;
 	}
 
 	public Container<T> padRight (Value padRight) {
-		if (padRight == null) throw new IllegalArgumentException("padRight cannot be null.");
+		if (padRight == null) throw new IllegalArgumentException("marginRight cannot be null.");
 		this.padRight = padRight;
 		return this;
 	}
 
-	/** Sets the padTop, padLeft, padBottom, and padRight to the specified value. */
+	/** Sets the marginTop, marginLeft, marginBottom, and marginRight to the specified value. */
 	public Container<T> pad (float pad) {
 		Value value = new Fixed(pad);
 		padTop = value;
@@ -602,7 +602,7 @@ public class Container<T extends Element> extends WidgetGroup {
 	
 	public float getMaxWidth () {
 		float v = maxWidth.get(actor);
-		if (v > 0) v += padLeft.get(this) + padRight.get(this);
+		if (v > 0) v += marginLeft.get(this) + marginRight.get(this);
 		return v;
 	}
 
@@ -612,7 +612,7 @@ public class Container<T extends Element> extends WidgetGroup {
 
 	public float getMaxHeight () {
 		float v = maxHeight.get(actor);
-		if (v > 0) v += padTop.get(this) + padBottom.get(this);
+		if (v > 0) v += marginTop.get(this) + marginBottom.get(this);
 		return v;
 	}
 */

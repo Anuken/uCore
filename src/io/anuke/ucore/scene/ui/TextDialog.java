@@ -21,7 +21,7 @@ public class TextDialog extends Dialog{
 	}
 	
 	public TextDialog padText(float amount){
-		content().pad(amount);
+		content().margin(amount);
 		return this;
 	}
 }

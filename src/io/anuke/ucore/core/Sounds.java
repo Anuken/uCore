@@ -10,6 +10,7 @@ public class Sounds{
 	private static ObjectMap<String, Sound> map = new ObjectMap<>();
 	private static float volume = 1f, globalVolume = 1f;
 	private static float falloff = 20000f;
+	private static boolean muted;
 	
 	public static void load(String... names){
 		Settings.defaults("sfxvol", 10);
@@ -39,8 +40,13 @@ public class Sounds{
 	
 	public static void play(String name, float tvol){
 		if(!map.containsKey(name)) throw new IllegalArgumentException("Sound \""+name+"\" does not exist!");
+		if(muted) return;
 		float vol = Settings.getInt("sfxvol")/10f;
 		get(name).play(volume*vol*tvol*globalVolume);
+	}
+
+	public static void setMuted(boolean muted){
+		Sounds.muted = muted;
 	}
 	
 	/**This is modified by things such as settings dialogs.*/

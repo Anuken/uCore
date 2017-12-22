@@ -40,6 +40,15 @@ public class Musics{
 			});
 		}
 	}
+
+	public static void setMuted(boolean muted){
+		if(muted){
+			volume = 0f;
+		}else{
+			volume = 1f;
+		}
+		updateVolume();
+	}
 	
 	public static void setVolume(float vol){
 		volume = vol;
@@ -89,7 +98,7 @@ public class Musics{
 		
 		current = list;
 		
-		if(current == null || playing == null){
+		if(playing == null){
 			playing = select;
 			updateVolume();
 			select.play();

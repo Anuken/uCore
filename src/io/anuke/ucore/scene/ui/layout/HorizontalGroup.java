@@ -337,7 +337,7 @@ public class HorizontalGroup extends WidgetGroup {
 		return wrapSpace;
 	}
 
-	/** Sets the padTop, padLeft, padBottom, and padRight to the specified value. */
+	/** Sets the marginTop, marginLeft, marginBottom, and marginRight to the specified value. */
 	public HorizontalGroup pad (float pad) {
 		padTop = pad;
 		padLeft = pad;

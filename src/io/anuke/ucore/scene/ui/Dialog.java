@@ -30,13 +30,13 @@ import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.actions.Actions;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
+import io.anuke.ucore.scene.event.VisibilityEvent;
+import io.anuke.ucore.scene.event.VisibilityListener;
 import io.anuke.ucore.scene.ui.ImageButton.ImageButtonStyle;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.ui.layout.Unit;
 import io.anuke.ucore.scene.utils.FocusListener;
-/** Displays a dialog, which is a modal window containing a content table with a button table underneath it. Methods are provided
- * to add a label to the content table and buttons to the button table, but any widgets can be added. When a button is clicked,
- * {@link #result(Object)} is called and the dialog is removed from the stage.
+/** Displays a dialog, which is a modal window containing a content table with a button table underneath it.
  * @author Nathan Sweet */ 
 public class Dialog extends Window {
 	//TODO just make this work properly by calculating padding
@@ -49,7 +49,6 @@ public class Dialog extends Window {
 	Table contentTable, buttonTable;
 	Element previousKeyboardFocus, previousScrollFocus;
 	FocusListener focusListener;
-	Listenable hideListener, showListener;
 
 	protected InputListener ignoreTouchDown = new InputListener() {
 		public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -127,9 +126,7 @@ public class Dialog extends Window {
 		titleTable.add(closeButton).padRight(-getPadRight()/scl)
 		.padTop(-10+closePadT).size(40);
 		
-		closeButton.changed(()->{
-			hide();
-		});
+		closeButton.changed(this::hide);
 
 		if (titleLabel.getLabelAlign() == Align.center && titleTable.getChildren().size == 2){
 			titleTable.getCell(titleLabel).padLeft(closeButton.getWidth() * 2);
@@ -158,12 +155,24 @@ public class Dialog extends Window {
 	
 	/**Adds a show() listener.*/
 	public void shown(Listenable run){
-		this.showListener = run;
+		addListener(new VisibilityListener(){
+			@Override
+			public boolean shown(){
+				run.listen();
+				return false;
+			}
+		});
 	}
-	
+
 	/**Adds a hide() listener.*/
 	public void hidden(Listenable run){
-		this.hideListener = run;
+		addListener(new VisibilityListener(){
+			@Override
+			public boolean hidden(){
+				run.listen();
+				return false;
+			}
+		});
 	}
 	
 	/**Sets style to 'dialog'.*/
@@ -174,9 +183,9 @@ public class Dialog extends Window {
 
 	/** {@link #pack() Packs} the dialog and adds it to the stage with custom action which can be null for instant show */
 	public Dialog show (Scene stage, Action action) {
-		
-		if(showListener != null)
-			showListener.listen();
+
+		this.fire(new VisibilityEvent(false));
+
 		clearActions();
 		removeCaptureListener(ignoreTouchDown);
 
@@ -217,8 +226,7 @@ public class Dialog extends Window {
 
 	/** Hides the dialog with the given action and then removes it from the stage. */
 	public void hide (Action action) {
-		if(hideListener != null)
-			hideListener.listen();
+		this.fire(new VisibilityEvent(true));
 		
 		Scene stage = getScene();
 		if (stage != null) {

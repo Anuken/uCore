@@ -53,7 +53,7 @@ public class ColorPicker extends Table{
 		
 		Table c = new Table();
 		c.background("button");
-		c.pad(6);
+		c.margin(6);
 		c.add(image).size(50);
 		add(c).pad(10);
 		
