@@ -1,211 +1,202 @@
 package io.anuke.ucore.core;
 
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
+import com.badlogic.gdx.utils.OrderedMap;
+import io.anuke.ucore.core.Inputs.Axis;
 import io.anuke.ucore.core.Inputs.DeviceType;
 import io.anuke.ucore.core.Inputs.InputDevice;
+import io.anuke.ucore.util.Input;
 
 public class KeyBinds{
-	private static ObjectMap<String, ObjectMap<String, ObjectMap<DeviceType, Integer>>> map = new ObjectMap<>();
-	/** Holds default keybind values. */
-	private static ObjectMap<String, ObjectMap<String, ObjectMap<DeviceType, Integer>>> defaults = new ObjectMap<>();
-	private static Array<String> sections = new Array<>();
-	private static ObjectMap<String, Array<String>> keys = new ObjectMap<>();
-	private static ObjectMap<String, InputDevice> sectionDevices = new ObjectMap<>();
+	private static OrderedMap<String, Section> map = new OrderedMap<>();
 
-	public static Iterable<String> getBinds(){
-		return getBinds("default");
-	}
+    /**Format:
+     * name, keybind, name2, keybind2...
+	 * Make sure you define a default for each key you use!*/
+	public static void defaults(Object... keys){
+        defaultSection("default", DeviceType.keyboard, keys);
+    }
 
-	public static DeviceType getType(String section){
-		return sectionDevices.get(section).type;
-	}
+    public static void defaults(DeviceType type, Object... keys){
+        defaultSection("default", type, keys);
+    }
 
-	public static Iterable<String> getBinds(String section){
-		if(!map.containsKey(section))
-			throw new IllegalArgumentException("Section " + section + " not registered!");
-		return keys.get(section);
-	}
+    public static void defaultSection(String sectionName, DeviceType type, Object... keys){
+		if(!map.containsKey(sectionName)){
+			map.put(sectionName, new Section());
+		}
+        Section section = map.get(sectionName);
 
-	public static void setDevice(String section, InputDevice dev){
-		sectionDevices.put(section, dev);
-	}
-
-	public static Array<String> getSections(){
-		return sections;
-	}
-
-	public static int get(String name){
-		return get("default", getType("default"), name);
-	}
-	
-	public static int get(String section, String name){
-		return get(section, getType(section), name);
-	}
-
-	public static int get(String section, DeviceType type, String name){
-		if(!map.containsKey(section))
-			throw new IllegalArgumentException("Section " + section + " not registered!");
-		
-		if(!map.get(section).containsKey(name))
-			throw new IllegalArgumentException("Key \"" + name + "\" not registered!");
-		
-		return map.get(section).get(name).get(type);
-	}
-
-	public static int getDefault(String section, String name){
-		if(!defaults.containsKey(section))
-			throw new IllegalArgumentException("Section \"" + section + "\" not registered!");
-		if(!defaults.get(section).containsKey(name))
-			throw new IllegalArgumentException("Key \"" + name + "\" not registered!");
-		
-		return defaults.get(section).get(name).get(getType(section));
-	}
-
-	public static void rebindKey(String name, int code){
-		put("default", name, getType("default"),  code);
-	}
-
-	public static void rebindKey(String section, String name, int code){
-		put(section, name, getType(section), code);
-	}
-
-	public static void rebindKey(String section, DeviceType type, String name, int code){
-		put(section, name, type,  code);
-	}
-
-	/** Resets a key binding to default. */
-	public static void resetKey(String name){
-		resetKey("default", name);
-	}
-
-	/** Resets a key binding to default. */
-	public static void resetKey(String section, String name){
-		put(section, name, getType(section), getDefault(section, name));
-	}
-
-	/** Resets a key binding to default. */
-	public static void resetKey(String section, DeviceType type, String name){
-		put(section, name, type, getDefault(section, name));
-	}
-
-	/** Load the keybinds. Call after Settings.load() */
-	public static void load(){
-		for(String section : defaults.keys()){
-			for(String key : defaults.get(section).keys()){
-				for(DeviceType type : defaults.get(section).get(key).keys()){
-					put(section, key, type, Settings.getIntKey("keybind-" + section + "-" + key + '-' + type.name(), defaults.get(section).get(key).get(type)));
-				}
+		for(DeviceType other : DeviceType.values()){
+			if(!section.defaults.containsKey(other)) {
+				section.defaults.put(other, new OrderedMap<>());
+				section.binds.put(other, new OrderedMap<>());
+			}
+			if(!section.axisDefaults.containsKey(other)) {
+				section.axisDefaults.put(other, new OrderedMap<>());
+				section.axisBinds.put(other, new OrderedMap<>());
+			}
+			if(!section.keybinds.containsKey(other)){
+				section.keybinds.put(other, new Array<>());
 			}
 		}
+
+        for(int i = 0; i < keys.length/2; i ++){
+            if(!(keys[i*2] instanceof String)) throw new IllegalArgumentException("Invalid keybind format!");
+            String key = (String)keys[i*2];
+            Object to = keys[i*2+1];
+
+            if(to instanceof Axis){
+                section.axisDefaults.get(type).put(key, (Axis)to);
+				section.keybinds.get(type).add(new Keybind(key, (Axis)to));
+            }else if(to instanceof Input){
+                section.defaults.get(type).put(key, (Input)to);
+				section.keybinds.get(type).add(new Keybind(key, (Input)to));
+            }else{
+                throw new IllegalArgumentException("Invalid keybind format!");
+            }
+        }
 	}
 
-	/** Save keybindings. */
-	public static void saveBindings(){
-		for(String section : defaults.keys()){
-			for(String key : defaults.get(section).keys()){
-				for(DeviceType type : defaults.get(section).get(key).keys()){
-					Settings.putInt("keybind-" + section + "-" + key+ '-' + type.name(), get(section, type, key));
+	public static void save(){
+		for(Section sec : map.values()){
+			for(DeviceType type : DeviceType.values()){
+				for(String name : sec.binds.get(type).keys()){
+					String text = "keybind-" + sec.name + "-" + type.name() + "-" + name;
+					Input input = sec.binds.get(type).get(name);
+					Settings.putInt(text, input.ordinal());
+				}
+
+				for(String name : sec.axisBinds.get(type).keys()){
+					String text = "axis-" + sec.name + "-" + type.name() + "-" + name;
+					Inputs.Axis axis = sec.axisBinds.get(type).get(name);
+					Settings.putInt(text + "-min", axis.min.ordinal());
+					Settings.putInt(text + "-max", axis.max.ordinal());
 				}
 			}
 		}
 		Settings.save();
 	}
 
-	/** Sets up key defaults. Format: name, keycode, name2, keycode2, etc */
-	public static void defaults(Object... keys){
-		defaultSection("default", DeviceType.keyboard, keys);
-	}
-	
-	/**
-	 * Sets up key defaults for a specific section. Format: section name, name,
-	 * keycode, name2, keycode2, etc
-	 */
-	public static void defaultSection(String sec, Object... keys){
-		defaultSection(sec, DeviceType.keyboard, keys);
+	public static void load(){
+		Input[] values = Input.values();
+		for(Section sec : map.values()){
+		    for(DeviceType type : DeviceType.values()){
+                for(String name : sec.defaults.get(type).keys()){
+                	int key = Settings.getIntKey("keybind-" + sec.name + "-" + type.name() + "-" + name, sec.defaults.get(type).get(name).ordinal());
+                	Input input = key == -1 ? Input.UNSET : values[key];
+                	sec.binds.get(type).put(name, input);
+                }
+
+                //TODO fix, make sure it works!
+				for(String name : sec.axisDefaults.get(type).keys()){
+					String text = "axis-" + sec.name + "-" + type.name() + "-" + name;
+					Axis def = sec.axisDefaults.get(type).get(name);
+					int mi = Settings.getIntKey(text + "-min", def.min.ordinal());
+					int ma = Settings.getIntKey(text + "-max", def.max.ordinal());
+					Input min = mi == -1 ? Input.UNSET : values[mi];
+					Input max = ma == -1 ? Input.UNSET : values[ma];
+
+					Inputs.Axis axis = sec.axisBinds.get(type).get(name);
+					if(axis == null) sec.axisBinds.get(type).put(name, axis = new Inputs.Axis(min, max));
+
+					axis.min = min;
+					axis.max = max;
+				}
+            }
+		}
 	}
 
-	/**
-	 * Sets up key defaults for a specific section. Format: section name, name,
-	 * keycode, name2, keycode2, etc
-	 */
-	public static void defaultSection(String sec, DeviceType type, Object... keys){
-		addSection(sec);
-		
-		boolean add = KeyBinds.keys.get(sec).size == 0;
-		
-		for(int i = 0; i < keys.length; i += 2){
-			put(sec, (String) keys[i], type,  (Integer) keys[i + 1]);
-			putDefaults(sec, (String) keys[i], type, (Integer) keys[i + 1]);
-			if(add)
-			KeyBinds.keys.get(sec).add((String) keys[i]);
-		}
-		
-		//check for missing device keys
-		for(DeviceType d : DeviceType.values()){
-			for(int i = 0; i < keys.length; i += 2){
-				String name = (String)keys[i];
-				if(!defaults.get(sec).get(name).containsKey(d)){
-					//-2 is the 'unset' key
-					put(sec, name, d, -2);
-					putDefaults(sec, name, d, -2);
+
+	public static void resetToDefaults(){
+		Input[] values = Input.values();
+		for(Section sec : map.values()){
+			for(DeviceType type : DeviceType.values()){
+				for(String name : sec.defaults.get(type).keys()){
+					sec.binds.get(type).put(name, sec.defaults.get(type).get(name));
+				}
+
+				for(String name : sec.axisDefaults.get(type).keys()){
+					Axis axis = sec.axisBinds.get(type).get(name);
+					Axis def = sec.axisDefaults.get(type).get(name);
+					axis.min = def.min;
+					axis.max = def.max;
 				}
 			}
 		}
 	}
 
-	private static void addSection(String name){
-		if(keys.containsKey(name)) return;
-		
-		map.put(name, new ObjectMap<>());
-		defaults.put(name, new ObjectMap<>());
-		sections.add(name);
-		keys.put(name, new Array<>());
-		sectionDevices.put(name, Inputs.getDevices().get(0));
+	public static Array<Section> getSections(){
+	    return map.values().toArray();
+    }
+
+    public static Section getSection(String name){
+	    return map.get(name);
+    }
+
+	public static Input get(String section, String name){
+	    Section s = map.get(section);
+	    if(s == null)
+			throw new IllegalArgumentException("No section \"" + section + "\" found!");
+	    if(!s.defaults.get(s.device.type).containsKey(name))
+			throw new IllegalArgumentException("No keybind \"" + name + "\" found in section \"" + section + "\"");
+
+		return s.binds.get(s.device.type).get(name, s.defaults.get(s.device.type).get(name));
 	}
 
-	private static void put(String section, String name, DeviceType type,  int key){
-		ObjectMap<DeviceType, Integer> sec = map.get(section).get(name);
+	public static Inputs.Axis getAxis(String section, String name){
+		Section s = map.get(section);
+		if(s == null)
+			throw new IllegalArgumentException("No section \"" + section + "\" found!");
+		if(!s.axisDefaults.get(s.device.type).containsKey(name))
+			throw new IllegalArgumentException("No axis \"" + name + "\" found in section \"" + section + "\"");
 
-		if(sec == null){
-			sec = new ObjectMap<>();
-			map.get(section).put(name, sec);
+		return s.axisBinds.get(s.device.type).get(name, s.axisDefaults.get(s.device.type).get(name));
+	}
+
+	public static Input get(String name){
+		return get("default", name);
+	}
+
+	public static Inputs.Axis getAxis(String name){
+		return getAxis("default", name);
+	}
+
+	/**A section represents a set of input binds, like controls for a specific player.
+	 * Each section has a device, which may be a controller or keyboard, and a name (for example, "player2")
+	 * The default section uses a keyboard.*/
+	public static class Section{
+		public ObjectMap<DeviceType, Array<Keybind>> keybinds = new OrderedMap<>();
+		public ObjectMap<DeviceType, ObjectMap<String, Input>> binds = new ObjectMap<>();
+		public ObjectMap<DeviceType, ObjectMap<String, Input>> defaults = new ObjectMap<>();
+		public ObjectMap<DeviceType, ObjectMap<String, Inputs.Axis>> axisDefaults = new ObjectMap<>();
+		public ObjectMap<DeviceType, ObjectMap<String, Inputs.Axis>> axisBinds = new ObjectMap<>();
+		public InputDevice device = Inputs.getDevices().first();
+		public String name;
+	}
+
+	/**Variant class that is either an axis or input key.*/
+	public static class Keybind{
+		public final Axis axis;
+		public final Input input;
+		public final String name;
+
+		public Keybind(String name, Axis axis){
+			this.axis = axis;
+			this.input = null;
+			this.name = name;
 		}
 
-		sec.put(type, key);
-	}
-
-	private static void putDefaults(String section, String name, DeviceType type, int key){
-		ObjectMap<DeviceType, Integer> sec = defaults.get(section).get(name);
-
-		if(sec == null){
-			sec = new ObjectMap<>();
-			defaults.get(section).put(name, sec);
+		public Keybind(String name, Input input){
+			this.axis = null;
+			this.input = input;
+			this.name = name;
 		}
 
-		sec.put(type, key);
-	}
-
-	//TODO
-	public static String toString(String section, int keycode){
-		if(!sectionDevices.containsKey(section))
-			throw new IllegalArgumentException("Section \"" + section + "\" not registered!");
-		
-		if(keycode == -2)
-			return "Unset";
-
-		InputDevice d = sectionDevices.get(section);
-
-		if(d.type == DeviceType.keyboard){
-			return Keys.toString(keycode);
-		}else{
-			try{
-				return (String)Inputs.invokeControl("io.anuke.ucontrol.Xkeys", "toString", keycode);
-			}catch (Throwable e){}
-			
-			return "nil";
+		public boolean isAxis(){
+			return axis != null;
 		}
 	}
 }

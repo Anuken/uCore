@@ -3,6 +3,7 @@ package io.anuke.ucore.scene.ui.layout;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
@@ -129,6 +130,11 @@ public class Cell<T extends Element> implements Poolable {
 		if(getElement() instanceof Button){
 			group.add((N)getElement());
 		}
+		return this;
+	}
+
+	public Cell<T> color(Color color){
+		getElement().setColor(color);
 		return this;
 	}
 
@@ -890,10 +896,6 @@ public class Cell<T extends Element> implements Poolable {
 	public Table getTable () {
 		return table;
 	}
-	
-	//public Element getActor(){
-	//	return actor;
-	//}
 
 	/** Sets all constraint fields to null. */
 	void clear () {
