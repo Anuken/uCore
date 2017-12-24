@@ -264,6 +264,23 @@ public class Table extends WidgetGroup {
 		for (int i = 0, n = actors.length; i < n; i++)
 			add(actors[i]);
 	}
+
+	public Cell<Table> table(Consumer<Table> cons){
+		Table table = new Table();
+		cons.accept(table);
+		return add(table);
+	}
+
+	public Cell<Table> table(String background, Consumer<Table> cons){
+		return table(background, Align.center, cons);
+	}
+
+	public Cell<Table> table(String background, int align, Consumer<Table> cons){
+		Table table = new Table(background);
+		table.align(align);
+		cons.accept(table);
+		return add(table);
+	}
 	
 	public Cell<Label> label (StringSupplier text) {
 		Cell<Label> cell = add(new Label(text));

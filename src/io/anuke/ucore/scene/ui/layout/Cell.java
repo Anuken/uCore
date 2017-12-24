@@ -138,6 +138,40 @@ public class Cell<T extends Element> implements Poolable {
 		return this;
 	}
 
+	public Cell<T> margin(float margin){
+		if(getElement() instanceof Table){
+			((Table)getElement()).margin(margin);
+		}
+		return this;
+	}
+
+	public Cell<T> marginTop(float margin){
+		if(getElement() instanceof Table){
+			((Table)getElement()).marginTop(margin);
+		}
+		return this;
+	}
+
+	public Cell<T> marginBottom(float margin){
+		if(getElement() instanceof Table){
+			((Table)getElement()).marginBottom(margin);
+		}
+		return this;
+	}
+
+	public Cell<T> marginLeft(float margin){
+		if(getElement() instanceof Table){
+			((Table)getElement()).marginLeft(margin);
+		}
+		return this;
+	}
+	public Cell<T> marginRight(float margin){
+		if(getElement() instanceof Table){
+			((Table)getElement()).marginRight(margin);
+		}
+		return this;
+	}
+
 	/** Sets the minWidth, prefWidth, maxWidth, minHeight, prefHeight, and maxHeight to the specified value. */
 	public Cell<T> size (float size) {
 		size(new Fixed(size));
@@ -656,13 +690,6 @@ public class Cell<T extends Element> implements Poolable {
 	public Cell<T> uniform (boolean x, boolean y) {
 		uniformX = x;
 		uniformY = y;
-		return this;
-	}
-
-	public Cell<T> margin(float margin){
-		if(getElement() instanceof Table){
-			((Table)getElement()).margin(margin);
-		}
 		return this;
 	}
 

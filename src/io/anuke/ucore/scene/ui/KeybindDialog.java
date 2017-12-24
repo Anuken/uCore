@@ -61,7 +61,7 @@ public class KeybindDialog extends Dialog{
 
 			public boolean buttonDown (Controller controller, int buttonIndex) {
 				if(canRebindController()){
-					rebind(Input.findByType(Type.controller, buttonIndex));
+					rebind(Input.findByType(Type.controller, buttonIndex, false));
 					return false;
 				}
 				return false;
@@ -69,7 +69,7 @@ public class KeybindDialog extends Dialog{
 
 			public boolean axisMoved (Controller controller, int axisIndex, float value) {
 				if(canRebindController() && rebindAxis){
-					rebind(Input.findByType(Type.controller, axisIndex));
+					rebind(Input.findByType(Type.controller, axisIndex, true));
 					return false;
 				}
 				return false;
@@ -254,14 +254,14 @@ public class KeybindDialog extends Dialog{
 			rebindDialog.addListener(new InputListener(){
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 					if(Gdx.app.getType() == ApplicationType.Android) return false;
-					rebind(Input.findByType(Type.mouse, button));
+					rebind(Input.findByType(Type.mouse, button, false));
 					return false;
 				}
 
 				public boolean keyDown (InputEvent event, int keycode) {
 					rebindDialog.hide();
 					if(keycode == Keys.ESCAPE) return false;
-					rebind(Input.findByType(Type.key, keycode));
+					rebind(Input.findByType(Type.key, keycode, false));
 					return false;
 				}
 
