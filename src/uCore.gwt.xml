@@ -5,4 +5,14 @@
 	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene" />
 	<extend-configuration-property name="gdx.reflect.include" value="java.lang.Class" />
 	<extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.function.DelayRun" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.actions" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.build" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.builder" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.button" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.checkbox" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.dialog" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.field" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.imaegbutton" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.label" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.table" />
 </module>

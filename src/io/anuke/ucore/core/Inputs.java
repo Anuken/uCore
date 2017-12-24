@@ -15,6 +15,7 @@ import io.anuke.ucore.util.Input;
 import io.anuke.ucore.util.Input.Type;
 
 public class Inputs{
+	private static boolean useControllers = true;
 	private static boolean[] buttons = new boolean[5];
 	private static IntSet keysReleased = new IntSet();
 	private static InputMultiplexer plex = new InputMultiplexer();
@@ -42,6 +43,15 @@ public class Inputs{
 		loadControllers();
 	}
 
+	public static void useControllers(boolean use){
+		useControllers = use;
+		if(!use) {
+            InputDevice keyboard = devices.get(0);
+            devices.clear();
+            devices.add(keyboard);
+        }
+	}
+
 	protected static void loadControllers(){
 		int i = 0;
 		for(Controller c : Controllers.getControllers()){
@@ -50,6 +60,7 @@ public class Inputs{
 
 		Controllers.addListener(new ControllerAdapter(){
 			public void connected(Controller controller){
+			    if(!useControllers) return;
 				InputDevice device = new InputDevice(DeviceType.controller, "Controller " + Controllers.getControllers().size, controller);
 				Inputs.getDevices().add(device);
 			}
