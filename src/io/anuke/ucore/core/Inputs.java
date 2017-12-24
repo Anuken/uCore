@@ -88,6 +88,10 @@ public class Inputs{
 		}
 		return null;
 	}
+
+	public static InputMultiplexer getProcessor(){
+		return plex;
+	}
 	
 	public static Array<InputDevice> getDevices(){
 		return devices;
@@ -105,6 +109,7 @@ public class Inputs{
 			for(int i = 0; i < device.pressed.length; i ++){
 				device.pressed[i] = false;
 				device.released[i] = false;
+				device.axes[i] = device.controller.getAxis(i);
 			}
 		}
 		keysReleased.clear();
@@ -161,6 +166,7 @@ public class Inputs{
 			return true;
 
 		if(input.type == Input.Type.controller){
+			if(input.axis) return device.controller.getAxis(input.code) > 0f;
 			return input.code >= 0 && device.controller.getButton(input.code);
 		}else if(input.type == Input.Type.key){
 			return Gdx.input.isKeyPressed(input.code);
@@ -181,6 +187,7 @@ public class Inputs{
 			return false;
 
 		if(input.type == Input.Type.controller){
+            if(input.axis) return device.controller.getAxis(input.code) > 0f && device.axes[input.code] < 0;
 			return input.code >= 0 && device.pressed[input.code];
 		}else if(input.type == Input.Type.key){
 			return Gdx.input.isKeyJustPressed(input.code);
@@ -278,6 +285,7 @@ public class Inputs{
 		public final Controller controller;
 		public final boolean[] pressed = new boolean[16];
 		public final boolean[] released = new boolean[16];
+		public final float[] axes = new float[16];
 		
 		public InputDevice(DeviceType type, String name){
 			this(type, name, null);

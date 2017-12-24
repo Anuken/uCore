@@ -32,14 +32,14 @@ import io.anuke.ucore.util.Input.Type;
 import io.anuke.ucore.util.Strings;
 
 public class KeybindDialog extends Dialog{
-	private KeybindDialogStyle style;
+	protected KeybindDialogStyle style;
 
-	private KeyBinds.Section section;
-	private String rebindKey = null;
-	private boolean rebindAxis = false;
-	private boolean rebindMin = true;
-	private Dialog rebindDialog;
-	private ObjectIntMap<KeyBinds.Section> sectionControls = new ObjectIntMap<>();
+	protected KeyBinds.Section section;
+	protected String rebindKey = null;
+	protected boolean rebindAxis = false;
+	protected boolean rebindMin = true;
+	protected Dialog rebindDialog;
+	protected ObjectIntMap<KeyBinds.Section> sectionControls = new ObjectIntMap<>();
 
 	public KeybindDialog() {
 		super("Rebind Keys");
@@ -95,7 +95,7 @@ public class KeybindDialog extends Dialog{
 
 		for(KeyBinds.Section section : sections){
 			if(!sectionControls.containsKey(section))
-				sectionControls.put(section, 0);
+				sectionControls.put(section, Inputs.getDevices().indexOf(section.device, true));
 
 			if(sections.size != 1){
 				TextButton button = new TextButton(Strings.capitalize(section.name), "toggle");
@@ -125,6 +125,7 @@ public class KeybindDialog extends Dialog{
 				if(i - 1 >= 0){
 					sectionControls.put(section, i - 1);
 					section.device = devices.get(i - 1);
+					KeyBinds.save();
 					setup();
 				}
 			}).disabled(sectionControls.get(section, 0) - 1 < 0).size(40);
@@ -139,6 +140,7 @@ public class KeybindDialog extends Dialog{
 				if(i + 1 < devices.size){
 					sectionControls.put(section, i + 1);
 					section.device = devices.get(i + 1);
+					KeyBinds.save();
 					setup();
 				}
 			}).disabled(sectionControls.get(section, 0) + 1 >= devices.size).size(40);

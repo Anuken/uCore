@@ -8,6 +8,7 @@ import io.anuke.ucore.core.Inputs.Axis;
 import io.anuke.ucore.core.Inputs.DeviceType;
 import io.anuke.ucore.core.Inputs.InputDevice;
 import io.anuke.ucore.util.Input;
+import io.anuke.ucore.util.Mathf;
 
 public class KeyBinds{
 	private static OrderedMap<String, Section> map = new OrderedMap<>();
@@ -76,7 +77,9 @@ public class KeyBinds{
 					Settings.putInt(text + "-max", axis.max.ordinal());
 				}
 			}
+			Settings.putInt(sec.name + "-last-device-type", Inputs.getDevices().indexOf(map.get("default").device, true));
 		}
+
 		Settings.save();
 	}
 
@@ -106,6 +109,7 @@ public class KeyBinds{
 					axis.max = max;
 				}
             }
+            sec.device = Inputs.getDevices().get(Mathf.clamp(Settings.getIntKey(sec.name + "-last-device-type", 0), 0, Inputs.getDevices().size-1));
 		}
 	}
 

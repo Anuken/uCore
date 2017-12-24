@@ -7,6 +7,7 @@ import io.anuke.ucore.core.Musics;
 import io.anuke.ucore.core.Settings;
 import io.anuke.ucore.core.Sounds;
 import io.anuke.ucore.function.Consumer;
+import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.function.StringProcessor;
 import io.anuke.ucore.scene.ui.layout.Table;
 
@@ -32,8 +33,14 @@ public class SettingsDialog extends Dialog{
 
 	public static class SettingsTable extends Table{
 		protected Array<Setting> list = new Array<>();
+		protected Consumer<SettingsTable> rebuilt;
 
 		public SettingsTable(){
+			left();
+		}
+
+		public SettingsTable(Consumer<SettingsTable>  rebuilt){
+			this.rebuilt = rebuilt;
 			left();
 		}
 
@@ -84,6 +91,16 @@ public class SettingsDialog extends Dialog{
 			for (Setting setting : list) {
 				setting.add(this);
 			}
+
+			addButton("Reset to Defaults", ()->{
+				for(SettingsTable.Setting setting : list){
+					Settings.put(setting.name, Settings.getDefault(setting.name));
+					Settings.save();
+				}
+				rebuild();
+			}).margin(16).pad(6).left();
+
+			if(rebuilt != null) rebuilt.accept(this);
 		}
 
 		public abstract class Setting {

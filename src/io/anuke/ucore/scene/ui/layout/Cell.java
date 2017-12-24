@@ -659,6 +659,13 @@ public class Cell<T extends Element> implements Poolable {
 		return this;
 	}
 
+	public Cell<T> margin(float margin){
+		if(getElement() instanceof Table){
+			((Table)getElement()).margin(margin);
+		}
+		return this;
+	}
+
 	public void setActorBounds (float x, float y, float width, float height) {
 		actorX = x;
 		actorY = y;
