@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.IntSet;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import io.anuke.ucore.UCore;
+import io.anuke.ucore.core.KeyBinds.Section;
 import io.anuke.ucore.scene.ui.KeybindDialog;
 import io.anuke.ucore.util.Input;
 import io.anuke.ucore.util.Input.Type;
@@ -59,11 +60,27 @@ public class Inputs{
 		}
 
 		Controllers.addListener(new ControllerAdapter(){
+			@Override
 			public void connected(Controller controller){
 			    if(!useControllers) return;
 				InputDevice device = new InputDevice(DeviceType.controller, "Controller " + Controllers.getControllers().size, controller);
 				Inputs.getDevices().add(device);
 			}
+
+            @Override
+            public void disconnected(Controller controller){
+                for(InputDevice d : Inputs.getDevices()){
+                    if(d.controller == controller){
+                        Inputs.getDevices().removeValue(d, true);
+                        for(Section s : KeyBinds.getSections()){
+                            if(s.device == d){
+                                s.device = devices.get(0);
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
 
 			@Override
 			public boolean buttonDown(Controller controller, int buttonCode) {
@@ -79,15 +96,6 @@ public class Inputs{
 				if(device == null) return false;
 				device.released[buttonCode] = true;
 				return false;
-			}
-
-			public void disconnected(Controller controller){
-				for(InputDevice d : Inputs.getDevices()){
-					if(d.controller == controller){
-						Inputs.getDevices().removeValue(d, true);
-						break;
-					}
-				}
 			}
 		});
 	}

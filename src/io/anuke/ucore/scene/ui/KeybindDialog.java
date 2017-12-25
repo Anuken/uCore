@@ -97,6 +97,11 @@ public class KeybindDialog extends Dialog{
 			if(!sectionControls.containsKey(section))
 				sectionControls.put(section, Inputs.getDevices().indexOf(section.device, true));
 
+			if(sectionControls.get(section, 0) >= Inputs.getDevices().size){
+				sectionControls.put(section, 0);
+				section.device = Inputs.getDevices().get(0);
+			}
+
 			if(sections.size != 1){
 				TextButton button = new TextButton(Strings.capitalize(section.name), "toggle");
 				if(section.equals(this.section))
