@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 
+import io.anuke.ucore.function.Callable;
 import io.anuke.ucore.scene.Action;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.EventListener;
@@ -34,6 +35,12 @@ public class Actions {
 		Pool<T> pool = Pools.get(type);
 		T action = pool.obtain();
 		action.setPool(pool);
+		return action;
+	}
+
+	static public CallAction call(Callable call){
+		CallAction action = action(CallAction.class);
+		action.call = call;
 		return action;
 	}
 
@@ -109,6 +116,22 @@ public class Actions {
 
 	static public MoveByAction moveBy (float amountX, float amountY, float duration) {
 		return moveBy(amountX, amountY, duration, null);
+	}
+
+	static public TranslateByAction translateBy (float amountX, float amountY, float duration, Interpolation interpolation) {
+		TranslateByAction action = action(TranslateByAction.class);
+		action.setAmount(amountX, amountY);
+		action.setDuration(duration);
+		action.setInterpolation(interpolation);
+		return action;
+	}
+
+	static public TranslateByAction translateBy (float amountX, float amountY) {
+		return translateBy(amountX, amountY, 0, null);
+	}
+
+	static public TranslateByAction translateBy (float amountX, float amountY, float duration) {
+		return translateBy(amountX, amountY, duration, null);
 	}
 
 	static public MoveByAction moveBy (float amountX, float amountY, float duration, Interpolation interpolation) {

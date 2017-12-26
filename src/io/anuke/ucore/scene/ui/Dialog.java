@@ -43,7 +43,7 @@ public class Dialog extends Window {
 	public static float closePadT, closePadR;
 	
 	private static ActionProvider 
-	defaultShowAction = ()-> sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)), 
+	defaultShowAction = ()-> Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)),
 	defaultHideAction = ()-> Actions.fadeOut(0.4f, Interpolation.fade);
 	
 	Table contentTable, buttonTable;
@@ -241,7 +241,7 @@ public class Dialog extends Window {
 		}
 		if (action != null) {
 			addCaptureListener(ignoreTouchDown);
-			addAction(sequence(action, Actions.removeListener(ignoreTouchDown, true), Actions.removeActor()));
+			addAction(Actions.sequence(action, Actions.removeListener(ignoreTouchDown, true), Actions.removeActor()));
 		} else
 			remove();
 	}

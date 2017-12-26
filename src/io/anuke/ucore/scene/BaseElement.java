@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
+import io.anuke.ucore.scene.actions.Actions;
 import io.anuke.ucore.scene.event.*;
 import io.anuke.ucore.scene.event.InputEvent.Type;
 import io.anuke.ucore.scene.utils.ClickListener;
@@ -238,6 +239,10 @@ class BaseElement implements Layout{
 		actions.add(action);
 
 		if (stage != null && stage.getActionsRequestRendering()) Gdx.graphics.requestRendering();
+	}
+
+	public void actions(Action... actions){
+		addAction(Actions.sequence(actions));
 	}
 
 	public void removeAction (Action action) {

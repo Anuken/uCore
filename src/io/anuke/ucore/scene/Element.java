@@ -6,10 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.function.KeyListenable;
 import io.anuke.ucore.function.Listenable;
+import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.event.EventListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
+import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.utils.ChangeListener;
 import io.anuke.ucore.scene.utils.ClickListener;
 
@@ -19,8 +21,10 @@ public class Element extends BaseElement{
 	private static final Vector2 vec = new Vector2();
 	
 	protected float alpha = 1f;
+	protected Vector2 translation = new Vector2(0, 0);
 	private VisibilityProvider visibility;
 	private Listenable update;
+	private Supplier<Touchable> touchableSupplier = null;
 	
 	@Override
 	public void draw (Batch batch, float parentAlpha) {
@@ -48,12 +52,23 @@ public class Element extends BaseElement{
 		super.act(delta);
 		if(visibility != null)
 			setVisible(visibility.visible());
+		if(touchableSupplier != null)
+			setTouchable(touchableSupplier.get());
 		if(update != null)
 			update.listen();
 	}
 	
 	public Vector2 worldPos(){
 		return localToStageCoordinates(vec.set(0, 0));
+	}
+
+	public void setTranslation(float x, float y){
+		translation.x = x;
+		translation.y = y;
+	}
+
+	public Vector2 getTranslation(){
+		return translation;
 	}
 	
 	public void keyDown(int key, Listenable l){
@@ -138,5 +153,9 @@ public class Element extends BaseElement{
 	
 	public void setVisible(VisibilityProvider vis){
 		visibility = vis;
+	}
+
+	public void setTouchable(Supplier<Touchable> touch){
+		this.touchableSupplier = touch;
 	}
 }

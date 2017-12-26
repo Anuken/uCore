@@ -3,6 +3,7 @@ package io.anuke.ucore.scene.builders;
 import com.badlogic.gdx.utils.Align;
 
 import io.anuke.ucore.function.Consumer;
+import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.Touchable;
@@ -58,6 +59,11 @@ public abstract class builder<T extends builder, N extends Element>{
 	}
 	
 	public T touchable(Touchable t){
+		element.setTouchable(t);
+		return (T)this;
+	}
+
+	public T touchable(Supplier<Touchable> t){
 		element.setTouchable(t);
 		return (T)this;
 	}

@@ -24,9 +24,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
 
+import io.anuke.ucore.UCore;
 import io.anuke.ucore.function.StringSupplier;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.util.Bundles;
+
 /** A text label, with optional word wrapping.
  * <p>
  * The preferred size of the label is determined by the actual text bounds, unless {@link #setWrap(boolean) word wrap} is enabled.
@@ -77,7 +80,7 @@ public class Label extends Element {
 	}
 
 	public Label (CharSequence text, LabelStyle style) {
-		if (text != null) this.text.append(text);
+		if (text != null) setText(text);
 		setStyle(style);
 		if (text != null && text.length() > 0) setSize(getPrefWidth(), getPrefHeight());
 	}
@@ -98,6 +101,15 @@ public class Label extends Element {
 
 	/** @param newText May be null, "" will be used. */
 	public void setText (CharSequence newText) {
+		if(Bundles.enabled() && newText != null && newText.length() > 0 && newText.charAt(0) == '$'){
+			String out = newText.toString().substring(1);
+			setTextInternal(Bundles.get(out, out));
+		}else{
+			setTextInternal(newText);
+		}
+	}
+
+	private void setTextInternal(CharSequence newText){
 		if (newText == null) newText = "";
 		if (newText instanceof StringBuilder) {
 			if (text.equals(newText)) return;

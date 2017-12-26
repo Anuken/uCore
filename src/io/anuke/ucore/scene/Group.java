@@ -79,8 +79,12 @@ public class Group extends Element implements Cullable {
 					child.alpha = parentAlpha;
 					if (!child.isVisible()) continue;
 					float cx = child.x, cy = child.y;
+					child.x += child.translation.x;
+					child.y += child.translation.y;
 					if (cx <= cullRight && cy <= cullTop && cx + child.width >= cullLeft && cy + child.height >= cullBottom)
 						child.draw(batch, parentAlpha);
+					child.x -= child.translation.x;
+					child.y -= child.translation.y;
 				}
 			} else {
 				// No transform for this group, offset each child.
@@ -93,8 +97,8 @@ public class Group extends Element implements Cullable {
 					if (!child.isVisible()) continue;
 					float cx = child.x, cy = child.y;
 					if (cx <= cullRight && cy <= cullTop && cx + child.width >= cullLeft && cy + child.height >= cullBottom) {
-						child.x = cx + offsetX;
-						child.y = cy + offsetY;
+						child.x = cx + offsetX + child.getTranslation().x;
+						child.y = cy + offsetY + child.getTranslation().y;
 						child.draw(batch, parentAlpha);
 						child.x = cx;
 						child.y = cy;
@@ -110,7 +114,11 @@ public class Group extends Element implements Cullable {
 					Element child = actors[i];
 					child.alpha = parentAlpha;
 					if (!child.isVisible()) continue;
+					child.x += child.translation.x;
+					child.y += child.translation.y;
 					child.draw(batch, parentAlpha);
+					child.x -= child.translation.x;
+					child.y -= child.translation.y;
 				}
 			} else {
 				// No transform for this group, offset each child.
@@ -122,8 +130,8 @@ public class Group extends Element implements Cullable {
 					child.alpha = parentAlpha;
 					if (!child.isVisible()) continue;
 					float cx = child.x, cy = child.y;
-					child.x = cx + offsetX;
-					child.y = cy + offsetY;
+					child.x = cx + offsetX + child.getTranslation().x;
+					child.y = cy + offsetY + child.getTranslation().y;
 					child.draw(batch, parentAlpha);
 					child.x = cx;
 					child.y = cy;

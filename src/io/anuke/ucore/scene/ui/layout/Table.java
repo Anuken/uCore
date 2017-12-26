@@ -294,6 +294,13 @@ public class Table extends WidgetGroup {
 		return cell;
 	}
 
+	public Cell<Label> labelWrap (String text) {
+		Label label = new Label(text);
+		label.setWrap(true);
+		Cell<Label> cell = add(label);
+		return cell;
+	}
+
 	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
 	public Cell<Label> add (CharSequence text) {
 		if (skin == null) throw new IllegalStateException("Table must have a skin set to use this method.");

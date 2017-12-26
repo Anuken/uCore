@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.graphics.Atlas;
@@ -18,7 +19,8 @@ public class Core{
 	public static Atlas atlas;
 	public static BitmapFont font;
 	public static int cameraScale = 1;
-	
+
+	public static I18NBundle bundle;
 	public static Scene scene;
 	public static Skin skin;
 	

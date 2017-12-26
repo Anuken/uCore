@@ -10,6 +10,7 @@ import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.function.StringProcessor;
 import io.anuke.ucore.scene.ui.layout.Table;
+import io.anuke.ucore.util.Bundles;
 
 public class SettingsDialog extends Dialog{
 	public SettingsTable main;
@@ -44,6 +45,10 @@ public class SettingsDialog extends Dialog{
 			left();
 		}
 
+		public Array<Setting> getSettings() {
+			return list;
+		}
+
 		public void screenshakePref() {
 			sliderPref("screenshake", "Screen Shake", 4, 0, 8, i -> (i / 4f) + "x");
 		}
@@ -73,6 +78,16 @@ public class SettingsDialog extends Dialog{
 			rebuild();
 		}
 
+		public void sliderPref(String name, int def, int min, int max, StringProcessor s) {
+			sliderPref(name, def, min, max, 1, s);
+		}
+
+		public void sliderPref(String name, int def, int min, int max, int step, StringProcessor s) {
+			list.add(new SliderSetting(name, Bundles.get("setting."+name+".name"), def, min, max, step, s));
+			Settings.defaults(name, def);
+			rebuild();
+		}
+
 		public void checkPref(String name, String title, boolean def) {
 			list.add(new CheckSetting(name, title, def, null));
 			Settings.defaults(name, def);
@@ -81,6 +96,20 @@ public class SettingsDialog extends Dialog{
 
 		public void checkPref(String name, String title, boolean def, Consumer<Boolean> changed) {
 			list.add(new CheckSetting(name, title, def, changed));
+			Settings.defaults(name, def);
+			rebuild();
+		}
+
+		/**Localized title.*/
+		public void checkPref(String name, boolean def) {
+			list.add(new CheckSetting(name, Bundles.get("setting."+name+".name"), def, null));
+			Settings.defaults(name, def);
+			rebuild();
+		}
+
+		/**Localized title.*/
+		public void checkPref(String name, boolean def, Consumer<Boolean> changed) {
+			list.add(new CheckSetting(name, Bundles.get("setting."+name+".name"), def, changed));
 			Settings.defaults(name, def);
 			rebuild();
 		}
@@ -104,13 +133,13 @@ public class SettingsDialog extends Dialog{
 		}
 
 		public abstract class Setting {
-			String name;
+			public String name;
+			public String title;
 
 			abstract void add(SettingsTable table);
 		}
 
 		public class CheckSetting extends Setting {
-			String title;
 			boolean def;
 			Consumer<Boolean> changed;
 
@@ -143,7 +172,6 @@ public class SettingsDialog extends Dialog{
 		}
 
 		public class SliderSetting extends Setting {
-			String title;
 			int def;
 			int min;
 			int max;
