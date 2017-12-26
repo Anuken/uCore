@@ -14,7 +14,7 @@ import io.anuke.ucore.scene.Skin;
 
 public class Core{
 	public static OrthographicCamera camera = new OrthographicCamera();
-	public static Batch batch = new SpriteBatch();
+	public static Batch batch = new SpriteBatch(2048);
 	public static Atlas atlas;
 	public static BitmapFont font;
 	public static int cameraScale = 1;

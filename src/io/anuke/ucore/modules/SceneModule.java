@@ -3,6 +3,7 @@ package io.anuke.ucore.modules;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
 import io.anuke.ucore.core.Core;
@@ -21,6 +22,7 @@ public class SceneModule extends Module{
 	public Skin skin;
 	
 	public SceneModule(){
+		if(Core.batch == null) Core.batch = new SpriteBatch();
 		scene = new Scene(Core.batch);
 		Inputs.addProcessor(scene);
 		

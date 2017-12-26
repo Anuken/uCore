@@ -19,7 +19,7 @@ public abstract class Shader{
 		
 		if(!shader.isCompiled()){
 			if(useFallback){
-				Gdx.app.error("Shaders", "Failed to load shaders\"" + frag + "\" and \"" + vert + "\", using fallback.");
+				Gdx.app.error("Shaders", "Failed to load shaders\"" + frag + "\" and \"" + vert + "\", using fallback: " + shader.getLog());
 				isFallback = true;
 				shader = SpriteBatch.createDefaultShader();
 			}else{
