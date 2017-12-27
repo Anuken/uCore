@@ -25,6 +25,10 @@ public class Bundles {
         return Core.bundle.get(name);
     }
 
+    public static String getOrNull(String name){
+        return has(name) ? get(name) : null;
+    }
+
     public static String getNotNull(String name){
         String s = get(name);
         if(s.contains("???")){

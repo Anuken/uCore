@@ -16,14 +16,14 @@ public class SettingsDialog extends Dialog{
 	public SettingsTable main;
 
 	public SettingsDialog() {
-		super("Settings");
+		super(Bundles.get("text.settings", "Settings"));
 		addCloseButton();
 
 		main = new SettingsTable();
 
 		content().add(main);
 		content().row();
-		content().addButton("Reset to Defaults", ()->{
+		content().addButton(Bundles.get("text.settings.reset", "Reset to Defaults"), ()->{
 			for(SettingsTable.Setting setting : main.list){
 				Settings.put(setting.name, Settings.getDefault(setting.name));
 				Settings.save();
@@ -50,19 +50,19 @@ public class SettingsDialog extends Dialog{
 		}
 
 		public void screenshakePref() {
-			sliderPref("screenshake", "Screen Shake", 4, 0, 8, i -> (i / 4f) + "x");
+			sliderPref("screenshake", Bundles.get("setting.screenshake.name", "Screen Shake"), 4, 0, 8, i -> (i / 4f) + "x");
 		}
 
 		public void volumePrefs() {
 
-			sliderPref("musicvol", "Music Volume", 10, 0, 10, 1, i -> {
+			sliderPref("musicvol", Bundles.get("setting.musicvol.name", "Music Volume"), 10, 0, 10, 1, i -> {
 				Musics.updateVolume();
 				return (int) (i * 10) + "%";
 			});
-			checkPref("mutemusic", "Mute Music", false, Musics::setMuted);
+			checkPref("mutemusic", Bundles.get("setting.mutemusic.name", "Music Music"), false, Musics::setMuted);
 
-			sliderPref("sfxvol", "SFX Volume", 10, 0, 10, 1, i -> (int) (i * 10) + "%");
-			checkPref("mutesound", "Mute Sound", false, Sounds::setMuted);
+			sliderPref("sfxvol", Bundles.get("setting.sfxvol.name", "SFX Volume"), 10, 0, 10, 1, i -> (int) (i * 10) + "%");
+			checkPref("mutesound", Bundles.get("setting.mutesound.name", "Mute Sound"), false, Sounds::setMuted);
 
 			Musics.setMuted(Settings.getBool("mutemusic"));
 			Sounds.setMuted(Settings.getBool("mutesound"));
@@ -121,7 +121,7 @@ public class SettingsDialog extends Dialog{
 				setting.add(this);
 			}
 
-			addButton("Reset to Defaults", ()->{
+			addButton(Bundles.get("text.settings.reset", "Reset to Defaults"), ()->{
 				for(SettingsTable.Setting setting : list){
 					Settings.put(setting.name, Settings.getDefault(setting.name));
 					Settings.save();
