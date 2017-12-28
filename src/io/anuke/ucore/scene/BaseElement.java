@@ -186,7 +186,8 @@ class BaseElement implements Layout{
 	 * @see Touchable */
 	public Element hit (float x, float y, boolean touchable) {
 		if (touchable && this.touchable != Touchable.enabled) return null;
-		return x >= 0 && x < width && y >= 0 && y < height ? elem() : null;
+		Element e = elem();
+		return x >= e.translation.x && x < width + e.translation.x && y >= e.translation.y && y < height + e.translation.y ? elem() : null;
 	}
 
 	/** Removes this actor from its parent, if it has a parent.

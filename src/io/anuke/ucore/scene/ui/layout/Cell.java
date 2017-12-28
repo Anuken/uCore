@@ -13,6 +13,8 @@ import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.ui.Button;
 import io.anuke.ucore.scene.ui.ButtonGroup;
+import io.anuke.ucore.scene.ui.Label;
+import io.anuke.ucore.scene.ui.TextButton;
 import io.anuke.ucore.scene.ui.layout.Value.Fixed;
 import io.anuke.ucore.scene.utils.Disableable;
 
@@ -122,6 +124,20 @@ public class Cell<T extends Element> implements Poolable {
 	public Cell<T> disabled(boolean disabled){
 		if(getElement() instanceof Button){
 			((Button)getElement()).setDisabled(disabled);
+		}
+		return this;
+	}
+
+	public Cell<T> visible(VisibilityProvider prov){
+		getElement().setVisible(prov);
+		return this;
+	}
+
+	public Cell<T> wrap(){
+		if(getElement() instanceof Label){
+			((Label)getElement()).setWrap(true);
+		}else if(getElement() instanceof TextButton){
+			((TextButton)getElement()).getLabel().setWrap(true);
 		}
 		return this;
 	}

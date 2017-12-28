@@ -283,22 +283,19 @@ public class Table extends WidgetGroup {
 	}
 	
 	public Cell<Label> label (StringSupplier text) {
-		Cell<Label> cell = add(new Label(text));
-		return cell;
+		return add(new Label(text));
 	}
 	
 	public Cell<Label> labelWrap (StringSupplier text) {
 		Label label = new Label(text);
 		label.setWrap(true);
-		Cell<Label> cell = add(label);
-		return cell;
+		return add(label);
 	}
 
 	public Cell<Label> labelWrap (String text) {
 		Label label = new Label(text);
 		label.setWrap(true);
-		Cell<Label> cell = add(label);
-		return cell;
+		return add(label);
 	}
 
 	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
