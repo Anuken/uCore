@@ -24,18 +24,24 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
 
+import io.anuke.ucore.UCore;
+import io.anuke.ucore.core.Core;
+import io.anuke.ucore.core.Graphics;
 import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.Group;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.ui.layout.Table;
-import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
-import io.anuke.ucore.scene.utils.ClickListener;
+import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
+import io.anuke.ucore.scene.event.ClickListener;
 import io.anuke.ucore.scene.utils.Disableable;
-import io.anuke.ucore.scene.utils.HandCursorListener;
+import io.anuke.ucore.scene.event.HandCursorListener;
+import io.anuke.ucore.util.Tmp;
+
 /** A button is a {@link Table} with a checked state and additional {@link ButtonStyle style} fields for pressed, unpressed, and
  * checked. Each time a button is clicked, the checked state is toggled. Being a table, a button can contain any other actors.<br>
  * <br>
@@ -171,6 +177,19 @@ public class Button extends Table implements Disableable {
 	public void setDisabled (VisibilityProvider prov) {
 		this.disabledProvider = prov;
 	}
+
+	public boolean childrenPressed(){
+	    boolean[] b = {false};
+
+	    forEach(element -> {
+			element.stageToLocalCoordinates(Tmp.v1.set(Graphics.mouse().x, Graphics.mouse().y));
+	        if(element instanceof Button && (((Button)element).getClickListener().isOver(element, Tmp.v1.x, Tmp.v1.y))){
+	            b[0] = true;
+	        }
+	    });
+
+        return b[0];
+    }
 
 	/** If false, {@link #setChecked(boolean)} and {@link #toggle()} will not fire {@link ChangeEvent}, event will be fired only
 	 * when user clicked the button */

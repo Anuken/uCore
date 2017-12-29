@@ -26,6 +26,7 @@ import com.badlogic.gdx.math.*;
 
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
+import io.anuke.ucore.scene.event.ActorGestureListener;
 import io.anuke.ucore.scene.event.Event;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
@@ -52,7 +53,7 @@ public class ScrollPane extends WidgetGroup {
 	private final Rectangle widgetAreaBounds = new Rectangle();
 	private final Rectangle widgetCullingArea = new Rectangle();
 	private final Rectangle scissorBounds = new Rectangle();
-	private ActorGestureListener flickScrollListener;
+	private io.anuke.ucore.scene.event.ActorGestureListener flickScrollListener;
 
 	boolean scrollX, scrollY;
 	boolean vScrollOnRight = true;

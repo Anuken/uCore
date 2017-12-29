@@ -12,8 +12,9 @@ import io.anuke.ucore.scene.event.EventListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.event.Touchable;
-import io.anuke.ucore.scene.utils.ChangeListener;
-import io.anuke.ucore.scene.utils.ClickListener;
+import io.anuke.ucore.scene.event.ChangeListener;
+import io.anuke.ucore.scene.event.ClickListener;
+import io.anuke.ucore.scene.utils.Disableable;
 
 /**Extends the BaseElement (Actor) class to provide more functionality.
  * (this is probably a terrible idea)*/
@@ -100,10 +101,11 @@ public class Element extends BaseElement{
 	/**Adds a click listener.*/
 	public ClickListener clicked(Listenable r){
 		ClickListener click;
+		Element elem = this;
 		addListener(click = new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
-				if(r != null) r.listen();
+				if(r != null && !(elem instanceof Disableable && ((Disableable)elem).isDisabled())) r.listen();
 			}
 		});
 		return click;
@@ -139,10 +141,11 @@ public class Element extends BaseElement{
 	
 	/**Adds a click listener.*/
 	public void changed(Listenable r){
+		Element elem = this;
 		addListener(new ChangeListener(){
 			@Override
 			public void changed(ChangeEvent event, Element actor){
-				r.listen();
+				if(!(elem instanceof Disableable && ((Disableable)elem).isDisabled()))r.listen();
 			}
 		});
 	}

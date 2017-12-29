@@ -405,7 +405,7 @@ public class Table extends WidgetGroup {
 		return add(button);
 	}
 	
-	public Cell<ImageButton> addIButton(String style, String icon, float isize, Listenable listener){
+	public Cell<ImageButton> addIButton(String icon, String style, float isize, Listenable listener){
 		ImageButton button = new ImageButton(icon, style);
 		button.clicked(listener);
 		button.resizeImage(isize);
@@ -434,6 +434,14 @@ public class Table extends WidgetGroup {
 	
 	public Cell<TextButton> addImageTextButton(String text, String image, float imagesize, Listenable clicked){
 		TextButton button = new TextButton(text);
+		button.add(new Image(image)).size(imagesize);
+		button.getCells().reverse();
+		button.clicked(clicked);
+		return add(button);
+	}
+
+	public Cell<TextButton> addImageTextButton(String text, String image, String style, float imagesize, Listenable clicked){
+		TextButton button = new TextButton(text, style);
 		button.add(new Image(image)).size(imagesize);
 		button.getCells().reverse();
 		button.clicked(clicked);

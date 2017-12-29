@@ -38,7 +38,7 @@ import io.anuke.ucore.scene.event.*;
 import io.anuke.ucore.scene.event.InputEvent.Type;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.ui.layout.Table.Debug;
-import io.anuke.ucore.scene.utils.FocusListener.FocusEvent;
+import io.anuke.ucore.scene.event.FocusListener.FocusEvent;
 import io.anuke.ucore.scene.utils.ScissorStack;
 
 /** A 2D scene graph containing hierarchies of {@link Element actors}. Stage handles the viewport and distributes input events.

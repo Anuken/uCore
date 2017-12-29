@@ -18,6 +18,7 @@ package io.anuke.ucore.scene.ui;
 
 import static io.anuke.ucore.core.Core.skin;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Scaling;
@@ -119,7 +120,18 @@ public class ImageButton extends Button {
 			drawable = style.imageOver;
 		else if (style.imageUp != null) //
 			drawable = style.imageUp;
+
+		Color color = image.getColor();
+
+		if(isPressed() && style.imageDownColor != null)
+			color = style.imageDownColor;
+		else if(isChecked() && style.imageCheckedColor != null)
+			color = style.imageCheckedColor;
+		else if(style.imageUpColor != null)
+			color = style.imageUpColor;
+
 		image.setDrawable(drawable);
+		image.setColor(color);
 	}
 
 	public void draw (Batch batch, float parentAlpha) {
@@ -144,6 +156,7 @@ public class ImageButton extends Button {
 	static public class ImageButtonStyle extends ButtonStyle {
 		/** Optional. */
 		public Drawable imageUp, imageDown, imageOver, imageChecked, imageCheckedOver, imageDisabled;
+		public Color imageUpColor, imageCheckedColor, imageDownColor;
 
 		public ImageButtonStyle () {
 		}
@@ -164,6 +177,9 @@ public class ImageButton extends Button {
 			this.imageChecked = style.imageChecked;
 			this.imageCheckedOver = style.imageCheckedOver;
 			this.imageDisabled = style.imageDisabled;
+			this.imageUpColor = style.imageUpColor;
+			this.imageDownColor = style.imageDownColor;
+			this.imageCheckedColor = style.imageCheckedColor;
 		}
 
 		public ImageButtonStyle (ButtonStyle style) {

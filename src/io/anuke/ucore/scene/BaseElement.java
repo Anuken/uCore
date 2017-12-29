@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import io.anuke.ucore.scene.actions.Actions;
 import io.anuke.ucore.scene.event.*;
 import io.anuke.ucore.scene.event.InputEvent.Type;
-import io.anuke.ucore.scene.utils.ClickListener;
+import io.anuke.ucore.scene.event.ClickListener;
 import io.anuke.ucore.scene.utils.Layout;
 import io.anuke.ucore.scene.utils.ScissorStack;
 

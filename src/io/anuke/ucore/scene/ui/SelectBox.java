@@ -35,8 +35,8 @@ import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.ui.List.ListStyle;
 import io.anuke.ucore.scene.ui.ScrollPane.ScrollPaneStyle;
 import io.anuke.ucore.scene.utils.ArraySelection;
-import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
-import io.anuke.ucore.scene.utils.ClickListener;
+import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
+import io.anuke.ucore.scene.event.ClickListener;
 import io.anuke.ucore.scene.utils.Disableable;
 
 /** A select box (aka a drop-down list) allows a user to choose one of a number of values from a list. When inactive, the selected

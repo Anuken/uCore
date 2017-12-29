@@ -38,11 +38,12 @@ import io.anuke.ucore.function.TypingListenable;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Group;
 import io.anuke.ucore.scene.Scene;
+import io.anuke.ucore.scene.event.IbeamCursorListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.utils.*;
-import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
+import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
 /** A single-line text input field.
  * <p>
  * The preferred height of a text field is the height of the {@link TextFieldStyle#font} and {@link TextFieldStyle#background}.
@@ -822,7 +823,7 @@ public class TextField extends Element implements Disableable {
 	}
 
 	/** Basic input listener for the text field */
-	public class TextFieldClickListener extends ClickListener {
+	public class TextFieldClickListener extends io.anuke.ucore.scene.event.ClickListener {
 		public void clicked (InputEvent event, float x, float y) {
 			int count = getTapCount() % 4;
 			if (count == 0) clearSelection();

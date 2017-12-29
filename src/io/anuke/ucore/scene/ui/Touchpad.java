@@ -27,7 +27,7 @@ import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
+import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
 
 /** An on-screen joystick. The movement area of the joystick is circular, centered on the touchpad, and its size determined by the
  * smaller touchpad dimension.

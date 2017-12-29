@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Predicate;
 import com.badlogic.gdx.utils.SnapshotArray;
 
+import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.utils.Cullable;
 
@@ -265,6 +266,15 @@ public class Group extends Element implements Cullable {
 
 	/** Called when actors are added to or removed from the group. */
 	protected void childrenChanged () {
+	}
+
+	public void forEach(Consumer<Element> cons){
+		for(Element e : getChildren()){
+			cons.accept(e);
+			if(e instanceof Group){
+				((Group)e).forEach(cons);
+			}
+		}
 	}
 
 	/** Adds an actor as a child of this group, removing it from its previous parent. If the actor is already a child of this

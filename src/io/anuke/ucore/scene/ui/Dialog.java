@@ -35,7 +35,7 @@ import io.anuke.ucore.scene.event.VisibilityListener;
 import io.anuke.ucore.scene.ui.ImageButton.ImageButtonStyle;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.ui.layout.Unit;
-import io.anuke.ucore.scene.utils.FocusListener;
+import io.anuke.ucore.scene.event.FocusListener;
 /** Displays a dialog, which is a modal window containing a content table with a button table underneath it.
  * @author Nathan Sweet */ 
 public class Dialog extends Window {

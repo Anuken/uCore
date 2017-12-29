@@ -20,6 +20,7 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.ucore.scene.*;
+import io.anuke.ucore.scene.event.DragListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.ui.ScrollPane;
@@ -38,7 +39,7 @@ public class DragAndDrop {
 	Target target;
 	boolean isValidTarget;
 	Array<Target> targets = new Array();
-	ObjectMap<Source, DragListener> sourceListeners = new ObjectMap();
+	ObjectMap<Source, io.anuke.ucore.scene.event.DragListener> sourceListeners = new ObjectMap();
 	private float tapSquareSize = 8;
 	private int button;
 	float dragActorX = 0, dragActorY = 0;
@@ -50,7 +51,7 @@ public class DragAndDrop {
 	boolean keepWithinStage = true;
 
 	public void addSource (final Source source) {
-		DragListener listener = new DragListener() {
+		io.anuke.ucore.scene.event.DragListener listener = new io.anuke.ucore.scene.event.DragListener() {
 			public void dragStart (InputEvent event, float x, float y, int pointer) {
 				if (activePointer != -1) {
 					event.stop();
@@ -151,7 +152,7 @@ public class DragAndDrop {
 	}
 
 	public void removeSource (Source source) {
-		DragListener dragListener = sourceListeners.remove(source);
+		io.anuke.ucore.scene.event.DragListener dragListener = sourceListeners.remove(source);
 		source.actor.removeCaptureListener(dragListener);
 	}
 

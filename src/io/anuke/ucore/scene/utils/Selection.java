@@ -2,7 +2,7 @@
 package io.anuke.ucore.scene.utils;
 
 import io.anuke.ucore.scene.Element;
-import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
+import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.OrderedSet;

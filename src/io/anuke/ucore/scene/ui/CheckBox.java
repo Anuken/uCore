@@ -72,7 +72,9 @@ public class CheckBox extends TextButton {
 				checkbox = style.checkboxOffDisabled;
 		}
 		if (checkbox == null) {
-			if (isChecked && style.checkboxOn != null)
+			if (isChecked && isOver() && style.checkboxOnOver != null)
+				checkbox = style.checkboxOnOver;
+			else if (isChecked && style.checkboxOn != null)
 				checkbox = style.checkboxOn;
 			else if (isOver() && style.checkboxOver != null && !isDisabled())
 				checkbox = style.checkboxOver;
@@ -96,7 +98,7 @@ public class CheckBox extends TextButton {
 	static public class CheckBoxStyle extends TextButtonStyle {
 		public Drawable checkboxOn, checkboxOff;
 		/** Optional. */
-		public Drawable checkboxOver, checkboxOnDisabled, checkboxOffDisabled;
+		public Drawable checkboxOver, checkboxOnDisabled, checkboxOffDisabled, checkboxOnOver;
 
 		public CheckBoxStyle () {
 		}
@@ -115,6 +117,7 @@ public class CheckBox extends TextButton {
 			this.checkboxOver = style.checkboxOver;
 			this.checkboxOffDisabled = style.checkboxOffDisabled;
 			this.checkboxOnDisabled = style.checkboxOnDisabled;
+			this.checkboxOnOver = style.checkboxOnOver;
 		}
 	}
 }

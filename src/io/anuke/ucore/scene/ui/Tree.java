@@ -22,11 +22,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Group;
 import io.anuke.ucore.scene.Skin;
+import io.anuke.ucore.scene.event.ClickListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.ui.layout.WidgetGroup;
 import io.anuke.ucore.scene.utils.*;
-import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
+import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
 
 import com.badlogic.gdx.utils.Array;
 
@@ -45,7 +46,7 @@ public class Tree extends WidgetGroup {
 	private boolean sizeInvalid = true;
 	private Node foundNode;
 	Node overNode, rangeStart;
-	private ClickListener clickListener;
+	private io.anuke.ucore.scene.event.ClickListener clickListener;
 
 	public Tree (Skin skin) {
 		this(skin.get(TreeStyle.class));
@@ -75,7 +76,7 @@ public class Tree extends WidgetGroup {
 	}
 
 	private void initialize () {
-		addListener(clickListener = new ClickListener() {
+		addListener(clickListener = new io.anuke.ucore.scene.event.ClickListener() {
 			public void clicked (InputEvent event, float x, float y) {
 				Node node = getNodeAt(y);
 				if (node == null) return;

@@ -30,8 +30,8 @@ import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
-import io.anuke.ucore.scene.utils.HandCursorListener;
+import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
+import io.anuke.ucore.scene.event.HandCursorListener;
 /** A slider is a horizontal indicator that allows a user to set a value. The slider has a range (min, max) and a stepping between
  * each value the slider represents.
  * <p>

@@ -14,11 +14,10 @@
  * limitations under the License.
  ******************************************************************************/
 
-package io.anuke.ucore.scene.utils;
+package io.anuke.ucore.scene.event;
 
 import com.badlogic.gdx.math.Interpolation;
 
-import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.ui.ScrollPane;
 
 import com.badlogic.gdx.utils.Timer;

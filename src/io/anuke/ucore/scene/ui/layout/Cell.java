@@ -149,6 +149,13 @@ public class Cell<T extends Element> implements Poolable {
 		return this;
 	}
 
+	public Cell<T> checked(boolean toggle){
+		if(getElement() instanceof Button){
+			((Button)(getElement())).setChecked(toggle);
+		}
+		return this;
+	}
+
 	public Cell<T> color(Color color){
 		getElement().setColor(color);
 		return this;

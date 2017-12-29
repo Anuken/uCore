@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package io.anuke.ucore.scene.utils;
+package io.anuke.ucore.scene.event;
 
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.Event;

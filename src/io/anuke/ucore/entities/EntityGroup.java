@@ -18,20 +18,20 @@ public class EntityGroup<T extends Entity>{
 	}
 	
 	public void updateRemovals(){
-
-		for(T e : entitiesToRemove){
-			entityArray.removeValue(e, true);
-		}
-		
-		entitiesToRemove.clear();
-
 		for(T e : entitiesToAdd){
 			if(e == null)
 				continue;
 			entityArray.add(e);
 			e.added();
 		}
+
 		entitiesToAdd.clear();
+
+		for(T e : entitiesToRemove){
+			entityArray.removeValue(e, true);
+		}
+
+		entitiesToRemove.clear();
 	}
 	
 	public QuadTree<SolidEntity> tree(){

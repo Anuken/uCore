@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package io.anuke.ucore.scene.utils;
+package io.anuke.ucore.scene.event;
 
 import com.badlogic.gdx.Input.Buttons;
 

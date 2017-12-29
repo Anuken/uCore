@@ -30,7 +30,7 @@ import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.utils.*;
-import io.anuke.ucore.scene.utils.ChangeListener.ChangeEvent;
+import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
 
 /** A list (aka list box) displays textual items and highlights the currently selected item.
  * <p>
