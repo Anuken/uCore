@@ -8,8 +8,9 @@ public abstract class Entity{
 	protected static Vector2 vector = new Vector2();
 	
 	protected transient EntityGroup<?> group;
-	
-	public final int id;
+
+	/**Do not modify.*/
+	public int id;
 	public float x,y;
 	
 	public void update(){}

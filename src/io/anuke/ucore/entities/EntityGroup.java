@@ -3,9 +3,11 @@ package io.anuke.ucore.entities;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
+import com.badlogic.gdx.utils.IntMap;
 import io.anuke.ucore.util.QuadTree;
 
 public class EntityGroup<T extends Entity>{
+	private IntMap<T> map;
 	private Array<T> entityArray = new Array<>();
 	private Array<T> entitiesToRemove = new Array<>();
 	private Array<T> entitiesToAdd = new Array<>();
@@ -16,22 +18,45 @@ public class EntityGroup<T extends Entity>{
 	public EntityGroup(boolean useTree){
 		this.useTree = useTree;
 	}
-	
+
+	public EntityGroup<T> enableMapping(){
+		map = new IntMap<>();
+		return this;
+	}
+
 	public void updateRemovals(){
 		for(T e : entitiesToAdd){
 			if(e == null)
 				continue;
 			entityArray.add(e);
 			e.added();
+
+			if(map != null){
+				map.put(e.id, e);
+			}
 		}
 
 		entitiesToAdd.clear();
 
 		for(T e : entitiesToRemove){
 			entityArray.removeValue(e, true);
+			if(map != null){
+				map.remove(e.id);
+			}
 		}
 
 		entitiesToRemove.clear();
+	}
+
+	public T getByID(int id){
+		if(map == null) throw new RuntimeException("Mapping is not enabled for this group!");
+		return map.get(id);
+	}
+
+	public void remap(T entity, int newID){
+		map.remove(entity.id);
+		entity.id = newID;
+		map.put(newID, entity);
 	}
 	
 	public QuadTree<SolidEntity> tree(){
@@ -72,6 +97,8 @@ public class EntityGroup<T extends Entity>{
 		entitiesToAdd.clear();
 		entitiesToRemove.clear();
 		entityArray.clear();
+		if(map != null)
+			map.clear();
 	}
 	
 	public Array<T> all(){
