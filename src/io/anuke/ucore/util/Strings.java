@@ -16,9 +16,6 @@ public class Strings{
 				build.append("\n");
 				build.append(s.toString());
 			}
-		}else{
-			build.append("\n");
-			build.append(e.getStackTrace()[0].toString());
 		}
 		return build.toString();
 	}
