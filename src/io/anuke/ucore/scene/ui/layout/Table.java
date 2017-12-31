@@ -34,6 +34,7 @@ import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.ui.*;
 import io.anuke.ucore.scene.ui.Label.LabelStyle;
+import io.anuke.ucore.scene.ui.TextField.TextFieldFilter;
 import io.anuke.ucore.scene.ui.layout.Value.Fixed;
 import io.anuke.ucore.scene.utils.Elements;
 import io.anuke.ucore.scene.utils.Layout;
@@ -298,15 +299,21 @@ public class Table extends WidgetGroup {
 		return add(label);
 	}
 
-	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
+	/** Adds a new cell with a label.*/
 	public Cell<Label> add (CharSequence text) {
-		if (skin == null) throw new IllegalStateException("Table must have a skin set to use this method.");
 		return add(new Label(text));
 	}
 	
-	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
+	/** Adds a new cell with a label.*/
 	public Cell<Label> add (CharSequence text, float scl) {
 		Label l = new Label(text);
+		l.setFontScale(scl);
+		return add(l);
+	}
+
+	/** Adds a new cell with a label.*/
+	public Cell<Label> add (CharSequence text, String labelStyleName, float scl) {
+		Label l = new Label(text, skin.get(labelStyleName, LabelStyle.class));
 		l.setFontScale(scl);
 		return add(l);
 	}
@@ -318,21 +325,18 @@ public class Table extends WidgetGroup {
 		return add(l);
 	}
 
-	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
+	/** Adds a new cell with a label.*/
 	public Cell<Label> add (CharSequence text, String labelStyleName) {
-		if (skin == null) throw new IllegalStateException("Table must have a skin set to use this method.");
 		return add(new Label(text, skin.get(labelStyleName, LabelStyle.class)));
 	}
 
-	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
+	/** Adds a new cell with a label. */
 	public Cell<Label> add (CharSequence text, Color color) {
-		if (skin == null) throw new IllegalStateException("Table must have a skin set to use this method.");
 		return add(new Label(text, new LabelStyle(skin.getFont("default-font"), color)));
 	}
 
-	/** Adds a new cell with a label. This may only be called if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used. */
+	/** Adds a new cell with a label.*/
 	public Cell<Label> add (CharSequence text, String fontName, String colorName) {
-		if (skin == null) throw new IllegalStateException("Table must have a skin set to use this method.");
 		return add(new Label(text, new LabelStyle(skin.getFont(fontName), skin.getColor(colorName))));
 	}
 
@@ -414,6 +418,12 @@ public class Table extends WidgetGroup {
 	
 	public Cell<TextField> addField(String text, FieldListenable listener){
 		TextField field = Elements.newField(text, listener);
+		return add(field);
+	}
+
+	public Cell<TextField> addField(String text, TextFieldFilter filter, FieldListenable listener){
+		TextField field = Elements.newField(text, listener);
+		field.setTextFieldFilter(filter);
 		return add(field);
 	}
 	
