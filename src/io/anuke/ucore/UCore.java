@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 
 public class UCore{
 	public static final boolean isAssets =
-			Gdx.app.getType() != ApplicationType.WebGL
+			Gdx.app != null && Gdx.app.getType() != ApplicationType.WebGL
 					&& getProperty("user.name").equals("anuke")
 					&& getAbsolute(Gdx.files.local("na").parent()).endsWith("assets");
 	
