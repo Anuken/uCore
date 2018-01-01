@@ -16,16 +16,15 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.core.Core.skin;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Scaling;
-
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.style.TextureRegionDrawable;
 import io.anuke.ucore.scene.ui.layout.Cell;
+
+import static io.anuke.ucore.core.Core.skin;
 /** A button with a child {@link Image} to display an image. This is useful when the button must be larger than the image and the
  * image centered on the button. If the image is the size of the button, a {@link Button} without any children can be used, where
  * the {@link Button.ButtonStyle#up}, {@link Button.ButtonStyle#down}, and {@link Button.ButtonStyle#checked} nine patches define
@@ -123,7 +122,9 @@ public class ImageButton extends Button {
 
 		Color color = image.getColor();
 
-		if(isPressed() && style.imageDownColor != null)
+		if(isDisabled && style.imageDisabledColor != null)
+			color = style.imageDisabledColor;
+		else if(isPressed() && style.imageDownColor != null)
 			color = style.imageDownColor;
 		else if(isChecked() && style.imageCheckedColor != null)
 			color = style.imageCheckedColor;
@@ -156,7 +157,7 @@ public class ImageButton extends Button {
 	static public class ImageButtonStyle extends ButtonStyle {
 		/** Optional. */
 		public Drawable imageUp, imageDown, imageOver, imageChecked, imageCheckedOver, imageDisabled;
-		public Color imageUpColor, imageCheckedColor, imageDownColor;
+		public Color imageUpColor, imageCheckedColor, imageDownColor, imageDisabledColor;
 
 		public ImageButtonStyle () {
 		}
@@ -180,6 +181,7 @@ public class ImageButton extends Button {
 			this.imageUpColor = style.imageUpColor;
 			this.imageDownColor = style.imageDownColor;
 			this.imageCheckedColor = style.imageCheckedColor;
+			this.imageDisabledColor = style.imageDisabledColor;
 		}
 
 		public ImageButtonStyle (ButtonStyle style) {

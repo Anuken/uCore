@@ -1,12 +1,16 @@
 package io.anuke.ucore.entities;
 
 import com.badlogic.gdx.math.Vector2;
-
+import com.badlogic.gdx.utils.Array;
 import io.anuke.ucore.core.Effects;
 import io.anuke.ucore.core.Effects.Effect;
 
 /**presumably you would extends BulletType and put in default bullet entity type.*/
 public abstract class BaseBulletType<T extends BulletEntity>{
+	private static int lastid = 0;
+	private static Array<BaseBulletType> types = new Array<>();
+
+	public final int id = lastid ++;
 	public float lifetime = 100;
 	public float speed = 1f;
 	public int damage = 1;
@@ -14,6 +18,10 @@ public abstract class BaseBulletType<T extends BulletEntity>{
 	public Effect hiteffect = null, despawneffect = null;
 	
 	protected Vector2 vector = new Vector2();
+
+	public BaseBulletType(){
+		types.add(this);
+	}
 	
 	public abstract void draw(T b);
 	public void update(T b){}
@@ -24,5 +32,9 @@ public abstract class BaseBulletType<T extends BulletEntity>{
 	public void despawned(T b){
 		if(despawneffect != null)
 			Effects.effect(despawneffect, b);
+	}
+
+	public static BaseBulletType<?> getByID(int id){
+		return types.get(id);
 	}
 }

@@ -86,7 +86,11 @@ public class Timers{
 	public static float time(){
 		return time;
 	}
-	
+
+	public static void resetTime(float time){
+		Timers.time = time;
+	}
+
 	public static void mark(){
 		lastMark = TimeUtils.millis();
 	}

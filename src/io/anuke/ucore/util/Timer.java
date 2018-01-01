@@ -18,4 +18,8 @@ public class Timer{
 			return false;
 		}
 	}
+
+	public float[] getTimes(){
+		return times;
+	}
 }
