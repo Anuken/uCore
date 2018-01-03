@@ -9,7 +9,7 @@ public abstract class Entity{
 	
 	protected transient EntityGroup<?> group;
 
-	/**Do not modify.*/
+	/**Do not modify. Used for network operations.*/
 	public int id;
 	public float x,y;
 	

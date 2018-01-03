@@ -4,8 +4,8 @@ import io.anuke.ucore.util.Mathf;
 
 public abstract class DestructibleEntity extends SolidEntity{
 	public int health;
-	public int maxhealth;
-	protected boolean dead;
+	public transient int maxhealth;
+	public transient boolean dead;
 	
 	public void onHit(SolidEntity entity){}
 	public void onDeath(){}
