@@ -1,16 +1,24 @@
 package io.anuke.ucore.util;
 
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+
 public class Strings{
+
 	public static String parseException(Throwable e, boolean stacktrace){
 		StringBuilder build = new StringBuilder();
 
 		while(e.getCause() != null){
 			e = e.getCause();
 		}
+
+		String name = ClassReflection.getSimpleName(e.getClass()).replace("Exception", "");
 		
-		build.append(e.getClass().getName());
-		build.append(": ");
-		build.append(e.getMessage());
+		build.append(name);
+		if(e.getMessage() != null) {
+			build.append(": ");
+			build.append(e.getMessage());
+		}
+
 		if(stacktrace) {
 			for (StackTraceElement s : e.getStackTrace()) {
 				build.append("\n");
