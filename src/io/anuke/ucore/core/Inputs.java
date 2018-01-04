@@ -22,6 +22,7 @@ public class Inputs{
 	private static IntSet keysReleased = new IntSet();
 	private static InputMultiplexer plex = new InputMultiplexer();
 	private static int scroll = 0;
+	private static boolean debug = false;
 	private static InputProcessor listen = new InputAdapter(){
 		@Override
 		public boolean scrolled(int amount){
@@ -43,6 +44,10 @@ public class Inputs{
 		devices.add(new InputDevice(DeviceType.keyboard, "Keyboard"));
 		
 		loadControllers();
+	}
+
+	public static void setDebug(boolean debug){
+		Inputs.debug = debug;
 	}
 
 	public static void useControllers(boolean use){
@@ -85,15 +90,16 @@ public class Inputs{
 
 			@Override
 			public boolean axisMoved(Controller controller, int axisIndex, float value) {
-				if(Math.abs(value) > 0.5f){
-					UCore.log("Axis: " + Input.findByType(Type.controller, axisIndex, true));
+				if(Math.abs(value) > 0.3f && debug){
+					UCore.log("Axis: " + Input.findByType(Type.controller, axisIndex, true), "Code " + axisIndex, "Value " + value);
 				}
 				return false;
 			}
 
 			@Override
 			public boolean buttonDown(Controller controller, int buttonCode) {
-				UCore.log("Pressed: " + buttonCode);
+				if(debug) UCore.log("Button: " + Input.findByType(Type.controller, buttonCode, false), "Code: " + buttonCode);
+
 				InputDevice device = findBy(controller);
 				if(device == null) return false;
 				device.pressed[buttonCode] = true;
