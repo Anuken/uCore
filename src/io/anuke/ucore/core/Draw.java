@@ -1,7 +1,5 @@
 package io.anuke.ucore.core;
 
-import static io.anuke.ucore.core.Core.batch;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,11 +10,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
-
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.graphics.Pixmaps;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.util.Tmp;
+
+import static io.anuke.ucore.core.Core.batch;
 
 public class Draw{
 	private static TextureRegion blankregion = Pixmaps.blankTextureRegion();
@@ -144,6 +143,10 @@ public class Draw{
 	
 	public static void rect(Texture texture, float x, float y){
 		batch.draw(texture, x - texture.getWidth() / 2, y - texture.getHeight() / 2);
+	}
+
+	public static void rect(Texture texture, float x, float y, float w, float h){
+		batch.draw(texture, x - w / 2, y - h / 2, w, h);
 	}
 	
 	public static void rect(TextureRegion region, float x, float y){
