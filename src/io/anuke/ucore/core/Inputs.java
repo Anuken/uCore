@@ -14,6 +14,7 @@ import io.anuke.ucore.core.KeyBinds.Section;
 import io.anuke.ucore.scene.ui.KeybindDialog;
 import io.anuke.ucore.util.Input;
 import io.anuke.ucore.util.Input.Type;
+import io.anuke.ucore.util.OS;
 
 public class Inputs{
 	private static boolean useControllers = true;
@@ -83,7 +84,16 @@ public class Inputs{
             }
 
 			@Override
+			public boolean axisMoved(Controller controller, int axisIndex, float value) {
+				if(Math.abs(value) > 0.5f){
+					UCore.log("Axis: " + Input.findByType(Type.controller, axisIndex, true));
+				}
+				return false;
+			}
+
+			@Override
 			public boolean buttonDown(Controller controller, int buttonCode) {
+				UCore.log("Pressed: " + buttonCode);
 				InputDevice device = findBy(controller);
 				if(device == null) return false;
 				device.pressed[buttonCode] = true;
@@ -179,10 +189,8 @@ public class Inputs{
 	}
 
 	public static boolean keyDown(Input input, InputDevice device){
-		if(input == Input.UNSET)
+		if(input == Input.UNSET || input.code == 0)
 			return false;
-		if(input == Input.ANY_KEY)
-			return true;
 
 		if(input.type == Input.Type.controller){
 			if(input.axis) return device.controller.getAxis(input.code) > 0f;
@@ -198,7 +206,11 @@ public class Inputs{
 	public static boolean keyDown(String section, String name){
 		KeyBinds.Section s = KeyBinds.getSection(section);
 		Input input = KeyBinds.get(section, name);
-		return keyDown(input, s.device);
+		if(KeyBinds.has(section, name)){
+			return keyDown(input, s.device);
+		}else{
+			return keyDown(input, getKeyboard());
+		}
 	}
 
 	public static boolean keyTap(Input input, InputDevice device){
@@ -219,7 +231,11 @@ public class Inputs{
 	public static boolean keyTap(String section, String name){
 		KeyBinds.Section s = KeyBinds.getSection(section);
 		Input input = KeyBinds.get(section, name);
-		return keyTap(input, s.device);
+		if(KeyBinds.has(section, name)){
+			return keyTap(input, s.device);
+		}else{
+			return keyTap(input, getKeyboard());
+		}
 	}
 
 	public static boolean keyRelease(Input input, InputDevice device){
@@ -239,7 +255,11 @@ public class Inputs{
 	public static boolean keyRelease(String section, String name){
 		KeyBinds.Section s = KeyBinds.getSection(section);
 		Input input = KeyBinds.get(section, name);
-		return keyRelease(input, s.device);
+		if(KeyBinds.has(section, name)){
+			return keyRelease(input, s.device);
+		}else{
+			return keyRelease(input, getKeyboard());
+		}
 	}
 
 	public static boolean getAxisActive(String axis){
@@ -258,7 +278,7 @@ public class Inputs{
 			Controller c = s.device.controller;
 
 			if(axis.min.axis){
-				return c.getAxis(axis.min.code) * (axis.min.name().contains("VERTICAL") ? -1 : 1);
+				return c.getAxis(axis.min.code) * (axis.min.name().contains("VERTICAL") && !OS.isWindows ? -1 : 1);
 			}else{
 				boolean min = c.getButton(axis.min.code), max = c.getButton(axis.max.code);
 				return (min && max) || (!min && !max) ? 0 : min ? -1 : 1;
@@ -271,6 +291,10 @@ public class Inputs{
 				return (min && max) || (!min && !max) ? 0 : min ? -1 : 1;
 			}
 		}
+	}
+
+	public static InputDevice getKeyboard(){
+		return devices.get(0);
 	}
 	
 	public static boolean buttonDown(int button){

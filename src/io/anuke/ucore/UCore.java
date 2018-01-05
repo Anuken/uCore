@@ -29,8 +29,13 @@ public class UCore{
 			Method method = ClassReflection.getMethod(System.class, "getProperty", String.class);
 			return (String)method.invoke(null, name);
 		}catch(ReflectionException e){
-			throw new RuntimeException(e);
+			return null;
 		}
+	}
+
+	public static String getPropertyNotNull(String name){
+		String s = getProperty(name);
+		return s == null ? "" : s;
 	}
 
 	public static String getAbsolute(FileHandle file){

@@ -291,8 +291,6 @@ public class Graphics{
 
 	/** Revert to the default shader. */
 	public static void shader(){
-		
-	
 		batch.setShader(null);
 	}
 

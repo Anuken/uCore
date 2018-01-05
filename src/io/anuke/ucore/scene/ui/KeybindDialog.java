@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerAdapter;
 import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.controllers.mappings.Xbox;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
@@ -61,6 +62,7 @@ public class KeybindDialog extends Dialog{
 
 			public boolean buttonDown (Controller controller, int buttonIndex) {
 				if(canRebindController()){
+					UCore.log("Rebinding with " + buttonIndex);
 					rebind(Input.findByType(Type.controller, buttonIndex, false));
 					return false;
 				}
@@ -68,7 +70,7 @@ public class KeybindDialog extends Dialog{
 			}
 
 			public boolean axisMoved (Controller controller, int axisIndex, float value) {
-				if(canRebindController() && rebindAxis){
+				if(canRebindController() && rebindAxis && Math.abs(value) > 0.5f){
 					rebind(Input.findByType(Type.controller, axisIndex, true));
 					return false;
 				}

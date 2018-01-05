@@ -5,28 +5,28 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 /**Enum for storing input codes of mouse, keyboard and controllers at once.*/
 public enum Input {
-    CONTROLLER_A(Type.controller, Xbox.A, "A"),
-    CONTROLLER_B(Type.controller, Xbox.B, "B"),
-    CONTROLLER_X(Type.controller, Xbox.X, "X"),
-    CONTROLLER_Y(Type.controller, Xbox.Y, "Y"),
-    CONTROLLER_GUIDE(Type.controller, Xbox.GUIDE, "Guide"),
-    CONTROLLER_L_BUMPER(Type.controller, Xbox.L_BUMPER, "L Bumper"),
-    CONTROLLER_R_BUMPER(Type.controller, Xbox.R_BUMPER, "R Bumper"),
-    CONTROLLER_BACK(Type.controller, Xbox.BACK, "Back"),
-    CONTROLLER_START(Type.controller, Xbox.START, "Start"),
-    CONTROLLER_DPAD_UP(Type.controller, Xbox.DPAD_UP, "D-Pad Up"),
-    CONTROLLER_DPAD_DOWN(Type.controller, Xbox.DPAD_DOWN, "D-Pad Down"),
-    CONTROLLER_DPAD_LEFT(Type.controller, Xbox.DPAD_LEFT, "D-Pad Left"),
-    CONTROLLER_DPAD_RIGHT(Type.controller, Xbox.DPAD_RIGHT, "D-Pad Right"),
+    CONTROLLER_A(Type.controller, XboxBinds.A, "A"),
+    CONTROLLER_B(Type.controller, XboxBinds.B, "B"),
+    CONTROLLER_X(Type.controller, XboxBinds.X, "X"),
+    CONTROLLER_Y(Type.controller, XboxBinds.Y, "Y"),
+    CONTROLLER_GUIDE(Type.controller, XboxBinds.GUIDE, "Guide"),
+    CONTROLLER_L_BUMPER(Type.controller, XboxBinds.L_BUMPER, "L Bumper"),
+    CONTROLLER_R_BUMPER(Type.controller, XboxBinds.R_BUMPER, "R Bumper"),
+    CONTROLLER_BACK(Type.controller, XboxBinds.BACK, "Back"),
+    CONTROLLER_START(Type.controller, XboxBinds.START, "Start"),
+    CONTROLLER_DPAD_UP(Type.controller, XboxBinds.DPAD_UP, "D-Pad Up"),
+    CONTROLLER_DPAD_DOWN(Type.controller, XboxBinds.DPAD_DOWN, "D-Pad Down"),
+    CONTROLLER_DPAD_LEFT(Type.controller, XboxBinds.DPAD_LEFT, "D-Pad Left"),
+    CONTROLLER_DPAD_RIGHT(Type.controller, XboxBinds.DPAD_RIGHT, "D-Pad Right"),
     CONTROLLER_L_STICK(Type.controller, getBind("L_STICK"), "L Stick"),
     CONTROLLER_R_STICK(Type.controller, getBind("R_STICK"), "R Stick"),
     //controller axes
-    CONTROLLER_L_TRIGGER(Type.controller, Xbox.L_TRIGGER, "L Trigger", true),
-    CONTROLLER_R_TRIGGER(Type.controller, Xbox.R_TRIGGER, "R Trigger", true),
-    CONTROLLER_L_STICK_VERTICAL_AXIS(Type.controller, Xbox.L_STICK_VERTICAL_AXIS, "L Stick Y Axis", true),
-    CONTROLLER_L_STICK_HORIZONTAL_AXIS(Type.controller, Xbox.L_STICK_HORIZONTAL_AXIS, "L Stick X Axis", true),
-    CONTROLLER_R_STICK_VERTICAL_AXIS(Type.controller, Xbox.R_STICK_VERTICAL_AXIS, "R Stick Y Axis", true),
-    CONTROLLER_R_STICK_HORIZONTAL_AXIS(Type.controller, Xbox.R_STICK_HORIZONTAL_AXIS, "R Stick X Axis", true),
+    CONTROLLER_L_TRIGGER(Type.controller, XboxBinds.L_TRIGGER, "L Trigger", true),
+    CONTROLLER_R_TRIGGER(Type.controller, XboxBinds.R_TRIGGER, "R Trigger", true),
+    CONTROLLER_L_STICK_VERTICAL_AXIS(Type.controller, XboxBinds.L_STICK_VERTICAL_AXIS, "L Stick Y Axis", true),
+    CONTROLLER_L_STICK_HORIZONTAL_AXIS(Type.controller, XboxBinds.L_STICK_HORIZONTAL_AXIS, "L Stick X Axis", true),
+    CONTROLLER_R_STICK_VERTICAL_AXIS(Type.controller, XboxBinds.R_STICK_VERTICAL_AXIS, "R Stick Y Axis", true),
+    CONTROLLER_R_STICK_HORIZONTAL_AXIS(Type.controller, XboxBinds.R_STICK_HORIZONTAL_AXIS, "R Stick X Axis", true),
     //mouse
     MOUSE_LEFT(Type.mouse, 0, "Mouse Left"),
     MOUSE_RIGHT(Type.mouse, 1, "Mouse Right"),
@@ -230,7 +230,7 @@ public enum Input {
 
     private static int getBind(String name){
         try{
-            return (Integer)ClassReflection.getField(Xbox.class, name).get(null);
+            return (Integer)ClassReflection.getField(XboxBinds.class, name).get(null);
         }catch (Exception e){
             return -1;
         }

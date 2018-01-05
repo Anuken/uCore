@@ -150,6 +150,13 @@ public class KeyBinds{
 		return s.binds.get(s.device.type).get(name, s.defaults.get(s.device.type).get(name));
 	}
 
+	public static boolean has(String section, String name){
+		Section s = map.get(section);
+		if(s == null)
+			throw new IllegalArgumentException("No section \"" + section + "\" found!");
+		return s.defaults.get(s.device.type).containsKey(name);
+	}
+
 	public static Inputs.Axis getAxis(String section, String name){
 		Section s = map.get(section);
 		if(s == null)
