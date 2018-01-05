@@ -16,17 +16,16 @@
 
 package io.anuke.ucore.scene.ui.layout;
 
-import static io.anuke.ucore.core.Core.skin;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.*;
-
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.function.*;
 import io.anuke.ucore.scene.Element;
@@ -37,7 +36,8 @@ import io.anuke.ucore.scene.ui.Label.LabelStyle;
 import io.anuke.ucore.scene.ui.TextField.TextFieldFilter;
 import io.anuke.ucore.scene.ui.layout.Value.Fixed;
 import io.anuke.ucore.scene.utils.Elements;
-import io.anuke.ucore.scene.utils.Layout;
+
+import static io.anuke.ucore.core.Core.skin;
 
 /** A group that sizes and positions children using table constraints. By default, {@link #getTouchable()} is
  * {@link Touchable#childrenOnly}.
@@ -59,9 +59,9 @@ public class Table extends WidgetGroup {
 	private int columns, rows;
 	private boolean implicitEndRow;
 
-	private final Array<Cell> cells = new Array(4);
+	private final Array<Cell> cells = new Array<>(4);
 	private final Cell cellDefaults;
-	private final Array<Cell> columnDefaults = new Array(2);
+	private final Array<Cell> columnDefaults = new Array<>(2);
 	private Cell rowDefaults;
 
 	private boolean sizeInvalid = true;
@@ -145,8 +145,7 @@ public class Table extends WidgetGroup {
 		background.draw(batch, x, y, getWidth(), getHeight());
 	}
 
-	/** Sets the background drawable from the skin and adjusts the table's padding to match the background. This may only be called
-	 * if {@link Table#Table(Skin)} or {@link #setSkin(Skin)} was used.
+	/** Sets the background drawable from the skin and adjusts the table's padding to match the background.
 	 * @see #setBackground(Drawable) */
 	public void setBackground (String drawableName) {
 		if (skin == null) throw new IllegalStateException("Table must have a skin set to use this method.");
@@ -156,9 +155,9 @@ public class Table extends WidgetGroup {
 	/** @param background May be null to clear the background. */
 	public void setBackground (Drawable background) {
 		if (this.background == background) return;
-		float padTopOld = getPadTop(), padLeftOld = getPadLeft(), padBottomOld = getPadBottom(), padRightOld = getPadRight();
+		float padTopOld = getMarginTop(), padLeftOld = getMarginLeft(), padBottomOld = getMarginBottom(), padRightOld = getMarginRight();
 		this.background = background; // The default margin values use the background's padding.
-		float padTopNew = getPadTop(), padLeftNew = getPadLeft(), padBottomNew = getPadBottom(), padRightNew = getPadRight();
+		float padTopNew = getMarginTop(), padLeftNew = getMarginLeft(), padBottomNew = getMarginBottom(), padRightNew = getMarginRight();
 		if (padTopOld + padBottomOld != padTopNew + padBottomNew || padLeftOld + padRightOld != padLeftNew + padRightNew)
 			invalidateHierarchy();
 		else if (padTopOld != padTopNew || padLeftOld != padLeftNew || padBottomOld != padBottomNew || padRightOld != padRightNew)
@@ -398,18 +397,18 @@ public class Table extends WidgetGroup {
 		return add(button);
 	}
 	
-	public Cell<ImageButton> addIButton(String icon, Listenable listener){
+	public Cell<ImageButton> addImageButton(String icon, Listenable listener){
 		ImageButton button = Elements.newImageButton(icon, listener);
 		return add(button);
 	}
 	
-	public Cell<ImageButton> addIButton(String icon, float isize, Listenable listener){
+	public Cell<ImageButton> addImageButton(String icon, float isize, Listenable listener){
 		ImageButton button = Elements.newImageButton(icon, listener);
 		button.resizeImage(isize);
 		return add(button);
 	}
 	
-	public Cell<ImageButton> addIButton(String icon, String style, float isize, Listenable listener){
+	public Cell<ImageButton> addImageButton(String icon, String style, float isize, Listenable listener){
 		ImageButton button = new ImageButton(icon, style);
 		button.clicked(listener);
 		button.resizeImage(isize);
@@ -832,45 +831,29 @@ public class Table extends WidgetGroup {
 		return debug;
 	}
 
-	public Value getPadTopValue () {
-		return padTop;
-	}
-
-	public float getPadTop () {
+	public float getMarginTop() {
 		return padTop.get(this);
 	}
 
-	public Value getPadLeftValue () {
-		return padLeft;
-	}
-
-	public float getPadLeft () {
+	public float getMarginLeft() {
 		return padLeft.get(this);
 	}
 
-	public Value getPadBottomValue () {
-		return padBottom;
-	}
-
-	public float getPadBottom () {
+	public float getMarginBottom() {
 		return padBottom.get(this);
 	}
 
-	public Value getPadRightValue () {
-		return padRight;
-	}
-
-	public float getPadRight () {
+	public float getMarginRight() {
 		return padRight.get(this);
 	}
 
-	/** Returns {@link #getPadLeft()} plus {@link #getPadRight()}. */
-	public float getPadX () {
+	/** Returns {@link #getMarginLeft()} plus {@link #getMarginRight()}. */
+	public float getMarginX() {
 		return padLeft.get(this) + padRight.get(this);
 	}
 
-	/** Returns {@link #getPadTop()} plus {@link #getPadBottom()}. */
-	public float getPadY () {
+	/** Returns {@link #getMarginTop()} plus {@link #getMarginBottom()}. */
+	public float getMarginY() {
 		return padTop.get(this) + padBottom.get(this);
 	}
 
@@ -883,7 +866,7 @@ public class Table extends WidgetGroup {
 	public int getRow (float y) {
 		Array<Cell> cells = this.cells;
 		int row = 0;
-		y += getPadTop();
+		y += getMarginTop();
 		int i = 0, n = cells.size;
 		if (n == 0) return -1;
 		if (n == 1) return 0;
@@ -957,7 +940,7 @@ public class Table extends WidgetGroup {
 		Array<Element> children = getChildren();
 		for (int i = 0, n = children.size; i < n; i++) {
 			Element child = children.get(i);
-			if (child instanceof Layout) ((Layout)child).validate();
+			child.validate();
 		}
 	}
 	
@@ -1434,8 +1417,7 @@ public class Table extends WidgetGroup {
 		none, all, table, cell, actor
 	}
 
-	/** Value that is the top padding of the table's background.
-	 * @author Nathan Sweet */
+	/** Value that is the top padding of the table's background.*/
 	static public Value backgroundTop = new Value() {
 		public float get (Element context) {
 			Drawable background = ((Table)context).background;
@@ -1443,8 +1425,7 @@ public class Table extends WidgetGroup {
 		}
 	};
 
-	/** Value that is the left padding of the table's background.
-	 * @author Nathan Sweet */
+	/** Value that is the left padding of the table's background.*/
 	static public Value backgroundLeft = new Value() {
 		public float get (Element context) {
 			Drawable background = ((Table)context).background;
@@ -1452,8 +1433,7 @@ public class Table extends WidgetGroup {
 		}
 	};
 
-	/** Value that is the bottom padding of the table's background.
-	 * @author Nathan Sweet */
+	/** Value that is the bottom padding of the table's background.*/
 	static public Value backgroundBottom = new Value() {
 		public float get (Element context) {
 			Drawable background = ((Table)context).background;
@@ -1461,17 +1441,15 @@ public class Table extends WidgetGroup {
 		}
 	};
 
-	/** Value that is the right padding of the table's background.
-	 * @author Nathan Sweet */
+	/** Value that is the right padding of the table's background.*/
 	static public Value backgroundRight = new Value() {
 		public float get (Element context) {
 			Drawable background = ((Table)context).background;
 			return background == null ? 0 : background.getRightWidth();
 		}
 	};
-	
-	@FunctionalInterface
-	public static interface DrawRect{
-		public void draw(float x, float y, float width, float height);
+
+	public interface DrawRect{
+		void draw(float x, float y, float width, float height);
 	}
 }

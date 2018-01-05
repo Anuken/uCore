@@ -18,12 +18,12 @@ package io.anuke.ucore.scene.ui.layout;
 
 import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.scene.Element;
-import io.anuke.ucore.scene.utils.Layout;
 
 /** Value placeholder, allowing the value to be computed on request. Values are provided an actor for context which reduces the
  * number of value instances that need to be created and reduces verbosity in code that specifies values.
  * @author Nathan Sweet */
 abstract public class Value {
+	static int amount = 0;
 	
 	/** @param context May be null. */
 	abstract public float get (Element context);
@@ -57,24 +57,21 @@ abstract public class Value {
 	/** Value that is the minWidth of the actor in the cell. */
 	static public Value minWidth = new Value() {
 		public float get (Element context) {
-			if (context instanceof Layout) return ((Layout)context).getMinWidth();
-			return context == null ? 0 : context.getWidth();
+			return context == null ? 0 : context.getMinWidth();
 		}
 	};
 
 	/** Value that is the minHeight of the actor in the cell. */
 	static public Value minHeight = new Value() {
 		public float get (Element context) {
-			if (context instanceof Layout) return ((Layout)context).getMinHeight();
-			return context == null ? 0 : context.getHeight();
+			return context == null ? 0 : context.getMinHeight();
 		}
 	};
 
 	/** Value that is the prefWidth of the actor in the cell. */
 	static public Value prefWidth = new Value() {
 		public float get (Element context) {
-			if (context instanceof Layout) return ((Layout)context).getPrefWidth();
-			return context == null ? 0 : context.getWidth();
+			return context == null ? 0 : context.getPrefWidth();
 
 		}
 	};
@@ -82,24 +79,21 @@ abstract public class Value {
 	/** Value that is the prefHeight of the actor in the cell. */
 	static public Value prefHeight = new Value() {
 		public float get (Element context) {
-			if (context instanceof Layout) return ((Layout)context).getPrefHeight();
-			return context == null ? 0 : context.getHeight();
+			return context == null ? 0 : context.getPrefHeight();
 		}
 	};
 
 	/** Value that is the maxWidth of the actor in the cell. */
 	static public Value maxWidth = new Value() {
 		public float get (Element context) {
-			if (context instanceof Layout) return ((Layout)context).getMaxWidth();
-			return context == null ? 0 : context.getWidth();
+			return context == null ? 0 : context.getMaxWidth();
 		}
 	};
 
 	/** Value that is the maxHeight of the actor in the cell. */
 	static public Value maxHeight = new Value() {
 		public float get (Element context) {
-			if (context instanceof Layout) return ((Layout)context).getMaxHeight();
-			return context == null ? 0 : context.getHeight();
+			return context == null ? 0 : context.getMaxHeight();
 		}
 	};
 

@@ -95,7 +95,7 @@ public class Window extends Table {
 			private void updateEdge (float x, float y) {
 				float border = resizeBorder / 2f;
 				float width = getWidth(), height = getHeight();
-				float padTop = getPadTop(), padLeft = getPadLeft(), padBottom = getPadBottom(), padRight = getPadRight();
+				float padTop = getMarginTop(), padLeft = getMarginLeft(), padBottom = getMarginBottom(), padRight = getMarginRight();
 				float left = padLeft, right = width - padRight, bottom = padBottom;
 				edge = 0;
 				if (isResizable && x >= left - border && x <= right + border && y >= bottom - border) {
@@ -265,8 +265,8 @@ public class Window extends Table {
 
 		// Manually draw the title table before clipping is done.
 		titleTable.getColor().a = getColor().a;
-		float padTop = getPadTop(), padLeft = getPadLeft();
-		titleTable.setSize(getWidth() - padLeft - getPadRight(), padTop);
+		float padTop = getMarginTop(), padLeft = getMarginLeft();
+		titleTable.setSize(getWidth() - padLeft - getMarginRight(), padTop);
 		titleTable.setPosition(padLeft, getHeight() - padTop);
 		drawTitleTable = true;
 		titleTable.draw(batch, parentAlpha);
@@ -278,7 +278,7 @@ public class Window extends Table {
 		if (hit == null && isModal && (!touchable || getTouchable() == Touchable.enabled)) return this;
 		float height = getHeight();
 		if (hit == null || hit == this) return hit;
-		if (y <= height && y >= height - getPadTop() && x >= 0 && x <= getWidth()) {
+		if (y <= height && y >= height - getMarginTop() && x >= 0 && x <= getWidth()) {
 			// Hit the title bar, don't use the hit child if it is in the Window's table.
 			Element current = hit;
 			while (current.getParent() != this)
@@ -339,7 +339,7 @@ public class Window extends Table {
 	}
 
 	public float getPrefWidth () {
-		return Math.max(super.getPrefWidth(), titleTable.getPrefWidth() + getPadLeft() + getPadRight());
+		return Math.max(super.getPrefWidth(), titleTable.getPrefWidth() + getMarginLeft() + getMarginRight());
 	}
 
 	public Table getTitleTable () {
