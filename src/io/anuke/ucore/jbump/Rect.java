@@ -15,7 +15,7 @@
  */
 package io.anuke.ucore.jbump;
 
-import static io.anuke.ucore.jbump.Aux.*;
+import static io.anuke.ucore.jbump.Ax.*;
 
 /**
  *
