@@ -4,12 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector2;
 
 
 public abstract class Module extends InputAdapter{
-	public static Vector2 vector = new Vector2();
-	public static Vector2 screen = new Vector2();
 	
 	public void update(){}
 	public void init(){}
@@ -37,16 +34,7 @@ public abstract class Module extends InputAdapter{
 	public void log(Object message){
 		System.out.println(message);
 	}
-	
-	/*
-	public int gwidth(){
-		return Gdx.graphics.getWidth();
-	}
-	
-	public int gheight(){
-		return Gdx.graphics.getHeight();
-	}
-	*/
+
 	public float delta(){
 		return Gdx.graphics.getDeltaTime()*60f;
 	}
