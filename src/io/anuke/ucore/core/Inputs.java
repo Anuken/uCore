@@ -1,17 +1,16 @@
 package io.anuke.ucore.core;
 
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.controllers.*;
-import com.badlogic.gdx.controllers.mappings.Xbox;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerAdapter;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.IntSet;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
 import io.anuke.ucore.UCore;
 import io.anuke.ucore.core.KeyBinds.Section;
-import io.anuke.ucore.scene.ui.KeybindDialog;
 import io.anuke.ucore.util.Input;
 import io.anuke.ucore.util.Input.Type;
 import io.anuke.ucore.util.OS;
@@ -195,7 +194,7 @@ public class Inputs{
 	}
 
 	public static boolean keyDown(Input input, InputDevice device){
-		if(input == Input.UNSET || input.code == 0)
+		if(input == Input.UNSET)
 			return false;
 
 		if(input.type == Input.Type.controller){
