@@ -34,7 +34,6 @@ public abstract class ModuleCore extends ApplicationAdapter{
 	
 	@Override
 	public void resize(int width, int height){
-		Module.screen.set(width, height);
 		Graphics.resize();
 		for(Module module : modulearray){
 			module.resize(width, height);

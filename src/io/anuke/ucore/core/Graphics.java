@@ -1,9 +1,5 @@
 package io.anuke.ucore.core;
 
-import static io.anuke.ucore.core.Core.batch;
-
-import java.util.Stack;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,10 +8,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-
 import io.anuke.ucore.graphics.CustomSurface;
 import io.anuke.ucore.graphics.Shader;
 import io.anuke.ucore.graphics.Surface;
+
+import java.util.Stack;
+
+import static io.anuke.ucore.core.Core.batch;
 
 public class Graphics{
 	private static Vector3 vec3 = new Vector3();
@@ -32,6 +31,14 @@ public class Graphics{
 	private static Surface effects1, effects2;
 	
 	private static Shader[] currentShaders;
+
+	public static int width(){
+		return Gdx.graphics.getWidth();
+	}
+
+	public static int height(){
+		return Gdx.graphics.getHeight();
+	}
 	
 	/**Mouse coords.*/
 	public static Vector2 mouse(){

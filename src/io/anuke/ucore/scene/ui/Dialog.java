@@ -15,12 +15,8 @@
  ******************************************************************************/
 
 package io.anuke.ucore.scene.ui;
-import static io.anuke.ucore.core.Core.skin;
-import static io.anuke.ucore.scene.actions.Actions.sequence;
-
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Align;
-
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.ActionProvider;
 import io.anuke.ucore.function.Listenable;
@@ -28,14 +24,12 @@ import io.anuke.ucore.scene.Action;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.actions.Actions;
-import io.anuke.ucore.scene.event.InputEvent;
-import io.anuke.ucore.scene.event.InputListener;
-import io.anuke.ucore.scene.event.VisibilityEvent;
-import io.anuke.ucore.scene.event.VisibilityListener;
+import io.anuke.ucore.scene.event.*;
 import io.anuke.ucore.scene.ui.ImageButton.ImageButtonStyle;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.ui.layout.Unit;
-import io.anuke.ucore.scene.event.FocusListener;
+
+import static io.anuke.ucore.core.Core.skin;
 /** Displays a dialog, which is a modal window containing a content table with a button table underneath it.
  * @author Nathan Sweet */ 
 public class Dialog extends Window {
@@ -179,6 +173,10 @@ public class Dialog extends Window {
 	public Dialog setDialog(){
 		setStyle(skin.get("dialog", WindowStyle.class));
 		return this;
+	}
+
+	public boolean isShown(){
+		return getScene() != null;
 	}
 
 	/** {@link #pack() Packs} the dialog and adds it to the stage with custom action which can be null for instant show */
