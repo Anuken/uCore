@@ -1,12 +1,12 @@
 package io.anuke.ucore.util;
 
-import java.util.Random;
-
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
-
+import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.function.Consumer;
+
+import java.util.Random;
 
 public class Mathf{
 	private static RandomXS128 seedr = new RandomXS128();
@@ -217,6 +217,16 @@ public class Mathf{
 		if(i > max)
 			i = max;
 		return i;
+	}
+
+	public static <K, V> ObjectMap<K, V> map(Object... values){
+		ObjectMap<K, V> map = new ObjectMap<>();
+
+		for(int i = 0; i < values.length/2; i ++){
+			map.put((K)values[i*2], (V)values[i*2+1]);
+		}
+
+		return map;
 	}
 
 	public static <T> void each(Consumer<T> cons, T... objects){
