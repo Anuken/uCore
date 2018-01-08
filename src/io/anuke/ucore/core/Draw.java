@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
-import io.anuke.ucore.UCore;
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.graphics.Pixmaps;
 import io.anuke.ucore.scene.style.Drawable;
@@ -253,14 +252,13 @@ public class Draw{
 		Draw.rect(edge, x2, y2, region.getRegionWidth(), region.getRegionHeight() * scale, rotation);
 	}
 
-	public static void lineShot(float x, float y, float angle, int amount, float fract, float len, float falloff){
-		float current = len;
-		float thickness = len/4;
+	public static void lineShot(float x, float y, float angle, int amount, float fract, float len, float thick, float falloff){
+		float length = len;
+		float thickness = thick;
 		for(int i = 0; i < amount; i ++){
             Draw.thick(fract*thickness);
-			Draw.lineAngle(x, y, angle, fract*current);
-            UCore.log(current, thickness);
-			current *= falloff;
+			Draw.lineAngle(x, y, angle, fract*length);
+			length *= falloff;
 			thickness /= falloff;
 		}
 	}

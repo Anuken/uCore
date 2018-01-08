@@ -9,7 +9,6 @@ public abstract class BulletEntity extends SolidEntity implements Damager{
 	public Entity owner;
 	public Vector2 velocity = new Vector2();
 	public float time = 0f;
-	public float drag = 0f;
 	/**-1 to use type's damage.*/
 	public int damage = -1;
 	
@@ -30,7 +29,7 @@ public abstract class BulletEntity extends SolidEntity implements Damager{
 		x += velocity.x*Timers.delta();
 		y += velocity.y*Timers.delta();
 		
-		velocity.scl(1f - drag * Timers.delta());
+		velocity.scl(1f - type.drag * Timers.delta());
 		
 		time += Timers.delta();
 		
@@ -42,7 +41,17 @@ public abstract class BulletEntity extends SolidEntity implements Damager{
 			//type.removed(this);
 		}
 	}
-	
+
+	@Override
+	public float drawSize() {
+		return type.drawSize;
+	}
+
+	@Override
+	public void added() {
+		type.init(this);
+	}
+
 	@Override
 	public int getDamage(){
 		return damage == -1 ? type.damage : damage;
