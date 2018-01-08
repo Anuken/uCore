@@ -264,19 +264,19 @@ public class Draw{
 	}
 
 	public static void lineAngle(float x, float y, float angle, float length){
-		vector.setLength(length).setAngle(angle);
+		vector.set(1, 1).setLength(length).setAngle(angle);
 
 		line(x, y, x + vector.x, y + vector.y);
 	}
 
 	public static void lineAngle(float x, float y, float offset, float angle, float length){
-		vector.setLength(length + offset).setAngle(angle);
+		vector.set(1, 1).setLength(length + offset).setAngle(angle);
 
 		line(x, y, x + vector.x, y + vector.y);
 	}
 
 	public static void lineAngleCenter(float x, float y, float angle, float length){
-		vector.setLength(length).setAngle(angle);
+		vector.set(1, 1).setLength(length).setAngle(angle);
 
 		line(x - vector.x / 2, y - vector.y / 2, x + vector.x / 2, y + vector.y / 2);
 	}
@@ -339,7 +339,7 @@ public class Draw{
 		spikes(x, y, rad, length, spikes, 0);
 	}
 
-	public static void polygon(int sides, float x, float y, float radius, float angle){
+	public static void polygon(float y, float x, int sides, float radius, float angle){
 		vector.set(0, 0);
 
 		for(int i = 0; i < sides; i++){
@@ -428,8 +428,8 @@ public class Draw{
 		}
 	}
 
-	public static void polygon(int sides, float x, float y, float radius){
-		polygon(sides, x, y, radius, 0);
+	public static void polygon(float y, float x, int sides, float radius){
+		polygon(y, x, sides, radius, 0);
 	}
 
 	public static void polygon(Vector2[] vertices, float offsetx, float offsety, float scl){
