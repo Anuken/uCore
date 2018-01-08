@@ -1,8 +1,6 @@
 package io.anuke.ucore.util;
 
-import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.FloatArray;
 
 import io.anuke.ucore.function.PositionConsumer;
@@ -16,6 +14,7 @@ public class Geometry{
 	private final static Vector2 ep2 = new Vector2();
 	private final static Vector2 s = new Vector2();
 	private final static Vector2 e = new Vector2();
+	private final static Polygon poly = new Polygon(new float[8]);
 	
 	private final static GridPoint2[] d4points = {
 		new GridPoint2(1, 0), 
@@ -55,6 +54,19 @@ public class Geometry{
 			v[i*2+1] = vec.y;
 		}
 		return v;
+	}
+
+	public static boolean intersectRectSegment(Rectangle rect, Vector2 p1, Vector2 p2){
+		float[] vertices = poly.getVertices();
+		vertices[0] = rect.x;
+		vertices[1] = rect.y;
+		vertices[2] = rect.x + rect.width;
+		vertices[3] = rect.y;
+		vertices[4] = rect.x + rect.width;
+		vertices[5] = rect.y + rect.height;
+		vertices[6] = rect.x;
+		vertices[7] = rect.y + rect.height;
+		return Intersector.intersectSegmentPolygon(p1, p2, poly);
 	}
 	
 	/**copied from the libGDX source*/
