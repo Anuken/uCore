@@ -207,7 +207,6 @@ public class Dialog extends Window {
 	
 	/**Shows using the ModuleController's UI.*/
 	public Dialog show () {
-		//TODO make this non-default?
 		setOrigin(Align.center);
 		setClip(false);
 		setTransform(true);
@@ -247,7 +246,6 @@ public class Dialog extends Window {
 	/** Hides the dialog. Called automatically when a button is clicked. The default implementation fades out the dialog over 400
 	 * milliseconds. */
 	public void hide () {
-		//TODO make this non-default?
 		setOrigin(Align.center);
 		setClip(false);
 		setTransform(true);

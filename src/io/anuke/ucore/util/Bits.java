@@ -1,6 +1,5 @@
 package io.anuke.ucore.util;
 
-//TODO
 public class Bits{
 	static byte[] result = new byte[4];
 

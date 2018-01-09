@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 /**Utility class that improves on TextureAtlas - 
  * faster texture lookups with an ObjectMap and automatic error textures.*/
-public class Atlas extends TextureAtlas implements RegionProvider{
+public class Atlas extends TextureAtlas{
 	ObjectMap<String, AtlasRegion> regionmap = new ObjectMap<String, AtlasRegion>();
 	ObjectMap<Texture, Pixmap> pixmaps = new ObjectMap<Texture, Pixmap>();
 	AtlasRegion error;
@@ -102,7 +102,6 @@ public class Atlas extends TextureAtlas implements RegionProvider{
 		}
 	}
 
-	@Override
 	public TextureRegion getRegion(String name){
 		return findRegion(name);
 	}

@@ -346,6 +346,8 @@ public class Inputs{
 		}
 	}
 
+	//TODO 2D axes, like controller sticks, as having two different axes is confusing.
+	//TODO don't treat triggers as axes?
 	/**Represents an input axis. When using a mouse or keyboard, both values are used;
 	 * When a controller is used, min is the only key checked, as it is already an axis.*/
 	public static class Axis{

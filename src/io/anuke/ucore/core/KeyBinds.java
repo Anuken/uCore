@@ -93,7 +93,6 @@ public class KeyBinds{
                 	sec.binds.get(type).put(name, input);
                 }
 
-                //TODO fix, make sure it works!
 				for(String name : sec.axisDefaults.get(type).keys()){
 					String text = "axis-" + sec.name + "-" + type.name() + "-" + name;
 					Axis def = sec.axisDefaults.get(type).get(name);

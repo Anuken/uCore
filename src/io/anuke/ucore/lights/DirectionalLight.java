@@ -232,8 +232,7 @@ public class DirectionalLight extends Light {
 	@Deprecated
 	@Override
 	public void setPosition(float x, float y){
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }
