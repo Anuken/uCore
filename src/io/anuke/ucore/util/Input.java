@@ -1,8 +1,5 @@
 package io.anuke.ucore.util;
 
-import com.badlogic.gdx.controllers.mappings.Xbox;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-
 /**Enum for storing input codes of mouse, keyboard and controllers at once.*/
 public enum Input {
     CONTROLLER_A(Type.controller, XboxBinds.A, "A"),
@@ -18,8 +15,8 @@ public enum Input {
     CONTROLLER_DPAD_DOWN(Type.controller, XboxBinds.DPAD_DOWN, "D-Pad Down"),
     CONTROLLER_DPAD_LEFT(Type.controller, XboxBinds.DPAD_LEFT, "D-Pad Left"),
     CONTROLLER_DPAD_RIGHT(Type.controller, XboxBinds.DPAD_RIGHT, "D-Pad Right"),
-    CONTROLLER_L_STICK(Type.controller, getBind("L_STICK"), "L Stick"),
-    CONTROLLER_R_STICK(Type.controller, getBind("R_STICK"), "R Stick"),
+    CONTROLLER_L_STICK(Type.controller, XboxBinds.L_STICK, "L Stick"),
+    CONTROLLER_R_STICK(Type.controller, XboxBinds.R_STICK, "R Stick"),
     //controller axes
     CONTROLLER_L_TRIGGER(Type.controller, XboxBinds.L_TRIGGER, "L Trigger", true),
     CONTROLLER_R_TRIGGER(Type.controller, XboxBinds.R_TRIGGER, "R Trigger", true),
@@ -226,14 +223,6 @@ public enum Input {
             }
         }
         return Input.UNKNOWN;
-    }
-
-    private static int getBind(String name){
-        try{
-            return (Integer)ClassReflection.getField(XboxBinds.class, name).get(null);
-        }catch (Exception e){
-            return -1;
-        }
     }
 
     @Override

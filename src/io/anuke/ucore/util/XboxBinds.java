@@ -2,6 +2,7 @@ package io.anuke.ucore.util;
 
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.mappings.Xbox;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 public class XboxBinds {
     // Buttons
@@ -142,10 +143,10 @@ public class XboxBinds {
             DPAD_RIGHT = Xbox.DPAD_RIGHT;
             L_STICK_VERTICAL_AXIS = Xbox.L_STICK_VERTICAL_AXIS;
             L_STICK_HORIZONTAL_AXIS = Xbox.L_STICK_HORIZONTAL_AXIS;
-            L_STICK = Xbox.L_STICK;
             R_STICK_VERTICAL_AXIS = Xbox.R_STICK_VERTICAL_AXIS;
             R_STICK_HORIZONTAL_AXIS = Xbox.R_STICK_HORIZONTAL_AXIS;
-            R_STICK = Xbox.R_STICK;
+            L_STICK = getBind("L_STICK");
+            R_STICK = getBind("R_STICK");
         }
     }
 
@@ -153,5 +154,13 @@ public class XboxBinds {
      */
     public static boolean isXboxController(Controller controller) {
         return controller.getName().contains("Xbox");
+    }
+
+    private static int getBind(String name){
+        try{
+            return (Integer) ClassReflection.getField(XboxBinds.class, name).get(null);
+        }catch (Exception e){
+            return -1;
+        }
     }
 }
