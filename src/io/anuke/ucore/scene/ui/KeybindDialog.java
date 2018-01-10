@@ -171,14 +171,12 @@ public class KeybindDialog extends Dialog{
 					Axis axis = section.axisBinds.get(section.device.type).get(keybind.name);
 					table.add(Strings.capitalize(key), style.keyNameColor).left().padRight(40).padLeft(8);
 
-					if(section.device.type == DeviceType.controller || axis.min.axis){
+					if(axis.min.axis){
 						table.add(axis.min.toString(), style.keyColor).left().minWidth(90).padRight(20);
 					}else{
 						Table axt = new Table();
 						axt.left();
-						axt.add(axis.min.toString(), style.keyColor).padRight(5);
-						axt.add("|", style.keyColor);
-						axt.add(axis.max.toString(), style.keyColor).padLeft(5);
+						axt.labelWrap(axis.min.toString() + " [red]/[] " + axis.max.toString()).color(style.keyColor).width(140f).padRight(5);
 						table.add(axt).left().minWidth(90).padRight(20);
 					}
 
