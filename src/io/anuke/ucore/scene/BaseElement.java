@@ -1,7 +1,5 @@
 package io.anuke.ucore.scene;
 
-import static com.badlogic.gdx.utils.Align.*;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,15 +8,18 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
-
 import io.anuke.ucore.scene.actions.Actions;
 import io.anuke.ucore.scene.event.*;
 import io.anuke.ucore.scene.event.InputEvent.Type;
-import io.anuke.ucore.scene.event.ClickListener;
 import io.anuke.ucore.scene.utils.Layout;
 import io.anuke.ucore.scene.utils.ScissorStack;
+
+import static com.badlogic.gdx.utils.Align.*;
 
 /**The Actor class copy. Use Element instead.*/
 class BaseElement implements Layout{
@@ -791,8 +792,8 @@ class BaseElement implements Layout{
 		final float rotation = this.rotation;
 		final float scaleX = this.scaleX;
 		final float scaleY = this.scaleY;
-		final float childX = x;
-		final float childY = y;
+		final float childX = x + elem().translation.x;
+		final float childY = y + elem().translation.y;
 		if (rotation == 0) {
 			if (scaleX == 1 && scaleY == 1) {
 				parentCoords.x -= childX;
@@ -909,7 +910,7 @@ class BaseElement implements Layout{
 		if (!layoutEnabled) return;
 		invalidate();
 		Group parent = getParent();
-		if (parent instanceof Layout) ((Layout)parent).invalidateHierarchy();
+		if(parent != null) parent.invalidateHierarchy();
 	}
 
 
@@ -927,7 +928,7 @@ class BaseElement implements Layout{
 	
 	/**Hacky way to make sure that this is an Element.
 	 * Getting a ClassCastException here means you extended BaseElement with a custom class...
-	 * ..which you should never do!
+	 * ...which you should never do!
 	 */
 	private Element elem(){
 		return (Element)(Object)this;
