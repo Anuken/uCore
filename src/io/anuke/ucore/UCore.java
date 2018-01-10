@@ -14,14 +14,16 @@ public class UCore{
 					&& getProperty("user.name").equals("anuke")
 					&& getAbsolute(Gdx.files.local("na").parent()).endsWith("assets");
 	
-	public static void log(Object...objects){
+	public static void log(Object... objects){
+		StringBuffer buffer = new StringBuffer();
+
 		int i = 0;
 		for(Object o : objects){
-			System.out.print(o);
+			buffer.append(o);
 			if(i++ != objects.length-1)
-				System.out.print(", ");
+				buffer.append(", ");
 		}
-		System.out.println();
+		System.out.println(buffer);
 	}
 
 	public static String getProperty(String name){

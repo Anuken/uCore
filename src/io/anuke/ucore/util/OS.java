@@ -1,7 +1,5 @@
 package io.anuke.ucore.util;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
 import io.anuke.ucore.UCore;
 
 public class OS {
@@ -10,7 +8,6 @@ public class OS {
     static public boolean isMac = property("os.name").contains("Mac");
     static public boolean isIos = false;
     static public boolean isAndroid = false;
-    static public boolean isGWT = Gdx.app.getType() == Application.ApplicationType.WebGL;
     static public boolean isARM = property("os.arch").startsWith("arm");
     static public boolean is64Bit = property("os.arch").equals("amd64")
             || property("os.arch").equals("x86_64");
