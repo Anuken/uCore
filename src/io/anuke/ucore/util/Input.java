@@ -1,5 +1,7 @@
 package io.anuke.ucore.util;
 
+import com.badlogic.gdx.controllers.PovDirection;
+
 /**Enum for storing input codes of mouse, keyboard and controllers at once.*/
 public enum Input {
     CONTROLLER_A(Type.controller, XboxBinds.A, "A"),
@@ -11,12 +13,13 @@ public enum Input {
     CONTROLLER_R_BUMPER(Type.controller, XboxBinds.R_BUMPER, "R Bumper"),
     CONTROLLER_BACK(Type.controller, XboxBinds.BACK, "Back"),
     CONTROLLER_START(Type.controller, XboxBinds.START, "Start"),
-    CONTROLLER_DPAD_UP(Type.controller, XboxBinds.DPAD_UP, "D-Pad Up"),
-    CONTROLLER_DPAD_DOWN(Type.controller, XboxBinds.DPAD_DOWN, "D-Pad Down"),
-    CONTROLLER_DPAD_LEFT(Type.controller, XboxBinds.DPAD_LEFT, "D-Pad Left"),
-    CONTROLLER_DPAD_RIGHT(Type.controller, XboxBinds.DPAD_RIGHT, "D-Pad Right"),
     CONTROLLER_L_STICK(Type.controller, XboxBinds.L_STICK, "L Stick"),
     CONTROLLER_R_STICK(Type.controller, XboxBinds.R_STICK, "R Stick"),
+    //pov?
+    CONTROLLER_DPAD_UP(XboxBinds.DPAD_UP, PovDirection.north, "D-Pad Up"),
+    CONTROLLER_DPAD_DOWN(XboxBinds.DPAD_DOWN, PovDirection.south, "D-Pad Down"),
+    CONTROLLER_DPAD_LEFT(XboxBinds.DPAD_LEFT, PovDirection.west, "D-Pad Left"),
+    CONTROLLER_DPAD_RIGHT(XboxBinds.DPAD_RIGHT, PovDirection.east, "D-Pad Right"),
     //controller axes
     CONTROLLER_L_TRIGGER(Type.controller, XboxBinds.L_TRIGGER, "L Trigger", true),
     CONTROLLER_R_TRIGGER(Type.controller, XboxBinds.R_TRIGGER, "R Trigger", true),
@@ -196,6 +199,8 @@ public enum Input {
     public final Type type;
     public final String value;
     public final boolean axis;
+    public final boolean pov;
+    public final PovDirection direction;
 
     /**desktop keycode*/
     Input(int keycode){
@@ -203,6 +208,8 @@ public enum Input {
         value = com.badlogic.gdx.Input.Keys.toString(keycode);
         code = keycode;
         axis = false;
+        pov = false;
+        direction = null;
     }
 
     Input(Type type, int keycode, String value){
@@ -214,11 +221,31 @@ public enum Input {
         this.type = type;
         this.value = value;
         this.axis = axis;
+        pov = false;
+        direction = null;
+    }
+
+    Input(int keycode, PovDirection direction, String value){
+        this.code = keycode;
+        this.type = Type.controller;
+        this.value = value;
+        this.axis = false;
+        pov = true;
+        this.direction = direction;
     }
 
     public static Input findByType(Type type, int code, boolean axis){
         for(Input i : values()){
             if(i.type == type && i.code == code && i.axis == axis){
+                return i;
+            }
+        }
+        return Input.UNKNOWN;
+    }
+
+    public static Input findPOV(PovDirection direction){
+        for(Input i : values()){
+            if(i.type == Type.controller && i.direction == direction && i.pov){
                 return i;
             }
         }

@@ -1,6 +1,7 @@
 package io.anuke.ucore.util;
 
 import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.controllers.mappings.Xbox;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
@@ -47,10 +48,10 @@ public class XboxBinds {
             R_BUMPER = 5;
             BACK = 6;
             START = 7;
-            DPAD_UP = -1;
-            DPAD_DOWN = -1;
-            DPAD_LEFT = -1;
-            DPAD_RIGHT = -1;
+            DPAD_UP = PovDirection.north.ordinal();
+            DPAD_DOWN = PovDirection.south.ordinal();
+            DPAD_LEFT = PovDirection.west.ordinal();
+            DPAD_RIGHT = PovDirection.east.ordinal();
             L_TRIGGER = 4;
             R_TRIGGER = 5;
             L_STICK_VERTICAL_AXIS = 1;
@@ -69,10 +70,10 @@ public class XboxBinds {
             R_BUMPER = 5;
             BACK = 6;
             START = 7;
-            DPAD_UP = -1;
-            DPAD_DOWN = -1;
-            DPAD_LEFT = -1;
-            DPAD_RIGHT = -1;
+            DPAD_UP = PovDirection.north.ordinal();
+            DPAD_DOWN = PovDirection.south.ordinal();
+            DPAD_LEFT = PovDirection.west.ordinal();
+            DPAD_RIGHT = PovDirection.east.ordinal();
             L_TRIGGER = 2;
             R_TRIGGER = 5;
             L_STICK_VERTICAL_AXIS = 1;

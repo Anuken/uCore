@@ -6,29 +6,25 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerAdapter;
 import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.controllers.mappings.Xbox;
+import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectIntMap;
-import com.badlogic.gdx.utils.ObjectMap;
-
 import io.anuke.ucore.UCore;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Inputs;
 import io.anuke.ucore.core.Inputs.Axis;
-import io.anuke.ucore.core.KeyBinds.Keybind;
-import io.anuke.ucore.core.Timers;
-import io.anuke.ucore.scene.builders.table;
-import io.anuke.ucore.scene.event.InputEvent;
-import io.anuke.ucore.scene.event.InputListener;
-import io.anuke.ucore.util.Input;
 import io.anuke.ucore.core.Inputs.DeviceType;
 import io.anuke.ucore.core.Inputs.InputDevice;
 import io.anuke.ucore.core.KeyBinds;
-import io.anuke.ucore.scene.builders.dialog;
+import io.anuke.ucore.core.KeyBinds.Keybind;
+import io.anuke.ucore.core.Timers;
+import io.anuke.ucore.scene.event.InputEvent;
+import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.ui.layout.Stack;
 import io.anuke.ucore.scene.ui.layout.Table;
+import io.anuke.ucore.util.Input;
 import io.anuke.ucore.util.Input.Type;
 import io.anuke.ucore.util.Strings;
 
@@ -75,6 +71,16 @@ public class KeybindDialog extends Dialog{
 					return false;
 				}
 				return false;
+			}
+
+			@Override
+			public boolean povMoved(Controller controller, int povIndex, PovDirection value) {
+				if(canRebindController() && value != PovDirection.center){
+					UCore.log(Input.findPOV(value));
+					rebind(Input.findPOV(value));
+					return false;
+				}
+				return super.povMoved(controller, povIndex, value);
 			}
 		});
 
