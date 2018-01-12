@@ -60,4 +60,14 @@ public class UCore{
             throw new RuntimeException(e);
 		}
 	}
+
+	public static void setPrivate(Object object, String name, Object value){
+		try{
+			Field field = ClassReflection.getDeclaredField(object.getClass(), name);
+			field.setAccessible(true);
+			field.set(object, value);
+		}catch(ReflectionException e){
+			throw new RuntimeException(e);
+		}
+	}
 }
