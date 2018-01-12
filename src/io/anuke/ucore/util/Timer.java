@@ -19,6 +19,10 @@ public class Timer{
 		}
 	}
 
+	public float getTime(int id){
+		return Timers.time() - times[id];
+	}
+
 	public float[] getTimes(){
 		return times;
 	}
