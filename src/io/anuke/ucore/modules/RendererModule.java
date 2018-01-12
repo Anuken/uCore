@@ -1,7 +1,5 @@
 package io.anuke.ucore.modules;
 
-import static io.anuke.ucore.core.Core.*;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -10,12 +8,17 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
-
 import io.anuke.ucore.UCore;
-import io.anuke.ucore.core.*;
+import io.anuke.ucore.core.Core;
+import io.anuke.ucore.core.Effects;
+import io.anuke.ucore.core.Graphics;
+import io.anuke.ucore.core.Settings;
 import io.anuke.ucore.graphics.Surface;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Tmp;
+
+import static io.anuke.ucore.core.Core.batch;
+import static io.anuke.ucore.core.Core.camera;
 
 public abstract class RendererModule extends Module{
 	public Color clearColor = Color.BLACK;
@@ -121,8 +124,8 @@ public abstract class RendererModule extends Module{
 		
 		if(pixelate) 
 			Graphics.flushSurface();
-		else
-			batch.end();
+
+		batch.end();
 	}
 	
 	/**override this*/
@@ -145,14 +148,14 @@ public abstract class RendererModule extends Module{
 	}
 	
 	public void pixelate(int scl){
-		Graphics.createSurface(scl == -1 ? Core.cameraScale : scl);
+		pixelSurface = Graphics.createSurface(scl == -1 ? Core.cameraScale : scl);
 		pixelate = true;
 	}
 	
 	@Override
 	public void resize(int width, int height){
 		camera.setToOrtho(false, width/Core.cameraScale, height/Core.cameraScale);
-		
+
 		resize();
 	}
 }
