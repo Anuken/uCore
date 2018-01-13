@@ -465,6 +465,15 @@ public class Table extends WidgetGroup {
 		button.getLabelCell().padLeft(-imagesize);
 		return add(button);
 	}
+
+	public Cell<TextButton> addCenteredImageTextButton(String text, String image, String style, float imagesize, Listenable clicked){
+		TextButton button = new TextButton(text, style);
+		button.add(new Image(image)).size(imagesize);
+		button.getCells().reverse();
+		button.clicked(clicked);
+		button.getLabelCell().padLeft(-imagesize);
+		return add(button);
+	}
 	
 	public Cell<Slider> addSlider(float min, float max, float step, Consumer<Float> listener){
 		return addSlider(min, max, step, 0f, listener);

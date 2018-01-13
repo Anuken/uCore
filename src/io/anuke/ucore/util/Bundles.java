@@ -1,11 +1,6 @@
 package io.anuke.ucore.util;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.I18NBundle;
 import io.anuke.ucore.core.Core;
-
-import java.util.Locale;
 
 public class Bundles {
 
