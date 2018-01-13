@@ -10,7 +10,8 @@ import io.anuke.ucore.function.PositionConsumer;
 
 public class Angles{
 	private static final RandomXS128 random = new RandomXS128();
-	static public Vector2 vector = new Vector2(1,1);
+	private static final Vector3 v3 = new Vector3();
+	public static final Vector2 vector = new Vector2(1,1);
 	
 	public static float x(){
 		return vector.x;
@@ -67,13 +68,13 @@ public class Angles{
 	}
 
 	static public float mouseAngle(OrthographicCamera camera, float cx, float cy){
-		Vector3 avector = camera.project(new Vector3(cx, cy, 0));
+		Vector3 avector = camera.project(v3.set(cx, cy, 0));
 		vector.set(Gdx.input.getX() - avector.x, Gdx.graphics.getHeight() - Gdx.input.getY() - avector.y);
 		return vector.angle();
 	}
 	
 	static public float mouseAngle(float cx, float cy){
-		Vector3 avector = Core.camera.project(new Vector3(cx, cy, 0));
+		Vector3 avector = Core.camera.project(v3.set(cx, cy, 0));
 		vector.set(Gdx.input.getX() - avector.x, Gdx.graphics.getHeight() - Gdx.input.getY() - avector.y);
 		return vector.angle();
 	}
