@@ -9,6 +9,7 @@ import io.anuke.ucore.function.Consumer;
 import java.util.Random;
 
 public class Mathf{
+	public static int[] signs = {-1, 1};
 	private static RandomXS128 seedr = new RandomXS128();
 	private static RandomXS128 rand = new RandomXS128();
 	
@@ -34,7 +35,7 @@ public class Mathf{
 	}
 	
 	public static float absin(float in, float scl, float mag){
-		return Math.abs(sin(in, scl*2f, mag));
+		return (sin(in, scl*2f, mag) + mag) / 2f;
 	}
 	
 	public static boolean zero(float f){

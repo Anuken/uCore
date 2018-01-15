@@ -92,6 +92,13 @@ public class Angles{
 		}
 	}
 
+	public static void circleVectors(int points, float length, float offset, PositionConsumer pos){
+		for(int i = 0; i < points; i ++){
+			translation(i*360f/points + offset, length);
+			pos.accept(vector.x, vector.y);
+		}
+	}
+
 	public static void shotgun(int points, float spacing, float offset, Consumer<Float> cons){
 		for(int i = 0; i < points; i ++){
 			cons.accept(i*spacing-(points-1)*spacing/2f+offset);

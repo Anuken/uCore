@@ -117,7 +117,7 @@ public abstract class RendererModule extends Module{
 			Graphics.surface(pixelSurface);
 		else
 			batch.begin();
-		
+
 		clearScreen(clearColor);
 		
 		draw();

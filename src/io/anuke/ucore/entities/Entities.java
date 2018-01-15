@@ -94,8 +94,8 @@ public class Entities{
 		rect.getCenter(vector);
 		overlapTile(rect, vector.x + dx + fx, vector.y + fy);
 
-		e.x = rect.x + box.width / 2 + box.offsetx;
-		e.y = rect.y + box.height / 2 + box.offsety;
+		e.x = rect.x + box.width / 2 - box.offsetx*2;
+		e.y = rect.y + box.height / 2 - box.offsety*2;
 	}
 
 	static void overlapTile(Rectangle rect, float x, float y){

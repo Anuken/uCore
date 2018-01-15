@@ -239,10 +239,10 @@ public class Graphics{
 		if(currentShaders.length == 1){
 			Shader shader = currentShaders[0];
 			tempregion.setRegion(currentSurface().texture());
+			shader.region = tempregion;
 			
 			Graphics.shader(shader);
 			shader.program().begin();
-			shader.region = tempregion;
 			shader.applyParams();
 			shader.program().end();
 			flushSurface();

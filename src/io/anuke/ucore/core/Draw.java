@@ -230,6 +230,14 @@ public class Draw{
 		TextureRegion region = region(name);
 		batch.draw(region, x, y);
 	}
+
+	public static void shape(float x, float y, int sides, float radius){
+		rect("shape-" + sides, x, y, radius*2, radius*2);
+	}
+
+	public static void shape(float x, float y, int sides, float radius, float rotation){
+		rect("shape-" + sides, x, y, radius*2, radius*2, rotation);
+	}
 	
 	public static void laser(String line, String edge, float x, float y, float x2, float y2, float scale){
 		laser(line, edge, x, y, x2, y2, vector.set(x2 - x, y2 - y).angle(), scale);
@@ -339,7 +347,7 @@ public class Draw{
 		spikes(x, y, rad, length, spikes, 0);
 	}
 
-	public static void polygon(float y, float x, int sides, float radius, float angle){
+	public static void polygon(float x, float y, int sides, float radius, float angle){
 		vector.set(0, 0);
 
 		for(int i = 0; i < sides; i++){
@@ -350,6 +358,20 @@ public class Draw{
 			vector.set(radius, 0).setAngle(360f / sides * (i + 1) + angle + 90);
 
 			Draw.line(x1 + x, y1 + y, vector.x + x, vector.y + y);
+		}
+	}
+
+	public static void polygonFlat(float x, float y, int sides, float radius, float angle, float ysquish){
+		vector.set(0, 0);
+
+		for(int i = 0; i < sides; i++){
+			vector.set(radius, 0).setAngle(360f / sides * i + angle + 90);
+			float x1 = vector.x;
+			float y1 = vector.y;
+
+			vector.set(radius, 0).setAngle(360f / sides * (i + 1) + angle + 90);
+
+			Draw.line(x1 + x, y1*ysquish + y, vector.x + x, vector.y*ysquish + y);
 		}
 	}
 
@@ -428,8 +450,8 @@ public class Draw{
 		}
 	}
 
-	public static void polygon(float y, float x, int sides, float radius){
-		polygon(y, x, sides, radius, 0);
+	public static void polygon(float x, float y, int sides, float radius){
+		polygon(x, y, sides, radius, 0);
 	}
 
 	public static void polygon(Vector2[] vertices, float offsetx, float offsety, float scl){
@@ -567,6 +589,10 @@ public class Draw{
 		color();
 		if(Core.font != null)
 			tcolor();
+	}
+
+	public static void reloadRegion(){
+		blankregion = Core.atlas.getRegion("blank");
 	}
 
 	public static TextureRegion region(String name){
