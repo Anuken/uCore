@@ -5,20 +5,26 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.IntSet;
-
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Draw;
-import io.anuke.ucore.function.*;
-import io.anuke.ucore.util.*;
+import io.anuke.ucore.function.Consumer;
+import io.anuke.ucore.function.Predicate;
+import io.anuke.ucore.function.TileCollider;
+import io.anuke.ucore.function.TileHitboxProvider;
+import io.anuke.ucore.util.Mathf;
+import io.anuke.ucore.util.Physics;
+import io.anuke.ucore.util.QuadTree;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
+import io.anuke.ucore.util.RectQuadTree;
 
 public class Entities{
 	private static Array<EntityGroup<?>> groupArray = new Array<>();
 	private static EntityGroup<Entity> defaultGroup;
+	private static IntMap<EntityGroup<?>> groups = new IntMap<>();
 
 	private static RectQuadTree rtree;
-	private static boolean physics = false;
 	private static TileCollider collider;
 	private static TileHitboxProvider tileHitbox;
 	private static float tilesize;
@@ -54,7 +60,6 @@ public class Entities{
 				group.setTree(x, y, w, h);
 		}
 		rtree = new RectQuadTree(maxLeafObjects, new Rectangle(x, y, w, h));
-		physics = true;
 
 		updateRects();
 	}
@@ -197,10 +202,17 @@ public class Entities{
 	public static Iterable<Entity> all(){
 		return defaultGroup.all();
 	}
-	
+
+	public static EntityGroup<?> getGroup(int id){
+		return groups.get(id);
+	}
+
+	public static Iterable<EntityGroup<?>> getAllGroups(){
+		return groups.values();
+	}
 	
 	public static EntityGroup<Entity> defaultGroup(){
-		return defaultGroup;//(EntityGroup<Entity>) groups.get(Entity.class);
+		return defaultGroup;
 	}
 	
 	public static <T extends Entity> EntityGroup<T> addGroup(Class<T> type){
@@ -208,8 +220,8 @@ public class Entities{
 	}
 	
 	public static <T extends Entity> EntityGroup<T> addGroup(Class<T> type, boolean useTree){
-		EntityGroup<T> group = new EntityGroup<>(useTree);
-		//groups.put(type, group);
+		EntityGroup<T> group = new EntityGroup<>(type, useTree);
+		groups.put(group.getID(), group);
 		groupArray.add(group);
 		return group;
 	}

@@ -7,21 +7,35 @@ import com.badlogic.gdx.utils.IntMap;
 import io.anuke.ucore.util.QuadTree;
 
 public class EntityGroup<T extends Entity>{
+	private static int lastid;
+	private final int id;
+
 	private IntMap<T> map;
 	private Array<T> entityArray = new Array<>();
 	private Array<T> entitiesToRemove = new Array<>();
 	private Array<T> entitiesToAdd = new Array<>();
 	private QuadTree<SolidEntity> tree;
+	private Class<T> type;
 	
 	public  final boolean useTree;
 	
-	public EntityGroup(boolean useTree){
+	public EntityGroup(Class<T> type, boolean useTree){
 		this.useTree = useTree;
+		this.id = lastid ++;
+		this.type = type;
 	}
 
 	public EntityGroup<T> enableMapping(){
 		map = new IntMap<>();
 		return this;
+	}
+
+	public Class<T> getType(){
+		return type;
+	}
+
+	public int getID(){
+		return id;
 	}
 
 	public void updateRemovals(){
