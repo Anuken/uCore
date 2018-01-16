@@ -30,7 +30,7 @@ public class UCore{
 		try{
 			Method method = ClassReflection.getMethod(System.class, "getProperty", String.class);
 			return (String)method.invoke(null, name);
-		}catch(ReflectionException e){
+		}catch(Exception e){
 			return null;
 		}
 	}

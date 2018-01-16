@@ -289,12 +289,19 @@ public class Draw{
 		line(x - vector.x / 2, y - vector.y / 2, x + vector.x / 2, y + vector.y / 2);
 	}
 
-	public static void line(float x, float y, float x2, float y2){
-		float length = Vector2.dst(x, y, x2, y2) + thickness / 2;
+	public static void lineUncap(float x, float y, float x2, float y2, float pad){
+		float length = Vector2.dst(x, y, x2, y2) + pad*2;
 		float angle = ((float) Math.atan2(y2 - y, x2 - x) * MathUtils.radDeg);
 		
-		batch.draw(blankregion, x - thickness / 2, y - thickness / 2, thickness / 2, thickness / 2, length, thickness, 1f, 1f, angle);
+		batch.draw(blankregion, x - pad, y - thickness / 2, pad, thickness / 2, length, thickness, 1f, 1f, angle);
 	}
+
+    public static void line(float x, float y, float x2, float y2){
+        float length = Vector2.dst(x, y, x2, y2) + thickness / 2;
+        float angle = ((float) Math.atan2(y2 - y, x2 - x) * MathUtils.radDeg);
+
+        batch.draw(blankregion, x - thickness / 2, y - thickness / 2, thickness / 2, thickness / 2, length, thickness, 1f, 1f, angle);
+    }
 	
 	public static void dashLine(float x1, float y1, float x2, float y2, int divisions){
 		float dx = x2 - x1, dy = y2 - y1;

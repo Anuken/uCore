@@ -178,7 +178,9 @@ public class Entities{
 	public static SolidEntity getClosest(EntityGroup<?> group, float x, float y, float range, Predicate<Entity> pred){
 		SolidEntity closest = null;
 		float cdist = 0f;
-		for(SolidEntity e : getNearby(group, x, y, range * 2f)){
+		Array<SolidEntity> entities = getNearby(group, x, y, range * 2f);
+		for(int i = 0; i < entities.size; i ++){
+			SolidEntity e = entities.get(i);
 			if(!pred.test(e))
 				continue;
 

@@ -19,6 +19,13 @@ public class Hitbox{
 
 	}
 
+	public void bounds(float offsetx, float offsety, float width, float height){
+		this.offsety = offsety;
+		this.offsetx = offsetx;
+		this.width = width;
+		this.height = height;
+	}
+
 	public Rectangle getRect(float x, float y){
 		return getRect(Rectangle.tmp, x, y);
 	}
