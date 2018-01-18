@@ -587,7 +587,7 @@ public class Draw{
 	public static void reset(){
 		//TODO move this to initialization of some sort
 		//check if Draw can use the atlas for blank regions
-		if(Core.atlas != null && blankregion.getTexture().getWidth() == 1
+		if(Core.atlas != null && (blankregion == null || blankregion.getTexture().getWidth() == 1)
 				 && Core.atlas.hasRegion("blank")){
 			blankregion = Core.atlas.getRegion("blank");
 		}
