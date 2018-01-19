@@ -2,6 +2,7 @@ package io.anuke.ucore.util;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.function.Consumer;
@@ -28,6 +29,10 @@ public class Mathf{
 		}else{
 			return i % m + m;
 		}
+	}
+
+	public static float dst(float x, float y){
+		return Vector2.dst(x, y, 0, 0);
 	}
 	
 	public static float sin(float in, float scl, float mag){

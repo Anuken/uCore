@@ -222,10 +222,11 @@ public class Inputs{
 	
 	public static boolean keyDown(String section, String name){
 		KeyBinds.Section s = KeyBinds.getSection(section);
-		Input input = KeyBinds.get(section, name);
 		if(KeyBinds.has(section, name)){
+			Input input = KeyBinds.get(section, s.device.type, name);
 			return keyDown(input, s.device);
 		}else{
+			Input input = KeyBinds.get(section, DeviceType.keyboard, name);
 			return keyDown(input, getKeyboard());
 		}
 	}
@@ -248,10 +249,11 @@ public class Inputs{
 	
 	public static boolean keyTap(String section, String name){
 		KeyBinds.Section s = KeyBinds.getSection(section);
-		Input input = KeyBinds.get(section, name);
 		if(KeyBinds.has(section, name)){
+			Input input = KeyBinds.get(section, name);
 			return keyTap(input, s.device);
 		}else{
+			Input input = KeyBinds.get(section, DeviceType.keyboard, name);
 			return keyTap(input, getKeyboard());
 		}
 	}

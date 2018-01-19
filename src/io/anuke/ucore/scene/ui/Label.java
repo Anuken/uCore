@@ -16,19 +16,23 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.core.Core.skin;
-
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.Glyph;
+import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
-
-import io.anuke.ucore.UCore;
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.StringSupplier;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.util.Bundles;
+
+import static io.anuke.ucore.core.Core.font;
+import static io.anuke.ucore.core.Core.skin;
 
 /** A text label, with optional word wrapping.
  * <p>
@@ -51,12 +55,11 @@ public class Label extends Element {
 	private float fontScaleX = 1, fontScaleY = 1;
 	private boolean fontScaleChanged = false;
 	private String ellipsis;
+	private boolean fallback = true;
 	
 	public Label(StringSupplier sup){
-		this("", skin.get(LabelStyle.class));
-		update(()->{
-			setText(sup.get());
-		});
+		this("", new LabelStyle(skin.get(LabelStyle.class)));
+		update(() -> setText(sup.get()));
 	}
 
 	public Label (CharSequence text) {
@@ -80,8 +83,8 @@ public class Label extends Element {
 	}
 
 	public Label (CharSequence text, LabelStyle style) {
-		if (text != null) setText(text);
 		setStyle(style);
+		if (text != null) setText(text);
 		if (text != null && text.length() > 0) setSize(getPrefWidth(), getPrefHeight());
 	}
 
@@ -115,12 +118,33 @@ public class Label extends Element {
 			if (text.equals(newText)) return;
 			text.setLength(0);
 			text.append((StringBuilder)newText);
+			if(fallback) {
+				checkFallback();
+			}
 		} else {
 			if (textEquals(newText)) return;
 			text.setLength(0);
 			text.append(newText);
+			if(fallback) {
+				checkFallback();
+			}
 		}
 		invalidateHierarchy();
+	}
+
+	private void checkFallback(){
+		for (int i = 0; i < text.length; i++) {
+			Glyph g =font.getData().getGlyph(text.charAt(i));
+			if (g == null || g == font.getData().missingGlyph) {
+				for (BitmapFont font : Core.skin.getAll(BitmapFont.class).values()) {
+					if(font.getData().getGlyph(text.charAt(i)) != null){
+						this.style.font = font;
+						setStyle(this.style);
+					}
+				}
+				break;
+			}
+		}
 	}
 
 	public boolean textEquals (CharSequence other) {

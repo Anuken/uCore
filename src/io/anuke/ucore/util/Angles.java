@@ -2,11 +2,14 @@ package io.anuke.ucore.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.*;
-
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.RandomXS128;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.PositionConsumer;
+import io.anuke.ucore.function.PositionFractConsumer;
 
 public class Angles{
 	private static final RandomXS128 random = new RandomXS128();
@@ -122,6 +125,27 @@ public class Angles{
 			float vang = random.nextFloat()*360f;
 			Tmp.v3.set(scl, 0).setAngle(vang);
 			cons.accept(Tmp.v3.x, Tmp.v3.y);
+		}
+	}
+
+	public static void randLenVectors(long seed, int amount, float length, float angle, float range, PositionConsumer cons){
+		random.setSeed(seed);
+		for(int i = 0; i < amount; i ++){
+			float scl = length * random.nextFloat();
+			float vang = angle + random.nextFloat() * range*2 - range;
+			Tmp.v3.set(scl, 0).setAngle(vang);
+			cons.accept(Tmp.v3.x, Tmp.v3.y);
+		}
+	}
+
+	public static void randLenVectors(long seed, float fract,
+									  int amount, float length, float angle, float range, PositionFractConsumer cons){
+		random.setSeed(seed);
+		for(int i = 0; i < amount; i ++){
+			float scl = length * random.nextFloat() * fract;
+			float vang = angle + random.nextFloat() * range*2 - range;
+			Tmp.v3.set(scl, 0).setAngle(vang);
+			cons.accept(Tmp.v3.x, Tmp.v3.y, fract * (random.nextFloat()));
 		}
 	}
 }

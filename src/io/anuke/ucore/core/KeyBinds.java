@@ -140,13 +140,20 @@ public class KeyBinds{
     }
 
 	public static Input get(String section, String name){
-	    Section s = map.get(section);
-	    if(s == null)
+		Section s = map.get(section);
+		if(s == null)
 			throw new IllegalArgumentException("No section \"" + section + "\" found!");
-	    if(!s.defaults.get(s.device.type).containsKey(name))
+	    return get(section, s.device.type, name);
+	}
+
+	public static Input get(String section, DeviceType type, String name){
+		Section s = map.get(section);
+		if(s == null)
+			throw new IllegalArgumentException("No section \"" + section + "\" found!");
+		if(!s.defaults.get(type).containsKey(name))
 			throw new IllegalArgumentException("No keybind \"" + name + "\" found in section \"" + section + "\"");
 
-		return s.binds.get(s.device.type).get(name, s.defaults.get(s.device.type).get(name));
+		return s.binds.get(type).get(name, s.defaults.get(type).get(name));
 	}
 
 	public static boolean has(String section, String name){
