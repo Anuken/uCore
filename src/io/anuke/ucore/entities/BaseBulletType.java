@@ -30,11 +30,11 @@ public abstract class BaseBulletType<T extends BulletEntity>{
 	public void update(T b){}
 	public void removed(T b){
 		if(hiteffect != null)
-			Effects.effect(hiteffect, b);
+			Effects.effect(hiteffect, b.x, b.y, b.angle());
 	}
 	public void despawned(T b){
 		if(despawneffect != null)
-			Effects.effect(despawneffect, b);
+			Effects.effect(despawneffect, b.x, b.y, b.angle());
 	}
 
 	public static BaseBulletType<?> getByID(int id){

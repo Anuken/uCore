@@ -38,6 +38,10 @@ public class Mathf{
 	public static float sin(float in, float scl, float mag){
 		return MathUtils.sin(in/scl)*mag;
 	}
+
+	public static float cos(float in, float scl, float mag){
+		return MathUtils.cos(in/scl)*mag;
+	}
 	
 	public static float absin(float in, float scl, float mag){
 		return (sin(in, scl*2f, mag) + mag) / 2f;
