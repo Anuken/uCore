@@ -28,6 +28,7 @@ public abstract class BaseBulletType<T extends BulletEntity>{
 	public abstract void draw(T b);
 	public void init(T b){}
 	public void update(T b){}
+
 	public void removed(T b){
 		if(hiteffect != null)
 			Effects.effect(hiteffect, b.x, b.y, b.angle());

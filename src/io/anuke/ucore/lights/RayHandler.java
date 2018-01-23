@@ -1,16 +1,20 @@
 package io.anuke.ucore.lights;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-
 import io.anuke.ucore.core.Timers;
-import io.anuke.ucore.jbump.World;
 import io.anuke.ucore.lights.shaders.LightShader;
 import io.anuke.ucore.lights.shaders.PixelShader;
 import io.anuke.ucore.noise.Noise;
@@ -120,8 +124,7 @@ public class RayHandler implements Disposable {
 	 *     <li>blurNum = 1
 	 *     <li>ambientLight = 0f
 	 * </ul>
-	 * 
-	 * @see #RayHandler(World, int, int)
+	 *
 	 */
 	public RayHandler() {
 		this(Gdx.graphics.getWidth() / 4, Gdx.graphics
@@ -131,8 +134,7 @@ public class RayHandler implements Disposable {
 	/**
 	 * Class constructor specifying the physics world from where collision
 	 * geometry is taken, and size of FBO used for intermediate rendering.
-	 * 
-	 * @see #RayHandler(World)
+	 *
 	 */
 	public RayHandler(int fboWidth, int fboHeight) {
 

@@ -15,23 +15,31 @@
  */
 package io.anuke.ucore.jbump;
 
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
 import static java.lang.Math.*;
 
 /**
  *
  * @author tao
  */
-public class Grid{
+public class JBGrid {
+	private final Vector2 grid_traverse_c1 = new Vector2();
+	private final Vector2 grid_traverse_c2 = new Vector2();
+	private final Vector2 grid_traverse_initStepX = new Vector2();
+	private final Vector2 grid_traverse_initStepY = new Vector2();
+	private final Vector2 toCellRect = new Vector2();
 
-	public static void grid_toWorld(float cellSize, float cx, float cy, Point point){
+	public static void toWorld(float cellSize, float cx, float cy, Vector2 point){
 		point.set((cx - 1) * cellSize, (cy - 1) * cellSize);
 	}
 
-	public static void grid_toCell(float cellSize, float x, float y, Point point){
+	public static void toCell(float cellSize, float x, float y, Vector2 point){
 		point.set((float) floor(x / cellSize) + 1, (float) floor(y / cellSize) + 1);
 	}
 
-	public static int grid_traverse_initStep(float cellSize, float ct, float t1, float t2, Point point){
+	public static int traverseInitStep(float cellSize, float ct, float t1, float t2, Vector2 point){
 		float v = t2 - t1;
 		if(v > 0){
 			point.set(cellSize / v, ((ct + v) * cellSize - t1) / v);
@@ -45,25 +53,19 @@ public class Grid{
 		}
 	}
 
-	public static interface TraverseCallback{
-
-		public void onTraverse(float cx, float cy);
+	public interface TraverseCallback{
+		void onTraverse(float cx, float cy);
 	}
 
-	private final Point grid_traverse_c1 = new Point();
-	private final Point grid_traverse_c2 = new Point();
-	private final Point grid_traverse_initStepX = new Point();
-	private final Point grid_traverse_initStepY = new Point();
-
-	public void grid_traverse(float cellSize, float x1, float y1, float x2, float y2, TraverseCallback f){
-		grid_toCell(cellSize, x1, y1, grid_traverse_c1);
+	public void traverse(float cellSize, float x1, float y1, float x2, float y2, TraverseCallback f){
+		toCell(cellSize, x1, y1, grid_traverse_c1);
 		float cx1 = grid_traverse_c1.x;
 		float cy1 = grid_traverse_c1.y;
-		grid_toCell(cellSize, x2, y2, grid_traverse_c2);
+		toCell(cellSize, x2, y2, grid_traverse_c2);
 		float cx2 = grid_traverse_c2.x;
 		float cy2 = grid_traverse_c2.y;
-		int stepX = grid_traverse_initStep(cellSize, cx1, x1, x2, grid_traverse_initStepX);
-		int stepY = grid_traverse_initStep(cellSize, cy1, y1, y2, grid_traverse_initStepY);
+		int stepX = traverseInitStep(cellSize, cx1, x1, x2, grid_traverse_initStepX);
+		int stepY = traverseInitStep(cellSize, cy1, y1, y2, grid_traverse_initStepY);
 		float dx = grid_traverse_initStepX.x;
 		float tx = grid_traverse_initStepX.y;
 		float dy = grid_traverse_initStepY.x;
@@ -92,12 +94,10 @@ public class Grid{
 		}
 	}
 
-	private final Point grid_toCellRect_cxy = new Point();
-
-	public Rect grid_toCellRect(float cellSize, float x, float y, float w, float h, Rect rect){
-		grid_toCell(cellSize, x, y, grid_toCellRect_cxy);
-		float cx = grid_toCellRect_cxy.x;
-		float cy = grid_toCellRect_cxy.y;
+	public Rectangle grid_toCellRect(float cellSize, float x, float y, float w, float h, Rectangle rect){
+		toCell(cellSize, x, y, toCellRect);
+		float cx = toCellRect.x;
+		float cy = toCellRect.y;
 
 		float cr = (float) ceil((x + w) / cellSize);
 		float cb = (float) ceil((y + h) / cellSize);

@@ -9,19 +9,19 @@ import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.ecs.extend.traits.TileCollideTrait;
 import io.anuke.ucore.function.TileCollider;
 import io.anuke.ucore.function.TileHitboxProvider;
-import io.anuke.ucore.jbump.CollisionFilter;
-import io.anuke.ucore.jbump.Item;
-import io.anuke.ucore.jbump.Response.Result;
-import io.anuke.ucore.jbump.World;
+import io.anuke.ucore.jbump.JBCollision.CollisionFilter;
+import io.anuke.ucore.jbump.JBWorld.JBItem;
+import io.anuke.ucore.jbump.JBWorld;
+import io.anuke.ucore.jbump.JBResponse.Result;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Tmp;
 
 public class TileCollisionProcessor extends Processor{
 	private static final int r = 2;
 	
-	private World world = new World();
+	private JBWorld world = new JBWorld();
 	
-	private Array<Item> items = new Array<>();
+	private Array<JBItem> items = new Array<>();
 	private Rectangle tmp = new Rectangle();
 	
 	private float tilesize;
@@ -36,7 +36,7 @@ public class TileCollisionProcessor extends Processor{
 	}
 	
 	public TileCollisionProcessor(float tilesize, TileCollider collider){
-		this(tilesize, collider, (x, y, out)->{
+		this(tilesize, collider, (x, y, out) -> {
 			out.setSize(tilesize).setCenter(x*tilesize, y*tilesize);
 		});
 	}
@@ -47,7 +47,7 @@ public class TileCollisionProcessor extends Processor{
 		
 		//TODO offset x/y to be in bottom left corner if needed?
 		
-		Item is = new Item();
+		JBItem is = new JBItem();
 		items.add(is);
 		world.add(is, x-trait.width/2, y-trait.height/2, trait.width, trait.height);
 		
@@ -59,7 +59,7 @@ public class TileCollisionProcessor extends Processor{
 				if(collider.solid(wx, wy)){
 					
 					hitbox.getHitbox(wx, wy, tmp);
-					Item tile = new Item();
+					JBItem tile = new JBItem();
 					world.add(tile, tmp.x, tmp.y, tmp.width, tmp.height);
 					items.add(tile);
 				}
@@ -69,7 +69,7 @@ public class TileCollisionProcessor extends Processor{
 		Result result = world.move(is, x + deltax-trait.width/2, y + deltay-trait.height/2, CollisionFilter.defaultFilter);
 		spark.pos().set(result.goalX - trait.offsetx+trait.width/2, result.goalY - trait.offsety+trait.height/2);
 		
-		for(Item item : items){
+		for(JBItem item : items){
 			world.remove(item);
 		}
 	}

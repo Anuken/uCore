@@ -140,19 +140,23 @@ public class Effects{
 		public void set(int id, Color color, float life, float lifetime, float rotation, float x, float y){
 			this.x = x; this.y = y; this.color = color; this.time = life; this.lifetime = lifetime; this.id = id; this.rotation = rotation;
 		}
-		
+
+		/**1 to 0*/
 		public float fract(){
 			return 1f-time/lifetime;
 		}
-		
+
+		/**0 to 1*/
 		public float ifract(){
 			return time/lifetime;
 		}
-		
+
+		/**0 to 1*/
 		public float powfract(){
 			return Interpolation.pow3Out.apply(ifract());
 		}
-		
+
+		/**0 to 1 to 0*/
 		public float sfract(){
 			return (0.5f-Math.abs(time/lifetime-0.5f))*2f;
 		}

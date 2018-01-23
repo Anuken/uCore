@@ -15,22 +15,22 @@
  */
 package io.anuke.ucore.jbump;
 
-import static io.anuke.ucore.jbump.Rect.rect_getSquareDistance;
-
-//import com.dongbat.jbump.util.BooleanArray;
-//import com.dongbat.jbump.util.FloatArray;
-//import com.dongbat.jbump.util.IntIntMap;
-import java.util.*;
-
 import com.badlogic.gdx.utils.BooleanArray;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.IntIntMap;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import static io.anuke.ucore.jbump.JBRectUtils.getSquareDistance;
 
 /**
  *
  * @author tao
  */
-public class Collisions implements Comparator<Integer>{
+public class JBCollisions implements Comparator<Integer>{
 
 	private final BooleanArray overlaps = new BooleanArray();
 	private final FloatArray tis = new FloatArray();
@@ -48,16 +48,16 @@ public class Collisions implements Comparator<Integer>{
 	private final FloatArray y2s = new FloatArray();
 	private final FloatArray w2s = new FloatArray();
 	private final FloatArray h2s = new FloatArray();
-	public ArrayList<Item> items = new ArrayList<Item>();
-	public ArrayList<Item> others = new ArrayList<Item>();
-	public ArrayList<Response> types = new ArrayList<Response>();
+	public ArrayList<JBWorld.JBItem> items = new ArrayList<JBWorld.JBItem>();
+	public ArrayList<JBWorld.JBItem> others = new ArrayList<JBWorld.JBItem>();
+	public ArrayList<JBResponse> types = new ArrayList<JBResponse>();
 	private int size = 0;
 
-	public void add(Collision col){
-		add(col.overlaps, col.ti, col.move.x, col.move.y, col.normal.x, col.normal.y, col.touch.x, col.touch.y, col.itemRect.x, col.itemRect.y, col.itemRect.w, col.itemRect.h, col.otherRect.x, col.otherRect.y, col.otherRect.w, col.otherRect.h, col.item, col.other, col.type);
+	public void add(JBCollision col){
+		add(col.overlaps, col.ti, col.move.x, col.move.y, col.normal.x, col.normal.y, col.touch.x, col.touch.y, col.itemRect.x, col.itemRect.y, col.itemRect.width, col.itemRect.height, col.otherRect.x, col.otherRect.y, col.otherRect.width, col.otherRect.height, col.item, col.other, col.type);
 	}
 
-	public void add(boolean overlap, float ti, float moveX, float moveY, float normalX, float normalY, float touchX, float touchY, float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2, Item item, Item other, Response type){
+	public void add(boolean overlap, float ti, float moveX, float moveY, float normalX, float normalY, float touchX, float touchY, float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2, JBWorld.JBItem item, JBWorld.JBItem other, JBResponse type){
 		size++;
 		overlaps.add(overlap);
 		tis.add(ti);
@@ -80,9 +80,9 @@ public class Collisions implements Comparator<Integer>{
 		types.add(type);
 	}
 
-	private final Collision collision = new Collision();
+	private final JBCollision collision = new JBCollision();
 
-	public Collision get(int index){
+	public JBCollision get(int index){
 		if(index >= size){
 			return null;
 		}
@@ -231,8 +231,8 @@ public class Collisions implements Comparator<Integer>{
 	public int compare(Integer a, Integer b){
 		if(tis.get(a) == (tis.get(b))){
 
-			float ad = rect_getSquareDistance(x1s.get(a), y1s.get(a), w1s.get(a), h1s.get(a), x2s.get(a), y2s.get(a), w2s.get(a), h2s.get(a));
-			float bd = rect_getSquareDistance(x1s.get(a), y1s.get(a), w1s.get(a), h1s.get(a), x2s.get(b), y2s.get(b), w2s.get(b), h2s.get(b));
+			float ad = getSquareDistance(x1s.get(a), y1s.get(a), w1s.get(a), h1s.get(a), x2s.get(a), y2s.get(a), w2s.get(a), h2s.get(a));
+			float bd = getSquareDistance(x1s.get(a), y1s.get(a), w1s.get(a), h1s.get(a), x2s.get(b), y2s.get(b), w2s.get(b), h2s.get(b));
 
 			return Float.compare(ad, bd);
 		}

@@ -238,6 +238,10 @@ public class Draw{
 	public static void shape(float x, float y, int sides, float radius, float rotation){
 		rect("shape-" + sides, x, y, radius*2, radius*2, rotation);
 	}
+
+    public static void shapeCircle(float x, float y, float radius){
+        rect("circle", x, y, radius*2, radius*2);
+    }
 	
 	public static void laser(String line, String edge, float x, float y, float x2, float y2, float scale){
 		laser(line, edge, x, y, x2, y2, vector.set(x2 - x, y2 - y).angle(), scale);
@@ -268,6 +272,17 @@ public class Draw{
 			Draw.lineAngle(x, y, angle, fract*length);
 			length *= falloff;
 			thickness /= falloff;
+		}
+	}
+
+	public static void lineShotFade(float x, float y, float angle, int amount, float fract, float len, float thick, float falloff, float thickadd){
+		float length = len;
+		float thickness = thick;
+		for(int i = 0; i < amount; i ++){
+			Draw.thick(fract*thickness);
+			Draw.lineAngle(x, y, angle, length);
+			length *= falloff;
+			thickness += thickadd;
 		}
 	}
 
@@ -442,16 +457,20 @@ public class Draw{
 	}
 
 	public static void swirl(float x, float y, float radius, float fraction){
+		swirl(x, y, radius, fraction);
+	}
+
+	public static void swirl(float x, float y, float radius, float fraction, float angle){
 		int sides = 50;
 		int max = (int) (sides * (fraction + 0.001f));
 		vector.set(0, 0);
 
 		for(int i = 0; i < max; i++){
-			vector.set(radius, 0).setAngle(360f / sides * i);
+			vector.set(radius, 0).setAngle(360f / sides * i + angle);
 			float x1 = vector.x;
 			float y1 = vector.y;
 
-			vector.set(radius, 0).setAngle(360f / sides * (i + 1));
+			vector.set(radius, 0).setAngle(360f / sides * (i + 1) + angle);
 
 			Draw.line(x1 + x, y1 + y, vector.x + x, vector.y + y);
 		}
