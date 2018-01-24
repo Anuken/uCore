@@ -23,7 +23,11 @@ public class UCore{
 			if(i++ != objects.length-1)
 				buffer.append(", ");
 		}
-		System.out.println(buffer);
+		Gdx.app.log("Log", buffer.toString());
+	}
+
+	public static void error(Exception e){
+		Gdx.app.error("Error", "Exception:", e);
 	}
 
 	public static String getProperty(String name){

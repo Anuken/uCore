@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import io.anuke.ucore.UCore;
 
 
 public abstract class Module extends InputAdapter{
@@ -32,7 +33,7 @@ public abstract class Module extends InputAdapter{
 	}
 	
 	public void log(Object message){
-		System.out.println(message);
+		UCore.log(message);
 	}
 
 	public float delta(){
