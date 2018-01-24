@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Draw;
-import io.anuke.ucore.graphics.Atlas;
+import io.anuke.ucore.util.Atlas;
 
 public class SpriteFacet extends Facet{
 	public Sprite sprite;

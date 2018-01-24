@@ -1,4 +1,4 @@
-package io.anuke.ucore.graphics;
+package io.anuke.ucore.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -12,8 +12,8 @@ import com.badlogic.gdx.utils.ObjectMap;
 /**Utility class that improves on TextureAtlas - 
  * faster texture lookups with an ObjectMap and automatic error textures.*/
 public class Atlas extends TextureAtlas{
-	ObjectMap<String, AtlasRegion> regionmap = new ObjectMap<String, AtlasRegion>();
-	ObjectMap<Texture, Pixmap> pixmaps = new ObjectMap<Texture, Pixmap>();
+	ObjectMap<String, AtlasRegion> regionmap = new ObjectMap<>();
+	ObjectMap<Texture, Pixmap> pixmaps = new ObjectMap<>();
 	AtlasRegion error;
 	
 	public Atlas(String filename){
@@ -32,7 +32,6 @@ public class Atlas extends TextureAtlas{
 				if(regionmap.containsKey(split[0])) Gdx.app.error("Atlas", "Texture conflict! (" + split[0] + ")");
 				regionmap.put(split[0], r);
 			}
-			r.name = new String(r.name);
 		}
 		error = findRegion("error");
 	}
@@ -41,12 +40,10 @@ public class Atlas extends TextureAtlas{
 		return getPixmapOf(findRegion(name));
 	}
 	
-	/**
-	 * Used for getting the pixmap of a certain region.
+	/**Used for getting the pixmap of a certain region.
 	 * Note that it is internally stored and disposed when needed.
 	 * @param region the region to use.
-	 * @return the pixmap of the region.
-	 */
+	 * @return the pixmap of the region.*/
 	public Pixmap getPixmapOf(TextureRegion region){
 		Texture texture = region.getTexture();
 		if(pixmaps.containsKey(texture)) return pixmaps.get(texture);
@@ -63,15 +60,12 @@ public class Atlas extends TextureAtlas{
 		return aregion;
 	}
 	
-	/**
-	 * Sets the error region to the specified region.
-	 */
+	/**Sets the error region to the specified region.*/
 	public void setErrorRegion(AtlasRegion region){
 		error = region;
 	}
-	/**
-	 * Note that this returns the 'error' region if this region is not found.
-	 */
+
+	/**Note that this returns the 'error' region if this region is not found.*/
 	@Override
 	public AtlasRegion findRegion(String name){
 		AtlasRegion r = regionmap.get(name);
@@ -88,9 +82,7 @@ public class Atlas extends TextureAtlas{
 		return findRegion(name).getRegionWidth();
 	}
 	
-	/**
-	 * @return whether or not the specified region is found.
-	 */
+	/** @return whether or not the specified region is found.*/
 	public boolean hasRegion(String s){
 		return regionmap.containsKey(s);
 	}

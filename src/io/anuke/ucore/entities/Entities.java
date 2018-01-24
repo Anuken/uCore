@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.IntMap;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
-import io.anuke.ucore.util.QuadTree;
 
 public class Entities{
 	private static final EntityGroup<Entity> defaultGroup;
@@ -123,19 +122,6 @@ public class Entities{
 		groupArray.add(group);
 		return group;
 	}
-
-	private static void updatePhysics(EntityGroup<?> group){
-		
-		QuadTree<SolidEntity> tree = group.tree();
-		
-		tree.clear();
-
-		for(Entity entity : group.all()){
-			if(entity instanceof SolidEntity){
-				tree.insert((SolidEntity) entity);
-			}
-		}
-	}
 	
 	public static void collideGroups(EntityGroup<?> groupa, EntityGroup<?> groupb){
 		collisions().collideGroups(groupa, groupb);
@@ -171,7 +157,7 @@ public class Entities{
 
 	public static void update(EntityGroup<?> group){
 		if(group.useTree){
-			updatePhysics(group);
+			collisions().updatePhysics(group);
 		}
 		
 		for(Entity e : group.all()){

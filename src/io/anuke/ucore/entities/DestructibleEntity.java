@@ -3,9 +3,9 @@ package io.anuke.ucore.entities;
 import io.anuke.ucore.util.Mathf;
 
 public abstract class DestructibleEntity extends SolidEntity{
-	public int health;
 	public transient int maxhealth;
 	public transient boolean dead;
+	public int health;
 	
 	public void onHit(SolidEntity entity){}
 	public void onDeath(){}
@@ -22,7 +22,6 @@ public abstract class DestructibleEntity extends SolidEntity{
 	@Override
 	public void collision(SolidEntity other){
 		if(other instanceof Damager){
-
 			onHit(other);
 			damage(((Damager)other).getDamage());
 		}

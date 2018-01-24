@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.function.ColorListenable;
+import io.anuke.ucore.graphics.Fill;
 import io.anuke.ucore.graphics.Hue;
 import io.anuke.ucore.graphics.Pixmaps;
 import io.anuke.ucore.scene.Element;
@@ -149,7 +150,7 @@ public class ColorPicker extends Table{
 			patch("button", -6);
 			
 			if(texture == null){
-				Draw.gradient(from, to, alpha, x, y, width, height);
+				Fill.gradient(from, to, alpha, x, y, width, height);
 			}else{
 				Draw.tint(tint);
 				Core.batch.draw(texture, x, y, width, height);

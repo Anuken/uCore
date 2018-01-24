@@ -23,8 +23,8 @@ public class Graphics{
 	
 	private static TextureRegion tempregion = new TextureRegion();
 	
-	private static Stack<Batch> batches = new Stack<Batch>();
-	
+	private static Stack<Batch> batches = new Stack<>();
+
 	private static Array<Surface> surfaceArray = new Array<>();
 	private static Stack<Surface> surfaceStack = new Stack<>();
 	

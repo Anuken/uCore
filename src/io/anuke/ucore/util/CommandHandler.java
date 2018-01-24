@@ -1,10 +1,9 @@
 package io.anuke.ucore.util;
 
-import java.util.Arrays;
-
 import com.badlogic.gdx.utils.ObjectMap;
-
 import io.anuke.ucore.function.Consumer;
+
+import java.util.Arrays;
 
 public class CommandHandler{
 	private final ObjectMap<String, Command> commands = new ObjectMap<>();
@@ -77,7 +76,7 @@ public class CommandHandler{
 		}
 	}
 	
-	public static enum ResponseType{
+	public enum ResponseType{
 		noCommand, unknownCommand, invalidArguments, valid;
 	}
 }

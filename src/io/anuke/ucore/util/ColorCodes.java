@@ -30,10 +30,10 @@ public class ColorCodes{
 	static{
 		//disable color codes on windows
 		
-		if(System.getProperty("os.name").startsWith("Windows")){
+		if(OS.isWindows){
 			FLUSH = RESET = BOLD = UNDERLINED = BLACK = RED = GREEN = YELLOW = BLUE = PURPLE = CYAN 
 					= LIGHT_RED = LIGHT_GREEN = LIGHT_YELLOW = LIGHT_BLUE = LIGHT_MAGENTA = LIGHT_CYAN 
-					= WHITE = BACK_DEFAULT = BACK_RED = BACK_YELLOW = BACK_BLUE = "";
+					= WHITE = BACK_DEFAULT = BACK_RED = BACK_YELLOW = BACK_BLUE = BACK_GREEN = "";
 		}
 	}
 }

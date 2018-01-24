@@ -15,15 +15,16 @@ public class Geometry{
 	private final static Vector2 s = new Vector2();
 	private final static Vector2 e = new Vector2();
 	private final static Polygon poly = new Polygon(new float[8]);
-	
-	private final static GridPoint2[] d4points = {
+
+	/**Points repesenting cardinal directions, starting at the left and going counter-clockwise.*/
+	public final static GridPoint2[] d4 = {
 		new GridPoint2(1, 0), 
 		new GridPoint2(0, 1), 
 		new GridPoint2(-1, 0), 
 		new GridPoint2(0, -1)
 	};
-	
-	private final static GridPoint2[] d8points = {
+
+	public final static GridPoint2[] d8 = {
 		new GridPoint2(1, 0), 
 		new GridPoint2(0, 1), 
 		new GridPoint2(-1, 0), 
@@ -34,8 +35,8 @@ public class Geometry{
 		new GridPoint2(-1, -1),
 		new GridPoint2(1, -1)
 	};
-	
-	private final static GridPoint2[] d8edgepoints = {
+
+	public final static GridPoint2[] d8edge = {
 		new GridPoint2(1, 1), 
 		new GridPoint2(-1, 1),
 		new GridPoint2(-1, -1),
@@ -167,14 +168,14 @@ public class Geometry{
 	}
 	
 	public static GridPoint2[] getD4Points(){
-		return d4points;
+		return d4;
 	}
 	
 	public static GridPoint2[] getD8Points(){
-		return d8points;
+		return d8;
 	}
 	
 	public static GridPoint2[] getD8EdgePoints(){
-		return d8edgepoints;
+		return d8edge;
 	}
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Json;
 
 import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.core.Timers;
+import io.anuke.ucore.graphics.Lines;
 
 public class LSystem{
 	protected LSystemData data;
@@ -40,7 +41,7 @@ public class LSystem{
 	}
 	
 	public void draw(){
-		Draw.thick(data.thickness);
+		Lines.stroke(data.thickness);
 		
 		if(sort){
 			lines.clear();
@@ -64,7 +65,7 @@ public class LSystem{
 	protected void drawLines(){
 		for(Line line : lines){
 			Draw.color(data.start, data.end, (float)line.stack/(maxstack - (colorBoost ? 2 : 0)));
-			Draw.line(line.x1 + x, line.y1 + y, line.x2 + x, line.y2 + y);
+			Lines.line(line.x1 + x, line.y1 + y, line.x2 + x, line.y2 + y);
 		}
 	}
 	
@@ -89,7 +90,7 @@ public class LSystem{
 			lines.add(new Line(stack.size(), lastx, lasty, lastx+nx, lasty+ny, scl));
 		}else{
 			Draw.color(data.start, data.end, scl);
-			Draw.line(x + lastx, y + lasty, x + lastx+nx, y + lasty+ny);
+			Lines.line(x + lastx, y + lasty, x + lastx+nx, y + lasty+ny);
 		}
 		
 		lastx += nx;

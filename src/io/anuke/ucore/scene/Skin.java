@@ -30,7 +30,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 
-import io.anuke.ucore.graphics.Atlas;
+import io.anuke.ucore.util.Atlas;
 import io.anuke.ucore.scene.style.*;
 
 /** A skin stores resources for UI widgets to use (texture regions, ninepatches, fonts, colors, etc). Resources are named and can

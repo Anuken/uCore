@@ -1,13 +1,13 @@
 package io.anuke.ucore.ecs;
 
-import java.util.Iterator;
-
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 
+import java.util.Iterator;
+
 //TODO change to a hashmap?
 public class TraitList implements Iterable<Trait>{
-	private DelayedRemovalArray<Trait> traits = new DelayedRemovalArray<>();
+	private DelayedRemovalArray<Trait> traits;
 	
 	public TraitList(Trait... array){
 		traits = new DelayedRemovalArray<>(array);
