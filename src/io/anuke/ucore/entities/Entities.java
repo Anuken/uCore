@@ -1,57 +1,32 @@
 package io.anuke.ucore.entities;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
-import com.badlogic.gdx.utils.IntSet;
 import io.anuke.ucore.core.Core;
-import io.anuke.ucore.core.Draw;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
-import io.anuke.ucore.function.TileCollider;
-import io.anuke.ucore.function.TileHitboxProvider;
-import io.anuke.ucore.util.Mathf;
-import io.anuke.ucore.util.Physics;
 import io.anuke.ucore.util.QuadTree;
-import io.anuke.ucore.util.QuadTree.QuadTreeObject;
-import io.anuke.ucore.util.RectQuadTree;
 
 public class Entities{
-	private static Array<EntityGroup<?>> groupArray = new Array<>();
-	private static EntityGroup<Entity> defaultGroup;
-	private static IntMap<EntityGroup<?>> groups = new IntMap<>();
+	private static final EntityGroup<Entity> defaultGroup;
+	private static final Array<EntityGroup<?>> groupArray = new Array<>();
+	private static final IntMap<EntityGroup<?>> groups = new IntMap<>();
 
-	private static RectQuadTree rtree;
-	private static TileCollider collider;
-	private static TileHitboxProvider tileHitbox;
-	private static float tilesize;
-
-	private static Vector2 vector = new Vector2();
-	private static IntSet collided = new IntSet();
-	private static Array<SolidEntity> array = new Array<>();
-	private static Array<Rectangle> rectarray = new Array<>();
-	private static Array<Rectangle> tmprects = new Array<>();
-	private static Rectangle viewport = new Rectangle();
+	private static final EntityCollisions collisions = new EntityCollisions();
+	private static final Array<SolidEntity> array = new Array<>();
+	private static final Rectangle viewport = new Rectangle();
 	
-	public static int maxLeafObjects = 4;
+	public static final int maxLeafObjects = 4;
 	
 	static{
 		defaultGroup = addGroup(Entity.class);
 	}
 
-	public static void setCollider(float atilesize, TileCollider acollider, TileHitboxProvider hitbox){
-		tilesize = atilesize;
-		collider = acollider;
-		tileHitbox = hitbox;
-	}
-
-	public static void setCollider(float atilesize, TileCollider acollider){
-		setCollider(atilesize, acollider, (x, y, out) -> {
-			out.setSize(tilesize).setCenter(x * tilesize, y * tilesize);
-		});
+	public static EntityCollisions collisions(){
+		return collisions;
 	}
 
 	public static void initPhysics(float x, float y, float w, float h){
@@ -59,9 +34,6 @@ public class Entities{
 			if(group.useTree)
 				group.setTree(x, y, w, h);
 		}
-		rtree = new RectQuadTree(maxLeafObjects, new Rectangle(x, y, w, h));
-
-		updateRects();
 	}
 
 	public static void initPhysics(){
@@ -72,82 +44,6 @@ public class Entities{
 		initPhysics(x, y, w, h);
 	}
 
-	public static void resizeTree(float w, float h){
-		initPhysics(0, 0, w, h);
-	}
-
-	static void moveTiled(Entity e, Hitbox box, float dx, float dy){
-		if(collider == null)
-			throw new IllegalArgumentException("No tile collider specified! Call setCollider() first.");
-
-		Rectangle rect = Rectangle.tmp;
-
-		float fx = box.offsetx, fy = box.offsety;
-
-		rect.setSize(box.width, box.height);
-
-		overlapTile(rect, e.x + fx, e.y + dy + fy);
-		rect.getCenter(vector);
-		overlapTile(rect, vector.x + dx + fx, vector.y + fy);
-		rect.getCenter(vector);
-		overlapTile(rect, e.x + fx, e.y + dy + fy);
-		rect.getCenter(vector);
-		overlapTile(rect, vector.x + dx + fx, vector.y + fy);
-
-		e.x = rect.x + box.width / 2 - box.offsetx*2;
-		e.y = rect.y + box.height / 2 - box.offsety*2;
-	}
-
-	static void overlapTile(Rectangle rect, float x, float y){
-		int r = 1;
-		rect.setCenter(x, y);
-
-		float scl = 2f;
-
-		//assumes tilesize is centered
-		int tilex = Mathf.scl2(x, tilesize);
-		int tiley = Mathf.scl2(y, tilesize);
-
-		for(int dx = -r; dx <= r; dx++){
-			for(int dy = -r; dy <= r; dy++){
-				int wx = dx + tilex, wy = dy + tiley;
-				if(collider.solid(wx, wy)){
-
-					tileHitbox.getHitbox(wx, wy, Rectangle.tmp2);
-
-					if(Rectangle.tmp2.overlaps(rect)){
-						Vector2 out = Physics.overlap(rect, Rectangle.tmp2);
-						rect.x += out.x * scl;
-						rect.y += out.y * scl;
-					}
-				}
-			}
-		}
-	}
-
-	public static boolean overlapsTile(Rectangle rect){
-		rect.getCenter(vector);
-		int r = 1;
-
-		//assumes tilesize is centered
-		int tilex = Mathf.scl2(vector.x, tilesize);
-		int tiley = Mathf.scl2(vector.y, tilesize);
-
-		for(int dx = -r; dx <= r; dx++){
-			for(int dy = -r; dy <= r; dy++){
-				int wx = dx + tilex, wy = dy + tiley;
-				if(collider.solid(wx, wy)){
-					tileHitbox.getHitbox(wx, wy, Rectangle.tmp2);
-
-					if(Rectangle.tmp2.overlaps(rect)){
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
 	public static void getNearby(EntityGroup<?> group, Rectangle rect, Consumer<SolidEntity> out){
 		if(!group.useTree) throw new RuntimeException("This group does not support quadtrees! Enable quadtrees when creating it.");
 		group.tree().getIntersect(out, rect);
@@ -155,7 +51,7 @@ public class Entities{
 
 	public static Array<SolidEntity> getNearby(EntityGroup<?> group, Rectangle rect){
 		array.clear();
-		getNearby(group, rect, entity -> array.add(entity));
+		getNearby(group, rect, array::add);
 		return array;
 	}
 
@@ -228,67 +124,7 @@ public class Entities{
 		return group;
 	}
 
-	public static Array<Rectangle> getRects(){
-		return rectarray;
-	}
-
-	public static void addRect(Rectangle rect){
-		rectarray.add(rect);
-		rtree.insert(rect);
-	}
-
-	public static void removeRect(Rectangle rect){
-		rectarray.removeValue(rect, true);
-
-		updateRects();
-	}
-
-	public static void updateRects(){
-		rtree.clear();
-
-		for(Rectangle rect : rectarray){
-			rtree.insert(rect);
-		}
-	}
-
-	public static void moveRect(Entity e, float hitwidth, float hitheight, float offsetx, float offsety, float dx, float dy){
-		Rectangle.tmp.setSize(hitwidth, hitheight).setCenter(e.x + offsetx + dx, e.y + offsety + dy);
-
-		Rectangle.tmp2.setSize(hitwidth * 2 + Math.abs(offsetx), hitheight * 2 + Math.abs(offsety));
-		Rectangle.tmp2.setCenter(e.x + offsetx, e.y + offsety);
-
-		tmprects.clear();
-
-		rtree.getIntersect(tmprects, Rectangle.tmp2);
-
-		for(Rectangle rect : tmprects){
-			if(rect.overlaps(Rectangle.tmp)){
-				Vector2 vector = Physics.overlap(Rectangle.tmp, rect);
-				Rectangle.tmp.x += vector.x;
-				Rectangle.tmp.y += vector.y;
-			}
-		}
-
-		float movex = Rectangle.tmp.x + hitwidth / 2 - e.x - offsetx, movey = Rectangle.tmp.y + hitheight / 2 - e.y - offsety;
-
-		e.x += movex;
-		e.y += movey;
-	}
-	
-	public static void debugColliders(EntityGroup<?> group){
-		Draw.color(Color.YELLOW);
-		for(Entity e : group.all()){
-			if(e instanceof SolidEntity){
-				SolidEntity s = (SolidEntity) e;
-				s.getBoundingBox(Rectangle.tmp);
-				Draw.linerect(Rectangle.tmp.x, Rectangle.tmp.y, Rectangle.tmp.width, Rectangle.tmp.height);
-			}
-		}
-		Draw.color();
-	}
-
 	private static void updatePhysics(EntityGroup<?> group){
-		collided.clear();
 		
 		QuadTree<SolidEntity> tree = group.tree();
 		
@@ -300,41 +136,9 @@ public class Entities{
 			}
 		}
 	}
-
-	private static boolean checkCollide(Entity entity, Entity other){
-		SolidEntity a = (SolidEntity) entity;
-		SolidEntity b = (SolidEntity) other;
-		
-		Rectangle r1 = a.hitbox.getRect(Rectangle.tmp, a.x, a.y);
-		Rectangle r2 = b.hitbox.getRect(Rectangle.tmp2, b.x, b.y);
-
-		if(a != b && a.collides(b) && b.collides(a) && r1.overlaps(r2)){
-			a.collision(b);
-			b.collision(a);
-			return true;
-		}
-
-		return false;
-	}
 	
 	public static void collideGroups(EntityGroup<?> groupa, EntityGroup<?> groupb){
-		collided.clear();
-		
-		for(Entity entity : groupa.all()){
-			if(!(entity instanceof SolidEntity))
-				continue;
-			if(collided.contains(entity.id))
-				continue;
-
-			((QuadTreeObject) entity).getBoundingBox(Rectangle.tmp2);
-
-			groupb.tree().getIntersect(c -> {
-				if(!collided.contains((int) c.id))
-					checkCollide(entity, c);
-			}, Rectangle.tmp2);
-
-			collided.add((int) entity.id);
-		}
+		collisions().collideGroups(groupa, groupb);
 	}
 	
 	public static void draw(){

@@ -30,7 +30,7 @@ public class Strings{
 	}
 
 	public static String animated(int length, float scale, String replacement){
-		return new String(new char[(int)(Timers.time() / scale) % length]).replace("\0", replacement);
+		return new String(new char[Math.abs((int)(Timers.time() / scale) % length)]).replace("\0", replacement);
 	}
 	
 	public static String capitalize(String s){

@@ -94,7 +94,7 @@ public class JBGrid {
 		}
 	}
 
-	public Rectangle grid_toCellRect(float cellSize, float x, float y, float w, float h, Rectangle rect){
+	public Rectangle toCellRect(float cellSize, float x, float y, float w, float h, Rectangle rect){
 		toCell(cellSize, x, y, toCellRect);
 		float cx = toCellRect.x;
 		float cy = toCellRect.y;

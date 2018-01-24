@@ -17,6 +17,7 @@ package io.anuke.ucore.jbump;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.ObjectSet;
 import io.anuke.ucore.jbump.JBCollision.CollisionFilter;
 
 import java.util.ArrayList;
@@ -133,13 +134,13 @@ public class JBWorld<E> {
 		return project(item, x, y, w, h, goalX, goalY, CollisionFilter.defaultFilter, collisions);
 	}
 
-	private final ArrayList<JBItem> project_visited = new ArrayList<>();
+	private final ObjectSet<JBItem> project_visited = new ObjectSet<>();
 	private final Rectangle project_c = new Rectangle();
 	private final HashMap<JBItem, Boolean> project_dictItemsInCellRect = new HashMap<>();
 
 	public JBCollisions project(JBItem item, float x, float y, float w, float h, float goalX, float goalY, CollisionFilter filter, JBCollisions collisions){
 		collisions.clear();
-		ArrayList<JBItem> visited = project_visited;
+		ObjectSet<JBItem> visited = project_visited;
 		visited.clear();
 		if(item != null){
 			visited.add(item);
@@ -152,8 +153,9 @@ public class JBWorld<E> {
 		float tw = tr - tl;
 		float th = tb - tt;
 
-		grid.grid_toCellRect(cellSize, tl, tt, tw, th, project_c);
+		grid.toCellRect(cellSize, tl, tt, tw, th, project_c);
 		float cl = project_c.x, ct = project_c.y, cw = project_c.width, ch = project_c.height;
+
 		HashMap<JBItem, Boolean> dictItemsInCellRect = getDictItemsInCellRect(cl, ct, cw, ch, project_dictItemsInCellRect);
 		for(JBItem other : dictItemsInCellRect.keySet()){
 			if(!visited.contains(other)){
@@ -215,7 +217,7 @@ public class JBWorld<E> {
 			return item;
 		}
 		rects.put(item, new Rectangle(x, y, w, h));
-		grid.grid_toCellRect(cellSize, x, y, w, h, add_c);
+		grid.toCellRect(cellSize, x, y, w, h, add_c);
 		float cl = add_c.x, ct = add_c.y, cw = add_c.width, ch = add_c.height;
 		for(float cy = ct; cy < ct + ch; cy++){
 			for(float cx = cl; cx < cl + cw; cx++){
@@ -233,7 +235,7 @@ public class JBWorld<E> {
 		float x = rect.x, y = rect.y, w = rect.width, h = rect.height;
 
 		rects.remove(item);
-		grid.grid_toCellRect(cellSize, x, y, w, h, remove_c);
+		grid.toCellRect(cellSize, x, y, w, h, remove_c);
 		float cl = remove_c.x, ct = remove_c.y, cw = remove_c.width, ch = remove_c.height;
 
 		for(float cy = ct; cy < ct + ch; cy++){
@@ -257,8 +259,8 @@ public class JBWorld<E> {
 		float x1 = rect.x, y1 = rect.y, w1 = rect.width, h1 = rect.height;
 		if(x1 != x2 || y1 != y2 || w1 != w2 || h1 != h2){
 
-			Rectangle c1 = grid.grid_toCellRect(cellSize, x1, y1, w1, h1, update_c1);
-			Rectangle c2 = grid.grid_toCellRect(cellSize, x2, y2, w2, h2, update_c2);
+			Rectangle c1 = grid.toCellRect(cellSize, x1, y1, w1, h1, update_c1);
+			Rectangle c2 = grid.toCellRect(cellSize, x2, y2, w2, h2, update_c2);
 
 			float cl1 = c1.x, ct1 = c1.y, cw1 = c1.width, ch1 = c1.height;
 			float cl2 = c2.x, ct2 = c2.y, cw2 = c2.width, ch2 = c2.height;
@@ -290,13 +292,13 @@ public class JBWorld<E> {
 		}
 	}
 
-	private final ArrayList<JBItem> check_visited = new ArrayList<>();
+	private final ObjectSet<JBItem> check_visited = new ObjectSet<>();
 	private final JBCollisions check_cols = new JBCollisions();
 	private final JBCollisions check_projectedCols = new JBCollisions();
 	private final JBResponse.Result check_result = new JBResponse.Result();
 
 	public JBResponse.Result check(JBItem item, float goalX, float goalY, final CollisionFilter filter){
-		final ArrayList<JBItem> visited = check_visited;
+		ObjectSet<JBItem> visited = check_visited;
 		visited.clear();
 		visited.add(item);
 

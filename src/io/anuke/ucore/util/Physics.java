@@ -132,8 +132,8 @@ public class Physics{
         }
 		
         float percent = 1f,
-            slop = 0.05f,
-            m = Math.max(penetration - slop, 0.0f) / 2f;
+            slop = 0.0f,
+            m = Math.max(penetration - slop, 0.0f);
 
         // Apply correctional impulse
         float cx = m * normal.x * percent,

@@ -12,26 +12,14 @@ public abstract class SolidEntity extends Entity implements QuadTreeObject{
 	
 	public Vector2 move(float x, float y){
 		Tmp.v3.set(this.x, this.y);
-		vector.set(x, y);
-		
-		float segment = 2f;
-		
-		if(vector.len() > segment){
-			Tmp.v3.set(vector).setLength(segment);
-			while(vector.len() > segment){
-				Entities.moveTiled(this, hitboxTile, Tmp.v3.x, Tmp.v3.y);
-				vector.setLength(vector.len()-segment);
-			}
-			Entities.moveTiled(this, hitboxTile, vector.x, vector.y);
-		}else{
-			Entities.moveTiled(this, hitboxTile, x, y);
-		}
+
+		Entities.collisions().move(this, x, y);
 
 		return Tmp.v3.sub(this.x, this.y);
 	}
 	
 	public boolean collidesTile(){
-		return Entities.overlapsTile(hitbox.getRect(x, y));
+		return Entities.collisions().overlapsTile(hitbox.getRect(x, y));
 	}
 	
 	public boolean collides(SolidEntity other){
