@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class Facets{
 	private static Facets instance;
-	private FacetContainer container = FacetContainers.array;
+	private Array<Facet> container = new Array<>();
 	private boolean updated;
 	
 	private FacetHandler manager = new FacetHandler(){
@@ -23,7 +23,7 @@ public class Facets{
 			updated = false;
 		}
 
-		manager.drawRenderables(container.getFacets());
+		manager.drawRenderables(container);
 	}
 	
 	public void forceSort(){
@@ -34,18 +34,14 @@ public class Facets{
 	public void setLayerManager(FacetHandler manager){
 		this.manager = manager;
 	}
-	
-	public void setFacetContainer(FacetContainer cont){
-		this.container = cont;
-	}
 
 	public void add(Facet renderable){
 		updated = true;
-		container.addFacet(renderable);
+		container.add(renderable);
 	}
 
 	public void remove(Facet renderable){
-		container.removeFacet(renderable);
+		container.removeValue(renderable, true);
 		renderable.onFree();
 	}
 
@@ -61,15 +57,11 @@ public class Facets{
 	
 	/**Returns the current amount of renderables.*/
 	public int getSize(){
-		return container.size();
+		return container.size;
 	}
 	
-	public Iterable<Facet> getFacets(){
-		return container.getFacets();
-	}
-	
-	public Array<Facet> getFacetArray(){
-		return container.getFacetArray();
+	public Array<Facet> getFacets(){
+		return container;
 	}
 	
 	public void requestSort(){

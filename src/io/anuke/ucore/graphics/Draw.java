@@ -76,8 +76,6 @@ public class Draw{
 		batch.setColor(color.r, color.g, color.b, alpha);
 	}
 
-	//TODO cleanup all the rects
-
 	public static void rect(Texture texture, float x, float y){
 		batch.draw(texture, x - texture.getWidth() / 2, y - texture.getHeight() / 2);
 	}

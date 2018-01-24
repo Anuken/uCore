@@ -4,11 +4,9 @@ package io.anuke.ucore.scene.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import io.anuke.ucore.util.OS;
 
 public class UIUtils {
-	//static public boolean isMac = System.getProperty("os.name").contains("OS X");
-	//static public boolean isWindows = System.getProperty("os.name").contains("Windows");
-	//static public boolean isLinux = System.getProperty("os.name").contains("Linux");
 
 	static public boolean left () {
 		return Gdx.input.isButtonPressed(Buttons.LEFT);
@@ -43,16 +41,16 @@ public class UIUtils {
 	}
 
 	static public boolean ctrl () {
-		//if (false)
-		//	return Gdx.input.isKeyPressed(Keys.SYM);
-		//else
+		if (OS.isMac)
+			return Gdx.input.isKeyPressed(Keys.SYM);
+		else
 			return Gdx.input.isKeyPressed(Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Keys.CONTROL_RIGHT);
 	}
 
 	static public boolean ctrl (int keycode) {
-		//keycode.if (false)
-		////	return keycode == Keys.SYM;
-		//else
+		if (OS.isMac)
+			return keycode == Keys.SYM;
+		else
 			return keycode == Keys.CONTROL_LEFT || keycode == Keys.CONTROL_RIGHT;
 	}
 

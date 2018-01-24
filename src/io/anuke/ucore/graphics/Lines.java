@@ -94,7 +94,7 @@ public class Lines {
     }
 
     public static void dashCircle(float x, float y, float radius){
-        float scaleFactor = 0.55f;
+        float scaleFactor = 0.6f;
         int sides = 10 + (int)(radius*scaleFactor);
         if(sides % 2 == 1) sides ++;
 
