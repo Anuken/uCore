@@ -86,10 +86,8 @@ public class Effects{
 	public static void setShakeFalloff(float falloff){
 		shakeFalloff = falloff;
 	}
-	
-	/**Non-positional shake is a bad idea.*/
-	@Deprecated
-	public static void shake(float intensity, float duration){
+
+	private static void shake(float intensity, float duration){
 		if(shakeProvider == null)
 			throw new RuntimeException("Screenshake provider is null! Set it first.");
 		

@@ -1,6 +1,6 @@
 package io.anuke.ucore.facet;
 
-import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.graphics.Draw;
 import io.anuke.ucore.core.Graphics;
 
 public class FacetLayers{

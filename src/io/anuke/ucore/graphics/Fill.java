@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import io.anuke.ucore.core.Draw;
+import com.badlogic.gdx.math.Rectangle;
 import io.anuke.ucore.util.Tmp;
 
 import static io.anuke.ucore.core.Core.batch;
@@ -37,23 +37,27 @@ public class Fill {
         sprite.draw(batch);
     }
 
-    public static void shape(float x, float y, int sides, float radius){
+    public static void poly(float x, float y, int sides, float radius){
         Draw.rect("shape-" + sides, x, y, radius*2, radius*2);
     }
 
-    public static void shape(float x, float y, int sides, float radius, float rotation){
+    public static void poly(float x, float y, int sides, float radius, float rotation){
         Draw.rect("shape-" + sides, x, y, radius*2, radius*2, rotation);
     }
 
-    public static void shapeCircle(float x, float y, float radius){
-Draw.rect("circle", x, y, radius*2, radius*2);
-}
+    public static void circle(float x, float y, float radius){
+        Draw.rect("circle", x, y, radius*2, radius*2);
+    }
 
-    public static void fillrect(float x, float y, float width, float height){
+    public static void rect(float x, float y, float width, float height){
         batch.draw(blankregion, x - width / 2f, y - height / 2f, width, height);
     }
 
-    public static void fillcrect(float x, float y, float width, float height){
+    public static void crect(float x, float y, float width, float height){
         batch.draw(blankregion, x, y, width, height);
+    }
+
+    public static void crect(Rectangle rect){
+        batch.draw(blankregion, rect.x, rect.y, rect.width, rect.height);
     }
 }

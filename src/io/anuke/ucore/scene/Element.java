@@ -3,7 +3,7 @@ package io.anuke.ucore.scene;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
-import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.graphics.Draw;
 import io.anuke.ucore.function.KeyListenable;
 import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.function.Supplier;

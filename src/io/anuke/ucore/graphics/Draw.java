@@ -1,4 +1,4 @@
-package io.anuke.ucore.core;
+package io.anuke.ucore.graphics;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,8 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
-import io.anuke.ucore.graphics.Hue;
-import io.anuke.ucore.graphics.Lines;
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.util.Tmp;
 
@@ -77,6 +76,8 @@ public class Draw{
 		batch.setColor(color.r, color.g, color.b, alpha);
 	}
 
+	//TODO cleanup all the rects
+
 	public static void rect(Texture texture, float x, float y){
 		batch.draw(texture, x - texture.getWidth() / 2, y - texture.getHeight() / 2);
 	}
@@ -98,18 +99,10 @@ public class Draw{
 		batch.draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2);
 	}
 
-	/** Floating side rect. */
-	public static void sirect(String name, float x, float y, float rotation){
-		TextureRegion region = region(name);
-		batch.draw(region, x, y - region.getRegionHeight() / 2f, 0, region.getRegionHeight() / 2f, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
-
-	}
-
-	/** Floating side rect. */
-	public static void borect(String name, float x, float y, float rotation){
+	/** Rectangle centered and rotated around its bottom middle point. */
+	public static void grect(String name, float x, float y, float rotation){
 		TextureRegion region = region(name);
 		batch.draw(region, x - region.getRegionWidth() / 2f, y, region.getRegionWidth() / 2f, 0, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
-
 	}
 
 	/** Grounded rect. */
@@ -165,49 +158,6 @@ public class Draw{
 	public static void crect(String name, float x, float y){
 		TextureRegion region = region(name);
 		batch.draw(region, x, y);
-	}
-
-	public static void laser(String line, String edge, float x, float y, float x2, float y2, float scale){
-		laser(line, edge, x, y, x2, y2, Tmp.v1.set(x2 - x, y2 - y).angle(), scale);
-	}
-
-	public static void laser(String line, String edge, float x, float y, float x2, float y2){
-		laser(line, edge, x, y, x2, y2, Tmp.v1.set(x2 - x, y2 - y).angle(), 1f);
-	}
-
-	public static void laser(String line, String edge, float x, float y, float x2, float y2, float rotation, float scale){
-
-		Lines.stroke(12f*scale);
-		Lines.unspacedLine(region(line), x, y, x2, y2);
-		Lines.stroke(1f);
-		
-		TextureRegion region = region(edge);
-
-		Draw.rect(edge, x, y, region.getRegionWidth(), region.getRegionHeight() * scale, rotation + 180);
-
-		Draw.rect(edge, x2, y2, region.getRegionWidth(), region.getRegionHeight() * scale, rotation);
-	}
-
-	public static void lineShot(float x, float y, float angle, int amount, float fract, float len, float thick, float falloff){
-		float length = len;
-		float thickness = thick;
-		for(int i = 0; i < amount; i ++){
-            Lines.stroke(fract*thickness);
-			Lines.lineAngle(x, y, angle, fract*length);
-			length *= falloff;
-			thickness /= falloff;
-		}
-	}
-
-	public static void lineShotFade(float x, float y, float angle, int amount, float fract, float len, float thick, float falloff, float thickadd){
-		float length = len;
-		float thickness = thick;
-		for(int i = 0; i < amount; i ++){
-			Lines.stroke(fract*thickness);
-			Lines.lineAngle(x, y, angle, length);
-			length *= falloff;
-			thickness += thickadd;
-		}
 	}
 
 	public static void tscl(float scl){

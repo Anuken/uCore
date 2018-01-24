@@ -1,6 +1,6 @@
 package io.anuke.ucore.ecs.extend.traits;
 
-import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.graphics.Draw;
 import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.ecs.Trait;
 import io.anuke.ucore.facet.BaseFacet;

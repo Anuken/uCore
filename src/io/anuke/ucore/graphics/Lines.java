@@ -50,18 +50,32 @@ public class Lines {
         line(x - vector.x / 2, y - vector.y / 2, x + vector.x / 2, y + vector.y / 2);
     }
 
-    public static void lineUncap(float x, float y, float x2, float y2, float pad){
-        float length = Vector2.dst(x, y, x2, y2) + pad*2;
-        float angle = ((float) Math.atan2(y2 - y, x2 - x) * MathUtils.radDeg);
-
-        batch.draw(blankregion, x - pad, y - stroke / 2, pad, stroke / 2, length, stroke, 1f, 1f, angle);
+    public static void line(float x, float y, float x2, float y2){
+        line(x, y, x2, y2, CapStyle.square, 0f);
     }
 
-    public static void line(float x, float y, float x2, float y2){
-        float length = Vector2.dst(x, y, x2, y2) + stroke / 2;
+    public static void line(float x, float y, float x2, float y2, CapStyle cap){
+        line(x, y, x2, y2, cap, 0f);
+    }
+
+    public static void line(float x, float y, float x2, float y2, CapStyle cap, float padding){
+        line(blankregion, x, y, x2, y2, cap, padding);
+    }
+
+    public static void line(TextureRegion blankregion, float x, float y, float x2, float y2, CapStyle cap, float padding){
+        float length = Vector2.dst(x, y, x2, y2) + stroke / 2 + (cap == CapStyle.round ? 0 : padding*2);
         float angle = ((float) Math.atan2(y2 - y, x2 - x) * MathUtils.radDeg);
 
-        batch.draw(blankregion, x - stroke / 2, y - stroke / 2, stroke / 2, stroke / 2, length, stroke, 1f, 1f, angle);
+        if(cap == CapStyle.square){
+            batch.draw(blankregion, x - stroke / 2 - padding, y - stroke / 2, stroke / 2 + padding, stroke / 2, length, stroke, 1f, 1f, angle);
+        }else if(cap == CapStyle.none){
+            batch.draw(blankregion, x - padding, y - stroke / 2, padding, stroke / 2, length, stroke, 1f, 1f, angle);
+        }else if(cap == CapStyle.round){
+            //Padding does not apply here.
+            batch.draw(blankregion, x, y - stroke / 2, 0, stroke / 2, length, stroke, 1f, 1f, angle);
+            Fill.circle(x, y, stroke);
+            Fill.circle(x2, y2, stroke);
+        }
     }
 
     public static void dashLine(float x1, float y1, float x2, float y2, int divisions){
@@ -75,22 +89,8 @@ public class Lines {
         }
     }
 
-    public static void line(TextureRegion texture, float x, float y, float x2, float y2){
-        float length = Vector2.dst(x, y, x2, y2) + stroke / 2;
-        float angle = ((float) Math.atan2(y2 - y, x2 - x) * MathUtils.radDeg);
-
-        batch.draw(texture, x - stroke / 2, y - stroke / 2, stroke / 2, stroke / 2, length, stroke, 1f, 1f, angle);
-    }
-
-    public static void unspacedLine(TextureRegion texture, float x, float y, float x2, float y2){
-        float length = Vector2.dst(x, y, x2, y2);
-        float angle = ((float) Math.atan2(y2 - y, x2 - x) * MathUtils.radDeg);
-
-        batch.draw(texture, x, y - stroke /2, 0, stroke / 2, length, stroke, 1f, 1f, angle);
-    }
-
     public static void circle(float x, float y, float rad){
-        polygon(circle, x, y, rad);
+        poly(circle, x, y, rad);
     }
 
     public static void dashCircle(float x, float y, float radius){
@@ -130,7 +130,7 @@ public class Lines {
         spikes(x, y, rad, length, spikes, 0);
     }
 
-    public static void polygon(float x, float y, int sides, float radius, float angle){
+    public static void poly(float x, float y, int sides, float radius, float angle){
         vector.set(0, 0);
 
         for(int i = 0; i < sides; i++){
@@ -144,21 +144,7 @@ public class Lines {
         }
     }
 
-    public static void polygonFlat(float x, float y, int sides, float radius, float angle, float ysquish){
-        vector.set(0, 0);
-
-        for(int i = 0; i < sides; i++){
-            vector.set(radius, 0).setAngle(360f / sides * i + angle + 90);
-            float x1 = vector.x;
-            float y1 = vector.y;
-
-            vector.set(radius, 0).setAngle(360f / sides * (i + 1) + angle + 90);
-
-            line(x1 + x, y1*ysquish + y, vector.x + x, vector.y*ysquish + y);
-        }
-    }
-
-    public static void polySegment(int sides, int from, int to, float x, float y, float radius, float angle){
+    public static void polySeg(int sides, int from, int to, float x, float y, float radius, float angle){
         vector.set(0, 0);
 
         for(int i = from; i < to; i++){
@@ -237,11 +223,11 @@ public class Lines {
         }
     }
 
-    public static void polygon(float x, float y, int sides, float radius){
-        polygon(x, y, sides, radius, 0);
+    public static void poly(float x, float y, int sides, float radius){
+        poly(x, y, sides, radius, 0);
     }
 
-    public static void polygon(Vector2[] vertices, float offsetx, float offsety, float scl){
+    public static void poly(Vector2[] vertices, float offsetx, float offsety, float scl){
         for(int i = 0; i < vertices.length; i++){
             Vector2 current = vertices[i];
             Vector2 next = i == vertices.length - 1 ? vertices[0] : vertices[i + 1];
@@ -249,17 +235,7 @@ public class Lines {
         }
     }
 
-    public static void dashpolygon(Vector2[] vertices, float offsetx, float offsety, float scl){
-        for(int i = 0; i < vertices.length; i++){
-            if(i % 2 != 0)
-                continue;
-            Vector2 current = vertices[i];
-            Vector2 next = i == vertices.length - 1 ? vertices[0] : vertices[i + 1];
-            line(current.x * scl + offsetx, current.y * scl + offsety, next.x * scl + offsetx, next.y * scl + offsety);
-        }
-    }
-
-    public static void polygon(float[] vertices, float offsetx, float offsety, float scl){
+    public static void poly(float[] vertices, float offsetx, float offsety, float scl){
         for(int i = 0; i < vertices.length / 2; i++){
             float x = vertices[i * 2];
             float y = vertices[i * 2 + 1];
@@ -278,10 +254,10 @@ public class Lines {
     }
 
     public static void square(float x, float y, float rad){
-        linerect(x - rad, y - rad, rad * 2, rad * 2);
+        rect(x - rad, y - rad, rad * 2, rad * 2);
     }
 
-    public static void linerect(float x, float y, float width, float height, int xspace, int yspace){
+    public static void rect(float x, float y, float width, float height, int xspace, int yspace){
         x -= xspace;
         y -= yspace;
         width += xspace * 2;
@@ -294,20 +270,20 @@ public class Lines {
         batch.draw(blankregion, x, y, stroke, height);
     }
 
-    public static void linerect(float x, float y, float width, float height){
-        linerect(x, y, width, height, 0);
+    public static void rect(float x, float y, float width, float height){
+        rect(x, y, width, height, 0);
     }
 
-    public static void linecrect(float x, float y, float width, float height){
-        linerect(x - width/2, y - height/2, width, height, 0);
+    public static void rect(Rectangle rect){
+        rect(rect.x, rect.y, rect.width, rect.height, 0);
     }
 
-    public static void linerect(Rectangle rect){
-        linerect(rect.x, rect.y, rect.width, rect.height, 0);
+    public static void rect(float x, float y, float width, float height, int space){
+        rect(x, y, width, height, space, space);
     }
 
-    public static void linerect(float x, float y, float width, float height, int space){
-        linerect(x, y, width, height, space, space);
+    public static void crect(float x, float y, float width, float height){
+        rect(x - width/2, y - height/2, width, height, 0);
     }
 
     public static void stroke(float thick){

@@ -9,8 +9,7 @@ import com.badlogic.gdx.utils.Array;
 /**Prototype renderer. Splits object layers into an array, so no sorting is required.
  * This is quite rigid, however, and at the moment layer Z values are ignored.
  * Used for static things.
- * @author Anuken
- * */
+ * @author Anuken*/
 public class ArrayRenderer implements LayerRenderer{
 	private static final int MAX_LAYERS = 100;
 	private static ArrayRenderer instance;

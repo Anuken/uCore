@@ -26,7 +26,7 @@ public class Core{
 	
 	static{
 		
-		for(String s : new ObjectMap.Keys<String>(Colors.getColors())){
+		for(String s : new ObjectMap.Keys<>(Colors.getColors())){
 			if(s != null)
 			Colors.put(s.toLowerCase().replace("_", ""), Colors.get(s));
 		}

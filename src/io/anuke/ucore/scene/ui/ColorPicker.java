@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 
 import io.anuke.ucore.core.Core;
-import io.anuke.ucore.core.Draw;
+import io.anuke.ucore.graphics.Draw;
 import io.anuke.ucore.function.ColorListenable;
 import io.anuke.ucore.graphics.Fill;
 import io.anuke.ucore.graphics.Hue;
