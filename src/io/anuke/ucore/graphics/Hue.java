@@ -1,11 +1,10 @@
 package io.anuke.ucore.graphics;
 
-import static java.lang.Math.abs;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
-
 import io.anuke.ucore.util.Mathf;
+
+import static java.lang.Math.abs;
 
 public class Hue{
 	static private float[] hsv = new float[3];
@@ -54,6 +53,14 @@ public class Hue{
 	
 	public static float sum(Color color){
 		return color.r + color.g + color.b;
+	}
+
+	public static boolean brighter(Color color, Color other){
+		float avg1 = (color.r + color.g + color.b) / 3f;
+		float r1 = Math.abs(color.r - avg1) + Math.abs(color.g - avg1) + Math.abs(color.b - avg1);
+		float avg2 = (other.r + other.g + other.b) / 3f;
+		float r2 = Math.abs(other.r - avg2) + Math.abs(other.g - avg2) + Math.abs(other.b - avg2);
+		return r1 >= r2;
 	}
 	
 	public static float diff(Color a, Color b){

@@ -16,10 +16,6 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.core.Core.skin;
-
-import java.lang.StringBuilder;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -33,17 +29,23 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.Timer.Task;
-
 import io.anuke.ucore.function.TypingListenable;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Group;
 import io.anuke.ucore.scene.Scene;
+import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
 import io.anuke.ucore.scene.event.IbeamCursorListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
-import io.anuke.ucore.scene.utils.*;
-import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
+import io.anuke.ucore.scene.utils.Disableable;
+import io.anuke.ucore.scene.utils.UIUtils;
+import io.anuke.ucore.util.Mathf;
+
+import java.lang.StringBuilder;
+
+import static io.anuke.ucore.core.Core.skin;
+
 /** A single-line text input field.
  * <p>
  * The preferred height of a text field is the height of the {@link TextFieldStyle#font} and {@link TextFieldStyle#background}.
@@ -246,7 +248,7 @@ public class TextField extends Element implements Disableable {
 
 		// Prevent renderOffset from starting too close to the end, eg after text was deleted.
 		float maxOffset = 0;
-		float width = glyphPositions[glyphCount - 1];
+		float width = glyphPositions[Mathf.clamp(glyphCount - 1, 0, glyphPositions.length - 1)];
 		for (int i = glyphCount - 2; i >= 0; i--) {
 			float x = glyphPositions[i];
 			if (width - x > visibleWidth) break;
