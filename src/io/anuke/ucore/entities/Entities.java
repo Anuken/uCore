@@ -131,11 +131,16 @@ public class Entities{
 		draw(defaultGroup);
 	}
 
-	public static void draw(EntityGroup<?> group){
+	public static <T extends Entity> void draw(EntityGroup<T> group){
+		draw(group, e -> true);
+	}
+
+	public static <T extends Entity> void draw(EntityGroup<T> group, Predicate<T> toDraw){
 		OrthographicCamera cam = Core.camera;
 		viewport.set(cam.position.x - cam.viewportWidth / 2 * cam.zoom, cam.position.y - cam.viewportHeight / 2 * cam.zoom, cam.viewportWidth * cam.zoom, cam.viewportHeight * cam.zoom);
 
 		for(Entity e : group.all()){
+			if(!toDraw.test((T)e)) continue;
 			Rectangle.tmp2.setSize(e.drawSize()).setCenter(e.x, e.y);
 
 			if(Rectangle.tmp2.overlaps(viewport))
@@ -143,6 +148,7 @@ public class Entities{
 		}
 
 		for(Entity e : group.all()){
+			if(!toDraw.test((T)e)) continue;
 			Rectangle.tmp2.setSize(e.drawSize()).setCenter(e.x, e.y);
 
 			if(Rectangle.tmp2.overlaps(viewport))
