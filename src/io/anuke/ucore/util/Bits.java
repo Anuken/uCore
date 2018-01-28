@@ -2,6 +2,7 @@ package io.anuke.ucore.util;
 
 public class Bits{
 	static byte[] result = new byte[4];
+	static short[] resultShort = new short[4];
 
 	public static int packInt(short left, short right){
 		return (left << 16) | (right & 0xFFF);
@@ -31,6 +32,14 @@ public class Bits{
 	public static int getRightShort(int field){
 		return field & 0xFFF;
 	}
+
+	public static int getLeftInt(long field){
+		return (int)(field >> 32);
+	}
+
+	public static int getRightInt(long field){
+		return (int)(field);
+	}
 	
 	public static byte getLeftByte(short field){
 		return (byte)(field >> 8);
@@ -52,6 +61,20 @@ public class Bits{
 	  result[3] = (byte) (i /*>> 0*/);
 
 	  return result;
+	}
+
+	/**The same array instance is returned each call.*/
+	public static short[] getShorts(long i){
+		resultShort[0] = (short) (i >> 48);
+		resultShort[1] = (short) (i >> 32);
+		resultShort[2] = (short) (i >> 16);
+		resultShort[3] = (short) (i /*>> 0*/);
+
+		return resultShort;
+	}
+
+	public static long packLong(short[] s){
+		return ((long)(0xFFFF & s[0]) << 48) | ((long)(0xFFFF & s[1]) << 32) | ((long)(0xFFFF & s[2]) << 16) | (long)(0xFFFF & s[3]);
 	}
 	
 	public static int packInt(byte b1, byte b2, byte b3, byte b4){
