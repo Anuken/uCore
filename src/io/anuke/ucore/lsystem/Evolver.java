@@ -1,9 +1,8 @@
 package io.anuke.ucore.lsystem;
 
-import java.util.HashMap;
-
-import io.anuke.ucore.UCore;
 import io.anuke.ucore.util.Mathf;
+
+import java.util.HashMap;
 
 public class Evolver {
 	public static boolean debug = false;
@@ -29,7 +28,6 @@ public class Evolver {
 		currentScore = 0f;
 
 		for (int g = 0; g < data.generations; g ++) {
-			if(debug) UCore.log("Generation " + g + ": best score currently " + currentScore);
 
 			HashMap<Character, String> bestTree = current;
 			float bestSpace = currentSpace;
@@ -47,10 +45,7 @@ public class Evolver {
 					continue;
 				}
 
-				if(debug) UCore.log("Score of " + mutation.toString() + ": " + score);
-
 				if (score > bestScore) {
-					if(debug) UCore.log("Selected successor: " + bestTree.toString());
 					bestTree = mutation;
 					bestScore = score;
 					bestSpace = mutSpace;

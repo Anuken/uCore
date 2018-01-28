@@ -3,32 +3,18 @@ package io.anuke.ucore;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 
 public class UCore{
+	private static Logger logger;
 	public static final boolean isAssets =
 			Gdx.app != null && Gdx.app.getType() != ApplicationType.WebGL
 					&& getProperty("user.name").equals("anuke")
 					&& getAbsolute(Gdx.files.local("na").parent()).endsWith("assets");
-	
-	public static void log(Object... objects){
-		StringBuffer buffer = new StringBuffer();
-
-		int i = 0;
-		for(Object o : objects){
-			buffer.append(o);
-			if(i++ != objects.length-1)
-				buffer.append(", ");
-		}
-		Gdx.app.log("Log", buffer.toString());
-	}
-
-	public static void error(Exception e){
-		Gdx.app.error("Error", "Exception:", e);
-	}
 
 	public static String getProperty(String name){
 		try{

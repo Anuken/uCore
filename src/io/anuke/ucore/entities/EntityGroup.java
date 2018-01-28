@@ -81,7 +81,7 @@ public class EntityGroup<T extends Entity>{
 		tree = new QuadTree(Entities.maxLeafObjects, new Rectangle(x, y, w, h));
 	}
 	
-	public int amount(){
+	public int size(){
 		return entityArray.size;
 	}
 	

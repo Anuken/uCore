@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectIntMap;
-import io.anuke.ucore.UCore;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Inputs;
 import io.anuke.ucore.core.Inputs.Axis;
@@ -58,7 +57,6 @@ public class KeybindDialog extends Dialog{
 
 			public boolean buttonDown (Controller controller, int buttonIndex) {
 				if(canRebindController()){
-					UCore.log("Rebinding with " + buttonIndex);
 					rebind(Input.findByType(Type.controller, buttonIndex, false));
 					return false;
 				}
@@ -76,7 +74,6 @@ public class KeybindDialog extends Dialog{
 			@Override
 			public boolean povMoved(Controller controller, int povIndex, PovDirection value) {
 				if(canRebindController() && value != PovDirection.center){
-					UCore.log(Input.findPOV(value));
 					rebind(Input.findPOV(value));
 					return false;
 				}

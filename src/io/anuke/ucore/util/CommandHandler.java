@@ -20,12 +20,19 @@ public class CommandHandler{
 		message = message.substring(prefix.length());
 
 		String[] args = message.split(" ");
+
+        String mergeargs = args.length > 1 ? message.substring(args[0].length() + 1) : "";
+
 		message = args[0].toLowerCase();
 		args = Arrays.copyOfRange(args, 1, args.length);
 		
 		Command command = commands.get(message);
 		
 		if(command != null){
+			if(command.mergeArgs && args.length > 0){
+				args = new String[]{mergeargs};
+			}
+
 			if(args.length == command.paramLength){
 				command.runner.accept(args);
 				return new Response(ResponseType.valid, command);
@@ -37,12 +44,16 @@ public class CommandHandler{
 		}
 	}
 	
-	public void register(String text, String params, Consumer<String[]> runner){
-		commands.put(text.toLowerCase(), new Command(text, params, null, runner));
+	public Command register(String text, String params, Consumer<String[]> runner){
+		Command cmd = new Command(text, params, null, runner);
+		commands.put(text.toLowerCase(), cmd);
+		return cmd;
 	}
 	
-	public void register(String text, String params, String description, Consumer<String[]> runner){
-		commands.put(text.toLowerCase(), new Command(text, params, description, runner));
+	public Command register(String text, String params, String description, Consumer<String[]> runner){
+		Command cmd = new Command(text, params, description, runner);
+		commands.put(text.toLowerCase(), cmd);
+		return cmd;
 	}
 	
 	public Iterable<Command> getCommandList(){
@@ -55,6 +66,7 @@ public class CommandHandler{
 		public final String description;
 		public final int paramLength;
 		public final Consumer<String[]> runner;
+		public boolean mergeArgs;
 		
 		public Command(String text, String params, String description, Consumer<String[]> runner){
 			this.text = text;
@@ -63,6 +75,11 @@ public class CommandHandler{
 			this.description = description;
 			
 			paramLength = params.length() == 0 ? 0 : (params.length() - params.replaceAll(" ", "").length() + 1);
+		}
+
+		public Command mergeArgs(){
+			this.mergeArgs = true;
+			return this;
 		}
 	}
 	
