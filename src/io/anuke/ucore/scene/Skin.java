@@ -41,15 +41,11 @@ import io.anuke.ucore.scene.style.*;
  * See the <a href="https://github.com/libgdx/libgdx/wiki/Skin">documentation</a> for more.
  * @author Nathan Sweet */
 public class Skin implements Disposable {
-	public static boolean scale = true;
-	
-	ObjectMap<Class, ObjectMap<String, Object>> resources = new ObjectMap();
+	ObjectMap<Class, ObjectMap<String, Object>> resources = new ObjectMap<>();
 	Atlas atlas;
-	
 
 	/** Creates an empty skin. */
-	public Skin () {
-	}
+	public Skin () {}
 
 	/** Creates a skin containing the resources in the specified skin JSON file. If a file in the same directory with a ".atlas"
 	 * extension exists, it is loaded as a {@link TextureAtlas} and the texture regions added to the skin. The atlas is
@@ -114,7 +110,7 @@ public class Skin implements Disposable {
 		if (resource == null) throw new IllegalArgumentException("resource cannot be null.");
 		ObjectMap<String, Object> typeResources = resources.get(type);
 		if (typeResources == null) {
-			typeResources = new ObjectMap(type == TextureRegion.class || type == Drawable.class || type == Sprite.class ? 256 : 64);
+			typeResources = new ObjectMap<>(type == TextureRegion.class || type == Drawable.class || type == Sprite.class ? 256 : 64);
 			resources.put(type, typeResources);
 		}
 		typeResources.put(name, resource);
@@ -278,7 +274,7 @@ public class Skin implements Disposable {
 			if (textureRegion instanceof AtlasRegion) {
 				AtlasRegion region = (AtlasRegion)textureRegion;
 				if (region.splits != null)
-					drawable = (!scale ? new NinePatchDrawable(getPatch(name)) : new ScaledNinePatchDrawable(getPatch(name)));
+					drawable = (new ScaledNinePatchDrawable(getPatch(name)));
 				else if (region.rotate || region.packedWidth != region.originalWidth || region.packedHeight != region.originalHeight)
 					drawable = new SpriteDrawable(getSprite(name));
 			}

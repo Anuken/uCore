@@ -1,14 +1,14 @@
 package io.anuke.ucore.core;
 
-import java.util.Arrays;
-
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-
 import io.anuke.ucore.function.Event;
+import io.anuke.ucore.function.Supplier;
+
+import java.util.Arrays;
 
 public class Events{
 	private static ObjectMap<Class<? extends Event>, Method> methodCache = new ObjectMap<>();
@@ -22,13 +22,17 @@ public class Events{
 		put(Long.class, long.class);
 	}};
 	
-	private static ObjectMap<Class<? extends Event>, Array<Event>> events = new ObjectMap<>();
+	private static ObjectMap<Class<? extends Event>, Array<EventListener>> events = new ObjectMap<>();
 	
-	public static <T extends Event> void on(Class<T> type, T listener){
+	public static <T extends Event> EventListener on(Class<T> type, T listener){
 		if(events.get(type) == null)
 			events.put(type, new Array<>());
+
+		EventListener c = new EventListener(listener);
 		
-		events.get(type).add(listener);
+		events.get(type).add(c);
+
+		return c;
 	}
 	
 	public static <T extends Event> void fire(Class<T> type, Object... args){
@@ -37,9 +41,10 @@ public class Events{
 		
 		Method method = getMethod(type, args);
 		
-		for(Event event : events.get(type)){
+		for(EventListener event : events.get(type)){
+			if(!event.enabled.get()) continue;
 			try{
-				method.invoke(event, args);
+				method.invoke(event.listener, args);
 			}catch (ReflectionException e){
 				e.printStackTrace();
 				throw new IllegalArgumentException("Exception occurred calling event: event exception, or wrong number or type of arguments!");
@@ -68,6 +73,20 @@ public class Events{
 						+ Arrays.toString(classes) + ". Make sure you have a handle method declared, and that the argument "
 								+ "types are correct.");
 			}
+		}
+	}
+
+	public static class EventListener{
+		private Supplier<Boolean> enabled = () -> true;
+		private final Event listener;
+
+		public EventListener(Event listener){
+			this.listener = listener;
+		}
+
+		public EventListener enabled(Supplier<Boolean> enabled){
+			this.enabled = enabled;
+			return this;
 		}
 	}
 	

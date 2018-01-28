@@ -11,6 +11,11 @@ public class Sounds{
 	private static float volume = 1f, globalVolume = 1f;
 	private static float falloff = 20000f;
 	private static boolean muted;
+	private static boolean headless;
+
+	public static void setHeadless(boolean headless){
+		Sounds.headless = headless;
+	}
 	
 	public static void load(String... names){
 		Settings.defaults("sfxvol", 10);
@@ -39,6 +44,7 @@ public class Sounds{
 	}
 	
 	public static void play(String name, float tvol){
+		if(headless) return;
 		if(!map.containsKey(name)) throw new IllegalArgumentException("Sound \""+name+"\" does not exist!");
 		if(muted) return;
 		float vol = Settings.getInt("sfxvol")/10f;

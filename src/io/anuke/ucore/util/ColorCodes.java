@@ -1,5 +1,7 @@
 package io.anuke.ucore.util;
 
+import com.badlogic.gdx.utils.ObjectMap;
+
 /**Note that these color codes will only work on linux or mac terminals.*/
 public class ColorCodes{
 	public static String FLUSH = "\033[H\033[2J";
@@ -26,6 +28,8 @@ public class ColorCodes{
 	public static String BACK_GREEN = "\u001B[42m";
 	public static String BACK_YELLOW = "\u001B[43m";
 	public static String BACK_BLUE = "\u001B[44m";
+
+	private static ObjectMap<String, String> codes = new ObjectMap<>();
 	
 	static{
 		//disable color codes on windows
@@ -35,5 +39,38 @@ public class ColorCodes{
 					= LIGHT_RED = LIGHT_GREEN = LIGHT_YELLOW = LIGHT_BLUE = LIGHT_MAGENTA = LIGHT_CYAN 
 					= WHITE = BACK_DEFAULT = BACK_RED = BACK_YELLOW = BACK_BLUE = BACK_GREEN = "";
 		}
+
+		codes.put("ff", FLUSH);
+		codes.put("fr", RESET);
+		codes.put("fb", BOLD);
+		codes.put("fu", UNDERLINED);
+		codes.put("bk", BLACK);
+		codes.put("r", RED);
+		codes.put("g", GREEN);
+		codes.put("y", YELLOW);
+		codes.put("b", BLUE);
+		codes.put("p", PURPLE);
+		codes.put("c", CYAN);
+		codes.put("lr", LIGHT_RED);
+		codes.put("lg", LIGHT_GREEN);
+		codes.put("ly", LIGHT_YELLOW);
+		codes.put("lm", LIGHT_MAGENTA);
+		codes.put("lb", LIGHT_BLUE);
+		codes.put("lc", LIGHT_CYAN);
+		codes.put("w", WHITE);
+
+		codes.put("bd", BACK_DEFAULT);
+		codes.put("br", BACK_RED);
+		codes.put("bg", BACK_GREEN);
+		codes.put("by", BACK_YELLOW);
+		codes.put("bb", BACK_BLUE);
+	}
+
+	public static Iterable<String> getColorCodes(){
+		return codes.keys();
+	}
+
+	public static String getColorText(String code){
+		return codes.get(code);
 	}
 }

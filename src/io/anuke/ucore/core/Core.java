@@ -5,17 +5,15 @@ import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.ObjectMap;
-
-import io.anuke.ucore.util.Atlas;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
+import io.anuke.ucore.util.Atlas;
 
 public class Core{
 	public static OrthographicCamera camera = new OrthographicCamera();
-	public static Batch batch = new SpriteBatch(2048);
+	public static Batch batch;
 	public static Atlas atlas;
 	public static BitmapFont font;
 	public static int cameraScale = 1;
