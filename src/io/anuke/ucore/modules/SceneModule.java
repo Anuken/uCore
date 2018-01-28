@@ -25,10 +25,56 @@ public class SceneModule extends Module{
 		if(Core.batch == null) Core.batch = new SpriteBatch();
 		scene = new Scene(Core.batch);
 		Inputs.addProcessor(scene);
-		
+
+		loadColors();
 		loadSkin();
-		
 		loadContext();
+	}
+
+	protected void loadColors(){
+		Colors.put("clear", Color.CLEAR);
+		Colors.put("black", Color.BLACK);
+
+		Colors.put("white", Color.WHITE);
+		Colors.put("lightgray", Color.LIGHT_GRAY);
+		Colors.put("gray", Color.GRAY);
+		Colors.put("darkgray", Color.DARK_GRAY);
+
+		Colors.put("blue", Color.BLUE);
+		Colors.put("navy", Color.NAVY);
+		Colors.put("royal", Color.ROYAL);
+		Colors.put("slate", Color.SLATE);
+		Colors.put("sky", Color.SKY);
+		Colors.put("cyan", Color.CYAN);
+		Colors.put("teal", Color.TEAL);
+
+		Colors.put("green", Color.GREEN);
+		Colors.put("charteuse", Color.CHARTREUSE);
+		Colors.put("lime", Color.LIME);
+		Colors.put("forest", Color.FOREST);
+		Colors.put("olive", Color.OLIVE);
+
+		Colors.put("yellow", Color.YELLOW);
+		Colors.put("gold", Color.GOLD);
+		Colors.put("goldenrod", Color.GOLDENROD);
+		Colors.put("orange", Color.ORANGE);
+
+		Colors.put("brown", Color.BROWN);
+		Colors.put("tan", Color.TAN);
+		Colors.put("firebrick", Color.FIREBRICK);
+
+		Colors.put("red", Color.RED);
+		Colors.put("scarlet", Color.SCARLET);
+		Colors.put("coral", Color.CORAL);
+		Colors.put("salmon", Color.SALMON);
+		Colors.put("pink", Color.PINK);
+		Colors.put("magneta", Color.MAGENTA);
+
+		Colors.put("purple", Color.PURPLE);
+		Colors.put("violet", Color.VIOLET);
+		Colors.put("maroon", Color.MAROON);
+		Colors.put("crimson", Color.SCARLET);
+		Colors.put("scarlet", Color.SCARLET);
 	}
 	
 	protected void loadSkin(){
