@@ -7,6 +7,7 @@ public class ColorCodes{
 	public static String FLUSH = "\033[H\033[2J";
 	public static String RESET = "\u001B[0m";
 	public static String BOLD = "\u001B[1m";
+	public static String ITALIC = "\u001B[3m";
 	public static String UNDERLINED = "\u001B[4m";
 	public static String BLACK = "\u001B[30m";
 	public static String RED = "\u001B[31m";
@@ -37,12 +38,13 @@ public class ColorCodes{
 		if(OS.isWindows){
 			FLUSH = RESET = BOLD = UNDERLINED = BLACK = RED = GREEN = YELLOW = BLUE = PURPLE = CYAN 
 					= LIGHT_RED = LIGHT_GREEN = LIGHT_YELLOW = LIGHT_BLUE = LIGHT_MAGENTA = LIGHT_CYAN 
-					= WHITE = BACK_DEFAULT = BACK_RED = BACK_YELLOW = BACK_BLUE = BACK_GREEN = "";
+					= WHITE = BACK_DEFAULT = BACK_RED = BACK_YELLOW = BACK_BLUE = BACK_GREEN = ITALIC = "";
 		}
 
 		codes.put("ff", FLUSH);
 		codes.put("fr", RESET);
 		codes.put("fb", BOLD);
+		codes.put("fi", ITALIC);
 		codes.put("fu", UNDERLINED);
 		codes.put("bk", BLACK);
 		codes.put("r", RED);

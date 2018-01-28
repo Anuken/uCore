@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import io.anuke.ucore.UCore;
 
 
 public abstract class Module extends InputAdapter{
@@ -30,10 +29,6 @@ public abstract class Module extends InputAdapter{
 	public void clearScreen(float r, float g, float b){
 		Gdx.gl.glClearColor(r, g, b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-	}
-	
-	public void log(Object message){
-		UCore.log(message);
 	}
 
 	public float delta(){

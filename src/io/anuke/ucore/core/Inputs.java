@@ -10,10 +10,10 @@ import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
-import io.anuke.ucore.UCore;
 import io.anuke.ucore.core.KeyBinds.Section;
 import io.anuke.ucore.util.Input;
 import io.anuke.ucore.util.Input.Type;
+import io.anuke.ucore.util.Log;
 import io.anuke.ucore.util.OS;
 
 public class Inputs{
@@ -91,7 +91,7 @@ public class Inputs{
 			@Override
 			public boolean axisMoved(Controller controller, int axisIndex, float value) {
 				if(Math.abs(value) > 0.3f && debug){
-					UCore.log("Axis: " + Input.findByType(Type.controller, axisIndex, true), "Code " + axisIndex, "Value " + value);
+					Log.info("Axis: {0}, Code: {1}, Value: {2},", Input.findByType(Type.controller, axisIndex, true), axisIndex,  value);
 				}
 				return false;
 			}
@@ -99,14 +99,14 @@ public class Inputs{
 			@Override
 			public boolean povMoved (Controller controller, int povIndex, PovDirection value) {
 				if(debug){
-					UCore.log("POV: " + Input.findByType(Type.controller, povIndex, false), "Code " + povIndex, "Value " + value);
+					Log.info("POV: {0}, Code: {1}, Value: {2}", Input.findByType(Type.controller, povIndex, false), povIndex,  value);
 				}
 				return false;
 			}
 
 			@Override
 			public boolean buttonDown(Controller controller, int buttonCode) {
-				if(debug) UCore.log("Button: " + Input.findByType(Type.controller, buttonCode, false), "Code: " + buttonCode);
+				if(debug) Log.info("Button: {0}, Code: {1}", Input.findByType(Type.controller, buttonCode, false),  buttonCode);
 
 				InputDevice device = findBy(controller);
 				if(device == null) return false;

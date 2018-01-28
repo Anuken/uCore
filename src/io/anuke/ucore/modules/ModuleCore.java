@@ -3,9 +3,9 @@ package io.anuke.ucore.modules;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Graphics;
+import io.anuke.ucore.core.Inputs;
 
 public abstract class ModuleCore extends ApplicationAdapter{
 	private static ModuleCore instance;
@@ -19,7 +19,9 @@ public abstract class ModuleCore extends ApplicationAdapter{
 	abstract public void init();
 	public void preInit(){}
 	public void postInit(){}
-	public void update(){}
+	public void update(){
+		Inputs.update();
+	}
 	
 	/**Adds a module to the list.*/
 	protected <N extends Module> void module(N t){

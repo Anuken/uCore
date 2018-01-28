@@ -25,7 +25,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
-import io.anuke.ucore.UCore;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.StringSupplier;
 import io.anuke.ucore.scene.Element;
@@ -138,7 +137,6 @@ public class Label extends Element {
 			if(isControl((int)text.charAt(i))) continue;
 			Glyph g =font.getData().getGlyph(text.charAt(i));
 			if (g == null || g == font.getData().missingGlyph) {
-				UCore.log("Unknown character: '"+text.charAt(i)+"'");
 				for (BitmapFont font : Core.skin.getAll(BitmapFont.class).values()) {
 					if(font.getData().getGlyph(text.charAt(i)) != null){
 						this.style.font = font;
