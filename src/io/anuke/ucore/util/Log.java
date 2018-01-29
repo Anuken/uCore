@@ -1,8 +1,5 @@
 package io.anuke.ucore.util;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 public class Log {
     private static boolean useColors = true;
     private static boolean disabled = false;
@@ -69,10 +66,9 @@ public class Log {
         }
 
         public void err(Throwable e){
-            StringWriter writer = new StringWriter(256);
-            e.printStackTrace(new PrintWriter(writer));
-
-            err(writer.toString().trim());
+            if(useColors) System.out.print(ColorCodes.LIGHT_RED + ColorCodes.BOLD);
+            e.printStackTrace();
+            if(useColors) System.out.print(ColorCodes.RESET);
         }
 
         public void print(String text, Object... args){
