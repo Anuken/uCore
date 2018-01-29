@@ -1,5 +1,6 @@
 package io.anuke.ucore.util;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.ucore.function.Consumer;
 
@@ -7,6 +8,7 @@ import java.util.Arrays;
 
 public class CommandHandler{
 	private final ObjectMap<String, Command> commands = new ObjectMap<>();
+	private final Array<Command> orderedCommands = new Array<>();
 	private final String prefix;
 	
 	public CommandHandler(String prefix){
@@ -44,20 +46,22 @@ public class CommandHandler{
 		}
 	}
 	
-	public Command register(String text, String params, Consumer<String[]> runner){
-		Command cmd = new Command(text, params, null, runner);
+	public Command register(String text, String description, Consumer<String[]> runner){
+		Command cmd = new Command(text, "", description, runner);
 		commands.put(text.toLowerCase(), cmd);
+		orderedCommands.add(cmd);
 		return cmd;
 	}
 	
 	public Command register(String text, String params, String description, Consumer<String[]> runner){
 		Command cmd = new Command(text, params, description, runner);
 		commands.put(text.toLowerCase(), cmd);
+		orderedCommands.add(cmd);
 		return cmd;
 	}
 	
 	public Iterable<Command> getCommandList(){
-		return commands.values();
+		return orderedCommands;
 	}
 	
 	public static class Command{

@@ -1,6 +1,7 @@
 package io.anuke.ucore.util;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectMap.Keys;
 
 /**Note that these color codes will only work on linux or mac terminals.*/
 public class ColorCodes{
@@ -69,7 +70,7 @@ public class ColorCodes{
 	}
 
 	public static Iterable<String> getColorCodes(){
-		return codes.keys();
+		return new Keys<>(codes);
 	}
 
 	public static String getColorText(String code){
