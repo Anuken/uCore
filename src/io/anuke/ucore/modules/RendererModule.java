@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
@@ -42,7 +43,7 @@ public abstract class RendererModule extends Module{
 		//(to disable the recorder, just don't call record(), or remove GifRecorder from the classpath)
 		try{
 			recorderClass = ClassReflection.forName("io.anuke.gif.GifRecorder");
-			recorder = ClassReflection.getConstructor(recorderClass, Batch.class).newInstance(batch);
+			recorder = ClassReflection.getConstructor(recorderClass, Batch.class).newInstance(new SpriteBatch());
 			if(UCore.isAssets){
 				Method method = ClassReflection.getMethod(recorderClass, "setExportDirectory", FileHandle.class);
 				method.invoke(recorder, Gdx.files.local("../../desktop/gifexport"));
