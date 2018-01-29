@@ -301,6 +301,14 @@ public class Graphics{
 		batch.setShader(null);
 	}
 
+	public static Surface getEffects1(){
+		return effects1;
+	}
+
+	public static Surface getEffects2(){
+		return effects2;
+	}
+
 	public static void resize(){
 		//why does windows do this?
 		if(Gdx.graphics.getWidth() == 0 || Gdx.graphics.getHeight() == 0) return;
@@ -313,7 +321,6 @@ public class Graphics{
 		for(Surface surface : surfaceArray){
 			surface.resize();
 		}
-		
 	}
 	
 	public static void setCameraScale(int scale){
