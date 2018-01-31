@@ -23,6 +23,7 @@ import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.ui.layout.Stack;
 import io.anuke.ucore.scene.ui.layout.Table;
+import io.anuke.ucore.util.Bundles;
 import io.anuke.ucore.util.Input;
 import io.anuke.ucore.util.Input.Type;
 import io.anuke.ucore.util.Strings;
@@ -38,7 +39,7 @@ public class KeybindDialog extends Dialog{
 	protected ObjectIntMap<KeyBinds.Section> sectionControls = new ObjectIntMap<>();
 
 	public KeybindDialog() {
-		super("Rebind Keys");
+		super(Bundles.get("text.keybind.title", "Rebind Keys"));
 		style = Core.skin.get(KeybindDialogStyle.class);
 		setup();
 		addCloseButton();
@@ -166,7 +167,7 @@ public class KeybindDialog extends Dialog{
 				if(keybind.isAxis()) {
 					Axis def = keybind.axis;
 					Axis axis = section.axisBinds.get(section.device.type).get(keybind.name);
-					table.add(Strings.capitalize(key), style.keyNameColor).left().padRight(40).padLeft(8);
+					table.add(Strings.capitalize(Bundles.get("keybind."+key+".name", key)), style.keyNameColor).left().padRight(40).padLeft(8);
 
 					if(axis.min.axis){
 						table.add(axis.min.toString(), style.keyColor).left().minWidth(90).padRight(20);

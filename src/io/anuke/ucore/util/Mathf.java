@@ -10,10 +10,10 @@ import io.anuke.ucore.function.Consumer;
 import java.util.Random;
 
 public class Mathf{
-	public static int[] signs = {-1, 1};
-	public static boolean[] booleans = {false, true};
-	private static RandomXS128 seedr = new RandomXS128();
-	private static RandomXS128 rand = new RandomXS128();
+	public static final int[] signs = {-1, 1};
+	public static final boolean[] booleans = {false, true};
+	private static final RandomXS128 seedr = new RandomXS128();
+	private static final RandomXS128 rand = new RandomXS128();
 	
 	/**X/Y flipped, returns degrees*/
 	public static float atan2(float x, float y){
