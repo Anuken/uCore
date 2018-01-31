@@ -46,7 +46,11 @@ public abstract class Entity{
 		removed();
 		return this;
 	}
-	
+
+	public EntityGroup<?> getGroup() {
+		return group;
+	}
+
 	public float angleTo(Entity other){
 		return vector.set(other.x - x, other.y - y).angle();
 	}

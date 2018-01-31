@@ -11,6 +11,7 @@ import java.util.Random;
 
 public class Mathf{
 	public static int[] signs = {-1, 1};
+	public static boolean[] booleans = {false, true};
 	private static RandomXS128 seedr = new RandomXS128();
 	private static RandomXS128 rand = new RandomXS128();
 	

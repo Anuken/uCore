@@ -8,15 +8,23 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 public abstract class Shader{
 	/**Whether to fallback on the default shader when things fail.*/
 	public static boolean useFallback = true;
-	
-	public final boolean isFallback;
+
+	public final String frag, vert;
+	public boolean isFallback;
 	public ShaderProgram shader;
 	public TextureRegion region;
 	
 	public Shader(String frag, String vert){
+		this.frag = frag;
+		this.vert = vert;
+		reload();
+	}
+
+	public void reload(){
+	    if(this.shader != null) this.shader.dispose();
 		this.shader = new ShaderProgram(Gdx.files.internal("shaders/"+vert+".vertex"),
 				Gdx.files.internal("shaders/"+frag+".fragment"));
-		
+
 		if(!shader.isCompiled()){
 			if(useFallback){
 				Gdx.app.error("Shaders", "Failed to load shaders\"" + frag + "\" and \"" + vert + "\", using fallback: " + shader.getLog());
@@ -28,7 +36,7 @@ public abstract class Shader{
 		}else{
 			isFallback = false;
 		}
-		
+
 		if(shader.getLog().length() > 0)
 			Gdx.app.error("Shaders", "Shader Log (" + frag + "/" + vert + "): " + shader.getLog());
 	}

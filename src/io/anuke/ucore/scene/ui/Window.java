@@ -16,8 +16,6 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.core.Core.skin;
-
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,7 +23,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
-
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.event.InputEvent;
@@ -34,6 +31,8 @@ import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.ui.Label.LabelStyle;
 import io.anuke.ucore.scene.ui.layout.Table;
+
+import static io.anuke.ucore.core.Core.skin;
 /** A table that can be dragged and act as a modal window. The top padding is used as the window's title height.
  * <p>
  * The preferred size of a window is the preferred size of the title text and the children as laid out by the table. After adding
@@ -200,7 +199,7 @@ public class Window extends Table {
 		if (style == null) throw new IllegalArgumentException("style cannot be null.");
 		this.style = style;
 		setBackground(style.background);
-		titleLabel.setStyle(new LabelStyle(style.titleFont, style.titleFontColor));
+		//titleLabel.setStyle(new LabelStyle(style.titleFont, style.titleFontColor));
 		invalidateHierarchy();
 	}
 

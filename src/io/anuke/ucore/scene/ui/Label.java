@@ -133,6 +133,7 @@ public class Label extends Element {
 	}
 
 	private void checkFallback(){
+
 		for (int i = 0; i < text.length; i++) {
 			if(isControl((int)text.charAt(i))) continue;
 			Glyph g =font.getData().getGlyph(text.charAt(i));
@@ -141,9 +142,9 @@ public class Label extends Element {
 					if(font.getData().getGlyph(text.charAt(i)) != null){
 						this.style.font = font;
 						setStyle(this.style);
+						return;
 					}
 				}
-				break;
 			}
 		}
 	}

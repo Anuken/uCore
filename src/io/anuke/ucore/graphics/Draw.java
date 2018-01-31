@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Tmp;
 
 import static io.anuke.ucore.core.Core.batch;
@@ -107,6 +108,13 @@ public class Draw{
 	public static void grect(String name, float x, float y){
 		TextureRegion region = region(name);
 		batch.draw(region, x - region.getRegionWidth() / 2, y);
+	}
+
+	/** Grounded rect with rotation and origin.*/
+	public static void grect(String name, float x, float y, float originx, float originy, float rotation, boolean flip){
+		TextureRegion region = region(name);
+		batch.draw(region, x - region.getRegionWidth() / 2 * -Mathf.sign(flip), y, originx, originy,
+                region.getRegionWidth()* -Mathf.sign(flip), region.getRegionHeight(), 1f, 1f, rotation);
 	}
 
 	/** Grounded rect. */
