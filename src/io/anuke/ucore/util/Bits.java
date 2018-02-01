@@ -52,19 +52,37 @@ public class Bits{
 	public static short packShort(byte left, byte right){
 		return (short)((left << 8) | (right & 0xFF));
 	}
+
+	public static byte[] getBytes(){
+		return result;
+	}
 	
 	/**The same array instance is returned each call.*/
 	public static byte[] getBytes(int i){
-	  result[0] = (byte) (i >> 24);
-	  result[1] = (byte) (i >> 16);
-	  result[2] = (byte) (i >> 8);
-	  result[3] = (byte) (i /*>> 0*/);
+	  return getBytes(i, result);
+	}
 
-	  return result;
+	/**The same array instance is returned each call.*/
+	public static byte[] getBytes(int i, byte[] result){
+		result[0] = (byte) (i >> 24);
+		result[1] = (byte) (i >> 16);
+		result[2] = (byte) (i >> 8);
+		result[3] = (byte) (i /*>> 0*/);
+
+		return result;
+	}
+
+	public static short[] getShorts(){
+		return resultShort;
 	}
 
 	/**The same array instance is returned each call.*/
 	public static short[] getShorts(long i){
+		return getShorts(i, resultShort);
+	}
+
+	/**The same array instance is returned each call.*/
+	public static short[] getShorts(long i, short[] resultShort){
 		resultShort[0] = (short) (i >> 48);
 		resultShort[1] = (short) (i >> 32);
 		resultShort[2] = (short) (i >> 16);
