@@ -13,7 +13,7 @@ public class Timers{
 	private static ObjectFloatMap<Integer> timers = new ObjectFloatMap<>();
 	private static DelayedRemovalArray<DelayRun> runs = new  DelayedRemovalArray<>();
 	private static long lastMark = 0;
-	private static Supplier<Float> deltaimpl = ()->Math.min(Gdx.graphics.getDeltaTime()*60f, 3f);
+	private static Supplier<Float> deltaimpl = () -> Math.min(Gdx.graphics.getDeltaTime()*60f, 3f);
 	
 	public static void run(float delay, Callable r){
 		DelayRun run = Pools.obtain(DelayRun.class);
