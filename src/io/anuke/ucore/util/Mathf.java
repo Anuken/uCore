@@ -87,6 +87,13 @@ public class Mathf{
 	public static boolean angNear(float a, float b, float range){
 		return Math.abs(a-b) < range || Math.abs((360f-a)-b) < range;
 	}
+
+	/**Mutates the first vector. Goes forward. Used for value greater than 1.*/
+	public static Vector2 lerp2 (Vector2 v, Vector2 target, float alpha) {
+		v.x = (v.x) + ((target.x - v.x) * alpha);
+		v.y = (v.y) + ((target.y - v.y) * alpha);
+		return v;
+	}
 	
 	public static float slerp(float angle, float target, float alpha){
 		return MathUtils.lerpAngleDeg(angle, target, alpha);
