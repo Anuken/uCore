@@ -22,6 +22,8 @@ public class EntityCollisions {
     private TileCollider collider;
     private TileHitboxProvider hitboxProvider;
     private Vector2 vector = new Vector2();
+    private Rectangle r1 = new Rectangle();
+    private Rectangle r2 = new Rectangle();
 
     //entity collisions
     private IntSet collided = new IntSet();
@@ -103,9 +105,9 @@ public class EntityCollisions {
             for(int dy = -r; dy <= r; dy++){
                 int wx = dx + tilex, wy = dy + tiley;
                 if(collider.solid(wx, wy)){
-                    hitboxProvider.getHitbox(wx, wy, Rectangle.tmp2);
+                    hitboxProvider.getHitbox(wx, wy, r2);
 
-                    if(Rectangle.tmp2.overlaps(rect)){
+                    if(r2.overlaps(rect)){
                         return true;
                     }
                 }
@@ -132,8 +134,8 @@ public class EntityCollisions {
         SolidEntity a = (SolidEntity) entity;
         SolidEntity b = (SolidEntity) other;
 
-        Rectangle r1 = a.hitbox.getRect(Rectangle.tmp, a.x, a.y);
-        Rectangle r2 = b.hitbox.getRect(Rectangle.tmp2, b.x, b.y);
+        Rectangle r1 = a.hitbox.getRect(this.r1, a.x, a.y);
+        Rectangle r2 = b.hitbox.getRect(this.r2, b.x, b.y);
 
         if(a != b && a.collides(b) && b.collides(a) && r1.overlaps(r2)){
             a.collision(b);
@@ -153,12 +155,12 @@ public class EntityCollisions {
             if(collided.contains(entity.id))
                 continue;
 
-            ((QuadTreeObject) entity).getBoundingBox(Rectangle.tmp2);
+            ((QuadTreeObject) entity).getBoundingBox(r2);
 
             groupb.tree().getIntersect(c -> {
                 if(!collided.contains(c.id))
                     checkCollide(entity, c);
-            }, Rectangle.tmp2);
+            }, r2);
 
             collided.add(entity.id);
         }

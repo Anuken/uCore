@@ -23,4 +23,11 @@ public class Translator {
         return this;
     }
 
+    public Translator rnd(float length){
+        vec.setToRandomDirection().scl(length);
+        this.x = vec.x;
+        this.y = vec.y;
+        return this;
+    }
+
 }

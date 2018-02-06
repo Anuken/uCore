@@ -22,6 +22,7 @@ public class TileCollisionProcessor extends Processor{
 	
 	private Array<JBItem> items = new Array<>();
 	private Rectangle tmp = new Rectangle();
+	private Rectangle tmp2 = new Rectangle();
 	
 	private float tilesize;
 	private TileCollider collider;
@@ -87,9 +88,9 @@ public class TileCollisionProcessor extends Processor{
 			for(int dy = -r; dy <= r; dy++){
 				int wx = dx+tilex, wy = dy+tiley;
 				if(collider.solid(wx, wy)){
-					hitbox.getHitbox(wx, wy, Rectangle.tmp2);
+					hitbox.getHitbox(wx, wy, tmp2);
 					
-					if(Rectangle.tmp2.overlaps(tmp)){
+					if(tmp2.overlaps(tmp)){
 						return point.set(wx, wy);
 					}
 				}
