@@ -55,7 +55,7 @@ public class FacetTrait extends Trait{
 			Draw.color();
 			p.provider = Sorter.tile;
 			p.layer = Sorter.shadow;
-			
+
 			if(!round){
 				Draw.rect(shadow, spark.pos().x, spark.pos().y + offsety);
 			}else{

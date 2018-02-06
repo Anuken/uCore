@@ -208,7 +208,7 @@ public class Draw{
 	}
 
 	public static TextureRegion region(String name){
-		return Core.atlas.getRegion(name);
+		return Core.atlas == null ? null : Core.atlas.getRegion(name);
 	}
 
 	public static boolean hasRegion(String name){
