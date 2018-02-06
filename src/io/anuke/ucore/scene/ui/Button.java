@@ -16,31 +16,27 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.core.Core.skin;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
-
-import io.anuke.ucore.UCore;
-import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Graphics;
 import io.anuke.ucore.function.VisibilityProvider;
 import io.anuke.ucore.scene.Element;
-import io.anuke.ucore.scene.Group;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
+import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
+import io.anuke.ucore.scene.event.ClickListener;
+import io.anuke.ucore.scene.event.HandCursorListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.ui.layout.Table;
-import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
-import io.anuke.ucore.scene.event.ClickListener;
 import io.anuke.ucore.scene.utils.Disableable;
-import io.anuke.ucore.scene.event.HandCursorListener;
-import io.anuke.ucore.util.Tmp;
+
+import static io.anuke.ucore.core.Core.skin;
 
 /** A button is a {@link Table} with a checked state and additional {@link ButtonStyle style} fields for pressed, unpressed, and
  * checked. Each time a button is clicked, the checked state is toggled. Being a table, a button can contain any other actors.<br>
@@ -180,10 +176,11 @@ public class Button extends Table implements Disableable {
 
 	public boolean childrenPressed(){
 	    boolean[] b = {false};
+		Vector2 v = new Vector2();
 
 	    forEach(element -> {
-			element.stageToLocalCoordinates(Tmp.v1.set(Graphics.mouse().x, Graphics.mouse().y));
-	        if(element instanceof Button && (((Button)element).getClickListener().isOver(element, Tmp.v1.x, Tmp.v1.y))){
+			element.stageToLocalCoordinates(v.set(Graphics.mouse().x, Graphics.mouse().y));
+	        if(element instanceof Button && (((Button)element).getClickListener().isOver(element, v.x, v.y))){
 	            b[0] = true;
 	        }
 	    });

@@ -2,19 +2,18 @@ package io.anuke.ucore.ecs.extend.processors;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-
 import io.anuke.ucore.ecs.Processor;
 import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.ecs.extend.traits.TileCollideTrait;
 import io.anuke.ucore.function.TileCollider;
 import io.anuke.ucore.function.TileHitboxProvider;
 import io.anuke.ucore.jbump.JBCollision.CollisionFilter;
-import io.anuke.ucore.jbump.JBWorld.JBItem;
-import io.anuke.ucore.jbump.JBWorld;
 import io.anuke.ucore.jbump.JBResponse.Result;
+import io.anuke.ucore.jbump.JBWorld;
+import io.anuke.ucore.jbump.JBWorld.JBItem;
 import io.anuke.ucore.util.Mathf;
-import io.anuke.ucore.util.Tmp;
 
 public class TileCollisionProcessor extends Processor{
 	private static final int r = 2;
@@ -28,6 +27,7 @@ public class TileCollisionProcessor extends Processor{
 	private TileCollider collider;
 	private TileHitboxProvider hitbox;
 	private GridPoint2 point = new GridPoint2();
+	private Vector2 v = new Vector2();
 	
 	public TileCollisionProcessor(float tilesize, TileCollider collider, TileHitboxProvider hitbox){
 		this.tilesize = tilesize;
@@ -77,11 +77,11 @@ public class TileCollisionProcessor extends Processor{
 	public GridPoint2 collides(Spark spark, TileCollideTrait trait){
 		tmp.setSize(trait.width, trait.height);
 		tmp.setCenter(spark.pos().x + trait.offsetx, spark.pos().y + trait.offsety);
-		tmp.getCenter(Tmp.v1);
+		tmp.getCenter(v);
 		
 		//assumes tilesize is centered
-		int tilex = Mathf.scl2(Tmp.v1.x, tilesize);
-		int tiley = Mathf.scl2(Tmp.v1.y, tilesize);
+		int tilex = Mathf.scl2(v.x, tilesize);
+		int tiley = Mathf.scl2(v.y, tilesize);
 		
 		for(int dx = -r; dx <= r; dx++){
 			for(int dy = -r; dy <= r; dy++){

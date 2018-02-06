@@ -1,11 +1,10 @@
 package io.anuke.ucore.entities;
 
 import com.badlogic.gdx.math.Vector2;
+import io.anuke.ucore.util.Mathf;
 
 public abstract class Entity{
 	private static int lastid;
-	//TODO remove?
-	protected static Vector2 vector = new Vector2();
 	
 	protected transient EntityGroup<?> group;
 
@@ -52,19 +51,19 @@ public abstract class Entity{
 	}
 
 	public float angleTo(Entity other){
-		return vector.set(other.x - x, other.y - y).angle();
+		return Mathf.atan2(other.x - x, other.y - y);
 	}
 	
 	public float angleTo(Entity other, float yoffset){
-		return vector.set(other.x - x, other.y - (y+yoffset)).angle();
+		return Mathf.atan2(other.x - x, other.y - (y+yoffset));
 	}
 	
 	public float angleTo(float ox, float oy){
-		return vector.set(ox - x, oy - y).angle();
+		return Mathf.atan2(ox - x, oy - y);
 	}
 	
 	public float angleTo(Entity other, float xoffset, float yoffset){
-		return vector.set(other.x - (x+xoffset), other.y - (y+yoffset)).angle();
+		return Mathf.atan2(other.x - (x+xoffset), other.y - (y+yoffset));
 	}
 	
 	public float distanceTo(Entity other){

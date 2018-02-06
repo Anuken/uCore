@@ -14,6 +14,7 @@ import io.anuke.ucore.function.PositionFractConsumer;
 public class Angles{
 	private static final RandomXS128 random = new RandomXS128();
 	private static final Vector3 v3 = new Vector3();
+	private static final Vector2 rv = new Vector2();
 	public static final Vector2 vector = new Vector2(1,1);
 	
 	public static float x(){
@@ -64,10 +65,18 @@ public class Angles{
 		if(MathUtils.isEqual(angle, 0, 0.001f)) return vector.set(x,y);
 		return vector.set(x,y).rotate(angle);
 	}
+
+	static public float trnsx(float angle, float len){
+		return len * MathUtils.cos(MathUtils.degreesToRadians * angle);
+	}
+
+	static public float trnsy(float angle, float len){
+		return len * MathUtils.sin(MathUtils.degreesToRadians * angle);
+	}
 	
 	static public Vector2 translation(float angle, float amount){
 		if(amount < 0) angle += 180f;
-		return vector.set(amount, 0).setAngle(angle);
+		return vector.set(amount, 0).rotate(angle);
 	}
 
 	static public float mouseAngle(OrthographicCamera camera, float cx, float cy){
@@ -111,10 +120,9 @@ public class Angles{
 	public static void randVectors(long seed, int amount, float length, PositionConsumer cons){
 		random.setSeed(seed);
 		for(int i = 0; i < amount; i ++){
-			float scl = length;
 			float vang = random.nextFloat()*360f;
-			Tmp.v3.set(scl, 0).setAngle(vang);
-			cons.accept(Tmp.v3.x, Tmp.v3.y);
+			rv.set(length, 0).setAngle(vang);
+			cons.accept(rv.x, rv.y);
 		}
 	}
 
@@ -123,8 +131,8 @@ public class Angles{
 		for(int i = 0; i < amount; i ++){
 			float scl = length * random.nextFloat();
 			float vang = random.nextFloat()*360f;
-			Tmp.v3.set(scl, 0).setAngle(vang);
-			cons.accept(Tmp.v3.x, Tmp.v3.y);
+			rv.set(scl, 0).setAngle(vang);
+			cons.accept(rv.x, rv.y);
 		}
 	}
 
@@ -133,19 +141,19 @@ public class Angles{
 		for(int i = 0; i < amount; i ++){
 			float scl = length * random.nextFloat();
 			float vang = angle + random.nextFloat() * range*2 - range;
-			Tmp.v3.set(scl, 0).setAngle(vang);
-			cons.accept(Tmp.v3.x, Tmp.v3.y);
+			rv.set(scl, 0).setAngle(vang);
+			cons.accept(rv.x, rv.y);
 		}
 	}
 
-	public static void randLenVectors(long seed, float fract,
-									  int amount, float length, float angle, float range, PositionFractConsumer cons){
+	public static void randLenVectors(long seed, float fract, int amount, float length,
+									  float angle, float range, PositionFractConsumer cons){
 		random.setSeed(seed);
 		for(int i = 0; i < amount; i ++){
 			float scl = length * random.nextFloat() * fract;
 			float vang = angle + random.nextFloat() * range*2 - range;
-			Tmp.v3.set(scl, 0).setAngle(vang);
-			cons.accept(Tmp.v3.x, Tmp.v3.y, fract * (random.nextFloat()));
+			rv.set(scl, 0).setAngle(vang);
+			cons.accept(rv.x, rv.y, fract * (random.nextFloat()));
 		}
 	}
 }
