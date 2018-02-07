@@ -17,11 +17,9 @@ public abstract class Entity{
 	public void drawOver(){}
 	public void removed(){}
 	public void added(){}
-	public void init(){}
 	
 	public Entity(){
 		id = lastid++;
-		init();
 	}
 	
 	public <T extends Entity> T set(float x, float y){

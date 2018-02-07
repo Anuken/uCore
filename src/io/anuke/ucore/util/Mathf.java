@@ -18,7 +18,6 @@ public class Mathf{
 	/**X/Y flipped, returns degrees*/
 	public static float atan2(float x, float y){
 		float out = (float)Math.atan2(y, x) * MathUtils.radDeg;
-		out -= 180f;
 		if(out < 0) out += 360f;
 		return out;
 	}
