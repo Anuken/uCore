@@ -18,10 +18,8 @@ public class label extends builder<label, Label>{
 	}
 	
 	public label(StringSupplier prov){
-		this("");
-		update(l->{
-			l.setText(prov.get());
-		});
+		element = new Label(prov);
+		cell = context().add(element);
 	}
 	
 	public label scale(float scale){

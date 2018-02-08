@@ -8,6 +8,9 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import io.anuke.ucore.core.Timers;
+import io.anuke.ucore.function.Callable;
+import io.anuke.ucore.util.Log;
 
 public class UCore{
 	private static Logger logger;
@@ -15,6 +18,26 @@ public class UCore{
 			Gdx.app != null && Gdx.app.getType() != ApplicationType.WebGL
 					&& getProperty("user.name").equals("anuke")
 					&& getAbsolute(Gdx.files.local("na").parent()).endsWith("assets");
+
+	public static void profile(int iterations, Callable c1, Callable c2){
+		//warmup
+		for(int i = 0; i < iterations; i ++){
+			c1.run();
+			c2.run();
+		}
+
+		Timers.mark();
+		for(int i = 0; i < iterations; i ++){
+			c1.run();
+		}
+		Log.info("Time taken for procedure 1: {0}ms", Timers.elapsed());
+
+		Timers.mark();
+		for(int i = 0; i < iterations; i ++){
+			c2.run();
+		}
+		Log.info("Time taken for procedure 2: {0}ms", Timers.elapsed());
+	}
 
 	public static String getProperty(String name){
 		try{

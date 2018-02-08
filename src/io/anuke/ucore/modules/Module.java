@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 
 
 public abstract class Module extends InputAdapter{
+	public boolean doUpdate = true;
 	
 	public void update(){}
 	public void init(){}

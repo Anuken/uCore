@@ -2,16 +2,22 @@ package io.anuke.ucore.entities;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-
 import com.badlogic.gdx.utils.IntMap;
 import io.anuke.ucore.util.QuadTree;
+
+import java.util.Iterator;
 
 public class EntityGroup<T extends Entity>{
 	private static int lastid;
 	private final int id;
 
 	private IntMap<T> map;
-	private Array<T> entityArray = new Array<>();
+	private Array<T> entityArray = new Array(){
+		@Override
+		public Iterator<T> iterator() {
+			return new ArrayIterator<T>(this);
+		}
+	};
 	private Array<T> entitiesToRemove = new Array<>();
 	private Array<T> entitiesToAdd = new Array<>();
 	private QuadTree<SolidEntity> tree;
@@ -38,7 +44,7 @@ public class EntityGroup<T extends Entity>{
 		return id;
 	}
 
-	public void updateRemovals(){
+	public synchronized void updateRemovals(){
 		for(T e : entitiesToAdd){
 			if(e == null)
 				continue;
@@ -67,7 +73,7 @@ public class EntityGroup<T extends Entity>{
 		return map.get(id);
 	}
 
-	public void remap(T entity, int newID){
+	public synchronized void remap(T entity, int newID){
 		map.remove(entity.id);
 		entity.id = newID;
 		map.put(newID, entity);
@@ -85,20 +91,20 @@ public class EntityGroup<T extends Entity>{
 		return entityArray.size;
 	}
 	
-	public void add(T type){
+	public synchronized void add(T type){
 		if(type == null) throw new RuntimeException("Cannot add a null entity!");
 		if(type.group != null) return; //throw new RuntimeException("Entities cannot be added twice!");
 		type.group = this;
 		entitiesToAdd.add(type);
 	}
 	
-	public void remove(T type){
+	public synchronized void remove(T type){
 		if(type == null) throw new RuntimeException("Cannot remove a null entity!");
 		type.group = null;
 		entitiesToRemove.add(type);
 	}
 	
-	public void clear(){
+	public synchronized void clear(){
 		for(Entity entity : entityArray)
 			entity.group = null;
 		

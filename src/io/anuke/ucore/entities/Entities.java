@@ -17,6 +17,8 @@ public class Entities{
 	private static final EntityCollisions collisions = new EntityCollisions();
 	private static final Array<SolidEntity> array = new Array<>();
 	private static final Rectangle viewport = new Rectangle();
+	private static final Rectangle r1 = new Rectangle();
+	private static final Rectangle r2 = new Rectangle();
 	
 	public static final int maxLeafObjects = 4;
 	
@@ -55,19 +57,19 @@ public class Entities{
 	}
 
 	public static void getNearby(float x, float y, float size, Consumer<SolidEntity> out){
-		getNearby(defaultGroup(), Rectangle.tmp.setSize(size).setCenter(x, y), out);
+		getNearby(defaultGroup(), r1.setSize(size).setCenter(x, y), out);
 	}
 	
 	public static void getNearby(EntityGroup<?> group, float x, float y, float size, Consumer<SolidEntity> out){
-		getNearby(group, Rectangle.tmp.setSize(size).setCenter(x, y), out);
+		getNearby(group, r1.setSize(size).setCenter(x, y), out);
 	}
 	
 	public static Array<SolidEntity> getNearby(float x, float y, float size){
-		return getNearby(defaultGroup(), Rectangle.tmp.setSize(size).setCenter(x, y));
+		return getNearby(defaultGroup(), r1.setSize(size).setCenter(x, y));
 	}
 
 	public static Array<SolidEntity> getNearby(EntityGroup<?> group, float x, float y, float size){
-		return getNearby(group, Rectangle.tmp.setSize(size).setCenter(x, y));
+		return getNearby(group, r1.setSize(size).setCenter(x, y));
 	}
 
 	public static SolidEntity getClosest(EntityGroup<?> group, float x, float y, float range, Predicate<Entity> pred){
@@ -141,17 +143,17 @@ public class Entities{
 
 		for(Entity e : group.all()){
 			if(!toDraw.test((T)e)) continue;
-			Rectangle.tmp2.setSize(e.drawSize()).setCenter(e.x, e.y);
+			r2.setSize(e.drawSize()).setCenter(e.x, e.y);
 
-			if(Rectangle.tmp2.overlaps(viewport))
+			if(r2.overlaps(viewport))
 				e.draw();
 		}
 
 		for(Entity e : group.all()){
 			if(!toDraw.test((T)e)) continue;
-			Rectangle.tmp2.setSize(e.drawSize()).setCenter(e.x, e.y);
+			r2.setSize(e.drawSize()).setCenter(e.x, e.y);
 
-			if(Rectangle.tmp2.overlaps(viewport))
+			if(r2.overlaps(viewport))
 				e.drawOver();
 		}
 	}

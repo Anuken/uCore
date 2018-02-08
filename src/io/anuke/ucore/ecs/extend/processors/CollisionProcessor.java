@@ -19,6 +19,7 @@ public class CollisionProcessor extends Processor{
 	private QuadTree<Spark> tree;
 	private Array<Spark> array = new Array<>();
 	private IntSet collided = new IntSet();
+	private Rectangle tmp2 = new Rectangle();
 	private BoundingBoxProvider<Spark> bounds = (obj, out)->{
 		ColliderTrait col = obj.get(ColliderTrait.class);
 		out.setSize(col.width, col.height);
@@ -54,9 +55,9 @@ public class CollisionProcessor extends Processor{
 				if(!other.has(ColliderTrait.class) || other == spark)
 					return;
 				
-				bounds.getBoundingBox(other, Rectangle.tmp2);
+				bounds.getBoundingBox(other, tmp2);
 				
-				if(Rectangle.tmp.overlaps(Rectangle.tmp2) &&
+				if(Rectangle.tmp.overlaps(tmp2) &&
 						other.getType().callEvent(true, CollisionFilter.class, other, spark) &&
 						spark.getType().callEvent(true, CollisionFilter.class, spark, other)){
 					spark.getType().callEvent(Collision.class, spark, other);
@@ -84,7 +85,7 @@ public class CollisionProcessor extends Processor{
 	
 	public Array<Spark> getNearby(float x, float y, float size){
 		array.clear();
-		tree.getIntersect(array, Rectangle.tmp2.setSize(size).setCenter(x, y));
+		tree.getIntersect(array, tmp2.setSize(size).setCenter(x, y));
 		return array;
 	}
 	

@@ -6,9 +6,10 @@ import com.badlogic.gdx.math.*;
 
 /**Temporary stuff.*/
 public class Tmp{
+	/*
 	public static final Vector2 v1 = new Vector2();
 	public static final Vector2 v2 = new Vector2();
-	public static final Vector2 v3 = new Vector2();
+	public static final Vector2 v3 = new Vector2();*/
 	
 	public static final Vector3 v31 = new Vector3();
 	public static final Vector3 v32 = new Vector3();
@@ -17,10 +18,11 @@ public class Tmp{
 	public static final Quaternion q1  = new Quaternion();
 	public static final Quaternion q2  = new Quaternion();
 	public static final Quaternion q3  = new Quaternion();
-	
+
+	/*
 	public static final Rectangle r1 = new Rectangle();
 	public static final Rectangle r2 = new Rectangle();
-	public static final Rectangle r3 = new Rectangle();
+	public static final Rectangle r3 = new Rectangle();*/
 	
 	public static final Color c1 = new Color();
 	public static final Color c2 = new Color();

@@ -43,6 +43,9 @@ public class RayHandler implements Disposable {
 	 * */
 	public static boolean isDiffuse = true;
 
+	private final Rectangle r1 = new Rectangle();
+	private final Rectangle r2 = new Rectangle();
+
 	/**
 	 * Blend function for lights rendering with both shadows and diffusion
 	 * <p>Default: (GL20.GL_DST_COLOR, GL20.GL_ZERO)
@@ -701,14 +704,14 @@ public class RayHandler implements Disposable {
 		
 		tmprects.clear();
 		
-		Rectangle.tmp2.setPosition(Math.min(start.x, end.x), Math.min(start.y, end.y));
-		Rectangle.tmp2.setSize(Math.max(start.x, end.x), Math.max(start.y, end.y));
+		r2.setPosition(Math.min(start.x, end.x), Math.min(start.y, end.y));
+		r2.setSize(Math.max(start.x, end.x), Math.max(start.y, end.y));
 		
-		Rectangle.tmp2.width -= Rectangle.tmp2.x;
-		Rectangle.tmp2.height -= Rectangle.tmp2.y;
+		r2.width -= r2.x;
+		r2.height -= r2.y;
 		
 		//TODO
-		tree.getIntersect(tmprects, Rectangle.tmp2);
+		tree.getIntersect(tmprects, r2);
 		//tmprects.addAll(rectangles);
 		
 		for(Rectangle rect : tmprects){

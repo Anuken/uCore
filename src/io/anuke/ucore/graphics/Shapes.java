@@ -1,16 +1,18 @@
 package io.anuke.ucore.graphics;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import io.anuke.ucore.util.Tmp;
+import com.badlogic.gdx.math.Vector2;
+import io.anuke.ucore.util.Mathf;
 
 public class Shapes {
+    private static Vector2 v = new Vector2();
 
     public static void laser(String line, String edge, float x, float y, float x2, float y2, float scale) {
-        laser(line, edge, x, y, x2, y2, Tmp.v1.set(x2 - x, y2 - y).angle(), scale);
+        laser(line, edge, x, y, x2, y2, Mathf.atan2(x2 - x, y2 - y), scale);
     }
 
     public static void laser(String line, String edge, float x, float y, float x2, float y2) {
-        laser(line, edge, x, y, x2, y2, Tmp.v1.set(x2 - x, y2 - y).angle(), 1f);
+        laser(line, edge, x, y, x2, y2, Mathf.atan2(x2 - x, y2 - y), 1f);
     }
 
     public static void laser(String line, String edge, float x, float y, float x2, float y2, float rotation, float scale) {

@@ -55,7 +55,7 @@ public abstract class ModuleCore extends ApplicationAdapter{
 	@Override
 	public void render(){
 		for(Module module : modulearray){
-			module.update();
+			if(module.doUpdate) module.update();
 		}
 		
 		update();
