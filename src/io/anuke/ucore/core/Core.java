@@ -1,12 +1,9 @@
 package io.anuke.ucore.core;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.I18NBundle;
-import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.util.Atlas;
@@ -21,17 +18,6 @@ public class Core{
 	public static I18NBundle bundle;
 	public static Scene scene;
 	public static Skin skin;
-	
-	static{
-		
-		for(String s : new ObjectMap.Keys<>(Colors.getColors())){
-			if(s != null)
-			Colors.put(s.toLowerCase().replace("_", ""), Colors.get(s));
-		}
-		
-		Colors.put("crimson", Color.SCARLET);
-		Colors.put("scarlet", Color.SCARLET);
-	}
 	
 	public static void setScene(Scene ascene, Skin askin){
 		if(ascene != null) scene = ascene;
