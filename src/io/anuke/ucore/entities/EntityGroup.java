@@ -121,7 +121,7 @@ public class EntityGroup<T extends Entity>{
 			map.clear();
 	}
 	
-	public Array<T> all(){
+	public synchronized Array<T> all(){
 		return entityArray;
 	}
 }

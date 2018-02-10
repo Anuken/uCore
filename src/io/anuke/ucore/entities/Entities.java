@@ -45,34 +45,34 @@ public class Entities{
 		initPhysics(x, y, w, h);
 	}
 
-	public static void getNearby(EntityGroup<?> group, Rectangle rect, Consumer<SolidEntity> out){
+	public static synchronized void getNearby(EntityGroup<?> group, Rectangle rect, Consumer<SolidEntity> out){
 		if(!group.useTree) throw new RuntimeException("This group does not support quadtrees! Enable quadtrees when creating it.");
 		group.tree().getIntersect(out, rect);
 	}
 
-	public static Array<SolidEntity> getNearby(EntityGroup<?> group, Rectangle rect){
+	public static synchronized Array<SolidEntity> getNearby(EntityGroup<?> group, Rectangle rect){
 		array.clear();
 		getNearby(group, rect, array::add);
 		return array;
 	}
 
-	public static void getNearby(float x, float y, float size, Consumer<SolidEntity> out){
+	public static synchronized void getNearby(float x, float y, float size, Consumer<SolidEntity> out){
 		getNearby(defaultGroup(), r1.setSize(size).setCenter(x, y), out);
 	}
 	
-	public static void getNearby(EntityGroup<?> group, float x, float y, float size, Consumer<SolidEntity> out){
+	public static synchronized void getNearby(EntityGroup<?> group, float x, float y, float size, Consumer<SolidEntity> out){
 		getNearby(group, r1.setSize(size).setCenter(x, y), out);
 	}
 	
-	public static Array<SolidEntity> getNearby(float x, float y, float size){
+	public static synchronized Array<SolidEntity> getNearby(float x, float y, float size){
 		return getNearby(defaultGroup(), r1.setSize(size).setCenter(x, y));
 	}
 
-	public static Array<SolidEntity> getNearby(EntityGroup<?> group, float x, float y, float size){
+	public static synchronized Array<SolidEntity> getNearby(EntityGroup<?> group, float x, float y, float size){
 		return getNearby(group, r1.setSize(size).setCenter(x, y));
 	}
 
-	public static SolidEntity getClosest(EntityGroup<?> group, float x, float y, float range, Predicate<Entity> pred){
+	public static synchronized SolidEntity getClosest(EntityGroup<?> group, float x, float y, float range, Predicate<Entity> pred){
 		SolidEntity closest = null;
 		float cdist = 0f;
 		Array<SolidEntity> entities = getNearby(group, x, y, range * 2f);
