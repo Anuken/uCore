@@ -9,6 +9,9 @@ import io.anuke.ucore.function.DelayRun;
 import io.anuke.ucore.function.Supplier;
 
 public class Timers{
+    /**Time resets after 5 hours due to percision issues.*/
+	private static final float maxValue = 1080000;
+
 	private static float time;
 	private static ObjectFloatMap<Integer> timers = new ObjectFloatMap<>();
 	private static DelayedRemovalArray<DelayRun> runs = new DelayedRemovalArray<>();
@@ -58,6 +61,10 @@ public class Timers{
 	public static float getTime(Object object, String label){
 		return time() - timers.get(hash(object, label), 0f);
 	}
+
+	public static float getTime(String label){
+		return time() - timers.get(hash(label), 0f);
+	}
 	
 	public static boolean get(String label, float frames){
 		return get(hash(label), frames);
@@ -71,7 +78,7 @@ public class Timers{
 		if(timers.containsKey(hash)){
 			float value = timers.get(hash, time);
 			
-			if(time - value > frames){
+			if(time - value > frames || time < value){ //fix time travel too
 				timers.put(hash, time);
 				return true;
 			}else{
@@ -100,9 +107,13 @@ public class Timers{
 	}
 	
 	/**Use normal delta time (e. g. gdx delta * 60)*/
-	public static void update(){
+	public static synchronized void update(){
 		float delta = delta();
+
 		time += delta;
+		if(time >= maxValue){
+			time = 0f;
+		}
 		
 		runs.begin();
 		
