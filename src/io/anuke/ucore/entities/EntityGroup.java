@@ -12,12 +12,7 @@ public class EntityGroup<T extends Entity>{
 	private final int id;
 
 	private IntMap<T> map;
-	private Array<T> entityArray = new Array(){
-		@Override
-		public Iterator<T> iterator() {
-			return new ArrayIterator<T>(this);
-		}
-	};
+	private EntityContainer<T> entityArray = new ArrayContainer<>();
 	private Array<T> entitiesToRemove = new Array<>();
 	private Array<T> entitiesToAdd = new Array<>();
 	private QuadTree<SolidEntity> tree;
@@ -59,7 +54,7 @@ public class EntityGroup<T extends Entity>{
 		entitiesToAdd.clear();
 
 		for(T e : entitiesToRemove){
-			entityArray.removeValue(e, true);
+			entityArray.remove(e);
 			if(map != null){
 				map.remove(e.id);
 			}
@@ -88,7 +83,7 @@ public class EntityGroup<T extends Entity>{
 	}
 	
 	public int size(){
-		return entityArray.size;
+		return entityArray.size();
 	}
 	
 	public synchronized void add(T type){
@@ -121,7 +116,59 @@ public class EntityGroup<T extends Entity>{
 			map.clear();
 	}
 	
-	public synchronized Array<T> all(){
+	public synchronized EntityContainer<T> all(){
 		return entityArray;
+	}
+
+	public synchronized void setContainer(EntityContainer<T> container){
+		container.clear();
+
+		for(int i = 0; i < entityArray.size(); i ++){
+			container.add(entityArray.get(i));
+		}
+
+		entityArray = container;
+	}
+
+	public interface EntityContainer<T> extends Iterable<T>{
+		int size();
+		void add(T item);
+		void clear();
+		void remove(T item);
+		T get(int index);
+	}
+
+	public static class ArrayContainer<T> implements EntityContainer<T>{
+		private Array<T> array = new Array<>();
+
+		@Override
+		public int size() {
+			return array.size;
+		}
+
+		@Override
+		public void add(T item) {
+			array.add(item);
+		}
+
+		@Override
+		public void clear() {
+			array.clear();
+		}
+
+		@Override
+		public void remove(T item) {
+			array.removeValue(item, true);
+		}
+
+		@Override
+		public T get(int index) {
+			return array.get(index);
+		}
+
+		@Override
+		public Iterator<T> iterator() {
+			return array.iterator();
+		}
 	}
 }

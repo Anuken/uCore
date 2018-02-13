@@ -90,6 +90,14 @@ public abstract class RendererModule extends Module{
 		
 		if(pos.y + vh > maxy)
 			pos.y = maxy-vh;
+
+		if(vw*2f > maxx - minx){
+			pos.x = (maxx + minx)/2f;
+		}
+
+		if(vh*2f > maxy - miny){
+			pos.y = (maxy + miny)/2f;
+		}
 	}
 	
 	public void updateShake(){
