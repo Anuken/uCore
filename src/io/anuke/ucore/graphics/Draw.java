@@ -2,10 +2,13 @@ package io.anuke.ucore.graphics;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
+import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.util.Mathf;
@@ -176,6 +179,15 @@ public class Draw{
 
 	public static void text(String text, float x, float y){
 		text(text, x, y, Align.center);
+	}
+
+	public static Vector2 textc(String text, float x, float y, Vector2 outsize){
+		GlyphLayout lay = Pools.obtain(GlyphLayout.class);
+		lay.setText(Core.font, text);
+		Core.font.draw(batch, text, x - lay.width/2, y + lay.height/2);
+		outsize.set(lay.width, lay.height);
+        Pools.free(lay);
+        return outsize;
 	}
 
 	public static void text(String text, float x, float y, int align){
