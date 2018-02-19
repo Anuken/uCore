@@ -44,7 +44,7 @@ public abstract class RendererModule extends Module{
 		try{
 			recorderClass = ClassReflection.forName("io.anuke.gif.GifRecorder");
 			recorder = ClassReflection.getConstructor(recorderClass, Batch.class).newInstance(new SpriteBatch());
-			if(UCore.isAssets){
+			if(UCore.isAssets()){
 				Method method = ClassReflection.getMethod(recorderClass, "setExportDirectory", FileHandle.class);
 				method.invoke(recorder, Gdx.files.local("../../desktop/gifexport"));
 			}

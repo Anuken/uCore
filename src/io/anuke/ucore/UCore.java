@@ -14,10 +14,6 @@ import io.anuke.ucore.util.Log;
 
 public class UCore{
 	private static Logger logger;
-	public static final boolean isAssets =
-			Gdx.app != null && Gdx.app.getType() != ApplicationType.WebGL
-					&& getProperty("user.name").equals("anuke")
-					&& getAbsolute(Gdx.files.local("na").parent()).endsWith("assets");
 
 	public static void profile(int iterations, Callable c1, Callable c2){
 		//warmup
@@ -37,6 +33,12 @@ public class UCore{
 			c2.run();
 		}
 		Log.info("Time taken for procedure 2: {0}ms", Timers.elapsed());
+	}
+
+	public static boolean isAssets(){
+		return Gdx.app != null && Gdx.app.getType() != ApplicationType.WebGL
+				&& getProperty("user.name").equals("anuke")
+				&& getAbsolute(Gdx.files.local("na").parent()).endsWith("assets");
 	}
 
 	public static String getProperty(String name){

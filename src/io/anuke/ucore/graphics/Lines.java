@@ -72,9 +72,9 @@ public class Lines {
             batch.draw(blankregion, x - padding, y - stroke / 2, padding, stroke / 2, length, stroke, 1f, 1f, angle);
         }else if(cap == CapStyle.round){
             //Padding does not apply here.
-            batch.draw(blankregion, x, y - stroke / 2, 0, stroke / 2, length, stroke, 1f, 1f, angle);
-            Fill.circle(x, y, stroke);
-            Fill.circle(x2, y2, stroke);
+            batch.draw(blankregion, x, y - stroke / 2, 0, stroke / 2, length - stroke/2, stroke, 1f, 1f, angle);
+            Fill.circle(x, y, stroke/2f);
+            Fill.circle(x2, y2, stroke/2f);
         }
     }
 
