@@ -10,6 +10,8 @@ import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
 
 public class Entities{
+	public static final Object entityLock = new Object();
+
 	private static final EntityGroup<Entity> defaultGroup;
 	private static final Array<EntityGroup<?>> groupArray = new Array<>();
 	private static final IntMap<EntityGroup<?>> groups = new IntMap<>();
@@ -45,51 +47,58 @@ public class Entities{
 		initPhysics(x, y, w, h);
 	}
 
-	public static synchronized void getNearby(EntityGroup<?> group, Rectangle rect, Consumer<SolidEntity> out){
-		if(!group.useTree) throw new RuntimeException("This group does not support quadtrees! Enable quadtrees when creating it.");
-		group.tree().getIntersect(out, rect);
+	public static void getNearby(EntityGroup<?> group, Rectangle rect, Consumer<SolidEntity> out){
+		synchronized (entityLock) {
+			if (!group.useTree)
+				throw new RuntimeException("This group does not support quadtrees! Enable quadtrees when creating it.");
+			group.tree().getIntersect(out, rect);
+		}
 	}
 
-	public static synchronized Array<SolidEntity> getNearby(EntityGroup<?> group, Rectangle rect){
-		array.clear();
-		getNearby(group, rect, array::add);
-		return array;
+	public static Array<SolidEntity> getNearby(EntityGroup<?> group, Rectangle rect){
+		synchronized (entityLock) {
+			array.clear();
+			getNearby(group, rect, array::add);
+			return array;
+		}
 	}
 
-	public static synchronized void getNearby(float x, float y, float size, Consumer<SolidEntity> out){
+	public static void getNearby(float x, float y, float size, Consumer<SolidEntity> out){
 		getNearby(defaultGroup(), r1.setSize(size).setCenter(x, y), out);
 	}
 	
-	public static synchronized void getNearby(EntityGroup<?> group, float x, float y, float size, Consumer<SolidEntity> out){
+	public static void getNearby(EntityGroup<?> group, float x, float y, float size, Consumer<SolidEntity> out){
 		getNearby(group, r1.setSize(size).setCenter(x, y), out);
 	}
 	
-	public static synchronized Array<SolidEntity> getNearby(float x, float y, float size){
+	public static Array<SolidEntity> getNearby(float x, float y, float size){
 		return getNearby(defaultGroup(), r1.setSize(size).setCenter(x, y));
 	}
 
-	public static synchronized Array<SolidEntity> getNearby(EntityGroup<?> group, float x, float y, float size){
+	public static Array<SolidEntity> getNearby(EntityGroup<?> group, float x, float y, float size){
 		return getNearby(group, r1.setSize(size).setCenter(x, y));
 	}
 
-	public static synchronized SolidEntity getClosest(EntityGroup<?> group, float x, float y, float range, Predicate<Entity> pred){
-		SolidEntity closest = null;
-		float cdist = 0f;
-		Array<SolidEntity> entities = getNearby(group, x, y, range * 2f);
-		for(int i = 0; i < entities.size; i ++){
-			SolidEntity e = entities.get(i);
-			if(!pred.test(e))
-				continue;
+	public static SolidEntity getClosest(EntityGroup<?> group, float x, float y, float range, Predicate<Entity> pred){
+		synchronized (entityLock) {
+			SolidEntity closest = null;
+			float cdist = 0f;
+			Array<SolidEntity> entities = getNearby(group, x, y, range * 2f);
+			for (int i = 0; i < entities.size; i++) {
+				SolidEntity e = entities.get(i);
+				if (!pred.test(e))
+					continue;
 
-			float dist = Vector2.dst(e.x, e.y, x, y);
-			if(dist < range)
-				if(closest == null || dist < cdist){
-					closest = e;
-					cdist = dist;
-				}
+				float dist = Vector2.dst(e.x, e.y, x, y);
+				if (dist < range)
+					if (closest == null || dist < cdist) {
+						closest = e;
+						cdist = dist;
+					}
+			}
+
+			return closest;
 		}
-
-		return closest;
 	}
 
 	public static void clear(){
