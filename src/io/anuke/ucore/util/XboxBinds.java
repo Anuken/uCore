@@ -87,7 +87,7 @@ public class XboxBinds {
             B = 97;
             X = 99;
             Y = 100;
-            GUIDE = -1;
+            GUIDE = 110;
             L_BUMPER = 102;
             R_BUMPER = 103;
             BACK = 109; //TODO wrong key?
