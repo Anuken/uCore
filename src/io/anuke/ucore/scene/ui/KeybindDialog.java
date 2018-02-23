@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.ObjectIntMap;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Inputs;
 import io.anuke.ucore.core.Inputs.Axis;
+import io.anuke.ucore.core.Inputs.ControllerType;
 import io.anuke.ucore.core.Inputs.DeviceType;
 import io.anuke.ucore.core.Inputs.InputDevice;
 import io.anuke.ucore.core.KeyBinds;
@@ -163,7 +164,11 @@ public class KeybindDialog extends Dialog{
 			table.row();
 			if(section.device.controller != null){
 				table.table(info -> {
-					info.add("Controller Type: [#" + style.controllerColor.toString().toUpperCase()+"]" + Strings.capitalize(section.device.controllerType.name())).left();
+					if(section.device.controllerType == ControllerType.unknown){
+						info.add("Controller Type: [RED]unsupported").left();
+					}else {
+						info.add("Controller Type: [#" + style.controllerColor.toString().toUpperCase() + "]" + Strings.capitalize(section.device.controllerType.name())).left();
+					}
 				});
 			}
 			table.row();
