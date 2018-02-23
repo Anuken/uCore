@@ -17,15 +17,15 @@ public class Timers{
 	private static DelayedRemovalArray<DelayRun> runs = new DelayedRemovalArray<>();
 	private static long lastMark = 0;
 	private static Supplier<Float> deltaimpl = () -> Math.min(Gdx.graphics.getDeltaTime()*60f, 3f);
-	
-	public static void run(float delay, Callable r){
+
+	public static synchronized void run(float delay, Callable r){
 		DelayRun run = Pools.obtain(DelayRun.class);
 		run.finish = r;
 		run.delay = delay;
 		runs.add(run);
 	}
 	
-	public static void runTask(float delay, Callable r){
+	public static synchronized void runTask(float delay, Callable r){
 		Timer.schedule(new Task(){
 			@Override
 			public void run(){
@@ -49,16 +49,16 @@ public class Timers{
 		runs.add(run);
 	}
 	
-	public static void reset(Object o, String label, float duration){
+	public static synchronized void reset(Object o, String label, float duration){
 		timers.put(hash(o, label), time - duration);
 	}
 	
-	public static void clear(){
+	public static synchronized void clear(){
 		runs.clear();
 		timers.clear();
 	}
 	
-	public static float getTime(Object object, String label){
+	public static synchronized float getTime(Object object, String label){
 		return time() - timers.get(hash(object, label), 0f);
 	}
 
@@ -74,7 +74,7 @@ public class Timers{
 		return get(hash(object, label), frames);
 	}
 	
-	public static boolean get(int hash, float frames){
+	public static synchronized boolean get(int hash, float frames){
 		if(timers.containsKey(hash)){
 			float value = timers.get(hash, time);
 			
