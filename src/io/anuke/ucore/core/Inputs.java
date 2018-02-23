@@ -343,11 +343,21 @@ public class Inputs{
 		plex.getProcessors().clear();
 	}
 
+	public static ControllerType getControllerType(Controller controller){
+		String check = controller.getName().toLowerCase();
+		if(check.contains("x-box") || check.contains("xbox")){
+			return ControllerType.xbox;
+		}else{
+			return ControllerType.unknown;
+		}
+	}
+
 	/**Represents either a keyboard or controller.*/
 	public static class InputDevice{
 		public final DeviceType type;
 		public final String name;
 		public final Controller controller;
+		public final ControllerType controllerType;
 		public final boolean[] pressed = new boolean[16];
 		public final boolean[] released = new boolean[16];
 		public final float[] axes = new float[16];
@@ -361,6 +371,11 @@ public class Inputs{
 			this.type = type;
 			this.name = name;
 			this.controller = controller;
+			if(controller != null){
+				controllerType = getControllerType(controller);
+			}else{
+				controllerType = null;
+			}
 		}
 	}
 
@@ -385,5 +400,9 @@ public class Inputs{
 	
 	public enum DeviceType{
 		keyboard, controller
+	}
+
+	public enum ControllerType{
+		xbox, unknown;
 	}
 }

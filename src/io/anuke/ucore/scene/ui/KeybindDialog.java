@@ -124,7 +124,7 @@ public class KeybindDialog extends Dialog{
 			Table table = new Table();
 
 			Label device = new Label("Keyboard");
-			device.setColor(style.controllerColor);
+			//device.setColor(style.controllerColor);
 			device.setAlignment(Align.center);
 
 			Array<InputDevice> devices = Inputs.getDevices();
@@ -160,6 +160,12 @@ public class KeybindDialog extends Dialog{
 
 			table.row();
 			table.add().height(10);
+			table.row();
+			if(section.device.controller != null){
+				table.table(info -> {
+					info.add("Controller Type: [#" + style.controllerColor.toString().toUpperCase()+"]" + Strings.capitalize(section.device.controllerType.name())).left();
+				});
+			}
 			table.row();
 
 			for(Keybind keybind : section.keybinds.get(section.device.type)){
