@@ -60,6 +60,10 @@ public class CommandHandler{
 				index ++;
 			}
 
+			if(!satisfied){
+				return new Response(ResponseType.fewArguments, command);
+			}
+
 			command.runner.accept(result.toArray(String.class));
 
 			return new Response(ResponseType.valid, command);
