@@ -35,7 +35,7 @@ public class CommandHandler{
 					return new Response(ResponseType.manyArguments, command);
 				}else if(argstr.isEmpty()) break;
 
-				if(!command.params[index].optional || index <= command.params.length - 1){
+				if(command.params[index].optional || index >= command.params.length - 1){
 					satisfied = true;
 				}
 
