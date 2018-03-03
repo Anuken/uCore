@@ -97,6 +97,10 @@ public class Mathf{
 	public static float slerp(float angle, float target, float alpha){
 		return MathUtils.lerpAngleDeg(angle, target, alpha);
 	}
+
+	public static float slerpDelta(float from, float to, float alpha){
+		return MathUtils.lerpAngleDeg(from, to, Math.min(alpha * Timers.delta(), 1f));
+	}
 	
 	public static float lerp(float from, float to, float alpha){
 		return MathUtils.lerp(from, to, alpha);
@@ -104,10 +108,6 @@ public class Mathf{
 	
 	public static float lerpDelta(float from, float to, float alpha){
 		return MathUtils.lerp(from, to, Math.min(alpha * Timers.delta(), 1f));
-	}
-	
-	public static float lerpAngDelta(float from, float to, float alpha){
-		return MathUtils.lerpAngleDeg(from, to, Math.min(alpha * Timers.delta(), 1f));
 	}
 	
 	public static boolean randBool(){

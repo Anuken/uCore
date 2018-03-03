@@ -173,6 +173,9 @@ public class Entities{
 	}
 
 	public static void update(EntityGroup<?> group){
+
+		group.updateEvents();
+
 		if(group.useTree){
 			collisions().updatePhysics(group);
 		}
@@ -180,7 +183,5 @@ public class Entities{
 		for(Entity e : group.all()){
 			e.update();
 		}
-		
-		group.updateRemovals();
 	}
 }

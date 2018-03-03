@@ -6,7 +6,8 @@ import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 public abstract class SolidEntity extends Entity implements QuadTreeObject{
 	public transient Hitbox hitbox = new Hitbox(10f);
 	public transient Hitbox hitboxTile = new Hitbox(4f);
-	
+	public transient float lastX = Float.NaN, lastY = Float.NaN;
+
 	public void move(float x, float y){
 		Entities.collisions().move(this, x, y);
 	}
@@ -19,7 +20,7 @@ public abstract class SolidEntity extends Entity implements QuadTreeObject{
 		return true;
 	}
 	
-	public void collision(SolidEntity other){}
+	public void collision(SolidEntity other, float x, float y){}
 
 	@Override
 	public void getBoundingBox(Rectangle out){

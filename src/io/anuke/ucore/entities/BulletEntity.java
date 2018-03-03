@@ -3,6 +3,7 @@ package io.anuke.ucore.entities;
 import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.ucore.core.Timers;
+import io.anuke.ucore.util.Mathf;
 
 public abstract class BulletEntity extends SolidEntity implements Damager{
 	public BaseBulletType type;
@@ -32,7 +33,8 @@ public abstract class BulletEntity extends SolidEntity implements Damager{
 		velocity.scl(1f - type.drag * Timers.delta());
 		
 		time += Timers.delta();
-		
+
+		time = Mathf.clamp(time, 0, type.lifetime);
 		
 		if(time >= type.lifetime){
 			remove();
@@ -66,9 +68,9 @@ public abstract class BulletEntity extends SolidEntity implements Damager{
 	}
 	
 	@Override
-	public void collision(SolidEntity other){
+	public void collision(SolidEntity other, float x, float y){
 		remove();
-		type.removed(this);
+		type.hit(this, x, y);
 	}
 	
 	public float fract(){

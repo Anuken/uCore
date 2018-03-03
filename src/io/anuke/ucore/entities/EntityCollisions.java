@@ -8,7 +8,6 @@ import io.anuke.ucore.function.TileHitboxProvider;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Physics;
 import io.anuke.ucore.util.QuadTree;
-import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 
 public class EntityCollisions {
     //range for tile collision scanning
@@ -22,8 +21,11 @@ public class EntityCollisions {
     private TileCollider collider;
     private TileHitboxProvider hitboxProvider;
     private Vector2 vector = new Vector2();
+    private Vector2 l1 = new Vector2();
+    private Vector2 l2 = new Vector2();
     private Rectangle r1 = new Rectangle();
     private Rectangle r2 = new Rectangle();
+    private Rectangle r3 = new Rectangle();
 
     //entity collisions
     private IntSet collided = new IntSet();
@@ -125,25 +127,85 @@ public class EntityCollisions {
 
         for(Entity entity : group.all()){
             if(entity instanceof SolidEntity){
-                tree.insert((SolidEntity) entity);
+                SolidEntity s = (SolidEntity)entity;
+                s.lastX = s.x;
+                s.lastY = s.y;
+                tree.insert(s);
             }
         }
     }
 
-    private boolean checkCollide(Entity entity, Entity other){
+    private void checkCollide(Entity entity, Entity other){
         SolidEntity a = (SolidEntity) entity;
         SolidEntity b = (SolidEntity) other;
 
-        Rectangle r1 = a.hitbox.getRect(this.r1, a.x, a.y);
-        Rectangle r2 = b.hitbox.getRect(this.r2, b.x, b.y);
+        Rectangle r1 = a.hitbox.getRect(this.r1, a.lastX, a.lastY);
+        Rectangle r2 = b.hitbox.getRect(this.r2, b.lastX, b.lastY);
 
-        if(a != b && a.collides(b) && b.collides(a) && r1.overlaps(r2)){
-            a.collision(b);
-            b.collision(a);
-            return true;
+        float vax = a.x - a.lastX;
+        float vay = a.y - a.lastY;
+        float vbx = b.x - b.lastX;
+        float vby = b.y - b.lastY;
+
+        if(a != b && a.collides(b) && b.collides(a)){
+            l1.set(a.x, a.y);
+            boolean collide = r1.overlaps(r2) || collide(r1.x, r1.y, r1.width, r1.height, vax, vay,
+                    r2.x, r2.y, r2.width, r2.height, vbx, vby, l1);
+            if(collide) {
+                a.collision(b, l1.x, l1.y);
+                b.collision(a, l1.x, l1.y);
+            }
+        }
+    }
+
+    private boolean collide(float x1, float y1, float w1, float h1, float vx1, float vy1,
+                            float x2, float y2, float w2, float h2, float vx2, float vy2, Vector2 out){
+        float px = vx1, py = vy1;
+
+        vx1 -= vx2;
+        vy1 -= vy2;
+
+        float xInvEntry, yInvEntry;
+        float xInvExit, yInvExit;
+
+        if (vx1 > 0.0f) {
+            xInvEntry = x2 - (x1 + w1);
+            xInvExit = (x2 + w2) - x1;
+        } else {
+            xInvEntry = (x2 + w2) - x1;
+            xInvExit = x2 - (x1 + w1);
         }
 
-        return false;
+        if (vy1 > 0.0f) {
+            yInvEntry = y2 - (y1 + h1);
+            yInvExit = (y2 + h2) - y1;
+        } else {
+            yInvEntry = (y2 + h2) - y1;
+            yInvExit = y2 - (y1 + h1);
+        }
+
+        float xEntry, yEntry;
+        float xExit, yExit;
+
+        xEntry = xInvEntry / vx1;
+        xExit = xInvExit / vx1;
+
+        yEntry = yInvEntry / vy1;
+        yExit = yInvExit / vy1;
+
+        float entryTime = Math.max(xEntry, yEntry);
+        float exitTime = Math.min(xExit, yExit);
+
+        if (entryTime > exitTime || xExit < 0.0f || yExit < 0.0f || xEntry > 1.0f || yEntry > 1.0f) {
+            return false;
+        }else{
+            float dx = x1 + w1/2f + px * entryTime;
+            float dy = y1 + h1/2f + py * entryTime;
+
+            out.set(dx, dy);
+
+            return true;
+        }
     }
 
     public void collideGroups(EntityGroup<?> groupa, EntityGroup<?> groupb){
@@ -155,7 +217,11 @@ public class EntityCollisions {
             if(collided.contains(entity.id))
                 continue;
 
-            ((QuadTreeObject) entity).getBoundingBox(r2);
+            SolidEntity solid = (SolidEntity)entity;
+
+            solid.getBoundingBox(r2);
+            solid.hitbox.getRect(r1, solid.lastX, solid.lastY);
+            r2.merge(r1);
 
             groupb.tree().getIntersect(c -> {
                 if(!collided.contains(c.id))

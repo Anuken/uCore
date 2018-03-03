@@ -39,7 +39,7 @@ public class EntityGroup<T extends Entity>{
 		return id;
 	}
 
-	public synchronized void updateRemovals(){
+	public synchronized void updateEvents(){
 		for(T e : entitiesToAdd){
 			if(e == null)
 				continue;
