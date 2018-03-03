@@ -223,10 +223,13 @@ public class EntityCollisions {
             solid.hitbox.getRect(r1, solid.lastX, solid.lastY);
             r2.merge(r1);
 
-            groupb.tree().getIntersect(c -> {
-                if(!collided.contains(c.id))
-                    checkCollide(entity, c);
-            }, r2);
+            synchronized (Entities.entityLock) {
+
+                groupb.tree().getIntersect(c -> {
+                    if (!collided.contains(c.id))
+                        checkCollide(entity, c);
+                }, r2);
+            }
 
             collided.add(entity.id);
         }
