@@ -36,7 +36,7 @@ public class Hitbox{
 	}
 
 	public void setSize(float size){
-		width = height = size;
+		size = size;
 	}
 
 	public void setSize(float width, float height){
