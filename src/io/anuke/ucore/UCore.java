@@ -76,6 +76,16 @@ public class UCore{
 		}
 	}
 
+	public static Object getPrivate(Class<?> type, Object object, String name){
+		try{
+			Field field = ClassReflection.getDeclaredField(type, name);
+			field.setAccessible(true);
+			return field.get(object);
+		}catch(ReflectionException e){
+			throw new RuntimeException(e);
+		}
+	}
+
 	public static void setPrivate(Object object, String name, Object value){
 		try{
 			Field field = ClassReflection.getDeclaredField(object.getClass(), name);
