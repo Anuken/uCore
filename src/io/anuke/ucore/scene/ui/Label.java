@@ -83,7 +83,7 @@ public class Label extends Element {
 	}
 
 	public Label (CharSequence text, LabelStyle style) {
-		setStyle(style);
+		setStyle(new LabelStyle(style));
 		if (text != null) setText(text);
 		if (text != null && text.length() > 0) setSize(getPrefWidth(), getPrefHeight());
 	}
