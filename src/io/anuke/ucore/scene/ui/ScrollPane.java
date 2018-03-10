@@ -68,7 +68,7 @@ public class ScrollPane extends WidgetGroup {
 	boolean touchScrollH, touchScrollV;
 	final Vector2 lastPoint = new Vector2();
 	float areaWidth, areaHeight;
-	private boolean fadeScrollBars = true, smoothScrolling = true;
+	private boolean fadeScrollBars = false, smoothScrolling = true;
 	float fadeAlpha, fadeAlphaSeconds = 1, fadeDelay, fadeDelaySeconds = 1;
 	boolean cancelTouchFocus = true;
 
