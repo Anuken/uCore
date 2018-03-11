@@ -20,6 +20,8 @@ public class SceneModule extends Module{
 	
 	public Scene scene;
 	public Skin skin;
+
+	private boolean mouse = false;
 	
 	public SceneModule(){
 		if(Core.batch == null) Core.batch = new SpriteBatch();
@@ -99,7 +101,7 @@ public class SceneModule extends Module{
 	}
 	
 	public boolean hasMouse(){
-		return scene.hit(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true) != null;
+		return mouse;
 	}
 	
 	public boolean hasMouse(float mousex, float mousey){
@@ -114,6 +116,7 @@ public class SceneModule extends Module{
 	public void act(){
 		scene.act();
 		scene.draw();
+		mouse = scene.hit(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true) != null;
 	}
 	
 	/**Gets a drawable by name*/
