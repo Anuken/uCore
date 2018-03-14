@@ -13,17 +13,23 @@ import io.anuke.ucore.util.Mathf;
 /**A 'batch' that calls Caches.draw() for most operations. Many operations are unsupported.*/
 public class CacheBatch implements Batch{
 	protected SpriteCache cache;
-	protected boolean drawing;
+	protected CacheDrawBatch drawbatch;
+	protected boolean caching;
 	protected int lastCache;
 	
 	public CacheBatch(int size){
 		this.cache = new SpriteCache(size, false);
+		drawbatch = new CacheDrawBatch(this);
 	}
 	
 	public void beginDraw(){
 		cache.begin();
 	}
-	
+
+	public CacheDrawBatch drawBatch() {
+		return drawbatch;
+	}
+
 	public void endDraw(){
 		cache.end();
 	}
@@ -48,18 +54,18 @@ public class CacheBatch implements Batch{
 	@Override
 	public void begin(){
 		cache.beginCache();
-		drawing = true;
+		caching = true;
 	}
 	
 	public void begin(int cacheid){
 		cache.beginCache(cacheid);
-		drawing = true;
+		caching = true;
 	}
 
 	@Override
 	public void end(){
 		lastCache = cache.endCache();
-		drawing = false;
+		caching = false;
 	}
 
 	@Override
@@ -233,7 +239,7 @@ public class CacheBatch implements Batch{
 
 	@Override
 	public boolean isDrawing(){
-		return drawing;
+		return caching;
 	}
 	
 	private void stub(){
