@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 public class Translator extends Vector2{
 
     public Translator trns(float angle, float amount){
-        if(amount < 0) angle += 180f;
         set(amount, 0).rotate(angle);
 
         return this;

@@ -114,6 +114,7 @@ public class SceneModule extends Module{
 	
 	/**Updates and draws the stage.*/
 	public void act(){
+		mouse = scene.hit(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true) != null;
 		scene.act();
 		scene.draw();
 		mouse = scene.hit(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true) != null;

@@ -81,7 +81,11 @@ public class EntityGroup<T extends Entity>{
 	public void setTree(float x, float y, float w, float h){
 		tree = new QuadTree(Entities.maxLeafObjects, new Rectangle(x, y, w, h));
 	}
-	
+
+	public boolean isEmpty(){
+		return entityArray.size() == 0;
+	}
+
 	public int size(){
 		return entityArray.size();
 	}

@@ -195,10 +195,10 @@ public class Graphics{
 		
 		if(dest != null)
 			surface(dest);
-		
+
 		batch.draw(surface.texture(),
-				Core.camera.position.x - Core.camera.viewportWidth/2 * Core.camera.zoom, 
-				Core.camera.position.y + Core.camera.viewportHeight/2 * Core.camera.zoom, 
+				Core.camera.position.x - Core.camera.viewportWidth/2 * Core.camera.zoom,
+				Core.camera.position.y + Core.camera.viewportHeight/2 * Core.camera.zoom,
 				Core.camera.viewportWidth * Core.camera.zoom, -Core.camera.viewportHeight * Core.camera.zoom);
 		
 		if(dest != null)
@@ -224,7 +224,7 @@ public class Graphics{
 	 * FIXME does not work with multiple shaders*/
 	public static void beginShaders(Shader... types){
 		currentShaders = types;
-		
+
 		batch.flush();
 		
 		surface(effects1);

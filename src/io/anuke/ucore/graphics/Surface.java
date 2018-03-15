@@ -16,11 +16,21 @@ public class Surface implements Disposable{
 	private int scale = 1;
 	private boolean linear = false;
 	private int bind = 0;
+	private boolean fixedSize = false;
+	private int fixedWidth, fixedHeight;
 	
 	public Surface(int scale, int bind){
 		this.scale = scale;
 		this.bind = bind;
 		resize();
+	}
+
+	public Surface setFixedSize(int width, int height){
+		fixedSize = true;
+		this.fixedWidth = width;
+		this.fixedHeight = height;
+		resize();
+		return this;
 	}
 	
 	public void resize(){
@@ -28,10 +38,15 @@ public class Surface implements Disposable{
 			buffer.dispose();
 			buffer = null;
 		}
-		
-		int scale = this.scale == -1 ? Core.cameraScale : this.scale;
-		
-		buffer = new FrameBuffer(Format.RGBA8888, Gdx.graphics.getBackBufferWidth()/scale, Gdx.graphics.getBackBufferHeight()/scale, false);
+
+		if(!fixedSize) {
+			int scale = this.scale == -1 ? Core.cameraScale : this.scale;
+
+			buffer = new FrameBuffer(Format.RGBA8888, Gdx.graphics.getBackBufferWidth() / scale, Gdx.graphics.getBackBufferHeight() / scale, false);
+		}else{
+			buffer = new FrameBuffer(Format.RGBA8888, fixedWidth, fixedHeight, false);
+		}
+
 		if(!linear)
 			buffer.getColorBufferTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 	}
