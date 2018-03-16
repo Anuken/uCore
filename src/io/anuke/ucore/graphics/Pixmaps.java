@@ -1,8 +1,5 @@
 package io.anuke.ucore.graphics;
 
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -14,8 +11,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-
 import io.anuke.ucore.UCore;
+
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 
 /**Various pixmap utilities.*/
 public class Pixmaps{
@@ -60,7 +59,8 @@ public class Pixmaps{
 
 		for(int x = 0; x < pixmap.getWidth(); x++){
 			for(int y = 0; y < pixmap.getHeight(); y++){
-				if(!empty(input.getPixel(x, y + 1)) || !empty(input.getPixel(x, y - 1)) || !empty(input.getPixel(x - 1, y)) || !empty(input.getPixel(x + 1, y)))
+				if(empty(input.getPixel(x, y)) &&
+						(!empty(input.getPixel(x, y + 1)) || !empty(input.getPixel(x, y - 1)) || !empty(input.getPixel(x - 1, y)) || !empty(input.getPixel(x + 1, y))))
 					pixmap.drawPixel(x, y);
 			}
 		}

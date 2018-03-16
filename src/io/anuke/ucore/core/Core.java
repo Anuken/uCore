@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.I18NBundle;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
+import io.anuke.ucore.scene.utils.Cursors;
 import io.anuke.ucore.util.Atlas;
 
 public class Core{
@@ -31,6 +32,7 @@ public class Core{
 		Sounds.dispose();
 		Musics.dispose();
 		Timers.dispose();
+		Cursors.dispose();
 		
 		if(batch != null){
 			batch.dispose();
