@@ -43,7 +43,7 @@ public abstract class BaseBulletType<T extends BulletEntity>{
 			Effects.effect(despawneffect, b.x, b.y, b.angle());
 	}
 
-	public static BaseBulletType<?> getByID(int id){
-		return types.get(id);
+	public static <T extends BaseBulletType<?>> T getByID(int id){
+		return (T)types.get(id);
 	}
 }
