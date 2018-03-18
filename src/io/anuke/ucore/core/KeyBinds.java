@@ -88,7 +88,7 @@ public class KeyBinds{
 		for(Section sec : map.values()){
 		    for(DeviceType type : DeviceType.values()){
                 for(String name : sec.defaults.get(type).keys()){
-                	int key = Settings.getIntKey("keybind-" + sec.name + "-" + type.name() + "-" + name, sec.defaults.get(type).get(name).ordinal());
+                	int key = Settings.getInt("keybind-" + sec.name + "-" + type.name() + "-" + name, sec.defaults.get(type).get(name).ordinal());
                 	Input input = key == -1 ? Input.UNSET : values[key];
                 	sec.binds.get(type).put(name, input);
                 }
@@ -96,8 +96,8 @@ public class KeyBinds{
 				for(String name : sec.axisDefaults.get(type).keys()){
 					String text = "axis-" + sec.name + "-" + type.name() + "-" + name;
 					Axis def = sec.axisDefaults.get(type).get(name);
-					int mi = Settings.getIntKey(text + "-min", def.min.ordinal());
-					int ma = Settings.getIntKey(text + "-max", def.max.ordinal());
+					int mi = Settings.getInt(text + "-min", def.min.ordinal());
+					int ma = Settings.getInt(text + "-max", def.max.ordinal());
 					Input min = mi == -1 ? Input.UNSET : values[mi];
 					Input max = ma == -1 ? Input.UNSET : values[ma];
 
@@ -108,7 +108,7 @@ public class KeyBinds{
 					axis.max = max;
 				}
             }
-            sec.device = Inputs.getDevices().get(Mathf.clamp(Settings.getIntKey(sec.name + "-last-device-type", 0), 0, Inputs.getDevices().size-1));
+            sec.device = Inputs.getDevices().get(Mathf.clamp(Settings.getInt(sec.name + "-last-device-type", 0), 0, Inputs.getDevices().size-1));
 		}
 	}
 
