@@ -31,6 +31,14 @@ public class Mathf{
 		}
 	}
 
+	public static float sqrt(float x){
+		return (float)Math.sqrt(x);
+	}
+
+	public static float sqr(float x){
+		return x*x;
+	}
+
 	public static float dst(float x, float y){
 		return Vector2.dst(x, y, 0, 0);
 	}

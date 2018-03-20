@@ -39,7 +39,7 @@ public class Strings{
 		if(idx != -1){
 			out = out.substring(0, idx) + " " + Character.toUpperCase(out.charAt(idx+1)) + out.substring(idx+2);
 		}
-		return out;
+		return out.replace("_", " ");
 	}
 	
 	public static String kebabToCamel(String s){

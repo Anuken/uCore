@@ -147,6 +147,10 @@ public class EntityCollisions {
         float vbx = b.x - b.lastX;
         float vby = b.y - b.lastY;
 
+        if(a != b && a.hitbox.solid && b.hitbox.solid){
+            fixCollisions(a, b);
+        }
+
         if(a != b && a.collides(b) && b.collides(a)){
             l1.set(a.x, a.y);
             boolean collide = r1.overlaps(r2) || collide(r1.x, r1.y, r1.width, r1.height, vax, vay,
@@ -155,6 +159,32 @@ public class EntityCollisions {
                 a.collision(b, l1.x, l1.y);
                 b.collision(a, l1.x, l1.y);
             }
+        }
+    }
+
+    private void fixCollisions(SolidEntity a, SolidEntity b){
+        float ra = a.hitbox.radius(), rb = b.hitbox.radius();
+
+        //TODO these are really, really bad physics
+
+        float xa = a.x,
+                ya = a.y,
+                xb = b.x,
+                yb = b.y;
+
+        l1.set(xb - xa, yb - ya);
+        float length = l1.len();
+
+        if(length < ra + rb){
+            l1.setLength(ra + rb);
+
+            float f = 0.2f;
+
+            a.x = Mathf.lerpDelta(a.x, xb - l1.x, f);
+            a.y = Mathf.lerpDelta(a.y, yb - l1.y, f);
+
+            b.x = Mathf.lerpDelta(b.x, xa + l1.x, f);
+            b.y = Mathf.lerpDelta(b.y, ya + l1.y, f);
         }
     }
 

@@ -83,10 +83,26 @@ public class Settings{
 	public static long getLong(String name){
 		return prefs.getLong(name, (Long)def(name));
 	}
-	
-	/**Keybinds only.*/
-	public static int getIntKey(String name, int def){
+
+
+	public static String getString(String name, String def){
+		return prefs.getString(name, def);
+	}
+
+	public static float getFloat(String name, float def){
+		return prefs.getFloat(name, def);
+	}
+
+	public static int getInt(String name, int def){
 		return prefs.getInteger(name, def);
+	}
+
+	public static boolean getBool(String name, boolean def){
+		return prefs.getBoolean(name, def);
+	}
+
+	public static long getLong(String name, long def){
+		return prefs.getLong(name, def);
 	}
 	
 	public static boolean has(String name){

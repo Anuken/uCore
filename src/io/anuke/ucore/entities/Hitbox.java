@@ -3,9 +3,12 @@ package io.anuke.ucore.entities;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Hitbox{
+	private final static float sqrt2 = (float)Math.sqrt(2);
 	private final Rectangle rect = new Rectangle();
 	public float offsetx, offsety;
 	public float width, height;
+	/**Whether this is a solid hitbox to be used as a circle collider.*/
+	public boolean solid = false;
 
 	public Hitbox(float size) {
 		width = height = size;
@@ -18,6 +21,10 @@ public class Hitbox{
 
 	public Hitbox() {
 
+	}
+
+	public float radius(){
+		return (width + height)/2f;
 	}
 
 	public void bounds(float offsetx, float offsety, float width, float height){
