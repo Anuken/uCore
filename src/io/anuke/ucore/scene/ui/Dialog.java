@@ -181,6 +181,9 @@ public class Dialog extends Window {
 
 	/** {@link #pack() Packs} the dialog and adds it to the stage with custom action which can be null for instant show */
 	public Dialog show (Scene stage, Action action) {
+		setOrigin(Align.center);
+		setClip(false);
+		setTransform(true);
 
 		this.fire(new VisibilityEvent(false));
 
@@ -207,10 +210,6 @@ public class Dialog extends Window {
 	
 	/**Shows using the ModuleController's UI.*/
 	public Dialog show () {
-		setOrigin(Align.center);
-		setClip(false);
-		setTransform(true);
-		
 		return show(Core.scene);
 	}
 
