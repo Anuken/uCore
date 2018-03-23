@@ -29,7 +29,6 @@ public class IndexedRenderer implements Disposable{
 
     public void render(Texture texture){
         Gdx.gl.glEnable(GL20.GL_BLEND);
-       // Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
         updateMatrix();
 
@@ -151,7 +150,7 @@ public class IndexedRenderer implements Disposable{
                 + "}";
 
         ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
-        if (shader.isCompiled() == false) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
+        if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
         return shader;
     }
 }
