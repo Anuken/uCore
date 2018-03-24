@@ -1,8 +1,9 @@
 package io.anuke.ucore.util;
 
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
-
+import com.badlogic.gdx.utils.IntArray;
 import io.anuke.ucore.function.PositionConsumer;
 import io.anuke.ucore.function.SegmentConsumer;
 
@@ -42,7 +43,49 @@ public class Geometry{
 		new GridPoint2(-1, -1),
 		new GridPoint2(1, -1)
 	};
-	
+
+	public static Vector2[] pixelCircle(int index){
+		int size = index*2;
+		IntArray ints = new IntArray();
+
+		//add edges (bottom left corner)
+		for(int x = -1; x < size+1; x ++){
+			for(int y = -1; y < size+1; y ++){
+				if((solid(index, x, y) || solid(index, x-1, y) || solid(index, x, y-1) || solid(index, x-1, y-1)) &&
+						!(solid(index, x, y) && solid(index, x-1, y) && solid(index, x, y-1) && solid(index, x-1, y-1))){
+					ints.add(x+y*(size+1));
+				}
+			}
+		}
+
+		Array<Vector2> path = new Array<>();
+
+		int cindex = 0;
+		while(ints.size > 0){
+			int x = ints.get(cindex)%(size+1);
+			int y = ints.get(cindex)/(size+1);
+			path.add(new Vector2(x-size/2, y-size/2));
+			ints.removeIndex(cindex);
+
+			//find nearby edge
+			for(int i = 0; i < ints.size; i ++){
+
+				int x2 = ints.get(i)%(size+1);
+				int y2 = ints.get(i)/(size+1);
+				if(Math.abs(x2-x) <= 1 && Math.abs(y2-y) <= 1 &&
+						!(Math.abs(x2-x) == 1 && Math.abs(y2-y) == 1)){
+					cindex = i;
+					break;
+				}
+			}
+		}
+
+		return path.toArray(Vector2.class);
+	}
+
+	private static boolean solid(int index, int x, int y){
+		return Vector2.dst(x, y, index, index) < index - 0.5f;
+	}
 	
 	/**returns a regular polygon with {amount} sides*/
 	public static float[] regPoly(int amount, float size){
