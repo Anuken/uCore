@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Disposable;
 
 public class IndexedRenderer implements Disposable{
-    private final static int vsize = 4;
+    private final static int vsize = 5;
 
     private ShaderProgram program = createDefaultShader();
     private Mesh mesh;
@@ -44,7 +44,7 @@ public class IndexedRenderer implements Disposable{
         program.end();
     }
 
-    public void draw(int index, TextureRegion region, float x, float y, float w, float h){
+    public void draw(int index, TextureRegion region, float x, float y, float z, float w, float h){
         final float fx2 = x + w;
         final float fy2 = y + h;
         final float u = region.getU();
@@ -57,32 +57,38 @@ public class IndexedRenderer implements Disposable{
         int idx = 0;
         vertices[idx ++] = x;
         vertices[idx ++] = y;
+        vertices[idx ++] = z;
         vertices[idx ++] = u;
         vertices[idx ++] = v;
 
         vertices[idx ++] = x;
         vertices[idx ++] = fy2;
+        vertices[idx ++] = z;
         vertices[idx ++] = u;
         vertices[idx ++] = v2;
 
         vertices[idx ++] = fx2;
         vertices[idx ++] = fy2;
+        vertices[idx ++] = z;
         vertices[idx ++] = u2;
         vertices[idx ++] = v2;
 
         //tri2
         vertices[idx ++] = x;
         vertices[idx ++] = y;
+        vertices[idx ++] = z;
         vertices[idx ++] = u;
         vertices[idx ++] = v;
 
         vertices[idx ++] = fx2;
         vertices[idx ++] = y;
+        vertices[idx ++] = z;
         vertices[idx ++] = u2;
         vertices[idx ++] = v;
 
         vertices[idx ++] = fx2;
         vertices[idx ++] = fy2;
+        vertices[idx ++] = z;
         vertices[idx ++] = u2;
         vertices[idx ++] = v2;
 
@@ -109,7 +115,7 @@ public class IndexedRenderer implements Disposable{
         if(mesh != null) mesh.dispose();
 
         mesh = new Mesh(true, 6*sprites, 0,
-                new VertexAttribute(Usage.Position, 2, "a_position"),
+                new VertexAttribute(Usage.Position, 3, "a_position"),
                 new VertexAttribute(Usage.TextureCoordinates, 2, "a_texCoord0"));
         vertices = new float[6*sprites*vsize];
         mesh.setVertices(vertices);

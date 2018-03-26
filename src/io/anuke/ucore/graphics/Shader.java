@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
-public abstract class Shader{
+public class Shader{
 	/**Whether to fallback on the default shader when things fail.*/
 	public static boolean useFallback = true;
 
@@ -45,7 +45,7 @@ public abstract class Shader{
 		this(frag, "default");
 	}
 	
-	protected abstract void apply();
+	protected void apply(){}
 	
 	public void applyParams(){
 		if(!isFallback){

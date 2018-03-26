@@ -60,7 +60,7 @@ public class CommandHandler{
 				index ++;
 			}
 
-			if(!satisfied && command.params.length > 0 && !command.params[0].optional){
+			if(!satisfied && command.params.length > 0){
 				return new Response(ResponseType.fewArguments, command);
 			}
 
