@@ -31,6 +31,10 @@ public class Mathf{
 		}
 	}
 
+	public static int ceil(float f){
+		return (int)Math.ceil(f);
+	}
+
 	public static float sqrt(float x){
 		return (float)Math.sqrt(x);
 	}
