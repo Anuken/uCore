@@ -84,7 +84,7 @@ public class Physics{
 	
 	/**Checks for collisions between two rectangles, and returns the correct delta vector of A.
 	 * Note: The same vector instance is returned each time!*/
-	public static Vector2 overlap(Rectangle a, Rectangle b){
+	public static Vector2 overlap(Rectangle a, Rectangle b, boolean x){
 		Vector2 normal = vector;
 		float penetration = 0f;
 		
@@ -112,7 +112,7 @@ public class Physics{
             if (!MathUtils.isEqual(yoverlap, 0)) {
 
                 // Find out which axis is the axis of least penetration
-                if (xoverlap < yoverlap) {
+                if (x) {
 
                     // Point towards B knowing that n points from A to B
                     normal.x = nx < 0 ? 1 : -1;

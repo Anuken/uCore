@@ -42,7 +42,10 @@ public class EntityCollisions {
 
     public void move(SolidEntity entity, float deltax, float deltay){
 
-        while(Math.abs(deltax) > 0){
+        boolean movedx = false;
+
+        while(Math.abs(deltax) > 0 || !movedx){
+            movedx = true;
             moveInternal(entity, Math.min(Math.abs(deltax), seg) * Mathf.sign(deltax), 0, true);
 
             if(Math.abs(deltax) >= seg) {
@@ -52,7 +55,10 @@ public class EntityCollisions {
             }
         }
 
-        while(Math.abs(deltay) > 0){
+        boolean movedy = false;
+
+        while(Math.abs(deltay) > 0 || !movedy){
+            movedy = true;
             moveInternal(entity, 0, Math.min(Math.abs(deltay), seg) * Mathf.sign(deltay), false);
 
             if(Math.abs(deltay) >= seg) {
@@ -80,7 +86,7 @@ public class EntityCollisions {
                     hitboxProvider.getHitbox(wx, wy, tmp);
 
                     if(tmp.overlaps(rect)){
-                        Vector2 v = Physics.overlap(rect, tmp);
+                        Vector2 v = Physics.overlap(rect, tmp, x);
                         if(x) rect.x += v.x;
                         if(!x) rect.y += v.y;
                     }
