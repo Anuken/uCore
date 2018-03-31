@@ -68,6 +68,14 @@ public class Graphics{
 	public static Vector2 size(){
 		return size.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
+
+	public static void setAdditiveBlending(){
+		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
+	}
+
+	public static void setNormalBlending(){
+		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+	}
 	
 	public static void clear(Color color){
 		Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
