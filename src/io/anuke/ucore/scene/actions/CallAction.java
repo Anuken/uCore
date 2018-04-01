@@ -5,10 +5,17 @@ import io.anuke.ucore.scene.Action;
 
 public class CallAction extends Action{
     public Callable call;
+    public boolean called = false;
 
     @Override
     public boolean act(float delta) {
-        call.run();
+        if(!called) call.run();
+        called = true;
         return true;
+    }
+
+    @Override
+    public void reset() {
+        called = false;
     }
 }
