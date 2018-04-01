@@ -101,7 +101,11 @@ public class SceneModule extends Module{
 	}
 	
 	public boolean hasMouse(){
-		return mouse;
+		try {
+			return scene.hit(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true) != null;
+		}catch (Exception e){
+			return true;
+		}
 	}
 	
 	public boolean hasMouse(float mousex, float mousey){
