@@ -40,6 +40,10 @@ public class Draw{
 		batch.setColor(color);
 	}
 
+	public static void color(Color[] colors, float progress){
+		batch.setColor(Hue.mix(colors, Tmp.c1, progress));
+	}
+
 	public static void color(String name){
 		color(Colors.get(name));
 	}

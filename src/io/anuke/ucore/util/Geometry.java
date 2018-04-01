@@ -44,8 +44,8 @@ public class Geometry{
 		new GridPoint2(1, -1)
 	};
 
-	public static Vector2[] pixelCircle(int index){
-		int size = index*2;
+	public static Vector2[] pixelCircle(float index){
+		int size = (int)(index*2);
 		IntArray ints = new IntArray();
 
 		//add edges (bottom left corner)
@@ -83,7 +83,7 @@ public class Geometry{
 		return path.toArray(Vector2.class);
 	}
 
-	private static boolean solid(int index, int x, int y){
+	private static boolean solid(float index, int x, int y){
 		return Vector2.dst(x, y, index, index) < index - 0.5f;
 	}
 	
