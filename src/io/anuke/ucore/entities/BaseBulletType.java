@@ -17,6 +17,7 @@ public abstract class BaseBulletType<T extends BulletEntity>{
 	public float hitsize = 4;
 	public float drawSize = 20f;
 	public float drag = 0f;
+	public boolean pierce;
 	public Effect hiteffect = null, despawneffect = null;
 	
 	protected Vector2 vector = new Vector2();

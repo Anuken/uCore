@@ -18,6 +18,7 @@ import io.anuke.ucore.util.Tmp;
 import static io.anuke.ucore.core.Core.batch;
 
 public class Draw{
+	private static Color[] carr = new Color[3];
 
 	public static void sprite(Sprite sprite){
 		sprite.draw(batch);
@@ -42,6 +43,13 @@ public class Draw{
 
 	public static void color(Color[] colors, float progress){
 		batch.setColor(Hue.mix(colors, Tmp.c1, progress));
+	}
+
+	public static void color(Color a, Color b, Color c, float progress){
+		carr[0] = a;
+		carr[1] = b;
+		carr[2] = c;
+		batch.setColor(Hue.mix(carr, Tmp.c1, progress));
 	}
 
 	public static void color(String name){

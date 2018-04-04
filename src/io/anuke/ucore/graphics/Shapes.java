@@ -2,6 +2,7 @@ package io.anuke.ucore.graphics;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.util.Mathf;
 
 public class Shapes {
@@ -28,6 +29,12 @@ public class Shapes {
         Draw.rect(edge, x2, y2, region.getRegionWidth(), region.getRegionHeight() * scale, rotation);
     }
 
+    public static void tri(float x, float y, float width, float length, float rotation){
+        float oy = 17f/63f*length;
+        Core.batch.draw(Draw.region("shape-3"), x - width/2f, y - oy, width/2f, oy, width, length, 1f, 1f, rotation - 90);
+    }
+
+    @Deprecated
     public static void lineShot(float x, float y, float angle, int amount, float fract, float len, float thick, float falloff) {
         float length = len;
         float thickness = thick;
@@ -39,6 +46,7 @@ public class Shapes {
         }
     }
 
+    @Deprecated
     public static void lineShotFade(float x, float y, float angle, int amount, float fract, float len, float thick, float falloff, float thickadd) {
         float length = len;
         float thickness = thick;
