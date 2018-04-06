@@ -4,9 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 
 import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.util.Mathf;
+import io.anuke.ucore.util.Scalable;
 
-public abstract class BulletEntity extends SolidEntity implements Damager{
-	public BaseBulletType type;
+public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity implements Damager, Scalable{
+	public T type;
 	public Entity owner;
 	public Vector2 velocity = new Vector2();
 	public float time = 0f;
@@ -15,7 +16,7 @@ public abstract class BulletEntity extends SolidEntity implements Damager{
 	
 	public BulletEntity(){}
 	
-	public BulletEntity(BaseBulletType type, Entity owner, float angle){
+	public BulletEntity(T type, Entity owner, float angle){
 		this.type = type;
 		this.owner = owner;
 		
@@ -72,19 +73,12 @@ public abstract class BulletEntity extends SolidEntity implements Damager{
 		if(!type.pierce) remove();
 		type.hit(this, x, y);
 	}
-	
-	public float fract(){
-		return 1f-time/type.lifetime;
-	}
-	
-	public float ifract(){
+
+	@Override
+	public float fin() {
 		return time/type.lifetime;
 	}
-	
-	public float sfract(){
-		return (0.5f-Math.abs(time/type.lifetime-0.5f))*2f;
-	}
-	
+
 	public void setVelocity(float speed, float angle){
 		velocity.set(0, speed).setAngle(angle);
 	}

@@ -203,13 +203,13 @@ public class Lines {
         line(fx, fy, x2, y2);
     }
 
-    public static void swirl(float x, float y, float radius, float fraction){
-        swirl(x, y, radius, fraction, 0f);
+    public static void swirl(float x, float y, float radius, float finion){
+        swirl(x, y, radius, finion, 0f);
     }
 
-    public static void swirl(float x, float y, float radius, float fraction, float angle){
+    public static void swirl(float x, float y, float radius, float finion, float angle){
         int sides = 50;
-        int max = (int) (sides * (fraction + 0.001f));
+        int max = (int) (sides * (finion + 0.001f));
         vector.set(0, 0);
 
         for(int i = 0; i < max; i++){

@@ -10,11 +10,6 @@ public class EffectEntity extends TimedEntity{
 	public Color color = Color.WHITE;
 	public float rotation = 0f;
 	
-	public EffectEntity(float lifetime, Effect rend){
-		renderer = rend;
-		this.lifetime = lifetime;
-	}
-	
 	public EffectEntity(Effect effect){
 		renderer = effect;
 		lifetime = effect.lifetime;

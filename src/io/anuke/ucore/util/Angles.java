@@ -60,6 +60,14 @@ public class Angles{
 		return len * MathUtils.sin(MathUtils.degreesToRadians * angle);
 	}
 
+	static public float trnsx(float angle, float x, float y){
+		return rv.set(x, y).rotate(angle).x;
+	}
+
+	static public float trnsy(float angle, float x, float y){
+		return rv.set(x, y).rotate(angle).y;
+	}
+
 	static public float mouseAngle(OrthographicCamera camera, float cx, float cy){
 		Vector3 avector = camera.project(v3.set(cx, cy, 0));
 		return Mathf.atan2(Gdx.input.getX() - avector.x, Gdx.graphics.getHeight() - Gdx.input.getY() - avector.y);
@@ -125,14 +133,14 @@ public class Angles{
 		}
 	}
 
-	public static void randLenVectors(long seed, float fract, int amount, float length,
+	public static void randLenVectors(long seed, float fin, int amount, float length,
 									  float angle, float range, PositionFractConsumer cons){
 		random.setSeed(seed);
 		for(int i = 0; i < amount; i ++){
-			float scl = length * random.nextFloat() * fract;
+			float scl = length * random.nextFloat() * fin;
 			float vang = angle + random.nextFloat() * range*2 - range;
 			rv.set(scl, 0).rotate(vang);
-			cons.accept(rv.x, rv.y, fract * (random.nextFloat()));
+			cons.accept(rv.x, rv.y, fin * (random.nextFloat()));
 		}
 	}
 }

@@ -58,6 +58,29 @@ public class Mathf{
 	public static float absin(float in, float scl, float mag){
 		return (sin(in, scl*2f, mag) + mag) / 2f;
 	}
+
+	/**Converts a value range from 0-1 to a value range 0-1-0.*/
+	public static float abscurve(float f){
+		return 1f-Math.abs(f-0.5f)*2f;
+	}
+
+	public static float curve(float f, float max){
+		if(f > max){
+			return 1f;
+		}else{
+			return f/max;
+		}
+	}
+
+	public static float curve(float f, float offset, float max){
+		if(f < offset) {
+			return 0f;
+		}else if(f-offset > max){
+			return 1f;
+		}else{
+			return (f-offset)/max;
+		}
+	}
 	
 	public static boolean zero(float f){
 		return MathUtils.isEqual(f, 0);
@@ -159,6 +182,11 @@ public class Mathf{
 	public static float randomSeed(long seed){
 		seedr.setSeed(seed*99999);
 		return seedr.nextFloat();
+	}
+
+	public static float randomSeedRange(long seed, float range){
+		seedr.setSeed(seed*99999);
+		return range*(seedr.nextFloat() - 0.5f)*2f;
 	}
 	
 	public static float range(float range){

@@ -5,6 +5,10 @@ import io.anuke.ucore.core.Timers;
 
 public class Strings{
 
+	public static String dir(int i){
+		return i < 0 ? "left" : "right";
+	}
+
 	public static String parseException(Throwable e, boolean stacktrace){
 		StringBuilder build = new StringBuilder();
 

@@ -2,8 +2,9 @@ package io.anuke.ucore.entities;
 
 import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.util.Mathf;
+import io.anuke.ucore.util.Scalable;
 
-public abstract class TimedEntity extends Entity{
+public abstract class TimedEntity extends Entity implements Scalable{
 	public float lifetime;
 	public float time;
 	
@@ -15,16 +16,9 @@ public abstract class TimedEntity extends Entity{
 		
 		if(time >= lifetime) remove();
 	}
-	
-	public float fract(){
-		return 1f-time/lifetime;
-	}
-	
-	public float ifract(){
+
+	@Override
+	public float fin() {
 		return time/lifetime;
-	}
-	
-	public float sfract(){
-		return (0.5f-Math.abs(time/lifetime-0.5f))*2f;
 	}
 }

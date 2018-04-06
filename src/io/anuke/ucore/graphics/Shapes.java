@@ -35,23 +35,23 @@ public class Shapes {
     }
 
     @Deprecated
-    public static void lineShot(float x, float y, float angle, int amount, float fract, float len, float thick, float falloff) {
+    public static void lineShot(float x, float y, float angle, int amount, float fin, float len, float thick, float falloff) {
         float length = len;
         float thickness = thick;
         for (int i = 0; i < amount; i++) {
-            Lines.stroke(fract * thickness);
-            Lines.lineAngle(x, y, angle, fract * length);
+            Lines.stroke(fin * thickness);
+            Lines.lineAngle(x, y, angle, fin * length);
             length *= falloff;
             thickness /= falloff;
         }
     }
 
     @Deprecated
-    public static void lineShotFade(float x, float y, float angle, int amount, float fract, float len, float thick, float falloff, float thickadd) {
+    public static void lineShotFade(float x, float y, float angle, int amount, float fin, float len, float thick, float falloff, float thickadd) {
         float length = len;
         float thickness = thick;
         for (int i = 0; i < amount; i++) {
-            Lines.stroke(fract * thickness);
+            Lines.stroke(fin * thickness);
             Lines.lineAngle(x, y, angle, length);
             length *= falloff;
             thickness += thickadd;

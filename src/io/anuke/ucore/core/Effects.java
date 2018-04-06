@@ -1,17 +1,17 @@
 package io.anuke.ucore.core;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-
 import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.entities.EffectEntity;
 import io.anuke.ucore.entities.Entity;
 import io.anuke.ucore.function.BiConsumer;
+import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.EffectProvider;
 import io.anuke.ucore.function.EffectRenderer;
 import io.anuke.ucore.util.Mathf;
+import io.anuke.ucore.util.Scalable;
 
 public class Effects{
 	private static Array<Effect> effects = new Array<>();
@@ -57,6 +57,10 @@ public class Effects{
 	
 	public static void effect(Effect effect, Color color, float x, float y){
 		provider.createEffect(effect, color, x, y, 0f);
+	}
+
+	public static void effect(Effect effect, Color color, float x, float y, float rotation){
+		provider.createEffect(effect, color, x, y, rotation);
 	}
 	
 	public static void effect(Effect effect, Color color, Entity entity){
@@ -130,7 +134,9 @@ public class Effects{
 		}
 	}
 	
-	public static class EffectContainer{
+	public static class EffectContainer implements Scalable{
+		private EffectContainer innerContainer;
+
 		public float x, y, time, lifetime, rotation;
 		public Color color;
 		public int id;
@@ -139,24 +145,17 @@ public class Effects{
 			this.x = x; this.y = y; this.color = color; this.time = life; this.lifetime = lifetime; this.id = id; this.rotation = rotation;
 		}
 
-		/**1 to 0*/
-		public float fract(){
-			return 1f-time/lifetime;
+		public void scaled(float lifetime, Consumer<EffectContainer> cons){
+			if(innerContainer == null) innerContainer = new EffectContainer();
+			if(time <= lifetime){
+				innerContainer.set(id, color, time, lifetime, rotation, x, y);
+				cons.accept(innerContainer);
+			}
 		}
 
-		/**0 to 1*/
-		public float ifract(){
+		@Override
+		public float fin() {
 			return time/lifetime;
-		}
-
-		/**0 to 1*/
-		public float powfract(){
-			return Interpolation.pow3Out.apply(ifract());
-		}
-
-		/**0 to 1 to 0*/
-		public float sfract(){
-			return (0.5f-Math.abs(time/lifetime-0.5f))*2f;
 		}
 	}
 	
