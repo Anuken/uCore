@@ -34,6 +34,10 @@ public class Hitbox{
 		this.height = height;
 	}
 
+	public Rectangle getRect(float x, float y, float expansion){
+		return rect.setSize(width, height).setCenter(x + offsetx + expansion, y + offsety + expansion);
+	}
+
 	public Rectangle getRect(float x, float y){
 		return getRect(rect, x, y);
 	}
