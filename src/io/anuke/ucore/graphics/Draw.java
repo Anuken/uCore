@@ -37,6 +37,11 @@ public class Draw{
 		color(color.r, color.g, color.b, batch.getColor().a);
 	}
 
+	public static void tint(Color a, Color b, float s){
+		Hue.mix(a, b, s, Tmp.c1);
+		color(Tmp.c1.r, Tmp.c1.g, Tmp.c1.b, batch.getColor().a);
+	}
+
 	public static void color(Color color){
 		batch.setColor(color);
 	}

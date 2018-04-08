@@ -12,6 +12,18 @@ public class Hue{
 	public static boolean approximate(Color a, Color b, float r){
 		return MathUtils.isEqual(a.r, b.r, r) && MathUtils.isEqual(a.g, b.g, r) && MathUtils.isEqual(a.b, b.b, r);
 	}
+
+	public static Color shift(Color color, int index, float amount){
+		color.toHsv(hsv);
+		hsv[index] += amount;
+		return color.fromHsv(hsv);
+	}
+
+	public static Color multiply(Color color, int index, float amount){
+		color.toHsv(hsv);
+		hsv[index] *= amount;
+		return color.fromHsv(hsv);
+	}
 	
 	public static int rgb(Color color){
 		return Color.rgba8888(color);
