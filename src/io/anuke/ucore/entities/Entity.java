@@ -2,8 +2,9 @@ package io.anuke.ucore.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import io.anuke.ucore.util.Mathf;
+import io.anuke.ucore.util.Position;
 
-public abstract class Entity{
+public abstract class Entity implements Position{
 	private static int lastid;
 	
 	protected transient EntityGroup<?> group;
@@ -79,7 +80,18 @@ public abstract class Entity{
 	public boolean isAdded(){
 		return group != null;
 	}
-	
+
+	@Override
+	public float getX() {
+		return x;
+	}
+
+	@Override
+	public float getY() {
+		return y;
+	}
+
+	@Override
 	public String toString(){
 		return getClass() + " " + id;
 	}

@@ -3,14 +3,13 @@ package io.anuke.ucore.core;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import io.anuke.ucore.ecs.Spark;
 import io.anuke.ucore.entities.EffectEntity;
-import io.anuke.ucore.entities.Entity;
 import io.anuke.ucore.function.BiConsumer;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.EffectProvider;
 import io.anuke.ucore.function.EffectRenderer;
 import io.anuke.ucore.util.Mathf;
+import io.anuke.ucore.util.Position;
 import io.anuke.ucore.util.Scalable;
 
 public class Effects{
@@ -51,26 +50,21 @@ public class Effects{
 		provider.createEffect(effect, color, x, y, 0f);
 	}
 
+	public static void effect(Effect effect, Position loc){
+		provider.createEffect(effect, Color.WHITE, loc.getX(), loc.getY(), 0f);
+	}
+
 	public static void effect(Effect effect, Color color, float x, float y, float rotation){
 		provider.createEffect(effect, color, x, y, rotation);
-	}
-	
-	public static void effect(Effect effect, Color color, Entity entity){
-		effect(effect, color, entity.x, entity.y);
 	}
 	
 	public static void sound(String name){
 		Sounds.play(name);
 	}
-	
+
 	/**Plays a sound, with distance and falloff calulated relative to camera position.*/
-	public static void sound(String name, Entity position){
-		sound(name, position.x, position.y);
-	}
-	
-	/**Plays a sound, with distance and falloff calulated relative to camera position.*/
-	public static void sound(String name, Spark position){
-		sound(name, position.pos().x, position.pos().y);
+	public static void sound(String name, Position position){
+		sound(name, position.getX(), position.getY());
 	}
 	
 	/**Plays a sound, with distance and falloff calulated relative to camera position.*/
@@ -97,12 +91,8 @@ public class Effects{
 		shake(Mathf.clamp(1f/(distance*distance/shakeFalloff))*intensity, duration);
 	}
 	
-	public static void shake(float intensity, float duration, Entity loc){
-		shake(intensity, duration, loc.x, loc.y);
-	}
-	
-	public static void shake(float intensity, float duration, Spark loc){
-		shake(intensity, duration, loc.pos().x, loc.pos().y);
+	public static void shake(float intensity, float duration, Position loc){
+		shake(intensity, duration, loc.getX(), loc.getY());
 	}
 	
 	public static class Effect{

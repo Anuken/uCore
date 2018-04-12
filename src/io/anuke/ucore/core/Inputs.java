@@ -354,13 +354,15 @@ public class Inputs{
 
 	/**Represents either a keyboard or controller.*/
 	public static class InputDevice{
+		public static final int BUTTONS = 32;
+
 		public final DeviceType type;
 		public final String name;
 		public final Controller controller;
 		public final ControllerType controllerType;
-		public final boolean[] pressed = new boolean[16];
-		public final boolean[] released = new boolean[16];
-		public final float[] axes = new float[16];
+		public final boolean[] pressed = new boolean[BUTTONS];
+		public final boolean[] released = new boolean[BUTTONS];
+		public final float[] axes = new float[BUTTONS];
 		public PovDirection lastPOV = PovDirection.center;
 		
 		public InputDevice(DeviceType type, String name){
