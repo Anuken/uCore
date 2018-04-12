@@ -3,9 +3,7 @@ package io.anuke.ucore.util;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
-/**
- * @author xSke
- */
+/** @author xSke*/
 public class Spring2D {
     public Vector2 value = new Vector2();
     public Vector2 target = new Vector2();

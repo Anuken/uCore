@@ -21,4 +21,9 @@ public class Translator extends Vector2{
         return this;
     }
 
+    public Translator set(Position p){
+        set(p.getX(), p.getY());
+        return this;
+    }
+
 }

@@ -2,9 +2,7 @@ package io.anuke.ucore.util;
 
 import com.badlogic.gdx.math.MathUtils;
 
-/**
- * @author xSke
- */
+/** @author xSke*/
 public class Spring1D {
     public float value;
     public float target;
