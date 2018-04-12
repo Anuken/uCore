@@ -31,6 +31,10 @@ public class Mathf{
 		}
 	}
 
+	public static int pow2(int i){
+		return (int)Math.pow(2, i);
+	}
+
 	public static int ceil(float f){
 		return (int)Math.ceil(f);
 	}

@@ -47,14 +47,6 @@ public class Effects{
 		effect(effect, x, y, 0);
 	}
 	
-	public static void effect(Effect effect, Entity pos){
-		effect(effect, pos.x, pos.y);
-	}
-	
-	public static void effect(Effect effect, Spark pos){
-		effect(effect, pos.pos().x, pos.pos().y);
-	}
-	
 	public static void effect(Effect effect, Color color, float x, float y){
 		provider.createEffect(effect, color, x, y, 0f);
 	}
