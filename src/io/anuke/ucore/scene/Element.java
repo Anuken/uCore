@@ -7,7 +7,7 @@ import io.anuke.ucore.graphics.Draw;
 import io.anuke.ucore.function.KeyListenable;
 import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.function.Supplier;
-import io.anuke.ucore.function.VisibilityProvider;
+import io.anuke.ucore.function.BooleanProvider;
 import io.anuke.ucore.scene.event.EventListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
@@ -23,7 +23,7 @@ public class Element extends BaseElement{
 	
 	protected float alpha = 1f;
 	protected Vector2 translation = new Vector2(0, 0);
-	private VisibilityProvider visibility;
+	private BooleanProvider visibility;
 	private Listenable update;
 	private Supplier<Touchable> touchableSupplier = null;
 	
@@ -52,7 +52,7 @@ public class Element extends BaseElement{
 	public void act (float delta) {
 		super.act(delta);
 		if(visibility != null)
-			setVisible(visibility.visible());
+			setVisible(visibility.get());
 		if(touchableSupplier != null)
 			setTouchable(touchableSupplier.get());
 		if(update != null)
@@ -154,7 +154,7 @@ public class Element extends BaseElement{
 		update = r;
 	}
 	
-	public void setVisible(VisibilityProvider vis){
+	public void setVisible(BooleanProvider vis){
 		visibility = vis;
 	}
 

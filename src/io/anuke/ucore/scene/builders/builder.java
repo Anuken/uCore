@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Align;
 
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Supplier;
-import io.anuke.ucore.function.VisibilityProvider;
+import io.anuke.ucore.function.BooleanProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.ui.layout.Cell;
@@ -53,7 +53,7 @@ public abstract class builder<T extends builder, N extends Element>{
 		return (T)this;
 	}
 	
-	public T visible(VisibilityProvider vis){
+	public T visible(BooleanProvider vis){
 		element.setVisible(vis);
 		return (T)this;
 	}

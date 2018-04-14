@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
-import io.anuke.ucore.function.VisibilityProvider;
+import io.anuke.ucore.function.BooleanProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.ui.Button;
 import io.anuke.ucore.scene.ui.ButtonGroup;
@@ -107,6 +107,11 @@ public class Cell<T extends Element> implements Poolable {
 		return this;
 	}
 
+	public Cell<T> name(String name){
+		getElement().setName(name);
+		return this;
+	}
+
 	public Cell<T> update(Consumer<T> updater){
 		getElement().update(() -> updater.accept(getElement()));
 		return this;
@@ -126,7 +131,7 @@ public class Cell<T extends Element> implements Poolable {
 		return this;
 	}
 
-	public Cell<T> visible(VisibilityProvider prov){
+	public Cell<T> visible(BooleanProvider prov){
 		getElement().setVisible(prov);
 		return this;
 	}

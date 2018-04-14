@@ -2,7 +2,7 @@ package io.anuke.ucore.scene.builders;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 
-import io.anuke.ucore.function.StringSupplier;
+import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.scene.ui.Label;
 
 public class label extends builder<label, Label>{
@@ -17,7 +17,7 @@ public class label extends builder<label, Label>{
 		cell = context().add(element);
 	}
 	
-	public label(StringSupplier prov){
+	public label(Supplier<String> prov){
 		element = new Label(prov);
 		cell = context().add(element);
 	}

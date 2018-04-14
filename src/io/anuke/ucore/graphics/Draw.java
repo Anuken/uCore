@@ -172,6 +172,10 @@ public class Draw{
 		batch.draw(region, x - w / 2, y - h / 2, w / 2, h / 2, w, h, 1, 1, rotation);
 	}
 
+	public static void rect(TextureRegion region, float x, float y, float w, float h, float rotation){
+		batch.draw(region, x - w / 2, y - h / 2, w / 2, h / 2, w, h, 1, 1, rotation);
+	}
+
 	public static void rect(String name, float x, float y, float w, float h){
 		TextureRegion region = region(name);
 		batch.draw(region, x - w / 2, y - h / 2, w, h);

@@ -179,7 +179,7 @@ public class Inputs{
 	public static void flipProcessors(){
 		plex.getProcessors().reverse();
 	}
-	
+/*
 	public static boolean keyDown(int key){
 		return Gdx.input.isKeyPressed(key);
 	}
@@ -190,7 +190,7 @@ public class Inputs{
 
 	public static boolean keyRelease(int key){
 		return keysReleased.contains(key);
-	}
+	}*/
 	
 	public static boolean keyDown(String name){
 		return keyDown("default", name);
@@ -202,6 +202,10 @@ public class Inputs{
 
 	public static boolean keyRelease(String name){
 		return keyRelease("default", name);
+	}
+
+	public static boolean keyDown(Input input){
+		return keyDown(input, KeyBinds.getSection("default").device);
 	}
 
 	public static boolean keyDown(Input input, InputDevice device){
@@ -231,6 +235,10 @@ public class Inputs{
 		}
 	}
 
+	public static boolean keyTap(Input input){
+		return keyTap(input, KeyBinds.getSection("default").device);
+	}
+
 	public static boolean keyTap(Input input, InputDevice device){
 		if(input == Input.UNSET)
 			return false;
@@ -256,6 +264,10 @@ public class Inputs{
 			Input input = KeyBinds.get(section, DeviceType.keyboard, name);
 			return keyTap(input, getKeyboard());
 		}
+	}
+
+	public static boolean keyRelease(Input input){
+		return keyRelease(input, KeyBinds.getSection("default").device);
 	}
 
 	public static boolean keyRelease(Input input, InputDevice device){

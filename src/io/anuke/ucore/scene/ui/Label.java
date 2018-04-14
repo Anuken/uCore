@@ -26,7 +26,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
 import io.anuke.ucore.core.Core;
-import io.anuke.ucore.function.StringSupplier;
+import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.util.Bundles;
@@ -57,9 +57,12 @@ public class Label extends Element {
 	private String ellipsis;
 	private boolean fallback = true;
 	
-	public Label(StringSupplier sup){
+	public Label(Supplier<String> sup){
 		this("", new LabelStyle(skin.get(LabelStyle.class)));
 		update(() -> setText(sup.get()));
+		try{
+			setText(sup.get());
+		}catch (Exception e){}
 	}
 
 	public Label (CharSequence text) {

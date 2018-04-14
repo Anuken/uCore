@@ -23,7 +23,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.core.Graphics;
-import io.anuke.ucore.function.VisibilityProvider;
+import io.anuke.ucore.function.BooleanProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
@@ -57,7 +57,7 @@ public class Button extends Table implements Disableable {
 	private boolean programmaticChangeEvents = true;
 	private float transitionTime;
 	private boolean drawOver = false;
-	VisibilityProvider disabledProvider;
+	BooleanProvider disabledProvider;
 	
 	public Button (String styleName) {
 		initialize();
@@ -92,7 +92,7 @@ public class Button extends Table implements Disableable {
 		super.act(delta);
 		
 		if(disabledProvider != null){
-			setDisabled(disabledProvider.visible());
+			setDisabled(disabledProvider.get());
 		}
 	}
 
@@ -170,7 +170,7 @@ public class Button extends Table implements Disableable {
 		this.isDisabled = isDisabled;
 	}
 	
-	public void setDisabled (VisibilityProvider prov) {
+	public void setDisabled (BooleanProvider prov) {
 		this.disabledProvider = prov;
 	}
 

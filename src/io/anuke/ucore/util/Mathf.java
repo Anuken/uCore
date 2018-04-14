@@ -68,11 +68,11 @@ public class Mathf{
 		return 1f-Math.abs(f-0.5f)*2f;
 	}
 
-	public static float curve(float f, float max){
-		if(f > max){
-			return 1f;
+	public static float curve(float f, float offset){
+		if(f < offset){
+			return 0f;
 		}else{
-			return f/max;
+			return (f-offset)/(1f-offset);
 		}
 	}
 
