@@ -27,6 +27,10 @@ public class GridMap<T>{
 	public void put(int x, int y, T t){
 		map.put(getHash(x,y), t);
 	}
+
+	public void remove(int x, int y){
+		map.remove(getHash(x, y));
+	}
 	
 	public Collection<T> values(){
 		return map.values();
