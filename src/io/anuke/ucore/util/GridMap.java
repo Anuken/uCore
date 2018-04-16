@@ -1,12 +1,12 @@
 package io.anuke.ucore.util;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
+import com.badlogic.gdx.utils.LongMap;
+import com.badlogic.gdx.utils.LongMap.Keys;
+import com.badlogic.gdx.utils.LongMap.Values;
 
 /**A 2-dimensional hashmap that stores objects using an x/y coordinate.*/
 public class GridMap<T>{
-	protected HashMap<Long, T> map = new HashMap<Long, T>();
+	protected LongMap<T> map = new LongMap<T>();
 	
 	public T get(int x, int y){
 		return map.get(getHash(x,y));
@@ -32,12 +32,12 @@ public class GridMap<T>{
 		map.remove(getHash(x, y));
 	}
 	
-	public Collection<T> values(){
+	public Values<T> values(){
 		return map.values();
 	}
 	
-	public Set<Long> keys(){
-		return map.keySet();
+	public Keys keys(){
+		return map.keys();
 	}
 	
 	public void clear(){
@@ -45,7 +45,7 @@ public class GridMap<T>{
 	}
 	
 	public int size(){
-		return map.size();
+		return map.size;
 	}
 	
 	private static long getHash(int x, int y){
