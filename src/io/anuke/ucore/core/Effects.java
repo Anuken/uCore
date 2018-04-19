@@ -3,6 +3,7 @@ package io.anuke.ucore.core;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.entities.EffectEntity;
 import io.anuke.ucore.function.BiConsumer;
 import io.anuke.ucore.function.Consumer;
@@ -14,10 +15,17 @@ import io.anuke.ucore.util.Scalable;
 
 public class Effects{
 	private static Array<Effect> effects = new Array<>();
-	private static EffectProvider provider = (name, color, x, y, rotation) -> new EffectEntity(name, color, rotation).set(x, y).add();
 	private static BiConsumer<Float, Float> shakeProvider;
 	private static final EffectContainer container = new EffectContainer();
 	private static float shakeFalloff = 1000f;
+	private static EffectProvider provider = (effect, color, x, y, rotation) -> {
+		EffectEntity entity = Pools.obtain(EffectEntity.class);
+		entity.effect = effect;
+		entity.color = color;
+		entity.rotation = rotation;
+		entity.set(x, y);
+		entity.add();
+	};
 	
 	public static void setEffectProvider(EffectProvider prov){
 		provider = prov;

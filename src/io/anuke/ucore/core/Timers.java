@@ -105,6 +105,14 @@ public class Timers{
 	public static long elapsed(){
 		return TimeUtils.timeSinceMillis(lastMark);
 	}
+
+	public static void markNs(){
+		lastMark = TimeUtils.nanoTime();
+	}
+
+	public static float elapsedNs(){
+		return (TimeUtils.timeSinceNanos(lastMark)/1000000f);
+	}
 	
 	/**Use normal delta time (e. g. gdx delta * 60)*/
 	public static synchronized void update(){

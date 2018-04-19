@@ -39,7 +39,7 @@ public class IndexedRenderer implements Disposable{
         program.setUniformMatrix("u_projTrans", combined);
         program.setUniformi("u_texture", 0);
 
-        mesh.render(program, GL20.GL_TRIANGLES, 0, vertices.length);
+        mesh.render(program, GL20.GL_TRIANGLES, 0, vertices.length/5);
 
         program.end();
     }

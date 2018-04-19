@@ -15,7 +15,6 @@ public abstract class Entity implements Position{
 	
 	public void update(){}
 	public void draw(){}
-	public void drawOver(){}
 	public void removed(){}
 	public void added(){}
 	
@@ -41,7 +40,7 @@ public abstract class Entity implements Position{
 	public Entity remove(){
 		if(group != null)
 			((EntityGroup)group).remove(this);
-		removed();
+		group = null;
 		return this;
 	}
 

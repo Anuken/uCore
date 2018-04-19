@@ -127,7 +127,7 @@ public abstract class RendererModule extends Module{
 		else
 			batch.begin();
 
-		clearScreen(clearColor);
+		Graphics.clear(clearColor);
 		
 		draw();
 		

@@ -2,11 +2,12 @@ package io.anuke.ucore.entities;
 
 import com.badlogic.gdx.math.Vector2;
 
+import com.badlogic.gdx.utils.Pool.Poolable;
 import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Scalable;
 
-public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity implements Damager, Scalable{
+public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity implements Damager, Scalable, Poolable{
 	public T type;
 	public Entity owner;
 	public Vector2 velocity = new Vector2();
@@ -38,8 +39,8 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 		time = Mathf.clamp(time, 0, type.lifetime);
 		
 		if(time >= type.lifetime){
-			remove();
 			type.despawned(this);
+			remove();
 		}
 	}
 
@@ -77,6 +78,16 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 	@Override
 	public float fin() {
 		return time/type.lifetime;
+	}
+
+	@Override
+	public void reset() {
+		type = null;
+		owner = null;
+		velocity.setZero();
+		time = 0f;
+		damage = -1;
+		lastX = lastY = Float.NaN;
 	}
 
 	public void setVelocity(float speed, float angle){

@@ -2,6 +2,8 @@ package io.anuke.ucore.util;
 
 import io.anuke.ucore.core.Timers;
 
+import java.util.Arrays;
+
 public class Timer{
 	float[] times;
 	
@@ -23,6 +25,10 @@ public class Timer{
 
 	public void reset(int id, float time){
 		times[id] = Timers.time() - time;
+	}
+
+	public void clear(){
+		Arrays.fill(times, 0);
 	}
 
 	public float getTime(int id){

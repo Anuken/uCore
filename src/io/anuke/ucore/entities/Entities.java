@@ -151,19 +151,11 @@ public class Entities{
 		viewport.set(cam.position.x - cam.viewportWidth / 2 * cam.zoom, cam.position.y - cam.viewportHeight / 2 * cam.zoom, cam.viewportWidth * cam.zoom, cam.viewportHeight * cam.zoom);
 
 		for(Entity e : group.all()){
-			if(!toDraw.test((T)e)) continue;
+			if(!toDraw.test((T)e) || !e.isAdded()) continue;
 			r2.setSize(e.drawSize()).setCenter(e.x, e.y);
 
 			if(r2.overlaps(viewport))
 				e.draw();
-		}
-
-		for(Entity e : group.all()){
-			if(!toDraw.test((T)e)) continue;
-			r2.setSize(e.drawSize()).setCenter(e.x, e.y);
-
-			if(r2.overlaps(viewport))
-				e.drawOver();
 		}
 	}
 	

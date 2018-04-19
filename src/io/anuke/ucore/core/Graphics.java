@@ -143,8 +143,8 @@ public class Graphics{
 	/** Begins drawing on a surface. */
 	public static void surface(Surface surface, boolean clear){
 		if(!surfaceStack.isEmpty()){
-			end();
-			surfaceStack.peek().end(false);
+		//	end();
+		//	surfaceStack.peek().end(false);
 		}
 	
 		surfaceStack.push(surface);
@@ -173,8 +173,8 @@ public class Graphics{
 		if(!end){
 			Surface current = surfaceStack.empty() ? null : surfaceStack.peek();
 	
-			if(current != null)
-				current.begin(false);
+			//if(current != null)
+			//	current.begin(false);
 			begin();
 		}
 	}
@@ -195,8 +195,12 @@ public class Graphics{
 	
 		Surface current = surfaceStack.empty() ? null : surfaceStack.peek();
 	
-		if(current != null)
+		//if(current != null)
+		//	current.begin(false);
+
+		if(current != null){
 			current.begin(false);
+		}
 		
 		beginCam();
 		//Graphics.setScreen();
@@ -256,6 +260,9 @@ public class Graphics{
 			flushSurface();
 			Graphics.shader();
 		}else{
+
+			throw new RuntimeException("Multiple shaders not supported!");
+			/*
 			
 			int i = 0;
 			boolean index = true;
@@ -280,7 +287,7 @@ public class Graphics{
 				index = !index;
 				
 				i ++;
-			}
+			}*/
 		}
 	}
 	

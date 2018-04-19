@@ -19,12 +19,12 @@ public class CacheDrawBatch implements Batch{
     @Override
     public void begin() {
         drawing = true;
-        batch.beginDraw();
+        if(batch != null) batch.beginDraw();
     }
 
     @Override
     public void end() {
-        batch.endDraw();
+        if(batch != null) batch.endDraw();
         drawing = false;
     }
 
@@ -174,17 +174,17 @@ public class CacheDrawBatch implements Batch{
 
     @Override
     public void setProjectionMatrix(Matrix4 projection) {
-        batch.setProjectionMatrix(projection);
+        if(batch != null) batch.setProjectionMatrix(projection);
     }
 
     @Override
     public void setTransformMatrix(Matrix4 transform) {
-        batch.setTransformMatrix(transform);
+        if(batch != null) batch.setTransformMatrix(transform);
     }
 
     @Override
     public void setShader(ShaderProgram shader) {
-        batch.setShader(shader);
+        if(batch != null) batch.setShader(shader);
     }
 
     @Override

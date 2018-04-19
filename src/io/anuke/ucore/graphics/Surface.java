@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Disposable;
-
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Graphics;
 
@@ -23,6 +22,10 @@ public class Surface implements Disposable{
 		this.scale = scale;
 		this.bind = bind;
 		resize();
+	}
+
+	public FrameBuffer getBuffer() {
+		return buffer;
 	}
 
 	public Surface setFixedSize(int width, int height){
@@ -67,8 +70,24 @@ public class Surface implements Disposable{
 	public void begin(){
 		begin(true);
 	}
-	
+
+	private static int begins = 0;
+	private static long lf;
+
 	public void begin(boolean clear){
+		/*
+		if(Gdx.graphics.getFrameId() != lf){
+			Log.info("Begins: {0}", begins);
+			begins = 0;
+			lf = Gdx.graphics.getFrameId();
+		}
+
+		begins ++;
+		StackTraceElement e = Thread.getAllStackTraces().get(Thread.currentThread())[4];
+		StackTraceElement e2 = Thread.getAllStackTraces().get(Thread.currentThread())[5];
+		Log.info("Beginning @ {0}:{1} // {2}:{3}", e.getFileName(), e.getLineNumber(), e2.getFileName(), e2.getLineNumber());
+		*/
+
 		buffer.begin();
 		if(bind != 0) buffer.getColorBufferTexture().bind(bind);
 		
