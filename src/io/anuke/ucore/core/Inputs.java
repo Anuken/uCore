@@ -327,6 +327,34 @@ public class Inputs{
 		}
 	}
 
+	public static float getAxisTapped(String axis){
+		return getAxisTapped("default", axis);
+	}
+
+	public static float getAxisTapped(String section, String name){
+		KeyBinds.Section s = KeyBinds.getSection(section);
+		Axis axis = KeyBinds.getAxis(section, name);
+
+		if(s.device.type == DeviceType.controller){
+			Controller c = s.device.controller;
+
+			if(axis.min.axis){
+				return c.getAxis(axis.min.code) * (axis.min.name().contains("VERTICAL") && !OS.isWindows ? -1 : 1);
+			}else{
+				boolean min = axis.min.pov ? c.getPov(0) == axis.min.direction : c.getButton(axis.min.code),
+						max = axis.max.pov ? c.getPov(0) == axis.max.direction : c.getButton(axis.max.code);
+				return (min && max) || (!min && !max) ? 0 : min ? -1 : 1;
+			}
+		}else{
+			if(axis.min == Input.SCROLL){
+				return scroll();
+			}else {
+				boolean min = keyTap(axis.min, s.device), max = keyTap(axis.max, s.device);
+				return (min && max) || (!min && !max) ? 0 : min ? -1 : 1;
+			}
+		}
+	}
+
 	public static InputDevice getKeyboard(){
 		return devices.get(0);
 	}

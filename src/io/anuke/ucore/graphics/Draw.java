@@ -19,6 +19,7 @@ import static io.anuke.ucore.core.Core.batch;
 
 public class Draw{
 	private static Color[] carr = new Color[3];
+	private static float cwhite = Color.WHITE.toFloatBits();
 
 	public static void sprite(Sprite sprite){
 		sprite.draw(batch);
@@ -76,7 +77,7 @@ public class Draw{
 	}
 
 	public static void color(){
-		color(Color.WHITE);
+		batch.setColor(cwhite);
 	}
 
 	public static void color(float r, float g, float b){

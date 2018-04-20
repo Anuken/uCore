@@ -51,12 +51,15 @@ public class Element extends BaseElement{
 	@Override
 	public void act (float delta) {
 		super.act(delta);
-		if(visibility != null)
-			setVisible(visibility.get());
 		if(touchableSupplier != null)
 			setTouchable(touchableSupplier.get());
 		if(update != null)
 			update.listen();
+	}
+
+	public void updateVisibility(){
+		if(visibility != null)
+			setVisible(visibility.get());
 	}
 	
 	public Vector2 worldPos(){

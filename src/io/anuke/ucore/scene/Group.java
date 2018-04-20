@@ -46,8 +46,12 @@ public class Group extends Element implements Cullable {
 	public void act (float delta) {
 		super.act(delta);
 		Element[] actors = children.begin();
-		for (int i = 0, n = children.size; i < n; i++)
-			actors[i].act(delta);
+		for (int i = 0, n = children.size; i < n; i++) {
+			if(actors[i].isVisible()){
+				actors[i].act(delta);
+			}
+			actors[i].updateVisibility();
+		}
 		children.end();
 	}
 
