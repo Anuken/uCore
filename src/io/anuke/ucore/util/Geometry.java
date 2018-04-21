@@ -26,15 +26,14 @@ public class Geometry{
 	};
 
 	public final static GridPoint2[] d8 = {
-		new GridPoint2(1, 0), 
-		new GridPoint2(0, 1), 
-		new GridPoint2(-1, 0), 
-		new GridPoint2(0, -1),
-		
-		new GridPoint2(1, 1), 
-		new GridPoint2(-1, 1), 
+		new GridPoint2(1, 0),
+		new GridPoint2(1, 1),
+		new GridPoint2(0, 1),
+		new GridPoint2(-1, 1),
+		new GridPoint2(-1, 0),
 		new GridPoint2(-1, -1),
-		new GridPoint2(1, -1)
+		new GridPoint2(0, -1),
+		new GridPoint2(1, -1),
 	};
 
 	public final static GridPoint2[] d8edge = {
