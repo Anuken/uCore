@@ -222,6 +222,25 @@ public class ScrollPane extends WidgetGroup {
 				return true;
 			}
 		});
+
+		addCaptureListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Element actor = ScrollPane.this.hit(x, y, true);
+				if (actor instanceof Slider) {
+					ScrollPane.this.setFlickScroll(false);
+					return true;
+				}
+
+				return super.touchDown(event, x, y, pointer, button);
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				ScrollPane.this.setFlickScroll(true);
+				super.touchUp(event, x, y, pointer, button);
+			}
+		});
 	}
 
 	void resetFade () {
