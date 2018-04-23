@@ -179,18 +179,6 @@ public class Inputs{
 	public static void flipProcessors(){
 		plex.getProcessors().reverse();
 	}
-/*
-	public static boolean keyDown(int key){
-		return Gdx.input.isKeyPressed(key);
-	}
-	
-	public static boolean keyTap(int key){
-		return Gdx.input.isKeyJustPressed(key);
-	}
-
-	public static boolean keyRelease(int key){
-		return keysReleased.contains(key);
-	}*/
 	
 	public static boolean keyDown(String name){
 		return keyDown("default", name);
@@ -394,7 +382,7 @@ public class Inputs{
 
 	/**Represents either a keyboard or controller.*/
 	public static class InputDevice{
-		public static final int BUTTONS = 32;
+		public static final int BUTTONS = 64;
 
 		public final DeviceType type;
 		public final String name;
