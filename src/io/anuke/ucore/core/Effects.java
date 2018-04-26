@@ -18,11 +18,12 @@ public class Effects{
 	private static BiConsumer<Float, Float> shakeProvider;
 	private static final EffectContainer container = new EffectContainer();
 	private static float shakeFalloff = 1000f;
-	private static EffectProvider provider = (effect, color, x, y, rotation) -> {
+	private static EffectProvider provider = (effect, color, x, y, rotation, data) -> {
 		EffectEntity entity = Pools.obtain(EffectEntity.class);
 		entity.effect = effect;
 		entity.color = color;
 		entity.rotation = rotation;
+		entity.data = data;
 		entity.set(x, y);
 		entity.add();
 	};
@@ -35,8 +36,8 @@ public class Effects{
 		shakeProvider = provider;
 	}
 	
-	public static void renderEffect(int id, Effect render, Color color, float life, float rotation, float x, float y){
-		container.set(id, color, life, render.lifetime, rotation, x, y);
+	public static void renderEffect(int id, Effect render, Color color, float life, float rotation, float x, float y, Object data){
+		container.set(id, color, life, render.lifetime, rotation, x, y, data);
 		render.draw.render(container);
 	}
 	
@@ -47,7 +48,7 @@ public class Effects{
 	}
 	
 	public static void effect(Effect effect, float x, float y, float rotation){
-		provider.createEffect(effect, Color.WHITE, x, y, rotation);
+		provider.createEffect(effect, Color.WHITE, x, y, rotation, null);
 	}
 	
 	public static void effect(Effect effect, float x, float y){
@@ -55,15 +56,23 @@ public class Effects{
 	}
 	
 	public static void effect(Effect effect, Color color, float x, float y){
-		provider.createEffect(effect, color, x, y, 0f);
+		provider.createEffect(effect, color, x, y, 0f, null);
 	}
 
 	public static void effect(Effect effect, Position loc){
-		provider.createEffect(effect, Color.WHITE, loc.getX(), loc.getY(), 0f);
+		provider.createEffect(effect, Color.WHITE, loc.getX(), loc.getY(), 0f, null);
 	}
 
 	public static void effect(Effect effect, Color color, float x, float y, float rotation){
-		provider.createEffect(effect, color, x, y, rotation);
+		provider.createEffect(effect, color, x, y, rotation, null);
+	}
+
+	public static void effect(Effect effect, Color color, float x, float y, float rotation, Object data){
+		provider.createEffect(effect, color, x, y, rotation, data);
+	}
+
+	public static void effect(Effect effect, float x, float y, float rotation, Object data){
+		provider.createEffect(effect, Color.WHITE, x, y, rotation, data);
 	}
 	
 	public static void sound(String name){
@@ -130,15 +139,16 @@ public class Effects{
 		public float x, y, time, lifetime, rotation;
 		public Color color;
 		public int id;
+		public Object data;
 		
-		public void set(int id, Color color, float life, float lifetime, float rotation, float x, float y){
-			this.x = x; this.y = y; this.color = color; this.time = life; this.lifetime = lifetime; this.id = id; this.rotation = rotation;
+		public void set(int id, Color color, float life, float lifetime, float rotation, float x, float y, Object data){
+			this.x = x; this.y = y; this.color = color; this.time = life; this.lifetime = lifetime; this.id = id; this.rotation = rotation; this.data = data;
 		}
 
 		public void scaled(float lifetime, Consumer<EffectContainer> cons){
 			if(innerContainer == null) innerContainer = new EffectContainer();
 			if(time <= lifetime){
-				innerContainer.set(id, color, time, lifetime, rotation, x, y);
+				innerContainer.set(id, color, time, lifetime, rotation, x, y, data);
 				cons.accept(innerContainer);
 			}
 		}

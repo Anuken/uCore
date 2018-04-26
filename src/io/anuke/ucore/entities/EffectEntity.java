@@ -9,23 +9,43 @@ import io.anuke.ucore.core.Effects.Effect;
 public class EffectEntity extends TimedEntity implements Poolable{
 	public Effect effect;
 	public Color color = Color.WHITE;
+	public Object data;
 	public float rotation = 0f;
+
+	public Entity parent;
+	public float poffsetx, poffsety;
 
 	/**For pooling use only!*/
 	public EffectEntity(){
+	}
+
+	public void setParent(Entity parent){
+		this.parent = parent;
+		this.poffsetx = x - parent.x;
+		this.poffsety = y - parent.y;
+	}
+
+	@Override
+	public void update() {
+		super.update();
+		if(parent != null){
+			x = parent.x + poffsetx;
+			y = parent.y + poffsety;
+		}
 	}
 
 	@Override
 	public void reset() {
 		effect = null;
 		color = Color.WHITE;
-		rotation = 0f;
-		time = 0f;
+		rotation = time = poffsetx = poffsety = 0f;
+		parent = null;
+		data = null;
 	}
 
 	@Override
 	public void draw(){
-		Effects.renderEffect(id, effect, color, time, rotation, x, y);
+		Effects.renderEffect(id, effect, color, time, rotation, x, y, data);
 	}
 
 	@Override

@@ -29,9 +29,8 @@ import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-
-import io.anuke.ucore.util.Atlas;
 import io.anuke.ucore.scene.style.*;
+import io.anuke.ucore.util.Atlas;
 
 /** A skin stores resources for UI widgets to use (texture regions, ninepatches, fonts, colors, etc). Resources are named and can
  * be looked up by name and type. Resources can be described in JSON. Skin provides useful conversions, such as allowing access to
@@ -419,6 +418,10 @@ public class Skin implements Disposable {
 		};
 		json.setTypeName(null);
 		json.setUsePrototypes(false);
+
+		for(ObjectMap.Entry<String, Class<?>> entry : SkinAlias.aliases){
+			json.addClassTag(entry.key, entry.value);
+		}
 
 		json.setSerializer(Skin.class, new ReadOnlySerializer<Skin>() {
 			public Skin read (Json json, JsonValue typeToValueMap, Class ignored) {
