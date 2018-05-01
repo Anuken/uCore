@@ -43,6 +43,19 @@ public class Geometry{
 		new GridPoint2(1, -1)
 	};
 
+	public static <T extends Position> T findClosest(float x, float y, Iterable<T> list){
+		T closest = null;
+		float cdist = 0f;
+		for(T t : list){
+			float dst = t.distanceTo(x, y);
+			if(closest == null || dst < cdist){
+				closest = t;
+				cdist = dst;
+			}
+		}
+		return closest;
+	}
+
 	public static Vector2[] pixelCircle(float index){
 		int size = (int)(index*2);
 		IntArray ints = new IntArray();

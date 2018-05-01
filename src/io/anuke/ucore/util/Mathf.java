@@ -123,7 +123,7 @@ public class Mathf{
 	}
 	
 	public static boolean angNear(float a, float b, float range){
-		return Math.abs(a-b) < range || Math.abs((360f-a)-b) < range;
+		return Angles.angleDist(a, b) < range;
 	}
 
 	/**Mutates the first vector. Goes forward. Used for value greater than 1.*/

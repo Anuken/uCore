@@ -1,7 +1,5 @@
 package io.anuke.ucore.entities;
 
-import com.badlogic.gdx.math.Vector2;
-import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Position;
 
 public abstract class Entity implements Position{
@@ -46,30 +44,6 @@ public abstract class Entity implements Position{
 
 	public EntityGroup<?> getGroup() {
 		return group;
-	}
-
-	public float angleTo(Entity other){
-		return Mathf.atan2(other.x - x, other.y - y);
-	}
-	
-	public float angleTo(Entity other, float yoffset){
-		return Mathf.atan2(other.x - x, other.y - (y+yoffset));
-	}
-	
-	public float angleTo(float ox, float oy){
-		return Mathf.atan2(ox - x, oy - y);
-	}
-	
-	public float angleTo(Entity other, float xoffset, float yoffset){
-		return Mathf.atan2(other.x - (x+xoffset), other.y - (y+yoffset));
-	}
-	
-	public float distanceTo(Entity other){
-		return Vector2.dst(other.x, other.y, x, y);
-	}
-	
-	public float distanceTo(float ox, float oy){
-		return Vector2.dst(ox, oy, x, y);
 	}
 	
 	public float drawSize(){

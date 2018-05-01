@@ -147,6 +147,10 @@ public class Entities{
 	}
 
 	public static <T extends Entity> void draw(EntityGroup<T> group, Predicate<T> toDraw){
+		drawWith(group, toDraw, Entity::draw);
+	}
+
+	public static <T extends Entity> void drawWith(EntityGroup<T> group, Predicate<T> toDraw, Consumer<T> cons){
 		OrthographicCamera cam = Core.camera;
 		viewport.set(cam.position.x - cam.viewportWidth / 2 * cam.zoom, cam.position.y - cam.viewportHeight / 2 * cam.zoom, cam.viewportWidth * cam.zoom, cam.viewportHeight * cam.zoom);
 
@@ -154,8 +158,9 @@ public class Entities{
 			if(!toDraw.test((T)e) || !e.isAdded()) continue;
 			r2.setSize(e.drawSize()).setCenter(e.x, e.y);
 
-			if(r2.overlaps(viewport))
-				e.draw();
+			if(r2.overlaps(viewport)) {
+				cons.accept((T)e);
+			}
 		}
 	}
 	
