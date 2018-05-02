@@ -167,8 +167,13 @@ public class KeyBinds{
 		Section s = map.get(section);
 		if(s == null)
 			throw new IllegalArgumentException("No section \"" + section + "\" found!");
-		if(!s.axisDefaults.get(s.device.type).containsKey(name))
-			throw new IllegalArgumentException("No axis \"" + name + "\" found in section \"" + section + "\"");
+		if(!s.axisDefaults.get(s.device.type).containsKey(name)) {
+			if(s.axisDefaults.get(DeviceType.keyboard).containsKey(name)){
+				return s.axisBinds.get(DeviceType.keyboard).get(name, s.axisDefaults.get(DeviceType.keyboard).get(name));
+			}else {
+				throw new IllegalArgumentException("No axis \"" + name + "\" found in section \"" + section + "\"");
+			}
+		}
 
 		return s.axisBinds.get(s.device.type).get(name, s.axisDefaults.get(s.device.type).get(name));
 	}

@@ -31,7 +31,7 @@ public class Angles{
 	}
 
 	static public float moveToward(float angle, float to, float speed){
-		if(Math.abs(angleDist(angle, to)) < speed)return to;
+		if(Math.abs(angleDist(angle, to)) < speed) return to;
 
 		if((angle > to && backwardDistance(angle, to) > forwardDistance(angle, to)) || 
 				(angle < to && backwardDistance(angle, to) < forwardDistance(angle, to)) ){

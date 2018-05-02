@@ -99,18 +99,10 @@ public class Timers{
 	}
 
 	public static void mark(){
-		lastMark = TimeUtils.millis();
-	}
-	
-	public static long elapsed(){
-		return TimeUtils.timeSinceMillis(lastMark);
-	}
-
-	public static void markNs(){
 		lastMark = TimeUtils.nanoTime();
 	}
 
-	public static float elapsedNs(){
+	public static float elapsed(){
 		return (TimeUtils.timeSinceNanos(lastMark)/1000000f);
 	}
 	

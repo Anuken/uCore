@@ -186,11 +186,11 @@ public class EntityCollisions {
 
             float f = 0.2f;
 
-            a.x = Mathf.lerpDelta(a.x, xb - l1.x, f);
-            a.y = Mathf.lerpDelta(a.y, yb - l1.y, f);
+            a.move(Mathf.lerpDelta(a.x, xb - l1.x, f) - a.x,
+                    Mathf.lerpDelta(a.y, yb - l1.y, f) - a.y);
 
-            b.x = Mathf.lerpDelta(b.x, xa + l1.x, f);
-            b.y = Mathf.lerpDelta(b.y, ya + l1.y, f);
+            b.move(Mathf.lerpDelta(b.x, xa + l1.x, f) - b.x,
+                    Mathf.lerpDelta(b.y, ya + l1.y, f) - b.y);
         }
     }
 
