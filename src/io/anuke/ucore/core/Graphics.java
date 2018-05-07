@@ -173,8 +173,8 @@ public class Graphics{
 		if(!end){
 			Surface current = surfaceStack.empty() ? null : surfaceStack.peek();
 	
-			//if(current != null)
-			//	current.begin(false);
+			if(current != null)
+				current.begin(false);
 			begin();
 		}
 	}
