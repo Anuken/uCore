@@ -13,7 +13,7 @@ public abstract class BaseBulletType<T extends BulletEntity>{
 	public final int id = lastid ++;
 	public float lifetime = 100;
 	public float speed = 1f;
-	public int damage = 1;
+	public float damage = 1;
 	public float hitsize = 4;
 	public float drawSize = 20f;
 	public float drag = 0f;

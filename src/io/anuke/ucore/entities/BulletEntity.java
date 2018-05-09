@@ -13,7 +13,7 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 	public Vector2 velocity = new Vector2();
 	public float time = 0f;
 	/**-1 to use type's damage.*/
-	public int damage = -1;
+	public float damage = Float.MIN_VALUE;
 	
 	public BulletEntity(){}
 	
@@ -55,8 +55,8 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 	}
 
 	@Override
-	public int getDamage(){
-		return damage == -1 ? type.damage : damage;
+	public float getDamage(){
+		return damage == Float.MIN_VALUE ? type.damage : damage;
 	}
 	
 	@Override
