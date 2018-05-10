@@ -10,10 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 import io.anuke.ucore.UCore;
-import io.anuke.ucore.core.Core;
-import io.anuke.ucore.core.Effects;
-import io.anuke.ucore.core.Graphics;
-import io.anuke.ucore.core.Settings;
+import io.anuke.ucore.core.*;
 import io.anuke.ucore.graphics.Surface;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Tmp;
@@ -56,7 +53,7 @@ public abstract class RendererModule extends Module{
 	}
 	
 	public void smoothCamera(float x, float y, float alpha){
-		camera.position.interpolate(Tmp.v31.set(x, y, 0), Math.min(alpha*delta(), 1f), Interpolation.linear);
+		camera.position.interpolate(Tmp.v31.set(x, y, 0), Math.min(alpha*Timers.delta(), 1f), Interpolation.linear);
 	}
 	
 	public void limitCamera(float lim, float targetX, float targetY){
@@ -108,8 +105,8 @@ public abstract class RendererModule extends Module{
 		if(shaketime > 0){
 			float intensity = shakeIntensity*(Settings.getInt("screenshake")/4f)*scale;
 			camera.position.add(Mathf.range(intensity), Mathf.range(intensity), 0);
-			shakeIntensity -= 0.25f*delta();
-			shaketime -= delta();
+			shakeIntensity -= 0.25f*Timers.delta();
+			shaketime -= Timers.delta();
 			shakeIntensity = Mathf.clamp(shakeIntensity, 0f, 100f);
 		}else{
 			shakeIntensity = 0f;

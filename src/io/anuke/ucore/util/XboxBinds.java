@@ -60,7 +60,7 @@ public class XboxBinds {
             R_STICK_VERTICAL_AXIS = 3;
             R_STICK_HORIZONTAL_AXIS = 2;
             R_STICK = 10;
-        } else if (OS.isLinux) {
+        } else if (OS.isLinux || OS.isMac) {
             A = 0;
             B = 1;
             X = 2;
