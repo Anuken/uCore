@@ -104,28 +104,6 @@ public class XboxBinds {
             R_STICK_VERTICAL_AXIS = 14;
             R_STICK_HORIZONTAL_AXIS = 11;
             R_STICK = 107;
-        } else if (OS.isMac) {
-            A = 11;
-            B = 12;
-            X = 13;
-            Y = 14;
-            GUIDE = 10;
-            L_BUMPER = 8;
-            R_BUMPER = 9;
-            BACK = 5;
-            START = 4;
-            DPAD_UP = 0;
-            DPAD_DOWN = 1;
-            DPAD_LEFT = 2;
-            DPAD_RIGHT = 3;
-            L_TRIGGER = 0;
-            R_TRIGGER = 1;
-            L_STICK_VERTICAL_AXIS = 3;
-            L_STICK_HORIZONTAL_AXIS = 2;
-            L_STICK = -1;
-            R_STICK_VERTICAL_AXIS = 5;
-            R_STICK_HORIZONTAL_AXIS = 4;
-            R_STICK = -1;
         } else { //fallback controls.
             A = Xbox.A;
             B = Xbox.B;
