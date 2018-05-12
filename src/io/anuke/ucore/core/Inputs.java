@@ -163,6 +163,11 @@ public class Inputs{
 	public static void clearProcessors(){
 		plex.getProcessors().clear();
 	}
+
+	public static void removeProcessor(InputProcessor listener){
+	    plex.removeProcessor(listener);
+	    Gdx.input.setInputProcessor(plex);
+    }
 	
 	/**Adds another input processor to the chain.*/
 	public static void addProcessor(InputProcessor listener){
@@ -382,7 +387,7 @@ public class Inputs{
 
 	/**Represents either a keyboard or controller.*/
 	public static class InputDevice{
-		public static final int BUTTONS = 64;
+		public static final int BUTTONS = 256;
 
 		public final DeviceType type;
 		public final String name;

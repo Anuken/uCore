@@ -129,12 +129,6 @@ public class XboxBinds {
         }
     }
 
-    /** @return whether the {@link Controller} is an Xbox controller
-     */
-    public static boolean isXboxController(Controller controller) {
-        return controller.getName().contains("Xbox");
-    }
-
     private static int getBind(String name){
         try{
             return (Integer) ClassReflection.getField(XboxBinds.class, name).get(null);
