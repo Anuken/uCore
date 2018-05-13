@@ -18,6 +18,7 @@ import io.anuke.ucore.core.Inputs.ControllerType;
 import io.anuke.ucore.core.Inputs.DeviceType;
 import io.anuke.ucore.core.Inputs.InputDevice;
 import io.anuke.ucore.core.KeyBinds;
+import io.anuke.ucore.core.KeyBinds.Category;
 import io.anuke.ucore.core.KeyBinds.Keybind;
 import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.scene.event.InputEvent;
@@ -25,8 +26,8 @@ import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.ui.layout.Stack;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.util.Bundles;
-import io.anuke.ucore.util.Input;
-import io.anuke.ucore.util.Input.Type;
+import io.anuke.ucore.input.Input;
+import io.anuke.ucore.input.Input.Type;
 import io.anuke.ucore.util.Strings;
 
 public class KeybindDialog extends Dialog{
@@ -173,11 +174,17 @@ public class KeybindDialog extends Dialog{
 			}
 			table.row();
 
+            Category lastCategory = null;
+
 			for(Keybind keybind : section.keybinds.get(section.device.type)){
+			    if(lastCategory != keybind.category && keybind.category != null){
+			        table.add(keybind.category.name).color(Color.GRAY).colspan(3).pad(10).padBottom(4).row();
+			        table.addImage("white").color(Color.GRAY).fillX().height(3).pad(6).colspan(3).padTop(0).padBottom(10).row();
+			        lastCategory = keybind.category;
+                }
 				String key = keybind.name;
-				if(keybind.isAxis()) {
-					Axis def = keybind.axis;
-					Axis axis = section.axisBinds.get(section.device.type).get(keybind.name);
+				if(keybind.input instanceof Axis) {
+					Axis axis = (Axis) KeyBinds.get(section.name, keybind.name);
 					table.add(Strings.capitalize(Bundles.get("keybind."+key+".name", key)), style.keyNameColor).left().padRight(40).padLeft(8);
 
 					if(axis.min.axis){
@@ -231,7 +238,11 @@ public class KeybindDialog extends Dialog{
 		rebindDialog.hide();
 
 		if(rebindAxis){
-			Axis axis = section.axisBinds.get(section.device.type).get(rebindKey);
+			Axis axis = (Axis) section.binds.get(section.device.type).get(rebindKey);
+			if(axis == null){
+			    axis = (Axis) section.defaults.get(section.device.type).get(rebindKey).copy();
+            }
+
 			if(input.axis){
 				axis.min = input;
 			}else{
@@ -241,6 +252,8 @@ public class KeybindDialog extends Dialog{
 					axis.max = input;
 				}
 			}
+
+            section.binds.get(section.device.type).put(rebindKey, axis);
 		}else{
 			section.binds.get(section.device.type).put(rebindKey, input);
 		}

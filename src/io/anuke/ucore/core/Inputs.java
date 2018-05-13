@@ -11,8 +11,8 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
 import io.anuke.ucore.core.KeyBinds.Section;
-import io.anuke.ucore.util.Input;
-import io.anuke.ucore.util.Input.Type;
+import io.anuke.ucore.input.Input;
+import io.anuke.ucore.input.Input.Type;
 import io.anuke.ucore.util.Log;
 import io.anuke.ucore.util.OS;
 
@@ -220,10 +220,10 @@ public class Inputs{
 	public static boolean keyDown(String section, String name){
 		KeyBinds.Section s = KeyBinds.getSection(section);
 		if(KeyBinds.has(section, name)){
-			Input input = KeyBinds.get(section, s.device.type, name);
+			Input input = (Input) KeyBinds.get(section, s.device.type, name);
 			return keyDown(input, s.device);
 		}else{
-			Input input = KeyBinds.get(section, DeviceType.keyboard, name);
+			Input input = (Input) KeyBinds.get(section, DeviceType.keyboard, name);
 			return keyDown(input, getKeyboard());
 		}
 	}
@@ -251,10 +251,10 @@ public class Inputs{
 	public static boolean keyTap(String section, String name){
 		KeyBinds.Section s = KeyBinds.getSection(section);
 		if(KeyBinds.has(section, name)){
-			Input input = KeyBinds.get(section, name);
+			Input input = (Input) KeyBinds.get(section, name);
 			return keyTap(input, s.device);
 		}else{
-			Input input = KeyBinds.get(section, DeviceType.keyboard, name);
+			Input input = (Input) KeyBinds.get(section, DeviceType.keyboard, name);
 			return keyTap(input, getKeyboard());
 		}
 	}
@@ -280,7 +280,7 @@ public class Inputs{
 
 	public static boolean keyRelease(String section, String name){
 		KeyBinds.Section s = KeyBinds.getSection(section);
-		Input input = KeyBinds.get(section, name);
+		Input input = (Input) KeyBinds.get(section, name);
 		if(KeyBinds.has(section, name)){
 			return keyRelease(input, s.device);
 		}else{
@@ -298,7 +298,7 @@ public class Inputs{
 
 	public static float getAxis(String section, String name){
 		KeyBinds.Section s = KeyBinds.getSection(section);
-		Axis axis = KeyBinds.getAxis(section, name);
+		Axis axis = (Axis) KeyBinds.get(section, name);
 
 		if(s.device.type == DeviceType.controller){
 			Controller c = s.device.controller;
@@ -326,7 +326,7 @@ public class Inputs{
 
 	public static float getAxisTapped(String section, String name){
 		KeyBinds.Section s = KeyBinds.getSection(section);
-		Axis axis = KeyBinds.getAxis(section, name);
+		Axis axis = (Axis) KeyBinds.get(section, name);
 
 		if(s.device.type == DeviceType.controller){
 			Controller c = s.device.controller;
@@ -416,10 +416,12 @@ public class Inputs{
 
 	//TODO 2D axes, like controller sticks, as having two different axes is confusing.
 	//TODO don't treat triggers as axes?
-	/**Represents an input axis. When using a mouse or keyboard, both values are used;
-	 * When a controller is used, min is the only key checked, as it is already an axis.*/
-	public static class Axis{
+	/**Represents a 1-dimensional input axis. If a button already has an axis, such as the scrollwheel or directional
+     * stick on the controller, only the 'min' input is used.*/
+	public static class Axis implements InputType{
 		public Input min, max;
+
+		public Axis(){}
 
 		/**Cosntructor for axes only.*/
 		public Axis(Input axis){
@@ -431,7 +433,16 @@ public class Inputs{
 			this.min = min;
 			this.max = max;
 		}
-	}
+
+        @Override
+        public InputType copy() {
+            return new Axis(min, max);
+        }
+    }
+
+    public interface InputType{
+        InputType copy();
+    }
 	
 	public enum DeviceType{
 		keyboard, controller
