@@ -170,8 +170,12 @@ public class KeyBinds{
 		Section s = getSection(section);
 		if(s == null)
 			throw new IllegalArgumentException("No section \"" + section + "\" found!");
-		if(!s.defaults.get(type).containsKey(name))
-			throw new IllegalArgumentException("No keybind \"" + name + "\" found in section \"" + section + "\"");
+		if(!s.defaults.get(type).containsKey(name)) {
+		    if(s.defaults.get(DeviceType.keyboard).containsKey(name)){
+                return s.binds.get(DeviceType.keyboard).get(name, s.defaults.get(DeviceType.keyboard).get(name));
+            }
+            throw new IllegalArgumentException("No keybind \"" + name + "\" found in section \"" + section + "\"");
+        }
 
 		return s.binds.get(type).get(name, s.defaults.get(type).get(name));
 	}
