@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import io.anuke.ucore.core.Core;
 import io.anuke.ucore.util.Tmp;
 
 import static io.anuke.ucore.core.Core.batch;
@@ -12,6 +13,37 @@ import static io.anuke.ucore.core.Core.batch;
 public class Fill {
     private static Sprite sprite;
     private static TextureRegion blankregion = Pixmaps.blankTextureRegion();
+    private static float[] vertices = new float[20];
+
+    public static void tri(float x1, float y1, float x2, float y2, float x3, float y3){
+        int i = 0;
+        float color = Core.batch.getPackedColor();
+        vertices[i ++] = x1;
+        vertices[i ++] = y1;
+        vertices[i ++] = color;
+        vertices[i ++] = 0;
+        vertices[i ++] = 0;
+
+        vertices[i ++] = x2;
+        vertices[i ++] = y2;
+        vertices[i ++] = color;
+        vertices[i ++] = 0;
+        vertices[i ++] = 0;
+
+        vertices[i ++] = x3;
+        vertices[i ++] = y3;
+        vertices[i ++] = color;
+        vertices[i ++] = 0;
+        vertices[i ++] = 0;
+
+        vertices[i ++] = x3;
+        vertices[i ++] = y3;
+        vertices[i ++] = color;
+        vertices[i ++] = 0;
+        vertices[i ++] = 0;
+
+        batch.draw(blankregion.getTexture(), vertices, 0, vertices.length);
+    }
 
     public static void gradient(Color left, Color right, float alpha, float x, float y, float w, float h){
         if(sprite == null)

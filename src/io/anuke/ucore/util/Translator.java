@@ -2,7 +2,7 @@ package io.anuke.ucore.util;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class Translator extends Vector2{
+public class Translator extends Vector2 implements Position{
 
     public Translator trns(float angle, float amount){
         set(amount, 0).rotate(angle);
@@ -26,4 +26,13 @@ public class Translator extends Vector2{
         return this;
     }
 
+    @Override
+    public float getX() {
+        return x;
+    }
+
+    @Override
+    public float getY() {
+        return y;
+    }
 }
