@@ -92,4 +92,8 @@ public class Fill {
     public static void crect(Rectangle rect){
         batch.draw(blankregion, rect.x, rect.y, rect.width, rect.height);
     }
+
+    public static TextureRegion getRegion(){
+        return blankregion;
+    }
 }
