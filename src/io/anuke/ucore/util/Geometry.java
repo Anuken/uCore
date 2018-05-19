@@ -69,15 +69,19 @@ public class Geometry{
 		return closest;
 	}
 
-	public static Vector2[] pixelCircle(float index){
+    public static Vector2[] pixelCircle(float tindex){
+        return pixelCircle(tindex, (index, x, y) -> Vector2.dst(x, y, index, index) < index - 0.5f);
+    }
+
+	public static Vector2[] pixelCircle(float index, SolidChecker checker){
 		int size = (int)(index*2);
 		IntArray ints = new IntArray();
 
 		//add edges (bottom left corner)
 		for(int x = -1; x < size+1; x ++){
 			for(int y = -1; y < size+1; y ++){
-				if((solid(index, x, y) || solid(index, x-1, y) || solid(index, x, y-1) || solid(index, x-1, y-1)) &&
-						!(solid(index, x, y) && solid(index, x-1, y) && solid(index, x, y-1) && solid(index, x-1, y-1))){
+				if((checker.solid(index, x, y) || checker.solid(index, x-1, y) || checker.solid(index, x, y-1) || checker.solid(index, x-1, y-1)) &&
+						!(checker.solid(index, x, y) && checker.solid(index, x-1, y) && checker.solid(index, x, y-1) && checker.solid(index, x-1, y-1))){
 					ints.add(x+y*(size+1));
 				}
 			}
@@ -108,9 +112,9 @@ public class Geometry{
 		return path.toArray(Vector2.class);
 	}
 
-	private static boolean solid(float index, int x, int y){
-		return Vector2.dst(x, y, index, index) < index - 0.5f;
-	}
+	public interface SolidChecker{
+        boolean solid(float index, int x, int y);
+    }
 	
 	/**returns a regular polygon with {amount} sides*/
 	public static float[] regPoly(int amount, float size){
