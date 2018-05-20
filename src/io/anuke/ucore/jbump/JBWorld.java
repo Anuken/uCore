@@ -28,12 +28,10 @@ import static java.lang.Math.min;
 
 /**
  * Taken from the jBump source.
- * @author tao
- */
+ * @author tao*/
 public class JBWorld<E> {
 
 	private HashMap<Float, HashMap<Float, JBCell>> rows = new HashMap<>();
-	private HashMap<JBCell, Boolean> nonEmptyCells = new HashMap<>();
 	private JBGrid grid = new JBGrid();
 	private boolean tileMode = true;
 
@@ -49,15 +47,15 @@ public class JBWorld<E> {
 		if(!rows.containsKey(cy)){
 			rows.put(cy, new HashMap<>());
 		}
+
 		HashMap<Float, JBCell> row = rows.get(cy);
 		if(!row.containsKey(cx)){
 			row.put(cx, new JBCell());
 		}
 		JBCell cell = row.get(cx);
 
-		nonEmptyCells.put(cell, true);
-		if(!cell.items.containsKey(item)){
-			cell.items.put(item, true);
+		if(!cell.items.contains(item)){
+			cell.items.add(item);
 			cell.itemCount = cell.itemCount + 1;
 		}
 	}
@@ -71,18 +69,15 @@ public class JBWorld<E> {
 			return false;
 		}
 		JBCell cell = row.get(cx);
-		if(!cell.items.containsKey(item)){
+		if(!cell.items.contains(item)){
 			return false;
 		}
 		cell.items.remove(item);
 		cell.itemCount = cell.itemCount - 1;
-		if(cell.itemCount == 0){
-			nonEmptyCells.remove(cell);
-		}
 		return true;
 	}
 
-	private HashMap<JBItem, Boolean> getDictItemsInCellRect(float cl, float ct, float cw, float ch, HashMap<JBItem, Boolean> result){
+	private ObjectSet<JBItem> getDictItemsInCellRect(float cl, float ct, float cw, float ch, ObjectSet<JBItem> result){
 		result.clear();
 		for(float cy = ct; cy < ct + ch; cy++){
 			if(rows.containsKey(cy)){
@@ -91,8 +86,8 @@ public class JBWorld<E> {
 					if(row.containsKey(cx)){
 						JBCell cell = row.get(cx);
 						if(cell.itemCount > 0){
-							for(JBItem item : cell.items.keySet()){
-								result.put(item, true);
+							for(JBItem item : cell.items){
+								result.add(item);
 							}
 						}
 					}
@@ -136,7 +131,7 @@ public class JBWorld<E> {
 
 	private final ObjectSet<JBItem> project_visited = new ObjectSet<>();
 	private final Rectangle project_c = new Rectangle();
-	private final HashMap<JBItem, Boolean> project_dictItemsInCellRect = new HashMap<>();
+	private final ObjectSet<JBItem> project_dictItemsInCellRect = new ObjectSet<>();
 
 	public JBCollisions project(JBItem item, float x, float y, float w, float h, float goalX, float goalY, CollisionFilter filter, JBCollisions collisions){
 		collisions.clear();
@@ -156,8 +151,8 @@ public class JBWorld<E> {
 		grid.toCellRect(cellSize, tl, tt, tw, th, project_c);
 		float cl = project_c.x, ct = project_c.y, cw = project_c.width, ch = project_c.height;
 
-		HashMap<JBItem, Boolean> dictItemsInCellRect = getDictItemsInCellRect(cl, ct, cw, ch, project_dictItemsInCellRect);
-		for(JBItem other : dictItemsInCellRect.keySet()){
+		ObjectSet<JBItem> dictItemsInCellRect = getDictItemsInCellRect(cl, ct, cw, ch, project_dictItemsInCellRect);
+		for(JBItem other : dictItemsInCellRect){
 			if(!visited.contains(other)){
 				visited.add(other);
 				JBResponse response = filter.filter(item, other);
@@ -349,13 +344,9 @@ public class JBWorld<E> {
 		public int itemCount = 0;
 		public float x;
 		public float y;
-		public HashMap<JBItem, Boolean> items = new HashMap<>();
+		public ObjectSet<JBItem> items = new ObjectSet<>();
 	}
 
-	/**
-     *
-     * @author tao
-     */
     public static class JBItem<E> {
 
         public E userData;
