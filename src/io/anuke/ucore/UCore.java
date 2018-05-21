@@ -3,7 +3,6 @@ package io.anuke.ucore;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.Method;
@@ -11,9 +10,9 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.function.Callable;
 import io.anuke.ucore.util.Log;
+import io.anuke.ucore.util.OS;
 
 public class UCore{
-	private static Logger logger;
 
 	public static void profile(int iterations, Callable c1, Callable c2){
 		//warmup
@@ -37,22 +36,8 @@ public class UCore{
 
 	public static boolean isAssets(){
 		return Gdx.app != null && Gdx.app.getType() != ApplicationType.WebGL
-				&& getProperty("user.name").equals("anuke")
+				&& OS.getProperty("user.name").equals("anuke")
 				&& getAbsolute(Gdx.files.local("na").parent()).endsWith("assets");
-	}
-
-	public static String getProperty(String name){
-		try{
-			Method method = ClassReflection.getMethod(System.class, "getProperty", String.class);
-			return (String)method.invoke(null, name);
-		}catch(Exception e){
-			return null;
-		}
-	}
-
-	public static String getPropertyNotNull(String name){
-		String s = getProperty(name);
-		return s == null ? "" : s;
 	}
 
 	public static String getAbsolute(FileHandle file){
