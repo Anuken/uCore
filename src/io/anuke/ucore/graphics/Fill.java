@@ -85,6 +85,10 @@ public class Fill {
         batch.draw(blankregion, x - width / 2f, y - height / 2f, width, height);
     }
 
+    public static void square(float x, float y, float radius){
+        rect(x, y, radius, radius);
+    }
+
     public static void crect(float x, float y, float width, float height){
         batch.draw(blankregion, x, y, width, height);
     }

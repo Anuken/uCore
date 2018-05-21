@@ -4,6 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Translator extends Vector2 implements Position{
 
+    public Translator(){}
+
+    public Translator(float x, float y){
+        super(x, y);
+    }
+
     public Translator trns(float angle, float amount){
         set(amount, 0).rotate(angle);
 

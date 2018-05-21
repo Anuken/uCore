@@ -58,6 +58,7 @@ public class Draw{
 		batch.setColor(Hue.mix(carr, Tmp.c1, progress));
 	}
 
+	@Deprecated
 	public static void color(String name){
 		color(Colors.get(name));
 	}
