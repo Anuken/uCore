@@ -43,6 +43,18 @@ public class Geometry{
 		new GridPoint2(1, -1)
 	};
 
+	public static GridPoint2 d4(int i){
+		return d4[Mathf.mod(i, 4)];
+	}
+
+	public static GridPoint2 d8(int i){
+		return d8[Mathf.mod(i, 8)];
+	}
+
+	public static GridPoint2 d8edge(int i){
+		return d8edge[Mathf.mod(i, 4)];
+	}
+
     public static <T extends Position> T findClosest(float x, float y, T[] list){
         T closest = null;
         float cdist = 0f;
