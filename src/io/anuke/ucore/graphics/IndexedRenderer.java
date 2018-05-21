@@ -1,11 +1,9 @@
 package io.anuke.ucore.graphics;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
@@ -14,7 +12,7 @@ import com.badlogic.gdx.utils.Disposable;
 public class IndexedRenderer implements Disposable{
     private final static int vsize = 5;
 
-    private ShaderProgram program = createDefaultShader();
+    private ShaderProgram program = SpriteBatch.createDefaultShader();
     private Mesh mesh;
     private float[] tmpVerts = new float[vsize * 6];
     private float[] vertices;
@@ -22,6 +20,7 @@ public class IndexedRenderer implements Disposable{
     private Matrix4 projMatrix = new Matrix4();
     private Matrix4 transMatrix = new Matrix4();
     private Matrix4 combined = new Matrix4();
+    private float color = Color.WHITE.toFloatBits();
 
     public IndexedRenderer(int sprites){
         resize(sprites);
@@ -44,7 +43,11 @@ public class IndexedRenderer implements Disposable{
         program.end();
     }
 
-    public void draw(int index, TextureRegion region, float x, float y, float z, float w, float h){
+    public void setColor(Color color){
+        this.color = color.toFloatBits();
+    }
+
+    public void draw(int index, TextureRegion region, float x, float y, float w, float h){
         final float fx2 = x + w;
         final float fy2 = y + h;
         final float u = region.getU();
@@ -57,38 +60,38 @@ public class IndexedRenderer implements Disposable{
         int idx = 0;
         vertices[idx ++] = x;
         vertices[idx ++] = y;
-        vertices[idx ++] = z;
+        vertices[idx ++] = color;
         vertices[idx ++] = u;
         vertices[idx ++] = v;
 
         vertices[idx ++] = x;
         vertices[idx ++] = fy2;
-        vertices[idx ++] = z;
+        vertices[idx ++] = color;
         vertices[idx ++] = u;
         vertices[idx ++] = v2;
 
         vertices[idx ++] = fx2;
         vertices[idx ++] = fy2;
-        vertices[idx ++] = z;
+        vertices[idx ++] = color;
         vertices[idx ++] = u2;
         vertices[idx ++] = v2;
 
         //tri2
         vertices[idx ++] = x;
         vertices[idx ++] = y;
-        vertices[idx ++] = z;
+        vertices[idx ++] = color;
         vertices[idx ++] = u;
         vertices[idx ++] = v;
 
         vertices[idx ++] = fx2;
         vertices[idx ++] = y;
-        vertices[idx ++] = z;
+        vertices[idx ++] = color;
         vertices[idx ++] = u2;
         vertices[idx ++] = v;
 
         vertices[idx ++] = fx2;
         vertices[idx ++] = fy2;
-        vertices[idx ++] = z;
+        vertices[idx ++] = color;
         vertices[idx ++] = u2;
         vertices[idx ++] = v2;
 
@@ -115,7 +118,8 @@ public class IndexedRenderer implements Disposable{
         if(mesh != null) mesh.dispose();
 
         mesh = new Mesh(true, 6*sprites, 0,
-                new VertexAttribute(Usage.Position, 3, "a_position"),
+                new VertexAttribute(Usage.Position, 2, "a_position"),
+                new VertexAttribute(Usage.ColorPacked, 4, "a_color"),
                 new VertexAttribute(Usage.TextureCoordinates, 2, "a_texCoord0"));
         vertices = new float[6*sprites*vsize];
         mesh.setVertices(vertices);
