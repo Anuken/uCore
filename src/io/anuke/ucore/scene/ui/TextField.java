@@ -40,7 +40,9 @@ import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.utils.Disableable;
 import io.anuke.ucore.scene.utils.UIUtils;
+import io.anuke.ucore.util.Bundles;
 import io.anuke.ucore.util.Mathf;
+import io.anuke.ucore.util.OS;
 
 import java.lang.StringBuilder;
 
@@ -335,12 +337,15 @@ public class TextField extends Element implements Disableable {
 		float yOffset = font.isFlipped() ? -textHeight : 0;
 		if (displayText.length() == 0) {
 			if (!focused && messageText != null) {
-				if (style.messageFontColor != null) {
-					font.setColor(style.messageFontColor.r, style.messageFontColor.g, style.messageFontColor.b,
-						style.messageFontColor.a * color.a * parentAlpha);
-				} else
-					font.setColor(0.7f, 0.7f, 0.7f, color.a * parentAlpha);
 				BitmapFont messageFont = style.messageFont != null ? style.messageFont : font;
+
+				if (style.messageFontColor != null) {
+					messageFont.setColor(style.messageFontColor.r, style.messageFontColor.g, style.messageFontColor.b,
+						style.messageFontColor.a * color.a * parentAlpha);
+				} else {
+					messageFont.setColor(0.7f, 0.7f, 0.7f, color.a * parentAlpha);
+				}
+
 				messageFont.draw(batch, messageText, x + bgLeftWidth, y + textY + yOffset, 0, messageText.length(),
 					width - bgLeftWidth - bgRightWidth, textHAlign, false, "...");
 			}
@@ -595,7 +600,11 @@ public class TextField extends Element implements Disableable {
 	/** Sets the text that will be drawn in the text field if no text has been entered.
 	 * @param messageText may be null. */
 	public void setMessageText (String messageText) {
-		this.messageText = messageText;
+		if(messageText.startsWith("$") && Bundles.enabled() && Bundles.has(messageText.substring(1))){
+			this.messageText = Bundles.get(messageText.substring(1));
+		}else {
+			this.messageText = messageText;
+		}
 	}
 
 	/** @param str If null, "" is used. */
@@ -1005,9 +1014,9 @@ public class TextField extends Element implements Disableable {
 			Scene stage = getScene();
 			if (stage == null || stage.getKeyboardFocus() != TextField.this) return false;
 
-			//if (UIUtils.isMac && Gdx.input.isKeyPressed(Keys.SYM)) return true;
+			if (OS.isMac && Gdx.input.isKeyPressed(Keys.SYM)) return true;
 
-			if ((character == TAB || character == ENTER_ANDROID) && focusTraversal) {
+			if ((character == TAB) && focusTraversal) {
 				next(UIUtils.shift());
 			} else {
 				boolean delete = character == DELETE;
@@ -1033,7 +1042,7 @@ public class TextField extends Element implements Disableable {
 						// Character may be added to the text.
 						if (!enter && filter != null && !filter.acceptChar(TextField.this, character)) return true;
 						if (!withinMaxLength(text.length())) return true;
-						String insertion = enter ? "\n" : String.valueOf(character);
+						String insertion = enter ? "\r" : String.valueOf(character);
 						text = insert(cursor++, insertion, text);
 					}
 					if (changeText(oldText, text)) {

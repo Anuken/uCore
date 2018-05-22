@@ -1,22 +1,22 @@
 package io.anuke.ucore.scene.utils;
 
-import static io.anuke.ucore.core.Core.skin;
-
 import com.badlogic.gdx.graphics.Color;
-
 import io.anuke.ucore.function.CheckListenable;
 import io.anuke.ucore.function.FieldListenable;
 import io.anuke.ucore.function.Listenable;
-import io.anuke.ucore.scene.ui.*;
+import io.anuke.ucore.scene.ui.CheckBox;
+import io.anuke.ucore.scene.ui.ImageButton;
+import io.anuke.ucore.scene.ui.TextButton;
+import io.anuke.ucore.scene.ui.TextField;
+
+import static io.anuke.ucore.core.Core.skin;
 
 public class Elements{
 	
 	public static CheckBox newCheck(String text, CheckListenable listener){
 		CheckBox button = new CheckBox(text);
 		if(listener != null)
-		button.changed(()->{
-			listener.listen(button.isChecked());
-		});
+			button.changed(() -> listener.listen(button.isChecked()));
 		return button;
 	}
 	
@@ -72,18 +72,14 @@ public class Elements{
 		ImageButton button = new ImageButton(icon, "toggle");
 		button.setChecked(on);
 		button.resizeImage(size);
-		button.clicked(()->{
-			listener.listen(button.isChecked());
-		});
+		button.clicked(() -> listener.listen(button.isChecked()));
 		return button;
 	}
 	
 	public static TextField newField(String text, FieldListenable listener){
 		TextField field = new TextField(text);
 		if(listener != null)
-			field.changed(()->{
-				listener.listen(field.getText());
-			});
+			field.changed(() -> listener.listen(field.getText()));
 		
 		return field;
 	}

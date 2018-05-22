@@ -26,8 +26,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
-import io.anuke.ucore.graphics.Draw;
 import io.anuke.ucore.function.*;
+import io.anuke.ucore.graphics.Draw;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
@@ -418,6 +418,18 @@ public class Table extends WidgetGroup {
 	public Cell<TextField> addField(String text, FieldListenable listener){
 		TextField field = Elements.newField(text, listener);
 		return add(field);
+	}
+
+	public Cell<TextArea> addArea(String text, FieldListenable listener){
+		TextArea area = new TextArea(text);
+		area.changed(() -> listener.listen(area.getText()));
+		return add(area);
+	}
+
+	public Cell<TextArea> addArea(String text, String style, FieldListenable listener){
+		TextArea area = new TextArea(text, style);
+		area.changed(() -> listener.listen(area.getText()));
+		return add(area);
 	}
 
 	public Cell<TextField> addField(String text, TextFieldFilter filter, FieldListenable listener){
