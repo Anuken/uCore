@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -91,6 +92,99 @@ public class IndexedRenderer implements Disposable{
 
         vertices[idx ++] = fx2;
         vertices[idx ++] = fy2;
+        vertices[idx ++] = color;
+        vertices[idx ++] = u2;
+        vertices[idx ++] = v2;
+
+        mesh.updateVertices(index * vsize * 6, vertices);
+    }
+
+    public void draw(int index, TextureRegion region, float x, float y, float w, float h, float rotation){
+        final float sx = x, sy = y;
+        final float u = region.getU();
+        final float v = region.getV2();
+        final float u2 = region.getU2();
+        final float v2 = region.getV();
+
+        final float originX = w/2, originY = h/2;
+
+        final float cos = MathUtils.cosDeg(rotation);
+        final float sin = MathUtils.sinDeg(rotation);
+
+        float fx = -originX;
+        float fy = -originY;
+        float fx2 = w - originX;
+        float fy2 = h - originY;
+
+        final float p1x = fx;
+        final float p1y = fy;
+        final float p2x = fx;
+        final float p2y = fy2;
+        final float p3x = fx2;
+        final float p3y = fy2;
+        final float p4x = fx2;
+        final float p4y = fy;
+
+        final float worldOriginX = x + originX;
+        final float worldOriginY = y + originY;
+
+        float x1 = cos * p1x - sin * p1y;
+        float y1 = sin * p1x + cos * p1y;
+
+        float x2 = cos * p2x - sin * p2y;
+        float y2 = sin * p2x + cos * p2y;
+
+        float x3 = cos * p3x - sin * p3y;
+        float y3 = sin * p3x + cos * p3y;
+
+        float x4 = x1 + (x3 - x2);
+        float y4 = y3 - (y2 - y1);
+
+        x1 += worldOriginX;
+        y1 += worldOriginY;
+        x2 += worldOriginX;
+        y2 += worldOriginY;
+        x3 += worldOriginX;
+        y3 += worldOriginY;
+        x4 += worldOriginX;
+        y4 += worldOriginY;
+
+        float[] vertices = tmpVerts;
+
+        int idx = 0;
+        vertices[idx ++] = x1;
+        vertices[idx ++] = y1;
+        vertices[idx ++] = color;
+        vertices[idx ++] = u;
+        vertices[idx ++] = v;
+
+        vertices[idx ++] = x3;
+        vertices[idx ++] = y3;
+        vertices[idx ++] = color;
+        vertices[idx ++] = u2;
+        vertices[idx ++] = v2;
+
+        vertices[idx ++] = x4;
+        vertices[idx ++] = y4;
+        vertices[idx ++] = color;
+        vertices[idx ++] = u;
+        vertices[idx ++] = v2;
+
+        //tri2
+        vertices[idx ++] = x1;
+        vertices[idx ++] = y1;
+        vertices[idx ++] = color;
+        vertices[idx ++] = u;
+        vertices[idx ++] = v;
+
+        vertices[idx ++] = x2;
+        vertices[idx ++] = y2;
+        vertices[idx ++] = color;
+        vertices[idx ++] = u2;
+        vertices[idx ++] = v;
+
+        vertices[idx ++] = x3;
+        vertices[idx ++] = y3;
         vertices[idx ++] = color;
         vertices[idx ++] = u2;
         vertices[idx ++] = v2;
