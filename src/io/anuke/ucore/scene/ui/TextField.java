@@ -67,7 +67,7 @@ import static io.anuke.ucore.core.Core.skin;
 public class TextField extends Element implements Disableable {
 	static private final char BACKSPACE = 8;
 	static protected final char ENTER_DESKTOP = '\r';
-	static protected final char ENTER_ANDROID = '\n';
+	static protected final char ENTER_ANDROID = '\r';
 	static private final char TAB = '\t';
 	static private final char DELETE = 127;
 	static private final char BULLET = 149;
@@ -239,6 +239,7 @@ public class TextField extends Element implements Disableable {
 		float[] glyphPositions = this.glyphPositions.items;
 
 		// Check if the cursor has gone out the left or right side of the visible area and adjust renderOffset.
+		cursor = Mathf.clamp(cursor, 0, glyphPositions.length-1);
 		float distance = glyphPositions[Math.max(0, cursor - 1)] + renderOffset;
 		if (distance <= 0)
 			renderOffset -= distance;
@@ -1004,7 +1005,6 @@ public class TextField extends Element implements Disableable {
 			switch (character) {
 			case BACKSPACE:
 			case TAB:
-			case ENTER_ANDROID:
 			case ENTER_DESKTOP:
 				break;
 			default:
