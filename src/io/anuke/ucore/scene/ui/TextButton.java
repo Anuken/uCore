@@ -16,16 +16,15 @@
 
 package io.anuke.ucore.scene.ui;
 
-import static io.anuke.ucore.core.Core.skin;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
-
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.ui.Label.LabelStyle;
 import io.anuke.ucore.scene.ui.layout.Cell;
+
+import static io.anuke.ucore.core.Core.skin;
 /** A button with a child {@link Label} to display text.
  * @author Nathan Sweet */
 public class TextButton extends Button {
@@ -46,7 +45,7 @@ public class TextButton extends Button {
 		this.style = style;
 		label = new Label(text, new LabelStyle(style.font, style.fontColor));
 		label.setAlignment(Align.center);
-		add(label).expand().fill();
+		add(label).expand().fill().wrap().minWidth(getMinWidth());
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 

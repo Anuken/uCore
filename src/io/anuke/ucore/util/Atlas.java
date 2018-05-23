@@ -27,7 +27,11 @@ public class Atlas extends TextureAtlas{
 		}
 		error = findRegion("error");
 	}
-	
+
+	/**Used for getting the pixmap of a certain region.
+	 * Note that it is internally stored and disposed when needed.
+	 * @param name the name of the region to use.
+	 * @return the pixmap of the region.*/
 	public Pixmap getPixmapOf(String name){
 		return getPixmapOf(findRegion(name));
 	}
@@ -43,6 +47,14 @@ public class Atlas extends TextureAtlas{
 		Pixmap pixmap = texture.getTextureData().consumePixmap();
 		pixmaps.put(texture, pixmap);
 		return pixmap;
+	}
+
+	/**Disposes of all pixmaps obtained from {@link #getPixmapOf}.*/
+	public void disposePixmaps(){
+		for(Pixmap pixmap : pixmaps.values()){
+			pixmap.dispose();
+		}
+		pixmaps.clear();
 	}
 	
 	@Override

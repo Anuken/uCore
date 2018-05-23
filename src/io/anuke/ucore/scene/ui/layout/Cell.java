@@ -992,7 +992,7 @@ public class Cell<T extends Element> implements Poolable {
 		if (defaults != null) set(defaults);
 	}
 
-	void set (Cell cell) {
+	public Cell<T> set (Cell cell) {
 		minWidth = cell.minWidth;
 		minHeight = cell.minHeight;
 		maxWidth = cell.maxWidth;
@@ -1013,6 +1013,7 @@ public class Cell<T extends Element> implements Poolable {
 		colspan = cell.colspan;
 		uniformX = cell.uniformX;
 		uniformY = cell.uniformY;
+		return this;
 	}
 
 	/** @param cell May be null. */
