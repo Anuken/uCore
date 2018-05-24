@@ -9,7 +9,9 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
 import io.anuke.ucore.function.BooleanProvider;
+import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.scene.Element;
+import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.ui.Button;
 import io.anuke.ucore.scene.ui.ButtonGroup;
 import io.anuke.ucore.scene.ui.Label;
@@ -128,6 +130,16 @@ public class Cell<T extends Element> implements Poolable {
 		if(getElement() instanceof Button){
 			((Button)getElement()).setDisabled(disabled);
 		}
+		return this;
+	}
+
+	public Cell<T> touchable(Touchable touchable){
+		getElement().setTouchable(touchable);
+		return this;
+	}
+
+	public Cell<T> touchable(Supplier<Touchable> touchable){
+		getElement().setTouchable(touchable);
 		return this;
 	}
 
