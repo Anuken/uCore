@@ -3,6 +3,7 @@ package io.anuke.ucore.core;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import io.anuke.ucore.function.Listenable;
@@ -12,6 +13,7 @@ public class Settings{
 	private static ObjectMap<String, Object> defaults = new ObjectMap<>();
 	private static boolean disabled = false;
 	private static Listenable errorHandler;
+	private static Json json = new Json();
 	
 	public static void setErrorHandler(Listenable handler){
 		errorHandler = handler;
@@ -47,6 +49,10 @@ public class Settings{
 	public static void putString(String name, String val){
 		prefs.putString(name, val);
 	}
+
+	public static void putJson(String name, Object value){
+		prefs.putString(name, json.toJson(value));
+	}
 	
 	public static void putFloat(String name, float val){
 		prefs.putFloat(name, val);
@@ -66,6 +72,10 @@ public class Settings{
 	
 	public static String getString(String name){
 		return prefs.getString(name, (String)def(name));
+	}
+
+	public static <T> T getJson(String name, Class<T> type){
+		return json.fromJson(type, getString(name, "{}"));
 	}
 	
 	public static float getFloat(String name){
