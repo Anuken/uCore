@@ -8,13 +8,10 @@ import io.anuke.ucore.core.Graphics;
 import io.anuke.ucore.core.Inputs;
 
 public abstract class ModuleCore extends ApplicationAdapter{
-	private static ModuleCore instance;
 	protected ObjectMap<Class<? extends Module>, Module> modules = new ObjectMap<>();
 	protected Array<Module> modulearray = new Array<Module>();
-	
-	{
-		instance=this; 
-	}
+
+	public ModuleCore(){}
 	
 	abstract public void init();
 	public void preInit(){}
@@ -26,7 +23,7 @@ public abstract class ModuleCore extends ApplicationAdapter{
 	/**Adds a module to the list.*/
 	protected <N extends Module> void module(N t){
 		try{
-			modules.put((Class<? extends Module>) t.getClass(), t);
+			modules.put(t.getClass(), t);
 			modulearray.add(t);
 			t.preInit();
 		}catch (RuntimeException e){
@@ -44,6 +41,8 @@ public abstract class ModuleCore extends ApplicationAdapter{
 	
 	@Override
 	public final void create(){
+		Inputs.initialize();
+
 		init();
 		preInit();
 		for(Module module : modulearray){

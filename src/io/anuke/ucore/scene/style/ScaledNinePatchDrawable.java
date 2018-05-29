@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import io.anuke.ucore.scene.ui.layout.Unit;
 
 public class ScaledNinePatchDrawable extends NinePatchDrawable{
-	private static float scale = Unit.dp.scl(1f);
-	
+	private float scale = Unit.dp.scl(1f);
+
 	public ScaledNinePatchDrawable(NinePatch patch) {
 		super(patch);
 	}

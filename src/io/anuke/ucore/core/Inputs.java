@@ -38,7 +38,7 @@ public class Inputs{
 	};
 	private static Array<InputDevice> devices = new Array<>();
 	
-	static{
+	public static void initialize(){
 		plex.addProcessor(listen);
 		
 		devices.add(new InputDevice(DeviceType.keyboard, "Keyboard"));

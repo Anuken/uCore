@@ -3,7 +3,6 @@ package io.anuke.ucore.graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.util.Tmp;
@@ -12,7 +11,6 @@ import static io.anuke.ucore.core.Core.batch;
 
 public class Fill {
     private static Sprite sprite;
-    private static TextureRegion blankregion = Pixmaps.blankTextureRegion();
     private static float[] vertices = new float[20];
 
     public static void tri(float x1, float y1, float x2, float y2, float x3, float y3){
@@ -42,12 +40,12 @@ public class Fill {
         vertices[i ++] = 0;
         vertices[i ++] = 0;
 
-        batch.draw(blankregion.getTexture(), vertices, 0, vertices.length);
+        batch.draw(Draw.getBlankRegion().getTexture(), vertices, 0, vertices.length);
     }
 
     public static void gradient(Color left, Color right, float alpha, float x, float y, float w, float h){
         if(sprite == null)
-            sprite = new Sprite(blankregion);
+            sprite = new Sprite(Draw.getBlankRegion());
 
         sprite.setBounds(x, y, w, h);
 
@@ -82,7 +80,7 @@ public class Fill {
     }
 
     public static void rect(float x, float y, float width, float height){
-        batch.draw(blankregion, x - width / 2f, y - height / 2f, width, height);
+        batch.draw(Draw.getBlankRegion(), x - width / 2f, y - height / 2f, width, height);
     }
 
     public static void square(float x, float y, float radius){
@@ -90,14 +88,10 @@ public class Fill {
     }
 
     public static void crect(float x, float y, float width, float height){
-        batch.draw(blankregion, x, y, width, height);
+        batch.draw(Draw.getBlankRegion(), x, y, width, height);
     }
 
     public static void crect(Rectangle rect){
-        batch.draw(blankregion, rect.x, rect.y, rect.width, rect.height);
-    }
-
-    public static TextureRegion getRegion(){
-        return blankregion;
+        batch.draw(Draw.getBlankRegion(), rect.x, rect.y, rect.width, rect.height);
     }
 }

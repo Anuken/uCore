@@ -20,6 +20,14 @@ import static io.anuke.ucore.core.Core.batch;
 public class Draw{
 	private static Color[] carr = new Color[3];
 	private static float cwhite = Color.WHITE.toFloatBits();
+	private static TextureRegion blankRegion;
+
+	public static TextureRegion getBlankRegion(){
+		if(blankRegion == null){
+			blankRegion = Pixmaps.blankTextureRegion();
+		}
+		return blankRegion;
+	}
 
 	public static void sprite(Sprite sprite){
 		sprite.draw(batch);

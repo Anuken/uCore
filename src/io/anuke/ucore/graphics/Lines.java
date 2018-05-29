@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import static io.anuke.ucore.core.Core.batch;
 
 public class Lines {
-    private static TextureRegion blankregion = Pixmaps.blankTextureRegion();
     private static float stroke = 1f;
     private static Vector2 vector = new Vector2();
     private static Vector2[] circle;
@@ -59,7 +58,7 @@ public class Lines {
     }
 
     public static void line(float x, float y, float x2, float y2, CapStyle cap, float padding){
-        line(blankregion, x, y, x2, y2, cap, padding);
+        line(Draw.getBlankRegion(), x, y, x2, y2, cap, padding);
     }
 
     public static void line(TextureRegion blankregion, float x, float y, float x2, float y2, CapStyle cap, float padding){
@@ -263,11 +262,11 @@ public class Lines {
         width += xspace * 2;
         height += yspace * 2;
 
-        batch.draw(blankregion, x, y, width, stroke);
-        batch.draw(blankregion, x, y + height, width, -stroke);
+        batch.draw(Draw.getBlankRegion(), x, y, width, stroke);
+        batch.draw(Draw.getBlankRegion(), x, y + height, width, -stroke);
 
-        batch.draw(blankregion, x + width, y, -stroke, height);
-        batch.draw(blankregion, x, y, stroke, height);
+        batch.draw(Draw.getBlankRegion(), x + width, y, -stroke, height);
+        batch.draw(Draw.getBlankRegion(), x, y, stroke, height);
     }
 
     public static void rect(float x, float y, float width, float height){

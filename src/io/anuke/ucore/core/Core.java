@@ -19,7 +19,7 @@ public class Core{
 	public static I18NBundle bundle;
 	public static Scene scene;
 	public static Skin skin;
-	
+
 	public static void setScene(Scene ascene, Skin askin){
 		if(ascene != null) scene = ascene;
 		if(askin != null) skin = askin;
