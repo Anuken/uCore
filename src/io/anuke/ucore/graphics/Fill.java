@@ -87,6 +87,10 @@ public class Fill {
         rect(x, y, radius, radius);
     }
 
+    public static void square(float x, float y, float radius, float rotation){
+        Draw.rect(Draw.getBlankRegion(), x, y, radius * 2f, radius * 2, rotation);
+    }
+
     public static void crect(float x, float y, float width, float height){
         batch.draw(Draw.getBlankRegion(), x, y, width, height);
     }

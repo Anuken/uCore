@@ -1,13 +1,10 @@
 package io.anuke.ucore.scene.ui;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
-
 import io.anuke.ucore.core.Musics;
 import io.anuke.ucore.core.Settings;
 import io.anuke.ucore.core.Sounds;
 import io.anuke.ucore.function.Consumer;
-import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.function.StringProcessor;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.util.Bundles;
@@ -127,7 +124,7 @@ public class SettingsDialog extends Dialog{
 					Settings.save();
 				}
 				rebuild();
-			}).margin(16).pad(6).left();
+			}).margin(14).width(240f).pad(6).left();
 
 			if(rebuilt != null) rebuilt.accept(this);
 		}

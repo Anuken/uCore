@@ -301,6 +301,11 @@ public class Graphics{
 	}
 	
 	public static void shader(Shader shader, boolean applyOnce){
+		boolean drawing = batch.isDrawing();
+
+		if(applyOnce && drawing) {
+			end();
+		}
 	
 		batch.setShader(shader.program());
 		
@@ -308,6 +313,7 @@ public class Graphics{
 			shader.program().begin();
 			shader.applyParams();
 			shader.program().end();
+			if(drawing) begin();
 		}
 	}
 

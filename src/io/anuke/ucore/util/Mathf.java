@@ -12,6 +12,7 @@ import java.util.Random;
 public class Mathf{
 	public static final int[] signs = {-1, 1};
 	public static final boolean[] booleans = {false, true};
+	public static final float sqrt2 = Mathf.sqrt(2f);
 	private static final RandomXS128 seedr = new RandomXS128();
 	private static final RandomXS128 rand = new RandomXS128();
 	
@@ -31,8 +32,12 @@ public class Mathf{
 		}
 	}
 
+	public static int bool(boolean b){
+		return b ? 1 : 0;
+	}
+
 	public static int pow2(int i){
-		return (int)Math.pow(2, i);
+		return (1 << i);
 	}
 
 	public static int ceil(float f){

@@ -46,6 +46,10 @@ public class Effects{
 			throw new IllegalArgumentException("The effect with ID \"" + id + "\" does not exist!");
 		return effects.get(id);
 	}
+
+	public static Array<Effect> all(){
+		return effects;
+	}
 	
 	public static void effect(Effect effect, float x, float y, float rotation){
 		provider.createEffect(effect, Color.WHITE, x, y, rotation, null);

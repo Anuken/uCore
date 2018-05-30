@@ -196,23 +196,23 @@ public class KeybindDialog extends Dialog{
 						table.add(axt).left().minWidth(90).padRight(20);
 					}
 
-					table.addButton("Rebind", () ->{
+					table.addButton(Bundles.get("text.settings.rebind", "Rebind"), () ->{
 						rebindAxis = true;
 						rebindMin = true;
 						openDialog(section, key);
-					});
+					}).width(110f);
 					table.row();
 				}else{
 					table.add(Strings.capitalize(key), style.keyNameColor).left().padRight(40).padLeft(8);
 					table.add(section.binds.get(section.device.type).get(key, keybind.input).toString(), style.keyColor).left().minWidth(90).padRight(20);
-					table.addButton("Rebind", () -> openDialog(section, key));
+					table.addButton(Bundles.get("text.settings.rebind", "Rebind"), () -> openDialog(section, key)).width(110f);
 					table.row();
 				}
 			}
 
 			table.setVisible(() -> this.section.equals(section));
 
-			table.addButton("Reset to Defaults", () -> {
+			table.addButton(Bundles.get("text.settings.reset", "Reset to Defaults"), () -> {
 				KeyBinds.resetToDefaults();
 				setup();
 				KeyBinds.save();
