@@ -69,7 +69,7 @@ public class ScrollPane extends WidgetGroup {
 	final Vector2 lastPoint = new Vector2();
 	float areaWidth, areaHeight;
 	private boolean fadeScrollBars = false, smoothScrolling = true;
-	float fadeAlpha, fadeAlphaSeconds = 1, fadeDelay, fadeDelaySeconds = 1;
+	float fadeAlpha = 1f, fadeAlphaSeconds = 1, fadeDelay, fadeDelaySeconds = 1;
 	boolean cancelTouchFocus = true;
 
 	boolean flickScroll = true;
@@ -414,7 +414,7 @@ public class ScrollPane extends WidgetGroup {
 		// Get widget's desired width.
 		float widgetWidth, widgetHeight;
 		if (widget instanceof Layout) {
-			Layout layout = (Layout)widget;
+			Layout layout = widget;
 			widgetWidth = layout.getPrefWidth();
 			widgetHeight = layout.getPrefHeight();
 		} else {
@@ -748,6 +748,12 @@ public class ScrollPane extends WidgetGroup {
 		scrollX(MathUtils.clamp(pixels, 0, maxX));
 	}
 
+	public void setScrollXForce (float pixels) {
+		visualAmountX = pixels;
+		amountX = pixels;
+		scrollX = true;
+	}
+
 	/** Returns the x scroll position in pixels, where 0 is the left of the scroll pane. */
 	public float getScrollX () {
 		return amountX;
@@ -755,6 +761,12 @@ public class ScrollPane extends WidgetGroup {
 
 	public void setScrollY (float pixels) {
 		scrollY(MathUtils.clamp(pixels, 0, maxY));
+	}
+
+	public void setScrollYForce (float pixels) {
+		visualAmountY = pixels;
+		amountY = pixels;
+		scrollY = true;
 	}
 
 	/** Returns the y scroll position in pixels, where 0 is the top of the scroll pane. */
