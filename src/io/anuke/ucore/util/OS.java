@@ -38,18 +38,22 @@ public class OS {
         }
     }
 
-    public static FileHandle getAppDataDirectory(String appname){
+    public static String getAppDataDirectoryString(String appname){
         if(OS.isWindows){
-            return Gdx.files.absolute(System.getenv("AppData")).child(appname + "/");
-        }else if(OS.isLinux){
-            return Gdx.files.absolute(getProperty("user.home")).child("." + appname.toLowerCase() + "/");
-        }else if(OS.isMac){
-            return Gdx.files.absolute(getProperty("user.home") + "/Library/Application Support/").child(appname + "/");
+            return System.getenv("AppData") + System.lineSeparator() + appname;
         }else if(isIos || isAndroid){
-            return Gdx.files.local("");
+            return Gdx.files.getLocalStoragePath();
+        }else if(OS.isLinux){
+            return getProperty("user.home") + "/." + appname.toLowerCase() + "/";
+        }else if(OS.isMac){
+            return getProperty("user.home") + "/Library/Application Support/" + appname + "/";
         }else{ //else, probably GWT
             return null;
         }
+    }
+
+    public static FileHandle getAppDataDirectory(String appname){
+        return Gdx.files.absolute(getAppDataDirectoryString(appname));
     }
 
     public static String getProperty(String name){
