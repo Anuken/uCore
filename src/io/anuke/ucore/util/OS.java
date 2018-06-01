@@ -40,7 +40,7 @@ public class OS {
 
     public static String getAppDataDirectoryString(String appname){
         if(OS.isWindows){
-            return System.getenv("AppData") + System.lineSeparator() + appname;
+            return getEnv("AppData") + "\\\\" + appname;
         }else if(isIos || isAndroid){
             return Gdx.files.getLocalStoragePath();
         }else if(OS.isLinux){
