@@ -15,6 +15,9 @@ public class Cursors{
 	public static Cursor arrow;
 	public static Cursor ibeam;
 	public static Cursor hand;
+	public static Cursor tool1;
+	public static Cursor tool2;
+	public static Cursor tool3;
 
 	public static Cursor loadCursor(String name){
 		Pixmap pixmap = new Pixmap(Gdx.files.internal("cursors/" + name + ".png"));
@@ -32,6 +35,18 @@ public class Cursors{
 		pixmap.dispose();
 
 		return Gdx.graphics.newCursor(out2, out2.getWidth()/2, out2.getHeight()/2);
+	}
+
+	public static void setTool1(){
+		Gdx.graphics.setCursor(tool1);
+	}
+
+	public static void setTool2(){
+		Gdx.graphics.setCursor(tool2);
+	}
+
+	public static void setTool3(){
+		Gdx.graphics.setCursor(tool3);
 	}
 	
 	public static void setIbeam(){
@@ -60,6 +75,9 @@ public class Cursors{
 		if(arrow != null) arrow.dispose();
 		if(ibeam != null) ibeam.dispose();
 		if(hand != null) hand.dispose();
-		arrow = ibeam = hand = null;
+		if(tool1 != null) tool1.dispose();
+		if(tool2 != null) tool3.dispose();
+		if(tool2 != null) tool3.dispose();
+		arrow = ibeam = hand = tool1 = tool2 = tool3 = null;
 	}
 }
