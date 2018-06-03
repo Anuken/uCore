@@ -331,8 +331,7 @@ public class Graphics{
 	}
 
 	public static void resize(){
-		//why does windows do this?
-		if(Gdx.graphics.getWidth() == 0 || Gdx.graphics.getHeight() == 0) return;
+		if(Gdx.graphics.getWidth() <= 2 || Gdx.graphics.getHeight() <= 2) return;
 
 		if(effects1 == null){
 			effects1 = Graphics.createSurface(Core.cameraScale);
