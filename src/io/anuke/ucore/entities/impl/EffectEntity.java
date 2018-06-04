@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.core.Effects;
 import io.anuke.ucore.core.Effects.Effect;
-import io.anuke.ucore.entities.component.DrawTrait;
+import io.anuke.ucore.entities.trait.DrawTrait;
 
 public class EffectEntity extends TimedEntity implements Poolable, DrawTrait {
 	public Effect effect;
@@ -24,6 +24,11 @@ public class EffectEntity extends TimedEntity implements Poolable, DrawTrait {
 		this.parent = parent;
 		this.poffsetx = x - parent.x;
 		this.poffsety = y - parent.y;
+	}
+
+	@Override
+	public float lifetime() {
+		return effect.lifetime;
 	}
 
 	@Override

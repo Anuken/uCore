@@ -3,15 +3,15 @@ package io.anuke.ucore.entities.impl;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import io.anuke.ucore.core.Timers;
-import io.anuke.ucore.entities.component.DamageTrait;
-import io.anuke.ucore.entities.component.DrawTrait;
-import io.anuke.ucore.entities.component.Entity;
-import io.anuke.ucore.entities.component.VelocityTrait;
-import io.anuke.ucore.entities.component.SolidTrait;
+import io.anuke.ucore.entities.trait.DamageTrait;
+import io.anuke.ucore.entities.trait.DrawTrait;
+import io.anuke.ucore.entities.trait.Entity;
+import io.anuke.ucore.entities.trait.VelocityTrait;
+import io.anuke.ucore.entities.trait.SolidTrait;
 import io.anuke.ucore.util.Mathf;
-import io.anuke.ucore.util.Scalable;
+import io.anuke.ucore.entities.trait.ScaleTrait;
 
-public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity implements DamageTrait, Scalable, Poolable, DrawTrait, VelocityTrait {
+public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity implements DamageTrait, ScaleTrait, Poolable, DrawTrait, VelocityTrait {
 	protected T type;
 	protected Entity owner;
 	protected Vector2 velocity = new Vector2();

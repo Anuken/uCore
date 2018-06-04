@@ -1,8 +1,8 @@
 package io.anuke.ucore.entities.impl;
 
-import io.anuke.ucore.entities.component.DamageTrait;
-import io.anuke.ucore.entities.component.HealthTrait;
-import io.anuke.ucore.entities.component.SolidTrait;
+import io.anuke.ucore.entities.trait.DamageTrait;
+import io.anuke.ucore.entities.trait.HealthTrait;
+import io.anuke.ucore.entities.trait.SolidTrait;
 
 public abstract class DestructibleEntity extends SolidEntity implements HealthTrait {
 	public transient boolean dead;

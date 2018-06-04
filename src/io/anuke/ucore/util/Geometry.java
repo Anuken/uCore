@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.IntArray;
+import io.anuke.ucore.entities.trait.PosTrait;
 import io.anuke.ucore.function.PositionConsumer;
 import io.anuke.ucore.function.SegmentConsumer;
 
@@ -55,7 +56,7 @@ public class Geometry{
 		return d8edge[Mathf.mod(i, 4)];
 	}
 
-    public static <T extends Position> T findClosest(float x, float y, T[] list){
+    public static <T extends PosTrait> T findClosest(float x, float y, T[] list){
         T closest = null;
         float cdist = 0f;
         for(T t : list){
@@ -68,7 +69,7 @@ public class Geometry{
         return closest;
     }
 
-	public static <T extends Position> T findClosest(float x, float y, Iterable<T> list){
+	public static <T extends PosTrait> T findClosest(float x, float y, Iterable<T> list){
 		T closest = null;
 		float cdist = 0f;
 		for(T t : list){

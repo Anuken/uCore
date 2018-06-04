@@ -2,7 +2,7 @@ package io.anuke.ucore.entities.impl;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import io.anuke.ucore.entities.component.SolidTrait;
+import io.anuke.ucore.entities.trait.SolidTrait;
 
 public abstract class SolidEntity extends BaseEntity implements SolidTrait {
 	private transient Vector2 lastPosition = new Vector2(Float.NaN, Float.NaN);

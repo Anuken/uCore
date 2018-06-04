@@ -1,8 +1,8 @@
-package io.anuke.ucore.util;
+package io.anuke.ucore.entities.trait;
 
 import com.badlogic.gdx.math.Interpolation;
 
-public interface Scalable {
+public interface ScaleTrait {
     /**0 to 1.*/
     float fin();
 

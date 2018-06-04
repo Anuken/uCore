@@ -1,7 +1,7 @@
 package io.anuke.ucore.entities.impl;
 
 import io.anuke.ucore.entities.EntityGroup;
-import io.anuke.ucore.entities.component.Entity;
+import io.anuke.ucore.entities.trait.Entity;
 
 public abstract class BaseEntity implements Entity {
 	private static int lastid;

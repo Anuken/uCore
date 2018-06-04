@@ -1,11 +1,9 @@
-package io.anuke.ucore.entities.component;
+package io.anuke.ucore.entities.trait;
 
 import io.anuke.ucore.entities.Entities;
 import io.anuke.ucore.entities.EntityGroup;
-import io.anuke.ucore.util.MutablePosition;
-import io.anuke.ucore.util.Position;
 
-public interface Entity extends Position, MutablePosition{
+public interface Entity extends PosTrait, MutPosTrait {
 
     int getID();
     void resetID(int id);

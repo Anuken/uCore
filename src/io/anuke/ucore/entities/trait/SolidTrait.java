@@ -1,13 +1,11 @@
-package io.anuke.ucore.entities.component;
+package io.anuke.ucore.entities.trait;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import io.anuke.ucore.entities.EntityPhysics;
-import io.anuke.ucore.util.MutablePosition;
-import io.anuke.ucore.util.Position;
 import io.anuke.ucore.util.QuadTree.QuadTreeObject;
 
-public interface SolidTrait extends QuadTreeObject, Position, MutablePosition, Entity {
+public interface SolidTrait extends QuadTreeObject, PosTrait, MutPosTrait, Entity {
 
     Vector2 lastPosition();
 

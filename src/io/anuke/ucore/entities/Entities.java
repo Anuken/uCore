@@ -2,7 +2,7 @@ package io.anuke.ucore.entities;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
-import io.anuke.ucore.entities.component.Entity;
+import io.anuke.ucore.entities.trait.Entity;
 
 public class Entities{
 	public static final Object entityLock = new Object();

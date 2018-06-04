@@ -1,4 +1,4 @@
-package io.anuke.ucore.entities.component;
+package io.anuke.ucore.entities.trait;
 
 import io.anuke.ucore.util.Mathf;
 
@@ -11,7 +11,7 @@ public interface HealthTrait {
     boolean isDead();
     void setDead(boolean dead);
 
-    default void onHit(SolidTrait entity){}
+    default void onHit(io.anuke.ucore.entities.trait.SolidTrait entity){}
     default void onDeath(){}
 
     default void damage(float amount){

@@ -3,7 +3,7 @@ package io.anuke.ucore.entities;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import io.anuke.ucore.entities.component.SolidTrait;
+import io.anuke.ucore.entities.trait.SolidTrait;
 import io.anuke.ucore.entities.impl.BaseEntity;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;

@@ -10,8 +10,8 @@ import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.EffectProvider;
 import io.anuke.ucore.function.EffectRenderer;
 import io.anuke.ucore.util.Mathf;
-import io.anuke.ucore.util.Position;
-import io.anuke.ucore.util.Scalable;
+import io.anuke.ucore.entities.trait.PosTrait;
+import io.anuke.ucore.entities.trait.ScaleTrait;
 
 public class Effects{
 	private static Array<Effect> effects = new Array<>();
@@ -63,7 +63,7 @@ public class Effects{
 		provider.createEffect(effect, color, x, y, 0f, null);
 	}
 
-	public static void effect(Effect effect, Position loc){
+	public static void effect(Effect effect, PosTrait loc){
 		provider.createEffect(effect, Color.WHITE, loc.getX(), loc.getY(), 0f, null);
 	}
 
@@ -84,7 +84,7 @@ public class Effects{
 	}
 
 	/**Plays a sound, with distance and falloff calulated relative to camera position.*/
-	public static void sound(String name, Position position){
+	public static void sound(String name, PosTrait position){
 		sound(name, position.getX(), position.getY());
 	}
 	
@@ -112,7 +112,7 @@ public class Effects{
 		shake(Mathf.clamp(1f/(distance*distance/shakeFalloff))*intensity, duration);
 	}
 	
-	public static void shake(float intensity, float duration, Position loc){
+	public static void shake(float intensity, float duration, PosTrait loc){
 		shake(intensity, duration, loc.getX(), loc.getY());
 	}
 	
@@ -137,7 +137,7 @@ public class Effects{
 		}
 	}
 	
-	public static class EffectContainer implements Scalable{
+	public static class EffectContainer implements ScaleTrait {
 		private EffectContainer innerContainer;
 
 		public float x, y, time, lifetime, rotation;

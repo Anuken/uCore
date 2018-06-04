@@ -1,8 +1,9 @@
 package io.anuke.ucore.util;
 
 import com.badlogic.gdx.math.Vector2;
+import io.anuke.ucore.entities.trait.PosTrait;
 
-public class Translator extends Vector2 implements Position{
+public class Translator extends Vector2 implements PosTrait {
 
     public Translator(){}
 
@@ -27,7 +28,7 @@ public class Translator extends Vector2 implements Position{
         return this;
     }
 
-    public Translator set(Position p){
+    public Translator set(PosTrait p){
         set(p.getX(), p.getY());
         return this;
     }
