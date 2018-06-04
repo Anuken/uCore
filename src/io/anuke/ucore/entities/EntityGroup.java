@@ -3,6 +3,7 @@ package io.anuke.ucore.entities;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
+import io.anuke.ucore.entities.component.Entity;
 import io.anuke.ucore.function.Predicate;
 import io.anuke.ucore.util.QuadTree;
 
@@ -16,7 +17,7 @@ public class EntityGroup<T extends Entity>{
 	private EntityContainer<T> entityArray = new ArrayContainer<>();
 	private Array<T> entitiesToRemove = new Array<>();
 	private Array<T> entitiesToAdd = new Array<>();
-	private QuadTree<SolidEntity> tree;
+	private QuadTree<T> tree;
 	private Class<T> type;
 	
 	public  final boolean useTree;
@@ -48,7 +49,7 @@ public class EntityGroup<T extends Entity>{
 			e.added();
 
 			if(map != null){
-				map.put(e.id, e);
+				map.put(e.getID(), e);
 			}
 		}
 
@@ -57,7 +58,7 @@ public class EntityGroup<T extends Entity>{
 		for(T e : entitiesToRemove){
 			entityArray.remove(e);
 			if(map != null){
-				map.remove(e.id);
+				map.remove(e.getID());
 			}
 			e.removed();
 		}
@@ -71,12 +72,12 @@ public class EntityGroup<T extends Entity>{
 	}
 
 	public synchronized void remap(T entity, int newID){
-		map.remove(entity.id);
-		entity.id = newID;
+		map.remove(entity.getID());
+		entity.resetID(newID);
 		map.put(newID, entity);
 	}
 	
-	public QuadTree<SolidEntity> tree(){
+	public QuadTree tree(){
 		return tree;
 	}
 	
@@ -102,26 +103,26 @@ public class EntityGroup<T extends Entity>{
 	
 	public synchronized void add(T type){
 		if(type == null) throw new RuntimeException("Cannot add a null entity!");
-		if(type.group != null) return; //throw new RuntimeException("Entities cannot be added twice!");
-		type.group = this;
+		if(type.getGroup() != null) return; //throw new RuntimeException("Entities cannot be added twice!");
+		type.setGroup(this);
 		entitiesToAdd.add(type);
 	}
 	
 	public synchronized void remove(T type){
 		if(type == null) throw new RuntimeException("Cannot remove a null entity!");
-		type.group = null;
+		type.setGroup(null);
 		entitiesToRemove.add(type);
 	}
 	
 	public synchronized void clear(){
-		for(Entity entity : entityArray)
-			entity.group = null;
+		for(T entity : entityArray)
+			entity.setGroup(null);
 		
-		for(Entity entity : entitiesToAdd)
-			entity.group = null;
+		for(T entity : entitiesToAdd)
+			entity.setGroup(null);
 		
-		for(Entity entity : entitiesToRemove)
-			entity.group = null;
+		for(T entity : entitiesToRemove)
+			entity.setGroup(null);
 		
 		entitiesToAdd.clear();
 		entitiesToRemove.clear();

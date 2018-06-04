@@ -1,12 +1,11 @@
 package io.anuke.ucore.util;
 
-import java.util.Iterator;
-
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-
 import io.anuke.ucore.function.BoundingBoxProvider;
 import io.anuke.ucore.function.Consumer;
+
+import java.util.Iterator;
 
 /**
  * A basic quad tree.
@@ -42,7 +41,7 @@ public class QuadTree<T> {
     public QuadTree(int maxObjectsPerNode, Rectangle bounds) {
         this(maxObjectsPerNode, 0, bounds, (obj, out)->{
         	if(obj instanceof QuadTreeObject){
-        		((QuadTreeObject)obj).getBoundingBox(out);
+        		((QuadTreeObject)obj).getHitbox(out);
         	}else{
         		throw new IllegalArgumentException("The provided object does not implement QuadTreeObject! Did you forget to pass a custom BoundingBoxProvider into the quadtree?");
         	}
@@ -323,6 +322,6 @@ public class QuadTree<T> {
         /**
          * Fills the out parameter with this element's rough bounding box. This should never be smaller than the actual object, but may be larger.
          */
-        void getBoundingBox(Rectangle out);
+        void getHitbox(Rectangle out);
     }
 }

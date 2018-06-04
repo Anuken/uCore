@@ -3,6 +3,8 @@ package io.anuke.ucore.entities;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.IntSet;
+import io.anuke.ucore.entities.component.Entity;
+import io.anuke.ucore.entities.component.SolidTrait;
 import io.anuke.ucore.function.TileCollider;
 import io.anuke.ucore.function.TileHitboxProvider;
 import io.anuke.ucore.util.Mathf;
@@ -40,7 +42,7 @@ public class EntityCollisions {
         setCollider(tilesize, collider, (x, y, out) -> out.setSize(tilesize).setCenter(x*tilesize, y*tilesize));
     }
 
-    public void move(SolidEntity entity, float deltax, float deltay){
+    public void move(SolidTrait entity, float deltax, float deltay){
 
         boolean movedx = false;
 
@@ -69,12 +71,12 @@ public class EntityCollisions {
         }
     }
 
-    public void moveInternal(SolidEntity entity, float deltax, float deltay, boolean x){
+    public void moveInternal(SolidTrait entity, float deltax, float deltay, boolean x){
         if(collider == null)
             throw new IllegalArgumentException("No tile collider specified! Call setCollider() first.");
 
-        Hitbox box = entity.hitboxTile;
-        Rectangle rect = box.getRect(entity.x + deltax, entity.y + deltay);
+        Rectangle rect = r1;
+        entity.getHitbox(rect);
 
         int tilex = Mathf.scl2(rect.x + rect.width/2, tilesize), tiley = Mathf.scl2(rect.y + rect.height/2, tilesize);
 
@@ -94,8 +96,9 @@ public class EntityCollisions {
             }
         }
 
-        entity.x = rect.x + box.width / 2 - box.offsetx;
-        entity.y = rect.y + box.height / 2 - box.offsety;
+        entity.getHitbox(r2);
+        entity.setX(rect.x + r2.x);
+        entity.setY(rect.y + r2.y);
     }
 
     public boolean overlapsTile(Rectangle rect){
@@ -124,41 +127,45 @@ public class EntityCollisions {
         return false;
     }
 
-    public void updatePhysics(EntityGroup<?> group){
+    public <T extends Entity> void updatePhysics(EntityGroup<T> group){
         collided.clear();
 
-        QuadTree<SolidEntity> tree = group.tree();
+        QuadTree tree = group.tree();
 
         tree.clear();
 
         for(Entity entity : group.all()){
-            if(entity instanceof SolidEntity){
-                SolidEntity s = (SolidEntity)entity;
-                s.lastX = s.x;
-                s.lastY = s.y;
+            if(entity instanceof SolidTrait){
+                SolidTrait s = (SolidTrait)entity;
+                s.lastPosition().set(s.getX(), s.getY());
                 tree.insert(s);
             }
         }
     }
 
     private void checkCollide(Entity entity, Entity other){
-        SolidEntity a = (SolidEntity) entity;
-        SolidEntity b = (SolidEntity) other;
+        SolidTrait a = (SolidTrait) entity;
+        SolidTrait b = (SolidTrait) other;
 
-        Rectangle r1 = a.hitbox.getRect(this.r1, a.lastX, a.lastY);
-        Rectangle r2 = b.hitbox.getRect(this.r2, b.lastX, b.lastY);
+        a.getHitbox(this.r1);
+        b.getHitbox(this.r2);
 
-        float vax = a.x - a.lastX;
-        float vay = a.y - a.lastY;
-        float vbx = b.x - b.lastX;
-        float vby = b.y - b.lastY;
+        r1.x += (a.lastPosition().x - a.getX());
+        r1.y += (a.lastPosition().y - a.getY());
+        r2.x += (b.lastPosition().x - b.getX());
+        r2.y += (b.lastPosition().y - b.getY());
 
-        if(a != b && a.hitbox.solid && b.hitbox.solid){
+        float vax = a.getX() - a.lastPosition().x;
+        float vay = a.getY() - a.lastPosition().y;
+        float vbx = b.getX() - b.lastPosition().x;
+        float vby = b.getY() - b.lastPosition().y;
+
+        if(a != b && a.collidesOthers() && b.collidesOthers()){
             fixCollisions(a, b);
         }
 
         if(a != b && a.collides(b) && b.collides(a)){
-            l1.set(a.x, a.y);
+            l1.set(a.getX(), a.getY());
             boolean collide = r1.overlaps(r2) || collide(r1.x, r1.y, r1.width, r1.height, vax, vay,
                     r2.x, r2.y, r2.width, r2.height, vbx, vby, l1);
             if(collide) {
@@ -168,15 +175,18 @@ public class EntityCollisions {
         }
     }
 
-    private void fixCollisions(SolidEntity a, SolidEntity b){
-        float ra = a.hitbox.radius(), rb = b.hitbox.radius();
+    private void fixCollisions(SolidTrait a, SolidTrait b){
+        a.getHitbox(r1);
+        b.getHitbox(r2);
+
+        float ra = (r1.width + r1.height)/2f, rb = (r2.width + r2.height)/2f;
 
         //TODO these are really, really bad physics
 
-        float xa = a.x,
-                ya = a.y,
-                xb = b.x,
-                yb = b.y;
+        float xa = a.getX(),
+                ya = a.getY(),
+                xb = b.getX(),
+                yb = b.getY();
 
         l1.set(xb - xa, yb - ya);
         float length = l1.len();
@@ -186,11 +196,11 @@ public class EntityCollisions {
 
             float f = 0.2f;
 
-            a.move(Mathf.lerpDelta(a.x, xb - l1.x, f) - a.x,
-                    Mathf.lerpDelta(a.y, yb - l1.y, f) - a.y);
+            a.move(Mathf.lerpDelta(a.getX(), xb - l1.x, f) - a.getX(),
+                    Mathf.lerpDelta(a.getY(), yb - l1.y, f) - a.getY());
 
-            b.move(Mathf.lerpDelta(b.x, xa + l1.x, f) - b.x,
-                    Mathf.lerpDelta(b.y, ya + l1.y, f) - b.y);
+            b.move(Mathf.lerpDelta(b.getX(), xa + l1.x, f) - b.getX(),
+                    Mathf.lerpDelta(b.getY(), ya + l1.y, f) - b.getY());
         }
     }
 
@@ -248,26 +258,31 @@ public class EntityCollisions {
         collided.clear();
 
         for(Entity entity : groupa.all()){
-            if(!(entity instanceof SolidEntity))
+            if(!(entity instanceof SolidTrait))
                 continue;
-            if(collided.contains(entity.id))
+            if(collided.contains(entity.getID()))
                 continue;
 
-            SolidEntity solid = (SolidEntity)entity;
+            SolidTrait solid = (SolidTrait)entity;
 
-            solid.getBoundingBox(r2);
-            solid.hitbox.getRect(r1, solid.lastX, solid.lastY);
+            solid.getHitbox(r1);
+            r1.x += (solid.lastPosition().x - solid.getX());
+            r1.y += (solid.lastPosition().y - solid.getY());
+
+            solid.getHitbox(r2);
             r2.merge(r1);
 
             synchronized (Entities.entityLock) {
 
                 groupb.tree().getIntersect(c -> {
-                    if (!collided.contains(c.id))
-                        checkCollide(entity, c);
+                    SolidTrait sc = (SolidTrait)c;
+                    if (!collided.contains(sc.getID())) {
+                        checkCollide(entity, sc);
+                    }
                 }, r2);
             }
 
-            collided.add(entity.id);
+            collided.add(entity.getID());
         }
     }
 }

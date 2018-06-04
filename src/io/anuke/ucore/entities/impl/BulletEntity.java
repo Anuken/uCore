@@ -1,19 +1,21 @@
-package io.anuke.ucore.entities;
+package io.anuke.ucore.entities.impl;
 
 import com.badlogic.gdx.math.Vector2;
-
 import com.badlogic.gdx.utils.Pool.Poolable;
 import io.anuke.ucore.core.Timers;
+import io.anuke.ucore.entities.component.DamageTrait;
+import io.anuke.ucore.entities.component.DrawTrait;
+import io.anuke.ucore.entities.component.Entity;
+import io.anuke.ucore.entities.component.VelocityTrait;
+import io.anuke.ucore.entities.component.SolidTrait;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Scalable;
 
-public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity implements Damager, Scalable, Poolable{
-	public T type;
-	public Entity owner;
-	public Vector2 velocity = new Vector2();
-	public float time = 0f;
-	/**-1 to use type's damage.*/
-	public float damage = Float.MIN_VALUE;
+public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity implements DamageTrait, Scalable, Poolable, DrawTrait, VelocityTrait {
+	protected T type;
+	protected Entity owner;
+	protected Vector2 velocity = new Vector2();
+	protected float time = 0f;
 	
 	public BulletEntity(){}
 	
@@ -24,7 +26,7 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 		velocity.set(0, type.speed).setAngle(angle);
 		hitbox.setSize(type.hitsize);
 	}
-	
+
 	@Override
 	public void update(){
 		type.update(this);
@@ -56,7 +58,7 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 
 	@Override
 	public float getDamage(){
-		return damage == Float.MIN_VALUE ? type.damage : damage;
+		return type.damage;
 	}
 	
 	@Override
@@ -65,12 +67,12 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 	}
 	
 	@Override
-	public boolean collides(SolidEntity other){
-		return other != owner && !(other instanceof Damager);
+	public boolean collides(SolidTrait other){
+		return other != owner && !(other instanceof DamageTrait);
 	}
 	
 	@Override
-	public void collision(SolidEntity other, float x, float y){
+	public void collision(SolidTrait other, float x, float y){
 		if(!type.pierce) remove();
 		type.hit(this, x, y);
 	}
@@ -81,13 +83,17 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 	}
 
 	@Override
+	public Vector2 getVelocity() {
+		return velocity;
+	}
+
+	@Override
 	public void reset() {
 		type = null;
 		owner = null;
 		velocity.setZero();
 		time = 0f;
-		damage = -1;
-		lastX = lastY = Float.NaN;
+		lastPosition().set(Float.NaN, Float.NaN);
 	}
 
 	public void setVelocity(float speed, float angle){

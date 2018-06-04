@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
-import io.anuke.ucore.entities.EffectEntity;
+import io.anuke.ucore.entities.impl.EffectEntity;
 import io.anuke.ucore.function.BiConsumer;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.EffectProvider;

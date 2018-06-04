@@ -1,28 +1,34 @@
-package io.anuke.ucore.entities;
+package io.anuke.ucore.entities.impl;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.core.Effects;
 import io.anuke.ucore.core.Effects.Effect;
+import io.anuke.ucore.entities.component.DrawTrait;
 
-public class EffectEntity extends TimedEntity implements Poolable{
+public class EffectEntity extends TimedEntity implements Poolable, DrawTrait {
 	public Effect effect;
 	public Color color = Color.WHITE;
 	public Object data;
 	public float rotation = 0f;
 
-	public Entity parent;
+	public BaseEntity parent;
 	public float poffsetx, poffsety;
 
 	/**For pooling use only!*/
 	public EffectEntity(){
 	}
 
-	public void setParent(Entity parent){
+	public void setParent(BaseEntity parent){
 		this.parent = parent;
 		this.poffsetx = x - parent.x;
 		this.poffsety = y - parent.y;
+	}
+
+	@Override
+	public float drawSize() {
+		return effect.size;
 	}
 
 	@Override

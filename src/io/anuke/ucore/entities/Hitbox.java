@@ -3,7 +3,6 @@ package io.anuke.ucore.entities;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Hitbox{
-	private final static float sqrt2 = (float)Math.sqrt(2);
 	private final Rectangle rect = new Rectangle();
 	public float offsetx, offsety;
 	public float width, height;
