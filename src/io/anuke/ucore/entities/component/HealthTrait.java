@@ -9,7 +9,7 @@ public interface HealthTrait {
     float maxHealth();
 
     boolean isDead();
-    void setDeath();
+    void setDead(boolean dead);
 
     default void onHit(SolidTrait entity){}
     default void onDeath(){}
@@ -18,7 +18,7 @@ public interface HealthTrait {
         health(health() - amount);
         if(health() <= 0 && !isDead()){
             onDeath();
-            setDeath();
+            setDead(true);
         }
     }
 
@@ -32,5 +32,6 @@ public interface HealthTrait {
 
     default void heal(){
         health(maxHealth());
+        setDead(false);
     }
 }

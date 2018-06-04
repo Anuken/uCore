@@ -77,6 +77,8 @@ public class EntityCollisions {
 
         Rectangle rect = r1;
         entity.getHitbox(rect);
+        rect.x += deltax;
+        rect.y += deltay;
 
         int tilex = Mathf.scl2(rect.x + rect.width/2, tilesize), tiley = Mathf.scl2(rect.y + rect.height/2, tilesize);
 
@@ -97,8 +99,8 @@ public class EntityCollisions {
         }
 
         entity.getHitbox(r2);
-        entity.setX(rect.x + r2.x);
-        entity.setY(rect.y + r2.y);
+        entity.setX(entity.getX() + rect.x - r2.x);
+        entity.setY(entity.getY() + rect.y - r2.y);
     }
 
     public boolean overlapsTile(Rectangle rect){

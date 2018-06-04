@@ -37,7 +37,8 @@ public abstract class DestructibleEntity extends SolidEntity implements HealthTr
 	}
 
 	@Override
-	public void setDeath() {
-		this.dead = true;
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
+
 }
