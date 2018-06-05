@@ -3,6 +3,7 @@ package io.anuke.ucore.graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.util.Tmp;
@@ -12,6 +13,17 @@ import static io.anuke.ucore.core.Core.batch;
 public class Fill {
     private static Sprite sprite;
     private static float[] vertices = new float[20];
+    private static TextureRegion circleRegion;
+    private static TextureRegion[] shapeRegions;
+
+    private static void initShapes(){
+        if(shapeRegions == null){
+            shapeRegions = new TextureRegion[9];
+            for(int i = 3; i <= 8; i ++){
+                shapeRegions[i] = Draw.region("shape-" + i);
+            }
+        }
+    }
 
     public static void tri(float x1, float y1, float x2, float y2, float x3, float y3){
         int i = 0;
@@ -68,15 +80,21 @@ public class Fill {
     }
 
     public static void poly(float x, float y, int sides, float radius){
-        Draw.rect("shape-" + sides, x, y, radius*2, radius*2);
+        initShapes();
+        Draw.rect(shapeRegions[sides], x, y, radius*2, radius*2);
     }
 
     public static void poly(float x, float y, int sides, float radius, float rotation){
-        Draw.rect("shape-" + sides, x, y, radius*2, radius*2, rotation);
+        initShapes();
+        Draw.rect(shapeRegions[sides], x, y, radius*2, radius*2, rotation);
     }
 
     public static void circle(float x, float y, float radius){
-        Draw.rect("circle", x, y, radius*2, radius*2);
+        if(circleRegion == null){
+            circleRegion = Draw.region("circle");
+        }
+
+        Draw.rect(circleRegion, x, y, radius*2, radius*2);
     }
 
     public static void rect(float x, float y, float width, float height){

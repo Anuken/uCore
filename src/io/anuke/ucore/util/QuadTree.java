@@ -53,7 +53,7 @@ public class QuadTree<T> {
         this.bounds = bounds;
         this.maxObjectsPerNode = maxObjectsPerNode;
         this.provider = provider;
-        objects = new Array<T>();
+        objects = new ThreadArray<>();
         leaf = true;
     }
     

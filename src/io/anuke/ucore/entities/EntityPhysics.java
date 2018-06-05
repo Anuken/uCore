@@ -3,17 +3,18 @@ package io.anuke.ucore.entities;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import io.anuke.ucore.entities.trait.SolidTrait;
 import io.anuke.ucore.entities.impl.BaseEntity;
+import io.anuke.ucore.entities.trait.SolidTrait;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
+import io.anuke.ucore.util.ThreadArray;
 
 import static io.anuke.ucore.entities.Entities.defaultGroup;
 import static io.anuke.ucore.entities.Entities.entityLock;
 
 public class EntityPhysics {
     private static final EntityCollisions collisions = new EntityCollisions();
-    private static final Array<SolidTrait> array = new Array<>();
+    private static final ThreadArray<SolidTrait> array = new ThreadArray<>();
     private static final Rectangle r1 = new Rectangle();
 
     public static EntityCollisions collisions(){

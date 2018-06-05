@@ -3,10 +3,8 @@ package io.anuke.ucore.core;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.Timer.Task;
-
 import io.anuke.ucore.function.Callable;
 import io.anuke.ucore.function.DelayRun;
-import io.anuke.ucore.function.Supplier;
 
 public class Timers{
     /**Time resets after 5 hours due to percision issues.*/
@@ -16,7 +14,7 @@ public class Timers{
 	private static ObjectFloatMap<Integer> timers = new ObjectFloatMap<>();
 	private static DelayedRemovalArray<DelayRun> runs = new DelayedRemovalArray<>();
 	private static long lastMark = 0;
-	private static Supplier<Float> deltaimpl = () -> Math.min(Gdx.graphics.getDeltaTime()*60f, 3f);
+	private static DeltaProvider deltaimpl = () -> Math.min(Gdx.graphics.getDeltaTime()*60f, 3f);
 
 	public static synchronized void run(float delay, Callable r){
 		DelayRun run = Pools.obtain(DelayRun.class);
@@ -138,7 +136,7 @@ public class Timers{
 		return deltaimpl.get();
 	}
 
-	public static void setDeltaProvider(Supplier<Float> impl){
+	public static void setDeltaProvider(DeltaProvider impl){
 		deltaimpl = impl;
 	}
 	
@@ -153,5 +151,9 @@ public class Timers{
 	static void dispose(){
 		timers.clear();
 		runs.clear();
+	}
+
+	public interface DeltaProvider{
+		float get();
 	}
 }

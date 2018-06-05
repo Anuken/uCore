@@ -101,4 +101,9 @@ public class Atlas extends TextureAtlas{
 	public TextureRegion getRegion(String name){
 		return findRegion(name);
 	}
+
+	public TextureRegion getRegion(String name, TextureRegion def){
+		TextureRegion region =  regionmap.get(name);
+		return region == null ? def : region;
+	}
 }

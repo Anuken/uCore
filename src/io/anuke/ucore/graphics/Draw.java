@@ -263,6 +263,10 @@ public class Draw{
 		return Core.atlas == null ? null : Core.atlas.getRegion(name);
 	}
 
+	public static TextureRegion optional(String name){
+		return Core.atlas == null ? null : Core.atlas.getRegion(name, null);
+	}
+
 	public static boolean hasRegion(String name){
 		return Core.atlas.hasRegion(name);
 	}

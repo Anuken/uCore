@@ -1,14 +1,14 @@
 package io.anuke.ucore.entities;
 
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import io.anuke.ucore.entities.trait.Entity;
+import io.anuke.ucore.util.ThreadArray;
 
 public class Entities{
 	public static final Object entityLock = new Object();
 
 	private static final EntityGroup<Entity> defaultGroup;
-	private static final Array<EntityGroup<?>> groupArray = new Array<>();
+	private static final ThreadArray<EntityGroup<?>> groupArray = new ThreadArray<>();
 	private static final IntMap<EntityGroup<?>> groups = new IntMap<>();
 	
 	public static final int maxLeafObjects = 4;

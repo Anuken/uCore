@@ -2,6 +2,7 @@ package io.anuke.ucore.entities;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
 import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.entities.trait.SolidTrait;
@@ -31,6 +32,7 @@ public class EntityCollisions {
 
     //entity collisions
     private IntSet collided = new IntSet();
+    private Array<SolidTrait> arrOut = new Array<>();
 
     public void setCollider(float tilesize, TileCollider collider, TileHitboxProvider hitbox){
         this.tilesize = tilesize;
@@ -260,9 +262,7 @@ public class EntityCollisions {
         collided.clear();
 
         for(Entity entity : groupa.all()){
-            if(!(entity instanceof SolidTrait))
-                continue;
-            if(collided.contains(entity.getID()))
+            if(!(entity instanceof SolidTrait) || collided.contains(entity.getID()))
                 continue;
 
             SolidTrait solid = (SolidTrait)entity;
@@ -276,12 +276,14 @@ public class EntityCollisions {
 
             synchronized (Entities.entityLock) {
 
-                groupb.tree().getIntersect(c -> {
-                    SolidTrait sc = (SolidTrait)c;
+                arrOut.clear();
+                groupb.tree().getIntersect(arrOut, r2);
+
+                for(SolidTrait sc : arrOut){
                     if (!collided.contains(sc.getID())) {
                         checkCollide(entity, sc);
                     }
-                }, r2);
+                }
             }
 
             collided.add(entity.getID());
