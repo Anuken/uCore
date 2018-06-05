@@ -12,11 +12,6 @@ public abstract class BaseEntity implements Entity {
 	public int id;
 	public float x,y;
 	
-	public void update(){}
-	public void draw(){}
-	public void removed(){}
-	public void added(){}
-	
 	public BaseEntity(){
 		id = lastid++;
 	}
