@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import io.anuke.ucore.util.Mathf;
 
 import static io.anuke.ucore.core.Core.batch;
 
@@ -63,7 +64,7 @@ public class Lines {
 
     public static void line(TextureRegion blankregion, float x, float y, float x2, float y2, CapStyle cap, float padding){
         float length = Vector2.dst(x, y, x2, y2) + ( cap == CapStyle.none ? padding*2f : stroke / 2 + (cap == CapStyle.round ? 0 : padding*2));
-        float angle = ((float) Math.atan2(y2 - y, x2 - x) * MathUtils.radDeg);
+        float angle = Mathf.fastAtan2(y2 - y, x2 - x) * MathUtils.radDeg;
 
         if(cap == CapStyle.square){
             batch.draw(blankregion, x - stroke / 2 - padding, y - stroke / 2, stroke / 2 + padding, stroke / 2, length, stroke, 1f, 1f, angle);

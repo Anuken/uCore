@@ -46,11 +46,6 @@ public class Angles{
 	static public float angle(float x, float y, float x2, float y2){
 		return Mathf.atan2(x2 - x, y2 -y);
 	}
-	
-	static public float predictAngle(float x, float y, float x2, float y2, float velocityx, float velocityy, float speed){
-		float time = Vector2.dst(x, y, x2, y2) / speed;
-		return angle(x, y, x2 + velocityx*time, y2 + velocityy*time);
-	}
 
 	static public float trnsx(float angle, float len){
 		return len * MathUtils.cos(MathUtils.degreesToRadians * angle);
