@@ -1,4 +1,4 @@
-package io.anuke.ucore.util;
+package io.anuke.ucore.io;
 
 import java.nio.ByteBuffer;
 
