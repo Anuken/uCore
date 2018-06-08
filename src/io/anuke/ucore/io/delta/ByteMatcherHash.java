@@ -63,6 +63,11 @@ public class ByteMatcherHash implements ByteMatcher {
 	final private int hashMask;
 	final private int[][] hashValues;
 
+	/**See {@link #ByteMatcherHash(int, int, byte[], int, byte[])}.*/
+	public ByteMatcherHash(byte[] source, byte[] target) {
+		this(6, 4, source, 1, target);
+	}
+
 	/**
 	 * Creates and initialises a new byte matcher.
 	 * <p>

@@ -1,4 +1,4 @@
-package io.anuke.ucore.io.delta;
+package io.anuke.ucore.io;
 
 import java.io.DataInput;
 import java.nio.ByteBuffer;
