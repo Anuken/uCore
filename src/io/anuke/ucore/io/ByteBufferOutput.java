@@ -3,10 +3,19 @@ package io.anuke.ucore.io;
 import java.io.DataOutput;
 import java.nio.ByteBuffer;
 
+/**DataOutput wrapper of ByteBuffer.*/
 public class ByteBufferOutput implements DataOutput {
-    private final ByteBuffer buffer;
+    private ByteBuffer buffer;
 
+    /**Wraps the specified ByteBuffer.*/
     public ByteBufferOutput(ByteBuffer buffer) {
+        this.buffer = buffer;
+    }
+
+    /**{@link #setBuffer} must be called before this object can be used.*/
+    public ByteBufferOutput(){}
+
+    public void setBuffer(ByteBuffer buffer) {
         this.buffer = buffer;
     }
 

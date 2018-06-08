@@ -25,14 +25,21 @@ import java.io.IOException;
  * <p>
  */
 public class DEZDecoder {
+	/**Cached result byte array. This is so no extra memory is allocated every single decode.*/
+	private byte[] target;
+	/**Lenght of decoded target array.*/
+	private int decodeLength;
 
-	private final byte[] patch;
-	private final byte[] source;
+	private byte[] patch;
+	private byte[] source;
 	private int pi, si;
 
-	public DEZDecoder(byte[] src, byte[] patch) {
+	/**Call this function before decoding anything.*/
+	public void init(byte[] src, byte[] patch){
 		this.patch = patch;
 		this.source = src;
+		pi = 0;
+		si = 0;
 	}
 
 	private int decodeInt() {
@@ -48,12 +55,7 @@ public class DEZDecoder {
 		return v;
 	}
 
-	/**
-	 * On entry pi points to the opcode, which is also in 'op'.
-	 *
-	 * @param op
-	 * @return
-	 */
+	/**On entry pi points to the opcode, which is also in 'op'.*/
 	private int decodeLength(int op) {
 		int length = op & 0x1f;
 
@@ -65,14 +67,10 @@ public class DEZDecoder {
 		return length;
 	}
 
-	/**
-	 * Recreates the original target data from the source and patch.
-	 *
-	 * @return
-	 * @throws IOException
-	 */
-	public byte[] decode() throws IOException, ArrayIndexOutOfBoundsException {
-		byte[] target;
+	/**Recreates the original target data from the source and patch.
+	 * Returns the same byte array each time. Only part of the array is used! Retrieve the used length
+	 * by calling {@link #getDecodedLength()}.*/
+	public byte[] decode() throws IOException {
 		int ti = 0;
 
 		pi = 0;
@@ -96,13 +94,15 @@ public class DEZDecoder {
 		if (sourceSize != source.length)
 			throw new IOException("Patch/source size mismatch");
 
-		target = new byte[targetSize];
+		//resize cached result byte array if it's too small
+		if(target.length < targetSize) {
+			target = new byte[targetSize];
+		}
 
-		/**
-		 * Decode loop.
-		 * <p>
-		 * Since java will check the array accesses anyway, don't clutter the code with our own.
-		 */
+		decodeLength = targetSize;
+
+		//Decode loop.
+		//Since java will check the array accesses anyway, don't clutter the code with our own.
 		while (ti < targetSize) {
 			byte op = patch[pi];
 			byte r;
@@ -135,6 +135,11 @@ public class DEZDecoder {
 		}
 
 		return target;
+	}
+
+	/**Returns decoded length of array.*/
+	public int getDecodedLength(){
+		return decodeLength;
 	}
 
 }

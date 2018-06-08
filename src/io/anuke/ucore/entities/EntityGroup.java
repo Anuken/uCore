@@ -33,6 +33,10 @@ public class EntityGroup<T extends Entity>{
 		return this;
 	}
 
+	public boolean mappingEnabled(){
+		return map != null;
+	}
+
 	public Class<T> getType(){
 		return type;
 	}

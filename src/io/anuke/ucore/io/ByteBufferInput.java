@@ -3,10 +3,19 @@ package io.anuke.ucore.io;
 import java.io.DataInput;
 import java.nio.ByteBuffer;
 
+/**DataInput wrapper of ByteBuffer.*/
 public class ByteBufferInput implements DataInput{
-    private final ByteBuffer buffer;
+    private ByteBuffer buffer;
 
+    /**Wraps the specified ByteBuffer.*/
     public ByteBufferInput(ByteBuffer buffer) {
+        this.buffer = buffer;
+    }
+
+    /**{@link #setBuffer} must be called before this object can be used.*/
+    public ByteBufferInput(){}
+
+    public void setBuffer(ByteBuffer buffer) {
         this.buffer = buffer;
     }
 
