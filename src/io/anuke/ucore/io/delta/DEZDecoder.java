@@ -95,7 +95,7 @@ public class DEZDecoder {
 			throw new IOException("Patch/source size mismatch");
 
 		//resize cached result byte array if it's too small
-		if(target.length < targetSize) {
+		if(target == null || target.length < targetSize) {
 			target = new byte[targetSize];
 		}
 
