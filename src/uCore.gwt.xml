@@ -2,6 +2,7 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN" "https://raw.githubusercontent.com/gwtproject/gwt/master/distro-source/core/src/gwt-module.dtd">
 <module>
 	<source path="io/anuke/ucore" />
+	<super-source path="emu/" />
     <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.function.DelayRun" />
 
     <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene" />
