@@ -20,7 +20,7 @@ public class EntityGroup<T extends Entity>{
 	private QuadTree<T> tree;
 	private Class<T> type;
 	
-	public  final boolean useTree;
+	public final boolean useTree;
 	
 	public EntityGroup(Class<T> type, boolean useTree){
 		this.useTree = useTree;
@@ -70,9 +70,24 @@ public class EntityGroup<T extends Entity>{
 		entitiesToRemove.clear();
 	}
 
-	public T getByID(int id){
+	public synchronized T getByID(int id){
 		if(map == null) throw new RuntimeException("Mapping is not enabled for this group!");
 		return map.get(id);
+	}
+
+	public synchronized void removeByID(int id){
+		if(map == null) throw new RuntimeException("Mapping is not enabled for this group!");
+		T t = map.get(id);
+		if(t != null){ //remove if present in map already
+			remove(t);
+		}else{ //maybe it's being queued?
+			for(T check : entitiesToAdd){
+				if(check.getID() == id){ //if it is indeed queued, remove it
+					entitiesToAdd.removeValue(check, true);
+					break;
+				}
+			}
+		}
 	}
 
 	public synchronized void remap(T entity, int newID){
@@ -110,6 +125,10 @@ public class EntityGroup<T extends Entity>{
 		if(type.getGroup() != null) return; //throw new RuntimeException("Entities cannot be added twice!");
 		type.setGroup(this);
 		entitiesToAdd.add(type);
+
+		if(mappingEnabled()){
+			map.put(type.getID(), type);
+		}
 	}
 	
 	public synchronized void remove(T type){

@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 import io.anuke.ucore.entities.trait.ScaleTrait;
 import io.anuke.ucore.entities.trait.TimeTrait;
 
-public abstract class TimedEntity extends BaseEntity implements ScaleTrait, Poolable, TimeTrait{
+public abstract class TimedEntity extends BaseEntity implements ScaleTrait, TimeTrait, Poolable{
 	public float time;
 
 	@Override

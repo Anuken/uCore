@@ -8,6 +8,14 @@ public class SeedRandom extends RandomXS128{
         super(seed);
     }
 
+    public SeedRandom(){
+
+    }
+
+    public boolean chance(double chance){
+        return nextDouble() < chance;
+    }
+
     public float range(float amount){
         return nextFloat() * amount * 2 - amount;
     }
