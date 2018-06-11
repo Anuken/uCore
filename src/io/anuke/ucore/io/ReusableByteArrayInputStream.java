@@ -10,6 +10,10 @@ public class ReusableByteArrayInputStream extends ByteArrayInputStream {
         super(new byte[0]);
     }
 
+    public int position(){
+        return pos;
+    }
+
     public void setBytes(byte[] bytes){
         pos = 0;
         count = bytes.length;
