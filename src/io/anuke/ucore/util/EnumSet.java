@@ -12,7 +12,7 @@ public class EnumSet<T extends Enum<T>> implements Iterable<T>{
         EnumSet<T> set = new EnumSet<>();
         set.set = arr;
         for(T t : arr){
-            set.i |= Mathf.pow2(t.ordinal());
+            set.i |= (1 << t.ordinal());
         }
         return set;
     }

@@ -3,6 +3,7 @@ package io.anuke.ucore.util;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.IntIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.function.Consumer;
@@ -352,6 +353,14 @@ public class Mathf{
 		if(i > max)
 			i = max;
 		return i;
+	}
+
+	public static IntIntMap mapInt(int... values){
+		IntIntMap map = new IntIntMap();
+		for(int i = 0; i < values.length; i += 2){
+			map.put(values[i], values[i + 1]);
+		}
+		return map;
 	}
 
 	public static <K, V> ObjectMap<K, V> map(Object... values){

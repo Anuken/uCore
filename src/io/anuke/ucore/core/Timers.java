@@ -13,7 +13,7 @@ public class Timers{
 	private static float time;
 	private static ObjectFloatMap<Integer> timers = new ObjectFloatMap<>();
 	private static DelayedRemovalArray<DelayRun> runs = new DelayedRemovalArray<>();
-	private static long lastMark = 0;
+	private static LongArray marks = new LongArray();
 	private static DeltaProvider deltaimpl = () -> Math.min(Gdx.graphics.getDeltaTime()*60f, 3f);
 
 	public static synchronized void run(float delay, Callable r){
@@ -97,11 +97,16 @@ public class Timers{
 	}
 
 	public static void mark(){
-		lastMark = TimeUtils.nanoTime();
+		marks.add(TimeUtils.nanoTime());
 	}
 
+	/**A value of -1 means mark() wasn't called beforehand.*/
 	public static float elapsed(){
-		return (TimeUtils.timeSinceNanos(lastMark)/1000000f);
+		if(marks.size == 0){
+			return -1;
+		}else{
+			return TimeUtils.timeSinceNanos(marks.pop())/1000000f;
+		}
 	}
 	
 	/**Use normal delta time (e. g. gdx delta * 60)*/
