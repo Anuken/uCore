@@ -32,10 +32,7 @@ public class EnumSet<T extends Enum<T>> implements Iterable<T>{
 
             @Override
             public T next() {
-                T t = set[index];
-                index ++;
-
-                return t;
+                return set[index++];
             }
         };
     }
