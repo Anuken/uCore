@@ -13,7 +13,7 @@ public class RidgedPerlin{
 	float lacunarity = 2f;
 	double[] spectralWeights = new double[20];
 	
-	public RidgedPerlin(int seed, int octaves, float falloff) {
+	public RidgedPerlin(int seed, int octaves) {
 		this.octaves = octaves;
 		this.seed = seed;
 		double h = 1.0;
