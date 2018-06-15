@@ -14,6 +14,10 @@ public class Settings{
 	private static boolean disabled = false;
 	private static Listenable errorHandler;
 	private static Json json = new Json();
+
+	static{
+		json.addClassTag("str", String.class);
+	}
 	
 	public static void setErrorHandler(Listenable handler){
 		errorHandler = handler;
@@ -52,6 +56,10 @@ public class Settings{
 
 	public static void putJson(String name, Object value){
 		prefs.putString(name, json.toJson(value));
+	}
+
+	public static void putJson(String name, Object value, Class<?> type){
+		prefs.putString(name, json.toJson(value, value.getClass(), type));
 	}
 	
 	public static void putFloat(String name, float val){

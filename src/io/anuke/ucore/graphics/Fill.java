@@ -20,7 +20,9 @@ public class Fill {
         if(shapeRegions == null){
             shapeRegions = new TextureRegion[9];
             for(int i = 3; i <= 8; i ++){
-                shapeRegions[i] = Draw.region("shape-" + i);
+                if(Draw.hasRegion("shape-" + i)) {
+                    shapeRegions[i] = Draw.region("shape-" + i);
+                }
             }
         }
     }

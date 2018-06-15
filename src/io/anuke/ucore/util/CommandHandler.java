@@ -15,7 +15,7 @@ public class CommandHandler{
 	
 	public Response handleMessage(String message){
 		if(message == null || (!message.startsWith(prefix)))
-			return new Response(ResponseType.noCommand, null);
+			return new Response(ResponseType.noCommand, null, null);
 
 		message = message.substring(prefix.length());
 
@@ -32,7 +32,7 @@ public class CommandHandler{
 
 			while(true){
 				if(index >= command.params.length && !argstr.isEmpty()){
-					return new Response(ResponseType.manyArguments, command);
+					return new Response(ResponseType.manyArguments, command, commandstr);
 				}else if(argstr.isEmpty()) break;
 
 				if(command.params[index].optional || index >= command.params.length - 1 || command.params[index + 1].optional){
@@ -47,7 +47,7 @@ public class CommandHandler{
 				int next = argstr.indexOf(" ");
 				if(next == -1){
 					if(!satisfied){
-						return new Response(ResponseType.fewArguments, command);
+						return new Response(ResponseType.fewArguments, command, commandstr);
 					}
 					result.add(argstr);
 					break;
@@ -61,14 +61,14 @@ public class CommandHandler{
 			}
 
 			if(!satisfied && command.params.length > 0 && !command.params[0].optional){
-				return new Response(ResponseType.fewArguments, command);
+				return new Response(ResponseType.fewArguments, command, commandstr);
 			}
 
 			command.runner.accept(result.toArray(String.class));
 
-			return new Response(ResponseType.valid, command);
+			return new Response(ResponseType.valid, command, commandstr);
 		}else{
-			return new Response(ResponseType.unknownCommand, null);
+			return new Response(ResponseType.unknownCommand, null, commandstr);
 		}
 	}
 	
@@ -160,10 +160,12 @@ public class CommandHandler{
 	public static class Response{
 		public final ResponseType type;
 		public final Command command;
+		public final String runCommand;
 		
-		public Response(ResponseType type, Command command){
+		public Response(ResponseType type, Command command, String runCommand){
 			this.type = type;
 			this.command = command;
+			this.runCommand = runCommand;
 		}
 	}
 	
