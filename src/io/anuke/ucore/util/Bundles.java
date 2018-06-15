@@ -13,11 +13,11 @@ public class Bundles {
     }
 
     public static boolean has(String key){
-        return !Core.bundle.get(key).contains("???");
+        return Core.bundle != null && !Core.bundle.get(key).contains("???");
     }
 
     public static String get(String name){
-        return Core.bundle.get(name);
+        return Core.bundle == null ? null : Core.bundle.get(name);
     }
 
     public static String getOrNull(String name){

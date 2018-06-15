@@ -76,4 +76,12 @@ public class Log {
         }
     }
 
+    public static class NoopLogHandler extends LogHandler{
+        @Override
+        public void print(String text, Object... args){}
+
+        @Override
+        public void err(Throwable e){}
+    }
+
 }

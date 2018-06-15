@@ -28,6 +28,11 @@ public class Atlas extends TextureAtlas{
 		error = findRegion("error");
 	}
 
+	/**Empty constructor. Does not load resources. Internal use only.*/
+	public Atlas(){
+
+	}
+
 	/**Used for getting the pixmap of a certain region.
 	 * Note that it is internally stored and disposed when needed.
 	 * @param name the name of the region to use.
