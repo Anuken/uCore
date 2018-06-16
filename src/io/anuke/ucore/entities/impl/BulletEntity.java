@@ -1,15 +1,11 @@
 package io.anuke.ucore.entities.impl;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import io.anuke.ucore.core.Timers;
-import io.anuke.ucore.entities.trait.DamageTrait;
-import io.anuke.ucore.entities.trait.DrawTrait;
-import io.anuke.ucore.entities.trait.Entity;
-import io.anuke.ucore.entities.trait.VelocityTrait;
-import io.anuke.ucore.entities.trait.SolidTrait;
+import io.anuke.ucore.entities.trait.*;
 import io.anuke.ucore.util.Mathf;
-import io.anuke.ucore.entities.trait.ScaleTrait;
 
 public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity implements DamageTrait, ScaleTrait, Poolable, DrawTrait, VelocityTrait {
 	protected T type;
@@ -44,6 +40,10 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 			type.despawned(this);
 			remove();
 		}
+	}
+
+	public Entity getOwner() {
+		return owner;
 	}
 
 	@Override
@@ -109,6 +109,8 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 	}
 	
 	public float angle(){
-		return velocity.angle();
+		float angle = Mathf.fastAtan2(velocity.y, velocity.x) * MathUtils.radiansToDegrees;
+		if (angle < 0) angle += 360;
+		return angle;
 	}
 }
