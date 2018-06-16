@@ -70,8 +70,8 @@ public class Atlas extends TextureAtlas{
 	}
 	
 	/**Sets the error region to the specified region.*/
-	public void setErrorRegion(AtlasRegion region){
-		error = region;
+	public void setErrorRegion(String name){
+		error = findRegion(name);
 	}
 
 	/**Note that this returns the 'error' region if this region is not found.*/
