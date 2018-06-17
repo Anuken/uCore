@@ -38,10 +38,7 @@ public class Log {
     }
 
     public static String format(String text, Object... args){
-
-        for(int i = 0; i < args.length; i ++){
-            text = text.replace("{" + i + "}", String.valueOf(args[i]));
-        }
+        text = Strings.formatArgs(text, args);
 
         if(useColors) {
             for (String color : ColorCodes.getColorCodes()) {

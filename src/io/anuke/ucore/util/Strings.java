@@ -33,6 +33,15 @@ public class Strings{
 		return build.toString();
 	}
 
+	public static String formatArgs(String text, Object... args){
+
+		for(int i = 0; i < args.length; i ++){
+			text = text.replace("{" + i + "}", String.valueOf(args[i]));
+		}
+
+		return text;
+	}
+
 	/**Returns the levenshtein distance between two strings.*/
 	public static int levenshtein(String x, String y) {
 		int[][] dp = new int[x.length() + 1][y.length() + 1];
