@@ -48,6 +48,7 @@ public class EntityCollisions {
 
         boolean movedx = false;
 
+
         while(Math.abs(deltax) > 0 || !movedx){
             movedx = true;
             moveInternal(entity, Math.min(Math.abs(deltax), seg) * Mathf.sign(deltax), 0, true);
@@ -78,7 +79,8 @@ public class EntityCollisions {
             throw new IllegalArgumentException("No tile collider specified! Call setCollider() first.");
 
         Rectangle rect = r1;
-        entity.getHitbox(rect);
+        entity.getHitboxTile(rect);
+        entity.getHitboxTile(r2);
         rect.x += deltax;
         rect.y += deltay;
 
@@ -100,9 +102,7 @@ public class EntityCollisions {
             }
         }
 
-        entity.getHitbox(r2);
-        entity.setX(entity.getX() + rect.x - r2.x);
-        entity.setY(entity.getY() + rect.y - r2.y);
+        entity.set(entity.getX() + rect.x - r2.x, entity.getY() + rect.y - r2.y);
     }
 
     public boolean overlapsTile(Rectangle rect){

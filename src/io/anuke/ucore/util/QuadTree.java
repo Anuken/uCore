@@ -68,10 +68,10 @@ public class QuadTree<T> {
         float subH = bounds.height / 2;
 
         leaf = false;
-        bottomLeftChild = new QuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x, bounds.y, subW, subH), provider);
-        bottomRightChild = new QuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x + subW, bounds.y, subW, subH), provider);
-        topLeftChild = new QuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x, bounds.y + subH, subW, subH), provider);
-        topRightChild = new QuadTree<T>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x + subW, bounds.y + subH, subW, subH), provider);
+        bottomLeftChild = new QuadTree<>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x, bounds.y, subW, subH), provider);
+        bottomRightChild = new QuadTree<>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x + subW, bounds.y, subW, subH), provider);
+        topLeftChild = new QuadTree<>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x, bounds.y + subH, subW, subH), provider);
+        topRightChild = new QuadTree<>(maxObjectsPerNode, level + 1, new Rectangle(bounds.x + subW, bounds.y + subH, subW, subH), provider);
 
         // Transfer objects to children if they fit entirely in one
         for (Iterator<T> iterator = objects.iterator(); iterator.hasNext(); ) {
@@ -150,10 +150,10 @@ public class QuadTree<T> {
     /**Removes all objects.*/
     public void clear(){
     	objects.clear();
-    	if(bottomLeftChild!=null)bottomLeftChild.clear();
-    	if(bottomRightChild!=null)bottomRightChild.clear();
-    	if(topLeftChild!=null)topLeftChild.clear();
-    	if(topRightChild!=null)topRightChild.clear();
+    	if(bottomLeftChild!=null) bottomLeftChild.clear();
+    	if(bottomRightChild!=null) bottomRightChild.clear();
+    	if(topLeftChild!=null) topLeftChild.clear();
+    	if(topRightChild!=null) topRightChild.clear();
     }
 
     private QuadTree<T> getFittingChild(Rectangle boundingBox) {

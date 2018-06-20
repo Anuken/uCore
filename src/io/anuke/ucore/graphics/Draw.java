@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.NumberUtils;
 import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.util.Log;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Tmp;
 
@@ -24,6 +25,11 @@ public class Draw{
 
 	public static TextureRegion getBlankRegion(){
 		if(blankRegion == null){
+			if(Core.atlas.hasRegion("blank")){
+				blankRegion = Core.atlas.getRegion("blank");
+				return blankRegion;
+			}
+			Log.err("WARNING: No blank texture region found. Falling back to manually-created region.");
 			blankRegion = Pixmaps.blankTextureRegion();
 		}
 		return blankRegion;

@@ -47,7 +47,9 @@ public class EntityPhysics {
     public static Array<SolidTrait> getNearby(EntityGroup<?> group, Rectangle rect){
         synchronized (entityLock) {
             array.clear();
-            getNearby(group, rect, array::add);
+            if (!group.useTree)
+                throw new RuntimeException("This group does not support quadtrees! Enable quadtrees when creating it.");
+            group.tree().getIntersect(array, rect);
             return array;
         }
     }

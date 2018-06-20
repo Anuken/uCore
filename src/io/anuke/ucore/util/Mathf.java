@@ -93,8 +93,17 @@ public class Mathf{
 		return out;
 	}
 	
-	/**Mod function that works properly for negative integers..*/
+	/**Mod function that works properly for negative integers.*/
 	public static int mod(int i, int m){
+		if(i >= 0){
+			return i % m;
+		}else{
+			return i % m + m;
+		}
+	}
+
+	/**Mod function that works properly for negative integers.*/
+	public static float mod(float i, float m){
 		if(i >= 0){
 			return i % m;
 		}else{
@@ -136,6 +145,18 @@ public class Mathf{
 	
 	public static float absin(float in, float scl, float mag){
 		return (sin(in, scl*2f, mag) + mag) / 2f;
+	}
+
+	/**Returns the X (cos) component of a square wave. Input value is in degrees.*/
+	public static float sqrwavex(float degrees){
+		degrees = Mathf.mod(degrees, 360f);
+		return (degrees > 90 && degrees <= 270 ? -1 : 1);
+	}
+
+	/**Returns the Y (sin) component of a square wave. Input value is in degrees.*/
+	public static float sqrwavey(float degrees){
+		degrees = Mathf.mod(degrees, 360f);
+		return (degrees > 0 && degrees <= 180 ? 1 : -1);
 	}
 
 	/**Converts a value range from 0-1 to a value range 0-1-0.*/
