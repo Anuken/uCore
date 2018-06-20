@@ -34,6 +34,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import io.anuke.ucore.core.Core;
+import io.anuke.ucore.graphics.ClipSpriteBatch;
 import io.anuke.ucore.scene.event.*;
 import io.anuke.ucore.scene.event.InputEvent.Type;
 import io.anuke.ucore.scene.ui.layout.Table;
@@ -123,14 +124,21 @@ public class Scene extends InputAdapter implements Disposable {
 		if (!root.isVisible()) return;
 		
 		Batch old = Core.batch;
-		Core.batch = (SpriteBatch)batch;
+		Core.batch = batch;
 		
 		Batch batch = this.batch;
+		if(Core.batch instanceof ClipSpriteBatch){
+			((ClipSpriteBatch) Core.batch).enableClip(false);
+		}
+
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		root.draw(batch, 1);
 		batch.end();
-		
+
+		if(Core.batch instanceof ClipSpriteBatch){
+			((ClipSpriteBatch) Core.batch).enableClip(true);
+		}
 		Core.batch = old;
 
 		if (debug) drawDebug();

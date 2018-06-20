@@ -3,11 +3,10 @@ package io.anuke.ucore.modules;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Inputs;
+import io.anuke.ucore.graphics.ClipSpriteBatch;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
@@ -20,11 +19,9 @@ public class SceneModule extends Module{
 	
 	public Scene scene;
 	public Skin skin;
-
-	private boolean mouse = false;
 	
 	public SceneModule(){
-		if(Core.batch == null) Core.batch = new SpriteBatch();
+		if(Core.batch == null) Core.batch = new ClipSpriteBatch();
 		scene = new Scene(Core.batch);
 		Inputs.addProcessor(scene);
 
@@ -118,10 +115,8 @@ public class SceneModule extends Module{
 	
 	/**Updates and draws the stage.*/
 	public void act(){
-		mouse = scene.hit(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true) != null;
 		scene.act();
 		scene.draw();
-		mouse = scene.hit(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true) != null;
 	}
 	
 	/**Gets a drawable by name*/

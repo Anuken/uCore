@@ -147,16 +147,25 @@ public class Mathf{
 		return (sin(in, scl*2f, mag) + mag) / 2f;
 	}
 
-	/**Returns the X (cos) component of a square wave. Input value is in degrees.*/
+	/**Returns the X (cos) component of a unit-square. Input value is in degrees.*/
 	public static float sqrwavex(float degrees){
 		degrees = Mathf.mod(degrees, 360f);
-		return (degrees > 90 && degrees <= 270 ? -1 : 1);
+		if(degrees < 45){
+			return 1;
+		}else if(degrees < 135){
+			return 1f - (degrees-45f)/90f;
+		}else if(degrees < 225){
+			return - 1f;
+		}else if(degrees < 315){
+			return (degrees-225)/90f;
+		}else{
+			return 1f;
+		}
 	}
 
 	/**Returns the Y (sin) component of a square wave. Input value is in degrees.*/
 	public static float sqrwavey(float degrees){
-		degrees = Mathf.mod(degrees, 360f);
-		return (degrees > 0 && degrees <= 180 ? 1 : -1);
+		return sqrwavex(degrees + 90f);
 	}
 
 	/**Converts a value range from 0-1 to a value range 0-1-0.*/
