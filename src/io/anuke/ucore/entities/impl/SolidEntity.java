@@ -1,16 +1,17 @@
 package io.anuke.ucore.entities.impl;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import io.anuke.ucore.entities.trait.SolidTrait;
 
 public abstract class SolidEntity extends BaseEntity implements SolidTrait {
-	private transient Vector2 lastPosition = new Vector2(Float.NaN, Float.NaN);
+	private transient Vector3 lastPosition = new Vector3(Float.NaN, Float.NaN, Float.NaN);
+	private transient long lastUpdated = 0, updateSpacing;
 
 	public transient Rectangle hitbox = new Rectangle(), hitboxTile = new Rectangle();
 
 	@Override
-	public Vector2 lastPosition(){
+	public Vector3 lastPosition(){
 		return lastPosition;
 	}
 
@@ -23,4 +24,26 @@ public abstract class SolidEntity extends BaseEntity implements SolidTrait {
 	public void getHitboxTile(Rectangle rectangle){
 		rectangle.set(hitboxTile).setCenter(x + hitboxTile.x, y + hitboxTile.y);
 	}
+
+	@Override
+	public long lastUpdated() {
+		return lastUpdated;
+	}
+
+	@Override
+	public void setLastUpdated(long l) {
+		this.lastUpdated = l;
+	}
+
+	@Override
+	public long updateSpacing() {
+		return updateSpacing;
+	}
+
+	@Override
+	public void setUpdateSpacing(long l) {
+		this.updateSpacing = l;
+	}
+
+
 }

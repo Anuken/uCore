@@ -24,11 +24,13 @@ public class EntityDraw {
         viewport.set(cam.position.x - cam.viewportWidth / 2 * cam.zoom, cam.position.y - cam.viewportHeight / 2 * cam.zoom, cam.viewportWidth * cam.zoom, cam.viewportHeight * cam.zoom);
 
         for(DrawTrait e : group.all()){
-            if(!toDraw.test((T)e) || !e.isAdded()) continue;
+            T t = (T)e;
+
+            if(!toDraw.test(t) || !e.isAdded()) continue;
             rect.setSize(e.drawSize()).setCenter(e.getX(), e.getY());
 
             if(rect.overlaps(viewport)) {
-                cons.accept((T)e);
+                cons.accept(t);
             }
         }
     }

@@ -24,6 +24,16 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 	}
 
 	@Override
+	public float getRotation() {
+		return angle();
+	}
+
+	@Override
+	public void setRotation(float rotation) {
+		velocity.setAngle(rotation);
+	}
+
+	@Override
 	public void update(){
 		type.update(this);
 		
@@ -93,7 +103,7 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 		owner = null;
 		velocity.setZero();
 		time = 0f;
-		lastPosition().set(Float.NaN, Float.NaN);
+		lastPosition().set(Float.NaN, Float.NaN, Float.NaN);
 	}
 
 	public void setVelocity(float speed, float angle){

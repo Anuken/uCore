@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
+import com.badlogic.gdx.utils.TimeUtils;
 import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.entities.trait.SolidTrait;
 import io.anuke.ucore.function.TileCollider;
@@ -141,7 +142,11 @@ public class EntityCollisions {
         for(Entity entity : group.all()){
             if(entity instanceof SolidTrait){
                 SolidTrait s = (SolidTrait)entity;
-                s.lastPosition().set(s.getX(), s.getY());
+
+                s.lastPosition().set(s.getX(), s.getY(), s.getRotation());
+                if(s.lastUpdated() != 0) s.setUpdateSpacing(TimeUtils.timeSinceMillis(s.lastUpdated()));
+
+                s.setLastUpdated(TimeUtils.millis());
                 tree.insert(s);
             }
         }
@@ -164,10 +169,6 @@ public class EntityCollisions {
         float vbx = b.getX() - b.lastPosition().x;
         float vby = b.getY() - b.lastPosition().y;
 
-        if(a != b && a.collidesOthers() && b.collidesOthers()){
-            fixCollisions(a, b);
-        }
-
         if(a != b && a.collides(b) && b.collides(a)){
             l1.set(a.getX(), a.getY());
             boolean collide = r1.overlaps(r2) || collide(r1.x, r1.y, r1.width, r1.height, vax, vay,
@@ -176,35 +177,6 @@ public class EntityCollisions {
                 a.collision(b, l1.x, l1.y);
                 b.collision(a, l1.x, l1.y);
             }
-        }
-    }
-
-    private void fixCollisions(SolidTrait a, SolidTrait b){
-        a.getHitbox(r1);
-        b.getHitbox(r2);
-
-        float ra = (r1.width + r1.height)/2f, rb = (r2.width + r2.height)/2f;
-
-        //TODO these are really, really bad physics
-
-        float xa = a.getX(),
-                ya = a.getY(),
-                xb = b.getX(),
-                yb = b.getY();
-
-        l1.set(xb - xa, yb - ya);
-        float length = l1.len();
-
-        if(length < ra + rb){
-            l1.setLength(ra + rb);
-
-            float f = 0.2f;
-
-            a.move(Mathf.lerpDelta(a.getX(), xb - l1.x, f) - a.getX(),
-                    Mathf.lerpDelta(a.getY(), yb - l1.y, f) - a.getY());
-
-            b.move(Mathf.lerpDelta(b.getX(), xa + l1.x, f) - b.getX(),
-                    Mathf.lerpDelta(b.getY(), ya + l1.y, f) - b.getY());
         }
     }
 
