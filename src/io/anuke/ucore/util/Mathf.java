@@ -408,6 +408,12 @@ public class Mathf{
 			cons.accept(t);
 		}
 	}
+
+	public static <T> void forEach(Iterable<T> i, Consumer<T> cons){
+		for(T t : i){
+			cons.accept(t);
+		}
+	}
 	
 	public static <T> boolean inBounds(int x, int y, T[][] array){
 		return x >= 0 && y >= 0 && x < array.length && y < array[0].length;
@@ -440,5 +446,44 @@ public class Mathf{
 
 	public static <T> boolean inBounds(int x, int y, int width, int height){
 		return x >= 0 && y >= 0 && x < width && y < height;
+	}
+
+	private static int[][] directions = {{0,1},{1,0},{0,-1},{-1,0}};
+
+	private static boolean shouldTurn(int row, int col, int width, int height){
+		int same = 1;
+		if(row > height-1-row){
+			row = height-1-row;
+			same = 0;
+		}
+		if(col >= width-1-col){
+			col = width-1-col;
+			same = 0;
+		}
+		row -= same;
+		return row == col;
+	}
+
+	public static void traverseSpiral(int width, int height, SpiralTraverser con){
+		traverseSpiral(width, height, 0, con);
+	}
+
+	public static void traverseSpiral(int width, int height, int offset, SpiralTraverser con){
+		int directionIdx=0;
+		int curRow=0, curCol=0;
+		for(int i=0; i<height*width; i++){
+
+			if(i >= offset && con.accept(curCol, curRow)) break;
+
+			if(shouldTurn(curRow, curCol, width, height)){
+				directionIdx = (directionIdx+1)%4;
+			}
+			curRow += directions[directionIdx][0];
+			curCol += directions[directionIdx][1];
+		}
+	}
+
+	public interface SpiralTraverser{
+		boolean accept(int x, int y);
 	}
 }
