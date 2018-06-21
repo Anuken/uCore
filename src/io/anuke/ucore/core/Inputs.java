@@ -17,6 +17,7 @@ import io.anuke.ucore.util.Log;
 import io.anuke.ucore.util.OS;
 
 public class Inputs{
+	private static final float deadzone = 0.3f;
 	private static boolean useControllers = true;
 	private static boolean[] buttons = new boolean[5];
 	private static IntSet keysReleased = new IntSet();
@@ -304,7 +305,8 @@ public class Inputs{
 			Controller c = s.device.controller;
 
 			if(axis.min.axis){
-				return c.getAxis(axis.min.code) * (axis.min.name().contains("VERTICAL") && !OS.isWindows ? -1 : 1);
+				float value =  c.getAxis(axis.min.code) * (axis.min.name().contains("VERTICAL") && !OS.isWindows ? -1 : 1);
+				return Math.abs(value) < deadzone ? 0f : value;
 			}else{
 				boolean min = axis.min.pov ? c.getPov(0) == axis.min.direction : c.getButton(axis.min.code),
 						max = axis.max.pov ? c.getPov(0) == axis.max.direction : c.getButton(axis.max.code);
