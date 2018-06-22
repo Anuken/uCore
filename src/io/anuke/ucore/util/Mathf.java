@@ -425,6 +425,16 @@ public class Mathf{
 		}
 		return result;
 	}
+
+	public static <T> T findMin(Iterable<T> arr, Comparator<T> comp){
+		T result = null;
+		for(T t : arr){
+			if(result == null || comp.compare(result, t) < 0){
+				result = t;
+			}
+		}
+		return result;
+	}
 	
 	public static <T> boolean inBounds(int x, int y, T[][] array){
 		return x >= 0 && y >= 0 && x < array.length && y < array[0].length;
