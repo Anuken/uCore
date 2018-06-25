@@ -46,9 +46,9 @@ public class EntityCollisions {
     }
 
     public void move(SolidTrait entity, float deltax, float deltay){
+        //Log.info("Entity {0}: {1}, {2} -> {3}, {4}", entity.getID(), entity.getX(), entity.getY(), deltax, deltay);
 
         boolean movedx = false;
-
 
         while(Math.abs(deltax) > 0 || !movedx){
             movedx = true;
@@ -103,7 +103,8 @@ public class EntityCollisions {
             }
         }
 
-        entity.set(entity.getX() + rect.x - r2.x, entity.getY() + rect.y - r2.y);
+        entity.setX(entity.getX() + rect.x - r2.x);
+        entity.setY(entity.getY() + rect.y - r2.y);
     }
 
     public boolean overlapsTile(Rectangle rect){

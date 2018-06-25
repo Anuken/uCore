@@ -22,6 +22,11 @@ public class Log {
         logger.info(text, args);
     }
 
+    public static void info(Object object){
+        if(disabled) return;
+        logger.info(String.valueOf(object));
+    }
+
     public static void err(String text, Object... args){
         if(disabled) return;
         logger.err(text, args);

@@ -3,7 +3,7 @@ package io.anuke.ucore.entities;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import io.anuke.ucore.entities.impl.BaseEntity;
+import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.entities.trait.SolidTrait;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
@@ -70,14 +70,14 @@ public class EntityPhysics {
         return getNearby(group, r1.setSize(size).setCenter(x, y));
     }
 
-    public static SolidTrait getClosest(EntityGroup<?> group, float x, float y, float range, Predicate<BaseEntity> pred){
+    public static <T extends Entity> T getClosest(EntityGroup<T> group, float x, float y, float range, Predicate<T> pred){
         synchronized (entityLock) {
-            SolidTrait closest = null;
+            T closest = null;
             float cdist = 0f;
             Array<SolidTrait> entities = getNearby(group, x, y, range * 2f);
             for (int i = 0; i < entities.size; i++) {
-                SolidTrait e = entities.get(i);
-                if (!pred.test((BaseEntity) e))
+                T e = (T)entities.get(i);
+                if (!pred.test((T) e))
                     continue;
 
                 float dist = Vector2.dst(e.getX(), e.getY(), x, y);

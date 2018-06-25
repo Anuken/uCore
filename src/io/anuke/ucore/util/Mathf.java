@@ -280,7 +280,8 @@ public class Mathf{
 	public static Random random(){
 		return MathUtils.random;
 	}
-	
+
+	/**Inclusive.*/
 	public static int randomSeed(long seed, int min, int max){
 		seedr.setSeed(seed);
 		if(MathUtils.isPowerOfTwo(max)){

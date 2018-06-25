@@ -85,7 +85,6 @@ public class Physics{
 	/**Checks for collisions between two rectangles, and returns the correct delta vector of A.
 	 * Note: The same vector instance is returned each time!*/
 	public static Vector2 overlap(Rectangle a, Rectangle b, boolean x){
-		Vector2 normal = vector;
 		float penetration = 0f;
 		
 		float ax = a.x+a.width/2, bx = b.x+b.width/2;
@@ -101,7 +100,7 @@ public class Physics{
 
         // Overlap on x axis
         float xoverlap = aex + bex - Math.abs(nx);
-        if (xoverlap > 0) {
+        if (Math.abs(xoverlap) > 0) {
 
             // Calculate half extends along y axis
             float aey = a.height / 2,
@@ -109,23 +108,22 @@ public class Physics{
 
             // Overlap on x axis
             float yoverlap = aey + bey - Math.abs(ny);
-            if (!MathUtils.isEqual(yoverlap, 0)) {
+            if (Math.abs(yoverlap) > 0) {
 
                 // Find out which axis is the axis of least penetration
                 if (x) {
 
                     // Point towards B knowing that n points from A to B
-                    normal.x = nx < 0 ? 1 : -1;
-                    normal.y = 0;
+                    vector.x = nx < 0 ? 1 : -1;
+					vector.y = 0;
                     penetration = xoverlap;
 
                 } else {
 
                     // Point towards B knowing that n points from A to B
-                    normal.x = 0;
-                    normal.y = ny < 0 ? 1 : -1;
+					vector.x = 0;
+					vector.y = ny < 0 ? 1 : -1;
                     penetration = yoverlap;
-
                 }
 
             }
@@ -136,8 +134,8 @@ public class Physics{
             m = Math.max(penetration - slop, 0.0f);
 
         // Apply correctional impulse
-        float cx = m * normal.x * percent,
-            cy = m * normal.y * percent;
+        float cx = m * vector.x * percent,
+            cy = m * vector.y * percent;
         
         vector.x = -cx;
         vector.y = -cy;
