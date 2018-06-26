@@ -38,6 +38,11 @@ public class EffectEntity extends TimedEntity implements Poolable, DrawTrait {
 
 	@Override
 	public void update() {
+		if(effect == null){
+			remove();
+			return;
+		}
+
 		super.update();
 		if(parent != null){
 			x = parent.x + poffsetx;
