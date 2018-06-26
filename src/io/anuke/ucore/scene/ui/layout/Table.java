@@ -282,11 +282,11 @@ public class Table extends WidgetGroup {
 		return add(table);
 	}
 	
-	public Cell<Label> label (Supplier<String> text) {
+	public Cell<Label> label (Supplier<CharSequence> text) {
 		return add(new Label(text));
 	}
 	
-	public Cell<Label> labelWrap (Supplier<String> text) {
+	public Cell<Label> labelWrap (Supplier<CharSequence> text) {
 		Label label = new Label(text);
 		label.setWrap(true);
 		return add(label);

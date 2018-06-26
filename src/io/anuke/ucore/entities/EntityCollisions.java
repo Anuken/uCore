@@ -26,10 +26,8 @@ public class EntityCollisions {
     private TileHitboxProvider hitboxProvider;
     private Vector2 vector = new Vector2();
     private Vector2 l1 = new Vector2();
-    private Vector2 l2 = new Vector2();
     private Rectangle r1 = new Rectangle();
     private Rectangle r2 = new Rectangle();
-    private Rectangle r3 = new Rectangle();
 
     //entity collisions
     private IntSet collided = new IntSet();

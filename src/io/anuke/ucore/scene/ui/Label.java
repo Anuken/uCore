@@ -57,7 +57,7 @@ public class Label extends Element {
 	private String ellipsis;
 	private boolean fallback = true;
 	
-	public Label(Supplier<String> sup){
+	public Label(Supplier<CharSequence> sup){
 		this("", new LabelStyle(skin.get(LabelStyle.class)));
 		update(() -> setText(sup.get()));
 		try{

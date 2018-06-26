@@ -17,7 +17,7 @@ public class label extends builder<label, Label>{
 		cell = context().add(element);
 	}
 	
-	public label(Supplier<String> prov){
+	public label(Supplier<CharSequence> prov){
 		element = new Label(prov);
 		cell = context().add(element);
 	}

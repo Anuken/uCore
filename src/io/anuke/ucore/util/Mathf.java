@@ -18,7 +18,7 @@ public class Mathf{
 	private static final RandomXS128 seedr = new RandomXS128();
 	private static final RandomXS128 rand = new RandomXS128();
 
-	private static final int Size_Ac = 100000;
+	private static final int Size_Ac = 10000;
 	private static final int Size_Ar = Size_Ac + 1;
 	private static final float Pi = (float) Math.PI;
 	private static final float Pi_H = Pi / 2;
