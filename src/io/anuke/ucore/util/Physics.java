@@ -111,7 +111,7 @@ public class Physics{
             if (Math.abs(yoverlap) > 0) {
 
                 // Find out which axis is the axis of least penetration
-                if (x) {
+                if (Math.abs(xoverlap) < Math.abs(yoverlap)) {
 
                     // Point towards B knowing that n points from A to B
                     vector.x = nx < 0 ? 1 : -1;

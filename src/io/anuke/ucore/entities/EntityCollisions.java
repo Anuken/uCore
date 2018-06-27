@@ -44,7 +44,6 @@ public class EntityCollisions {
     }
 
     public void move(SolidTrait entity, float deltax, float deltay){
-        //Log.info("Entity {0}: {1}, {2} -> {3}, {4}", entity.getID(), entity.getX(), entity.getY(), deltax, deltay);
 
         boolean movedx = false;
 
