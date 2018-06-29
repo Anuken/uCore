@@ -35,7 +35,13 @@ public class Musics{
 					Music music = current.select(other);
 					playing = music;
 					updateVolume();
-					music.play();
+					Gdx.app.postRunnable(() -> {
+						try {
+							music.play();
+						}catch (Exception e){
+							e.printStackTrace();
+						}
+					});
 				}
 			});
 		}

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import io.anuke.ucore.entities.trait.Entity;
+import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
 import io.anuke.ucore.util.QuadTree;
 
@@ -19,6 +20,9 @@ public class EntityGroup<T extends Entity>{
 	private Array<T> entitiesToAdd = new Array<>();
 	private QuadTree<T> tree;
 	private Class<T> type;
+
+	private Consumer<T> removeListener;
+	private Consumer<T> addListener;
 	
 	public final boolean useTree;
 	
@@ -26,6 +30,14 @@ public class EntityGroup<T extends Entity>{
 		this.useTree = useTree;
 		this.id = lastid ++;
 		this.type = type;
+	}
+
+	public void setRemoveListener(Consumer<T> removeListener) {
+		this.removeListener = removeListener;
+	}
+
+	public void setAddListener(Consumer<T> addListener) {
+		this.addListener = addListener;
 	}
 
 	public EntityGroup<T> enableMapping(){
@@ -84,6 +96,9 @@ public class EntityGroup<T extends Entity>{
 			for(T check : entitiesToAdd){
 				if(check.getID() == id){ //if it is indeed queued, remove it
 					entitiesToAdd.removeValue(check, true);
+					if(removeListener != null){
+						removeListener.accept(check);
+					}
 					break;
 				}
 			}
@@ -129,12 +144,20 @@ public class EntityGroup<T extends Entity>{
 		if(mappingEnabled()){
 			map.put(type.getID(), type);
 		}
+
+		if(addListener != null){
+			addListener.accept(type);
+		}
 	}
 	
 	public synchronized void remove(T type){
 		if(type == null) throw new RuntimeException("Cannot remove a null entity!");
 		type.setGroup(null);
 		entitiesToRemove.add(type);
+
+		if(removeListener != null){
+			removeListener.accept(type);
+		}
 	}
 	
 	public synchronized void clear(){
