@@ -9,6 +9,29 @@ public class Strings{
 		return i < 0 ? "left" : "right";
 	}
 
+	public static String parseFullException(Throwable e){
+		StringBuilder build = new StringBuilder();
+
+		while(e != null){
+			build.append(ClassReflection.getSimpleName(e.getClass()));
+			if(e.getMessage() != null) {
+				build.append(": '");
+				build.append(e.getMessage());
+				build.append("'");
+			}
+			build.append("\n");
+
+			for (StackTraceElement s : e.getStackTrace()) {
+				build.append(s.toString());
+				build.append("\n");
+			}
+
+			e = e.getCause();
+			build.append("-- Caused by:\n");
+		}
+		return build.toString();
+	}
+
 	public static String parseException(Throwable e, boolean stacktrace){
 		StringBuilder build = new StringBuilder();
 
