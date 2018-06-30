@@ -27,7 +27,9 @@ public class Strings{
 			}
 
 			e = e.getCause();
-			build.append("-- Caused by:\n");
+			if(e != null){
+				build.append("-- Caused by:\n");
+			}
 		}
 		return build.toString();
 	}

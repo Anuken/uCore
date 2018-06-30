@@ -52,7 +52,7 @@ public class Tooltip<T extends Element> extends InputListener {
 	public Tooltip (T contents, TooltipManager manager) {
 		this.manager = manager;
 
-		container = new Container(contents) {
+		container = new Container<T>(contents) {
 			public void act (float delta) {
 				super.act(delta);
 				if (targetActor != null && targetActor.getScene() == null) remove();
