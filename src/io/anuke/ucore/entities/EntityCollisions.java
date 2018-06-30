@@ -13,6 +13,8 @@ import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Physics;
 import io.anuke.ucore.util.QuadTree;
 
+import static io.anuke.ucore.entities.Entities.entityLock;
+
 public class EntityCollisions {
     //range for tile collision scanning
     private static final int r = 2;
@@ -135,7 +137,9 @@ public class EntityCollisions {
 
         QuadTree tree = group.tree();
 
-        tree.clear();
+        synchronized (entityLock) {
+            tree.clear();
+        }
 
         for(Entity entity : group.all()){
             if(entity instanceof SolidTrait){
@@ -145,9 +149,12 @@ public class EntityCollisions {
                 if(s.lastUpdated() != 0) s.setUpdateSpacing(TimeUtils.timeSinceMillis(s.lastUpdated()));
 
                 s.setLastUpdated(TimeUtils.millis());
-                tree.insert(s);
+                synchronized (entityLock) {
+                    tree.insert(s);
+                }
             }
         }
+
     }
 
     private void checkCollide(Entity entity, Entity other){

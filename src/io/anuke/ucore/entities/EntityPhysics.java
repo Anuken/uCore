@@ -77,7 +77,7 @@ public class EntityPhysics {
             Array<SolidTrait> entities = getNearby(group, x, y, range * 2f);
             for (int i = 0; i < entities.size; i++) {
                 T e = (T)entities.get(i);
-                if (!pred.test((T) e))
+                if (!pred.test(e))
                     continue;
 
                 float dist = Vector2.dst(e.getX(), e.getY(), x, y);
