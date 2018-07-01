@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Scaling;
+import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.style.TextureRegionDrawable;
 import io.anuke.ucore.scene.ui.layout.Cell;
@@ -106,6 +107,12 @@ public class ImageButton extends Button {
 		return style;
 	}
 
+	public void replaceImage(Element element){
+		getImageCell().setActor(element);
+		addChild(element);
+		image.remove();
+	}
+
 	/** Updates the Image with the appropriate Drawable from the style before it is drawn. */
 	protected void updateImage () {
 		Drawable drawable = null;
@@ -117,7 +124,7 @@ public class ImageButton extends Button {
 			drawable = (style.imageCheckedOver != null && isOver()) ? style.imageCheckedOver : style.imageChecked;
 		else if (isOver() && style.imageOver != null)
 			drawable = style.imageOver;
-		else if (style.imageUp != null) //
+		else if (style.imageUp != null)
 			drawable = style.imageUp;
 
 		Color color = image.getColor();
