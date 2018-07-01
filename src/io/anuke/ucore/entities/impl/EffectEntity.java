@@ -2,10 +2,10 @@ package io.anuke.ucore.entities.impl;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Pool.Poolable;
-import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.core.Effects;
 import io.anuke.ucore.core.Effects.Effect;
 import io.anuke.ucore.entities.trait.DrawTrait;
+import io.anuke.ucore.util.Pooling;
 
 public class EffectEntity extends TimedEntity implements Poolable, DrawTrait {
 	public Effect effect;
@@ -66,6 +66,6 @@ public class EffectEntity extends TimedEntity implements Poolable, DrawTrait {
 
 	@Override
 	public void removed() {
-		Pools.free(this);
+		Pooling.free(this);
 	}
 }

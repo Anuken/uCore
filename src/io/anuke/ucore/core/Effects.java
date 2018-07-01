@@ -3,15 +3,15 @@ package io.anuke.ucore.core;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.entities.impl.EffectEntity;
+import io.anuke.ucore.entities.trait.PosTrait;
+import io.anuke.ucore.entities.trait.ScaleTrait;
 import io.anuke.ucore.function.BiConsumer;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.EffectProvider;
 import io.anuke.ucore.function.EffectRenderer;
 import io.anuke.ucore.util.Mathf;
-import io.anuke.ucore.entities.trait.PosTrait;
-import io.anuke.ucore.entities.trait.ScaleTrait;
+import io.anuke.ucore.util.Pooling;
 
 public class Effects{
 	private static Array<Effect> effects = new Array<>();
@@ -19,7 +19,7 @@ public class Effects{
 	private static final EffectContainer container = new EffectContainer();
 	private static float shakeFalloff = 1000f;
 	private static EffectProvider provider = (effect, color, x, y, rotation, data) -> {
-		EffectEntity entity = Pools.obtain(EffectEntity.class);
+		EffectEntity entity = Pooling.obtain(EffectEntity.class);
 		entity.effect = effect;
 		entity.color = color;
 		entity.rotation = rotation;

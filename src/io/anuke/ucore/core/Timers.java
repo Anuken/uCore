@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.Timer.Task;
 import io.anuke.ucore.function.Callable;
 import io.anuke.ucore.function.DelayRun;
+import io.anuke.ucore.util.Pooling;
 
 public class Timers{
     /**Time resets after 5 hours due to percision issues.*/
@@ -17,7 +18,7 @@ public class Timers{
 	private static DeltaProvider deltaimpl = () -> Math.min(Gdx.graphics.getDeltaTime()*60f, 3f);
 
 	public static synchronized void run(float delay, Callable r){
-		DelayRun run = Pools.obtain(DelayRun.class);
+		DelayRun run = Pooling.obtain(DelayRun.class);
 		run.finish = r;
 		run.delay = delay;
 		runs.add(run);
@@ -33,14 +34,14 @@ public class Timers{
 	}
 	
 	public static void runFor(float duration, Callable r){
-		DelayRun run = Pools.obtain(DelayRun.class);
+		DelayRun run = Pooling.obtain(DelayRun.class);
 		run.run = r;
 		run.delay = duration;
 		runs.add(run);
 	}
 	
 	public static void runFor(float duration, Callable r, Callable finish){
-		DelayRun run = Pools.obtain(DelayRun.class);
+		DelayRun run = Pooling.obtain(DelayRun.class);
 		run.run = r;
 		run.delay = duration;
 		run.finish = finish;
@@ -130,7 +131,7 @@ public class Timers{
 				if(run.finish != null)
 					run.finish.run();
 				runs.removeValue(run, true);
-				Pools.free(run);
+				Pooling.free(run);
 			}
 		}
 		
