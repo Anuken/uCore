@@ -3,6 +3,7 @@ package io.anuke.ucore.scene.builders;
 import io.anuke.ucore.function.FieldListenable;
 import io.anuke.ucore.scene.ui.TextField;
 
+@Deprecated
 public class field extends builder<field, TextField>{
 	
 	public field(String text, FieldListenable listener){

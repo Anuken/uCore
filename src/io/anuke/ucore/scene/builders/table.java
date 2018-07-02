@@ -4,6 +4,7 @@ import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.ui.layout.Cell;
 import io.anuke.ucore.scene.ui.layout.Table;
 
+@Deprecated
 public class table extends builder<table, Table>{
 	Table previous = null;
 	

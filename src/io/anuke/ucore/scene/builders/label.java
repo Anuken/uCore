@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Colors;
 import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.scene.ui.Label;
 
+@Deprecated
 public class label extends builder<label, Label>{
 	
 	public label(String text){

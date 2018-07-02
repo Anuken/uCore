@@ -10,6 +10,7 @@ import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.ui.layout.Cell;
 import io.anuke.ucore.scene.ui.layout.Table;
 
+@Deprecated
 public abstract class builder<T extends builder, N extends Element>{
 	public Cell<N> cell;
 	public N element;

@@ -4,6 +4,7 @@ import io.anuke.ucore.core.Core;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.ui.layout.Table;
 
+@Deprecated
 public class build{
 	protected static Scene scene;
 	protected static Table context;

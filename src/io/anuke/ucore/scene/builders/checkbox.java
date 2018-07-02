@@ -3,6 +3,7 @@ package io.anuke.ucore.scene.builders;
 import io.anuke.ucore.function.CheckListenable;
 import io.anuke.ucore.scene.ui.CheckBox;
 
+@Deprecated
 public class checkbox extends builder<checkbox, CheckBox>{
 	
 	public checkbox(String text){

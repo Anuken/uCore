@@ -28,7 +28,7 @@ public class ClipSpriteBatch extends SpriteBatch {
                       float scaleX, float scaleY, float rotation) {
         float max = Math.max(width * scaleX, height * scaleY) * Mathf.sqrt2;
 
-        clip.set(x - originX, y - originY, max, max);
+        clip.set(x - originX, y - originY, max*2, max*2);
 
         if(!doClip || clip.overlaps(viewport)){
             super.draw(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation);

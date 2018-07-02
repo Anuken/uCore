@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.scene.ui.TextButton;
 
+@Deprecated
 public class button extends builder<button, TextButton>{
 	
 	public button(String text, Listenable listener){
