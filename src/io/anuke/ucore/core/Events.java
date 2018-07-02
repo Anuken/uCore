@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 import io.anuke.ucore.function.Event;
 import io.anuke.ucore.function.Supplier;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 public class Events{
@@ -50,7 +49,7 @@ public class Events{
 				Throwable cause = e.getCause();
 				if(cause == null)
 					cause = e;
-				else if (cause instanceof InvocationTargetException)
+				else if (cause.getClass().toString().contains("InvocationTargetException"))
 					cause = cause.getCause();
 
 				throw new RuntimeException("Exception occurred calling event!", cause);
