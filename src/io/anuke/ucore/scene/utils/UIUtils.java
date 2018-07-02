@@ -8,6 +8,10 @@ import io.anuke.ucore.util.OS;
 
 public class UIUtils {
 
+	static public boolean portrait(){
+		return Gdx.graphics.getHeight() > Gdx.graphics.getWidth();
+	}
+
 	static public boolean left () {
 		return Gdx.input.isButtonPressed(Buttons.LEFT);
 	}

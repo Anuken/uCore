@@ -8,6 +8,7 @@ import io.anuke.ucore.scene.ui.ImageButton;
 import io.anuke.ucore.scene.ui.Label;
 import io.anuke.ucore.scene.ui.layout.Cell;
 
+@Deprecated
 public class imagebutton extends builder<imagebutton, ImageButton>{
 	
 	public imagebutton(String image, Listenable listener){

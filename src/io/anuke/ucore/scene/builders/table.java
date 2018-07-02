@@ -22,10 +22,10 @@ public class table extends builder<table, Table>{
 	}
 	
 	public table(){
-		
 	}
 	
 	public table(String background){
+		this();
 		element.background(background);
 	}
 	
