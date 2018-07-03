@@ -98,7 +98,7 @@ public class Strings{
 	public static String capitalize(String s){
 		String out = s.substring(0, 1).toUpperCase()+s.substring(1);
 		int idx = out.indexOf('_');
-		if(idx != -1){
+		if(idx != -1 && idx < s.length()-2){
 			out = out.substring(0, idx) + " " + Character.toUpperCase(out.charAt(idx+1)) + out.substring(idx+2);
 		}
 		return out.replace("_", " ");
