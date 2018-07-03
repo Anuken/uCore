@@ -60,7 +60,7 @@ public class BinaryPreferences implements Preferences {
                 }
             }
         }catch (IOException e){
-            throw new RuntimeException("Error reading preferences: " + file, e);
+            new RuntimeException("Error reading preferences: " + file, e).printStackTrace();
         }
     }
 
