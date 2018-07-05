@@ -157,26 +157,23 @@ public class Graphics{
 		begin();
 	}
 
-	public static void surface(){
-		Graphics.surface(false);
-	}
-
 	/** Ends drawing on the current surface. */
-	public static void surface(boolean end){
+	public static void surface(){
 		Graphics.checkSurface();
 	
 		Surface surface = surfaceStack.pop();
 	
 		end();
-		surface.end(true);
-	
-		if(!end){
-			Surface current = surfaceStack.empty() ? null : surfaceStack.peek();
-	
-			if(current != null)
-				current.begin(false);
-			begin();
+
+		Surface current = surfaceStack.empty() ? null : surfaceStack.peek();
+
+		if(current != null) {
+			current.begin(false);
+		}else{
+			surface.end(true);
 		}
+
+		begin();
 	}
 
 	/** Ends the current surface and draws its contents onto the screen. */
