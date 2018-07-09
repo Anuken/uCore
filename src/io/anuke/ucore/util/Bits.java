@@ -25,12 +25,12 @@ public class Bits{
 		return (byte) (value & 0x0F);
 	}
 
-	public static int getLeftShort(int field){
-		return field >>> 16;
+	public static short getLeftShort(int field){
+		return (short)(field >>> 16);
 	}
 
-	public static int getRightShort(int field){
-		return field & 0xFFF;
+	public static short getRightShort(int field){
+		return (short)(field & 0xFFF);
 	}
 
 	public static int getLeftInt(long field){
