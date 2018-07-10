@@ -123,6 +123,26 @@ public class Element extends BaseElement{
 			}
 		});
 	}
+
+	/**Adds a hover/mouse enter listener.*/
+	public void hovered(Listenable r){
+		addListener(new InputListener(){
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Element fromActor) {
+				r.listen();
+			}
+		});
+	}
+
+    /**Adds a hover/mouse enter listener.*/
+    public void exited(Listenable r){
+        addListener(new InputListener(){
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Element fromActor) {
+                r.listen();
+            }
+        });
+    }
 	
 	/**Adds a mouse up listener.*/
 	public void released(Listenable r){
