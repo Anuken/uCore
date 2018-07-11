@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.Consumer;
+import io.anuke.ucore.function.FloatConsumer;
 import io.anuke.ucore.function.PositionConsumer;
 import io.anuke.ucore.function.PositionFractConsumer;
 
@@ -93,7 +94,7 @@ public class Angles{
 		}
 	}
 
-	public static void shotgun(int points, float spacing, float offset, Consumer<Float> cons){
+	public static void shotgun(int points, float spacing, float offset, FloatConsumer cons){
 		for(int i = 0; i < points; i ++){
 			cons.accept(i*spacing-(points-1)*spacing/2f+offset);
 		}

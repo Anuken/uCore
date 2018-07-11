@@ -31,6 +31,7 @@ public class EntityDraw {
         }
 
         for(DrawTrait e : group.all()){
+            if(e == null) continue;
             T t = (T)e;
 
             if(!toDraw.test(t) || !e.isAdded()) continue;

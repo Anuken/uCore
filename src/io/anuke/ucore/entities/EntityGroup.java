@@ -131,7 +131,7 @@ public class EntityGroup<T extends Entity>{
 	public int count(Predicate<T> pred){
 		int count = 0;
 		for(T t : entityArray){
-			if(pred.test(t)) count ++;
+			if(t != null && pred.test(t)) count ++;
 		}
 		return count;
 	}

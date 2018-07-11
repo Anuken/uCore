@@ -12,7 +12,7 @@ public class Timers{
 	private static final float maxValue = 1080000;
 
 	private static float time;
-	private static ObjectFloatMap<Integer> timers = new ObjectFloatMap<>();
+	private static IntFloatMap timers = new IntFloatMap();
 	private static DelayedRemovalArray<DelayRun> runs = new DelayedRemovalArray<>();
 	private static LongArray marks = new LongArray();
 	private static DeltaProvider deltaimpl = () -> Math.min(Gdx.graphics.getDeltaTime()*60f, 3f);

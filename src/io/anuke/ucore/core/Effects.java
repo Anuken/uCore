@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.Array;
 import io.anuke.ucore.entities.impl.EffectEntity;
 import io.anuke.ucore.entities.trait.PosTrait;
 import io.anuke.ucore.entities.trait.ScaleTrait;
-import io.anuke.ucore.function.BiConsumer;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.EffectProvider;
 import io.anuke.ucore.function.EffectRenderer;
@@ -15,7 +14,7 @@ import io.anuke.ucore.util.Pooling;
 
 public class Effects{
 	private static Array<Effect> effects = new Array<>();
-	private static BiConsumer<Float, Float> shakeProvider;
+	private static ScreenshakeProvider shakeProvider;
 	private static final EffectContainer container = new EffectContainer();
 	private static float shakeFalloff = 1000f;
 	private static EffectProvider provider = (effect, color, x, y, rotation, data) -> {
@@ -32,7 +31,7 @@ public class Effects{
 		provider = prov;
 	}
 	
-	public static void setScreenShakeProvider(BiConsumer<Float, Float> provider){
+	public static void setScreenShakeProvider(ScreenshakeProvider provider){
 		shakeProvider = provider;
 	}
 	
@@ -161,6 +160,10 @@ public class Effects{
 		public float fin() {
 			return time/lifetime;
 		}
+	}
+
+	public interface ScreenshakeProvider{
+		void accept(float intensity, float duration);
 	}
 	
 }
