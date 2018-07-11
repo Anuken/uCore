@@ -140,8 +140,12 @@ public class Graphics{
 		surface(surface, true);
 	}
 
-	/** Begins drawing on a surface. */
 	public static void surface(Surface surface, boolean clear){
+		surface(surface, clear, true);
+	}
+
+	/** Begins drawing on a surface. */
+	public static void surface(Surface surface, boolean clear, boolean viewport){
 		if(!surfaceStack.isEmpty()){
 		//	end();
 		//	surfaceStack.peek().end(false);
@@ -152,7 +156,7 @@ public class Graphics{
 		if(drawing())
 			end();
 		
-		surface.begin(clear);
+		surface.begin(clear, viewport);
 		
 		begin();
 	}
@@ -188,19 +192,16 @@ public class Graphics{
 		Surface surface = surfaceStack.pop();
 	
 		if(batch.isDrawing()) end();
-		surface.end(true);
 	
 		Surface current = surfaceStack.empty() ? null : surfaceStack.peek();
-	
-		//if(current != null)
-		//	current.begin(false);
 
 		if(current != null){
-			current.begin(false);
+			current.begin(false, false);
+		}else{
+			surface.end(true);
 		}
 		
 		beginCam();
-		//Graphics.setScreen();
 		
 		if(dest != null)
 			surface(dest);
@@ -236,7 +237,7 @@ public class Graphics{
 
 		batch.flush();
 		
-		surface(effects1);
+		surface(effects1, true, false);
 	}
 
 	//FIXME does not work with multiple shaders

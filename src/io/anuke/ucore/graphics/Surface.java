@@ -72,7 +72,15 @@ public class Surface implements Disposable{
 	}
 
 	public void begin(boolean clear){
-		buffer.begin();
+		begin(clear, true);
+	}
+
+	public void begin(boolean clear, boolean viewport){
+		if(viewport){
+			buffer.begin();
+		}else{
+			buffer.bind();
+		}
 		if(bind != 0) buffer.getColorBufferTexture().bind(bind);
 		
 		if(clear)

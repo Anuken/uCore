@@ -7,6 +7,7 @@ import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
 import io.anuke.ucore.util.QuadTree;
+import io.anuke.ucore.util.ThreadArray;
 
 import java.util.Iterator;
 
@@ -16,8 +17,8 @@ public class EntityGroup<T extends Entity>{
 
 	private IntMap<T> map;
 	private EntityContainer<T> entityArray = new ArrayContainer<>();
-	private Array<T> entitiesToRemove = new Array<>();
-	private Array<T> entitiesToAdd = new Array<>();
+	private Array<T> entitiesToRemove = new Array<>(false, 16);
+	private Array<T> entitiesToAdd = new Array<>(false, 16);
 	private QuadTree<T> tree;
 	private Class<T> type;
 
@@ -200,7 +201,7 @@ public class EntityGroup<T extends Entity>{
 	}
 
 	public static class ArrayContainer<T> implements EntityContainer<T>{
-		private Array<T> array = new Array<>();
+		private Array<T> array = new ThreadArray<>(false);
 
 		@Override
 		public int size() {

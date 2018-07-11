@@ -7,6 +7,14 @@ import java.util.Iterator;
 public class ThreadArray<T> extends Array<T> {
     private ThreadLocal<ArrayIterable<T>> threaditer = new ThreadLocal<>();
 
+    public ThreadArray(){
+
+    }
+
+    public ThreadArray(boolean ordered){
+        super(ordered, 16);
+    }
+
     @Override
     public Iterator<T> iterator() {
         if(threaditer.get() == null){
