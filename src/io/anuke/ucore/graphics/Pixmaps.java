@@ -1,6 +1,5 @@
 package io.anuke.ucore.graphics;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -18,7 +17,7 @@ import java.nio.ByteBuffer;
 
 /**Various pixmap utilities.*/
 public class Pixmaps{
-	private static ByteBuffer bytes = ByteBuffer.allocateDirect(4);
+	private static Pixmap drawPixmap;
 
 	public static void flip(Pixmap pixmap){
 		Buffer pixels = pixmap.getPixels();
@@ -184,11 +183,12 @@ public class Pixmaps{
 
 	/** NOTE: REQUIRES BINDING THE TEXTURE FIRST! */
 	public static void drawPixel(Texture texture, int x, int y, int color){
-		bytes.clear();
-		bytes.position(0);
-		bytes.putInt(color);
-		bytes.position(0);
+	    if(drawPixmap == null){
+	        drawPixmap = new Pixmap(1, 1, Format.RGBA8888);
+        }
 
-		Gdx.gl.glTexSubImage2D(texture.glTarget, 0, x, y, 1, 1, 6408, 5121, bytes);
+        drawPixmap.setColor(color);
+        drawPixmap.fill();
+        texture.draw(drawPixmap, x, y);
 	}
 }
