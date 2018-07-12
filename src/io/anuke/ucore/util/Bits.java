@@ -4,6 +4,10 @@ public class Bits{
 	static byte[] result = new byte[4];
 	static short[] resultShort = new short[4];
 
+	public static byte toByte(boolean b){
+		return b ? (byte)1 : 0;
+	}
+
 	public static int packInt(short left, short right){
 		return (left << 16) | (right & 0xFFF);
 	}
