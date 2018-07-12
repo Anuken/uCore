@@ -25,7 +25,7 @@ public class Draw{
 
 	public static TextureRegion getBlankRegion(){
 		if(blankRegion == null){
-			if(Core.atlas.hasRegion("blank")){
+			if(Core.atlas != null && Core.atlas.hasRegion("blank")){
 				blankRegion = Core.atlas.getRegion("blank");
 				return blankRegion;
 			}
