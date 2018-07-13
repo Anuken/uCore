@@ -2,10 +2,9 @@ package io.anuke.ucore.input;
 
 import com.badlogic.gdx.controllers.PovDirection;
 import io.anuke.ucore.core.Inputs.InputType;
-import io.anuke.ucore.core.Settings;
 
-/**Enum for storing input codes of mouse, keyboard and controllers at once.*/
-public enum Input implements InputType {
+/** Enum for storing input codes of mouse, keyboard and controllers at once. */
+public enum Input implements InputType{
     CONTROLLER_A(Type.controller, XboxBinds.A, "A"),
     CONTROLLER_B(Type.controller, XboxBinds.B, "B"),
     CONTROLLER_X(Type.controller, XboxBinds.X, "X"),
@@ -204,7 +203,7 @@ public enum Input implements InputType {
     public final boolean pov;
     public final PovDirection direction;
 
-    /**desktop keycode*/
+    /** desktop keycode */
     Input(int keycode){
         type = Type.key;
         value = com.badlogic.gdx.Input.Keys.toString(keycode);
@@ -255,12 +254,12 @@ public enum Input implements InputType {
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return value;
     }
 
     @Override
-    public InputType copy() {
+    public InputType copy(){
         return this;
     }
 

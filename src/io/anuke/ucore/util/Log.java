@@ -1,6 +1,6 @@
 package io.anuke.ucore.util;
 
-public class Log {
+public class Log{
     private static boolean useColors = true;
     private static boolean disabled = false;
     private static LogHandler logger = new LogHandler();
@@ -45,13 +45,13 @@ public class Log {
     public static String format(String text, Object... args){
         text = Strings.formatArgs(text, args);
 
-        if(useColors) {
-            for (String color : ColorCodes.getColorCodes()) {
+        if(useColors){
+            for(String color : ColorCodes.getColorCodes()){
                 text = text.replace("&" + color, ColorCodes.getColorText(color));
             }
         }else{
-            for (String color : ColorCodes.getColorCodes()) {
-                text = text.replace("&" + color,  "");
+            for(String color : ColorCodes.getColorCodes()){
+                text = text.replace("&" + color, "");
             }
         }
         return text;
@@ -80,10 +80,12 @@ public class Log {
 
     public static class NoopLogHandler extends LogHandler{
         @Override
-        public void print(String text, Object... args){}
+        public void print(String text, Object... args){
+        }
 
         @Override
-        public void err(Throwable e){}
+        public void err(Throwable e){
+        }
     }
 
 }

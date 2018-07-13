@@ -8,7 +8,7 @@ import io.anuke.ucore.util.Mathf;
 
 import static io.anuke.ucore.core.Core.batch;
 
-public class Lines {
+public class Lines{
     private static float stroke = 1f;
     private static Vector2 vector = new Vector2();
     private static Vector2[] circle;
@@ -26,7 +26,7 @@ public class Lines {
         }
     }
 
-    /**Set the vertices used for drawing a line circle.*/
+    /** Set the vertices used for drawing a line circle. */
     public static void setCircleVertices(int amount){
         circle = new Vector2[amount];
         setCircleVertices(circle, amount);
@@ -63,7 +63,7 @@ public class Lines {
     }
 
     public static void line(TextureRegion blankregion, float x, float y, float x2, float y2, CapStyle cap, float padding){
-        float length = Vector2.dst(x, y, x2, y2) + ( cap == CapStyle.none ? padding*2f : stroke / 2 + (cap == CapStyle.round ? 0 : padding*2));
+        float length = Vector2.dst(x, y, x2, y2) + (cap == CapStyle.none ? padding * 2f : stroke / 2 + (cap == CapStyle.round ? 0 : padding * 2));
         float angle = Mathf.fastAtan2(y2 - y, x2 - x) * MathUtils.radDeg;
 
         if(cap == CapStyle.square){
@@ -72,19 +72,19 @@ public class Lines {
             batch.draw(blankregion, x - padding, y - stroke / 2, padding, stroke / 2, length, stroke, 1f, 1f, angle);
         }else if(cap == CapStyle.round){
             //Padding does not apply here.
-            batch.draw(blankregion, x, y - stroke / 2, 0, stroke / 2, length - stroke/2, stroke, 1f, 1f, angle);
-            Fill.circle(x, y, stroke/2f);
-            Fill.circle(x2, y2, stroke/2f);
+            batch.draw(blankregion, x, y - stroke / 2, 0, stroke / 2, length - stroke / 2, stroke, 1f, 1f, angle);
+            Fill.circle(x, y, stroke / 2f);
+            Fill.circle(x2, y2, stroke / 2f);
         }
     }
 
     public static void dashLine(float x1, float y1, float x2, float y2, int divisions){
         float dx = x2 - x1, dy = y2 - y1;
 
-        for(int i = 0; i < divisions; i ++){
+        for(int i = 0; i < divisions; i++){
             if(i % 2 == 0){
-                line(x1 + ((float)i /divisions) * dx, y1 + ((float)i /divisions) * dy,
-                        x1 + ((i+1f) /divisions) * dx, y1 + ((i + 1f) /divisions) * dy);
+                line(x1 + ((float) i / divisions) * dx, y1 + ((float) i / divisions) * dy,
+                        x1 + ((i + 1f) / divisions) * dx, y1 + ((i + 1f) / divisions) * dy);
             }
         }
     }
@@ -95,8 +95,8 @@ public class Lines {
 
     public static void dashCircle(float x, float y, float radius){
         float scaleFactor = 0.6f;
-        int sides = 10 + (int)(radius*scaleFactor);
-        if(sides % 2 == 1) sides ++;
+        int sides = 10 + (int) (radius * scaleFactor);
+        if(sides % 2 == 1) sides++;
 
         vector.set(0, 0);
 
@@ -283,7 +283,7 @@ public class Lines {
     }
 
     public static void crect(float x, float y, float width, float height){
-        rect(x - width/2, y - height/2, width, height, 0);
+        rect(x - width / 2, y - height / 2, width, height, 0);
     }
 
     public static void stroke(float thick){

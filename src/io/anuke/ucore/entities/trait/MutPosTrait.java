@@ -1,8 +1,9 @@
 package io.anuke.ucore.entities.trait;
 
-public interface MutPosTrait extends PosTrait {
+public interface MutPosTrait extends PosTrait{
 
     void setX(float x);
+
     void setY(float y);
 
     default void moveBy(float x, float y){

@@ -2,8 +2,8 @@ package io.anuke.ucore.util;
 
 import com.badlogic.gdx.math.MathUtils;
 
-/** @author xSke*/
-public class Spring1D {
+/** @author xSke */
+public class Spring1D{
     public float value;
     public float target;
     public float velocity;
@@ -11,12 +11,12 @@ public class Spring1D {
     public float damping;
     public float frequency;
 
-    public Spring1D(float damping, float frequency) {
+    public Spring1D(float damping, float frequency){
         this.damping = damping;
         this.frequency = frequency;
     }
 
-    public void update(float deltaTime) {
+    public void update(float deltaTime){
         float angularFrequency = frequency;
         angularFrequency *= MathUtils.PI2;
 

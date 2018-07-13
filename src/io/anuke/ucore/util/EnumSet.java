@@ -6,7 +6,8 @@ public class EnumSet<T extends Enum<T>> implements Iterable<T>{
     private int i;
     private T[] set;
 
-    private EnumSet(){}
+    private EnumSet(){
+    }
 
     public static <T extends Enum<T>> EnumSet<T> of(T... arr){
         EnumSet<T> set = new EnumSet<>();
@@ -22,16 +23,17 @@ public class EnumSet<T extends Enum<T>> implements Iterable<T>{
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return new Iterator<T>() {
+    public Iterator<T> iterator(){
+        return new Iterator<T>(){
             int index = 0;
+
             @Override
-            public boolean hasNext() {
+            public boolean hasNext(){
                 return index < set.length;
             }
 
             @Override
-            public T next() {
+            public T next(){
                 return set[index++];
             }
         };

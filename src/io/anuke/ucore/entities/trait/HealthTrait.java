@@ -2,17 +2,23 @@ package io.anuke.ucore.entities.trait;
 
 import io.anuke.ucore.util.Mathf;
 
-public interface HealthTrait {
+public interface HealthTrait{
 
     void health(float health);
+
     float health();
+
     float maxHealth();
 
     boolean isDead();
+
     void setDead(boolean dead);
 
-    default void onHit(io.anuke.ucore.entities.trait.SolidTrait entity){}
-    default void onDeath(){}
+    default void onHit(io.anuke.ucore.entities.trait.SolidTrait entity){
+    }
+
+    default void onDeath(){
+    }
 
     default void damage(float amount){
         health(health() - amount);

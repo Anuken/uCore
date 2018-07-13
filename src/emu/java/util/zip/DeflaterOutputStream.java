@@ -10,7 +10,7 @@ public class DeflaterOutputStream extends OutputStream{
     }
 
     @Override
-    public void write(int i) throws IOException {
+    public void write(int i) throws IOException{
 
     }
 }

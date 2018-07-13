@@ -3,8 +3,9 @@ package io.anuke.ucore.entities.trait;
 import com.badlogic.gdx.math.Vector2;
 import io.anuke.ucore.util.Mathf;
 
-public interface PosTrait {
+public interface PosTrait{
     float getX();
+
     float getY();
 
     default float angleTo(PosTrait other){
@@ -12,7 +13,7 @@ public interface PosTrait {
     }
 
     default float angleTo(PosTrait other, float yoffset){
-        return Mathf.atan2(other.getX() - getX(), other.getY() - (getY()+yoffset));
+        return Mathf.atan2(other.getX() - getX(), other.getY() - (getY() + yoffset));
     }
 
     default float angleTo(float ox, float oy){
@@ -20,7 +21,7 @@ public interface PosTrait {
     }
 
     default float angleTo(PosTrait other, float xoffset, float yoffset){
-        return Mathf.atan2(other.getX() - (getX()+xoffset), other.getY() - (getY()+yoffset));
+        return Mathf.atan2(other.getX() - (getX() + xoffset), other.getY() - (getY() + yoffset));
     }
 
     default float distanceTo(PosTrait other){

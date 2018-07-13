@@ -1,5 +1,5 @@
 package io.anuke.ucore.function;
 
-public interface IntPositionConsumer {
+public interface IntPositionConsumer{
     void accept(int x, int y);
 }

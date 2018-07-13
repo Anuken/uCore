@@ -2,7 +2,7 @@ package io.anuke.ucore.io;
 
 import java.nio.ByteBuffer;
 
-public class IOUtils {
+public class IOUtils{
 
     public static String readString(ByteBuffer buffer){
         short length = buffer.getShort();
@@ -14,7 +14,7 @@ public class IOUtils {
     public static void writeString(ByteBuffer buffer, String string){
         byte[] bytes = string.getBytes();
         if(bytes.length >= Short.MAX_VALUE) throw new IllegalArgumentException("Input string is too long!");
-        buffer.putShort((short)bytes.length);
+        buffer.putShort((short) bytes.length);
         buffer.put(bytes);
     }
 }

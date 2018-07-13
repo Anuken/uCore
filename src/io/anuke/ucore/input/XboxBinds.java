@@ -5,7 +5,7 @@ import com.badlogic.gdx.controllers.mappings.Xbox;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import io.anuke.ucore.util.OS;
 
-public class XboxBinds {
+public class XboxBinds{
     // Buttons
     public static final int A;
     public static final int B;
@@ -37,8 +37,8 @@ public class XboxBinds {
     /** right stick horizontal axis, -1 if left, 1 if right **/
     public static final int R_STICK_HORIZONTAL_AXIS;
 
-    static {
-        if (OS.isWindows) {
+    static{
+        if(OS.isWindows){
             A = 0;
             B = 1;
             X = 2;
@@ -60,7 +60,7 @@ public class XboxBinds {
             R_STICK_VERTICAL_AXIS = 3;
             R_STICK_HORIZONTAL_AXIS = 2;
             R_STICK = 10;
-        } else if (OS.isLinux || OS.isMac) {
+        }else if(OS.isLinux || OS.isMac){
             A = 0;
             B = 1;
             X = 2;
@@ -82,7 +82,7 @@ public class XboxBinds {
             R_STICK_VERTICAL_AXIS = 4;
             R_STICK_HORIZONTAL_AXIS = 3;
             R_STICK = 10;
-        } else if (OS.isAndroid) {
+        }else if(OS.isAndroid){
             A = 96;
             B = 97;
             X = 99;
@@ -104,7 +104,7 @@ public class XboxBinds {
             R_STICK_VERTICAL_AXIS = 14;
             R_STICK_HORIZONTAL_AXIS = 11;
             R_STICK = 107;
-        } else { //fallback controls.
+        }else{ //fallback controls.
             A = Xbox.A;
             B = Xbox.B;
             X = Xbox.X;
@@ -132,7 +132,7 @@ public class XboxBinds {
     private static int getBind(String name){
         try{
             return (Integer) ClassReflection.getField(XboxBinds.class, name).get(null);
-        }catch (Exception e){
+        }catch(Exception e){
             return -1;
         }
     }

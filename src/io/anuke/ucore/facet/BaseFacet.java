@@ -1,54 +1,54 @@
 package io.anuke.ucore.facet;
 
 public class BaseFacet extends Facet{
-	public float layer = 0f;
-	DrawFunc drawable;
-	
-	public BaseFacet(float layer, Sorter sort, DrawFunc draw){
-		this.layer = layer;
-		this.drawable = draw;
-		this.sort(sort);
-	}
-	
-	public BaseFacet(float layer, DrawFunc draw){
-		this.layer = layer;
-		this.drawable = draw;
-		sort(Sorter.object);
-	}
-	
-	public BaseFacet(DrawFunc draw){
-		this.drawable = draw;
-		sort(Sorter.object);
-	}
-	
-	
-	public BaseFacet(){
-		
-	}
-	
-	@Override
-	public void reset(){
-		
-	}
+    public float layer = 0f;
+    DrawFunc drawable;
 
-	@Override
-	public void draw(){
-		Facets.instance().requestSort();
-		
-		if(drawable != null) drawable.draw(this);
-	}
+    public BaseFacet(float layer, Sorter sort, DrawFunc draw){
+        this.layer = layer;
+        this.drawable = draw;
+        this.sort(sort);
+    }
 
-	@Override
-	public Facet set(float x, float y){
-		return this;
-	}
+    public BaseFacet(float layer, DrawFunc draw){
+        this.layer = layer;
+        this.drawable = draw;
+        sort(Sorter.object);
+    }
 
-	@Override
-	public float getLayer(){
-		return layer;
-	}
-	
-	public static interface DrawFunc{
-		public void draw(BaseFacet l);
-	}
+    public BaseFacet(DrawFunc draw){
+        this.drawable = draw;
+        sort(Sorter.object);
+    }
+
+
+    public BaseFacet(){
+
+    }
+
+    @Override
+    public void reset(){
+
+    }
+
+    @Override
+    public void draw(){
+        Facets.instance().requestSort();
+
+        if(drawable != null) drawable.draw(this);
+    }
+
+    @Override
+    public Facet set(float x, float y){
+        return this;
+    }
+
+    @Override
+    public float getLayer(){
+        return layer;
+    }
+
+    public static interface DrawFunc{
+        public void draw(BaseFacet l);
+    }
 }

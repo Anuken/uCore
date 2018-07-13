@@ -1,5 +1,5 @@
 package io.anuke.ucore.graphics;
 
-public enum CapStyle {
+public enum CapStyle{
     none, round, square
 }

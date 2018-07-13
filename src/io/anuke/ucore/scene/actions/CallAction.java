@@ -8,14 +8,14 @@ public class CallAction extends Action{
     public boolean called = false;
 
     @Override
-    public boolean act(float delta) {
+    public boolean act(float delta){
         if(!called) call.run();
         called = true;
         return true;
     }
 
     @Override
-    public void reset() {
+    public void reset(){
         called = false;
     }
 }

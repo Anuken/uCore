@@ -12,7 +12,7 @@ import io.anuke.ucore.util.ThreadArray;
 import static io.anuke.ucore.entities.Entities.defaultGroup;
 import static io.anuke.ucore.entities.Entities.entityLock;
 
-public class EntityPhysics {
+public class EntityPhysics{
     private static final EntityCollisions collisions = new EntityCollisions();
     private static final ThreadArray<SolidTrait> array = new ThreadArray<>();
     private static final Rectangle r1 = new Rectangle();
@@ -37,17 +37,17 @@ public class EntityPhysics {
     }
 
     public static void getNearby(EntityGroup<?> group, Rectangle rect, Consumer<SolidTrait> out){
-        synchronized (entityLock) {
-            if (!group.useTree)
+        synchronized(entityLock){
+            if(!group.useTree)
                 throw new RuntimeException("This group does not support quadtrees! Enable quadtrees when creating it.");
             group.tree().getIntersect(out, rect);
         }
     }
 
     public static Array<SolidTrait> getNearby(EntityGroup<?> group, Rectangle rect){
-        synchronized (entityLock) {
+        synchronized(entityLock){
             array.clear();
-            if (!group.useTree)
+            if(!group.useTree)
                 throw new RuntimeException("This group does not support quadtrees! Enable quadtrees when creating it.");
             group.tree().getIntersect(array, rect);
             return array;
@@ -71,18 +71,18 @@ public class EntityPhysics {
     }
 
     public static <T extends Entity> T getClosest(EntityGroup<T> group, float x, float y, float range, Predicate<T> pred){
-        synchronized (entityLock) {
+        synchronized(entityLock){
             T closest = null;
             float cdist = 0f;
             Array<SolidTrait> entities = getNearby(group, x, y, range * 2f);
-            for (int i = 0; i < entities.size; i++) {
-                T e = (T)entities.get(i);
-                if (!pred.test(e))
+            for(int i = 0; i < entities.size; i++){
+                T e = (T) entities.get(i);
+                if(!pred.test(e))
                     continue;
 
                 float dist = Vector2.dst(e.getX(), e.getY(), x, y);
-                if (dist < range)
-                    if (closest == null || dist < cdist) {
+                if(dist < range)
+                    if(closest == null || dist < cdist){
                         closest = e;
                         cdist = dist;
                     }

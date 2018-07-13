@@ -5,66 +5,64 @@ import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.util.ThreadArray;
 
 public class Entities{
-	public static final Object entityLock = new Object();
+    public static final Object entityLock = new Object();
+    public static final int maxLeafObjects = 4;
+    private static final EntityGroup<Entity> defaultGroup;
+    private static final ThreadArray<EntityGroup<?>> groupArray = new ThreadArray<>();
+    private static final IntMap<EntityGroup<?>> groups = new IntMap<>();
 
-	private static final EntityGroup<Entity> defaultGroup;
-	private static final ThreadArray<EntityGroup<?>> groupArray = new ThreadArray<>();
-	private static final IntMap<EntityGroup<?>> groups = new IntMap<>();
-	
-	public static final int maxLeafObjects = 4;
-	
-	static{
-		defaultGroup = addGroup(Entity.class);
-	}
+    static{
+        defaultGroup = addGroup(Entity.class);
+    }
 
-	public static void clear(){
-		for(EntityGroup group : groupArray){
-			group.clear();
-		}
-	}
-	
-	public static Iterable<Entity> all(){
-		return defaultGroup.all();
-	}
+    public static void clear(){
+        for(EntityGroup group : groupArray){
+            group.clear();
+        }
+    }
 
-	public static EntityGroup<?> getGroup(int id){
-		return groups.get(id);
-	}
+    public static Iterable<Entity> all(){
+        return defaultGroup.all();
+    }
 
-	public static Iterable<EntityGroup<?>> getAllGroups(){
-		return groups.values();
-	}
-	
-	public static EntityGroup<Entity> defaultGroup(){
-		return defaultGroup;
-	}
-	
-	public static <T extends Entity> EntityGroup<T> addGroup(Class<T> type){
-		return addGroup(type, true);
-	}
-	
-	public static <T extends Entity> EntityGroup<T> addGroup(Class<T> type, boolean useTree){
-		EntityGroup<T> group = new EntityGroup<>(type, useTree);
-		groups.put(group.getID(), group);
-		groupArray.add(group);
-		return group;
-	}
-	
-	public static void update(){
-		update(defaultGroup());
-		EntityPhysics.collideGroups(defaultGroup(), defaultGroup());
-	}
+    public static EntityGroup<?> getGroup(int id){
+        return groups.get(id);
+    }
 
-	public static void update(EntityGroup<?> group){
+    public static Iterable<EntityGroup<?>> getAllGroups(){
+        return groups.values();
+    }
 
-		group.updateEvents();
+    public static EntityGroup<Entity> defaultGroup(){
+        return defaultGroup;
+    }
 
-		if(group.useTree){
-			EntityPhysics.collisions().updatePhysics(group);
-		}
-		
-		for(Entity e : group.all()){
-			e.update();
-		}
-	}
+    public static <T extends Entity> EntityGroup<T> addGroup(Class<T> type){
+        return addGroup(type, true);
+    }
+
+    public static <T extends Entity> EntityGroup<T> addGroup(Class<T> type, boolean useTree){
+        EntityGroup<T> group = new EntityGroup<>(type, useTree);
+        groups.put(group.getID(), group);
+        groupArray.add(group);
+        return group;
+    }
+
+    public static void update(){
+        update(defaultGroup());
+        EntityPhysics.collideGroups(defaultGroup(), defaultGroup());
+    }
+
+    public static void update(EntityGroup<?> group){
+
+        group.updateEvents();
+
+        if(group.useTree){
+            EntityPhysics.collisions().updatePhysics(group);
+        }
+
+        for(Entity e : group.all()){
+            e.update();
+        }
+    }
 }

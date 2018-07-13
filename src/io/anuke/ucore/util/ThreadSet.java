@@ -2,12 +2,12 @@ package io.anuke.ucore.util;
 
 import com.badlogic.gdx.utils.ObjectSet;
 
-public class ThreadSet<T> extends ObjectSet<T> {
+public class ThreadSet<T> extends ObjectSet<T>{
     private ThreadLocal<ThreadSetIterator<T>> threaditer1 = new ThreadLocal<>();
     private ThreadLocal<ThreadSetIterator<T>> threaditer2 = new ThreadLocal<>();
 
     @Override
-    public ObjectSetIterator<T> iterator() {
+    public ObjectSetIterator<T> iterator(){
         ThreadSetIterator<T> iterator1, iterator2;
 
         if(threaditer1.get() == null){
@@ -22,7 +22,7 @@ public class ThreadSet<T> extends ObjectSet<T> {
             iterator2 = threaditer2.get();
         }
 
-        if (!iterator1.valid) {
+        if(!iterator1.valid){
             iterator1.reset();
             iterator1.valid = true;
             iterator2.valid = false;
@@ -37,7 +37,7 @@ public class ThreadSet<T> extends ObjectSet<T> {
     static public class ThreadSetIterator<T> extends ObjectSetIterator<T>{
         public boolean valid;
 
-        public ThreadSetIterator(ObjectSet<T> set) {
+        public ThreadSetIterator(ObjectSet<T> set){
             super(set);
         }
     }

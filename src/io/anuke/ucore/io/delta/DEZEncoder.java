@@ -66,96 +66,93 @@ import java.io.IOException;
  * <dd>The opcode/length followed by a byte to be duplicated
  * into the current output stream (length+1) times.
  * </dl>
- *
  */
-public class DEZEncoder implements ByteDeltaEncoder {
+public class DEZEncoder implements ByteDeltaEncoder{
 
-	private final ByteArrayOutputStream patch = new ByteArrayOutputStream();
-	private final byte[] work = new byte[6];
+    public static final byte[] MAGIC = {'D', 'E', 'Z', '1'};
+    public static final int COPY = 0x00;
+    public static final int COPY_EXT = 0x80;
+    public static final int ADD = 0x40;
+    public static final int ADD_EXT = 0xc0;
+    public static final int RUN = 0x60;
+    public static final int RUN_EXT = 0xe0;
+    private final ByteArrayOutputStream patch = new ByteArrayOutputStream();
+    private final byte[] work = new byte[6];
 
-	public static final byte[] MAGIC = {'D', 'E', 'Z', '1'};
-	public static final int COPY = 0x00;
-	public static final int COPY_EXT = 0x80;
-	public static final int ADD = 0x40;
-	public static final int ADD_EXT = 0xc0;
-	public static final int RUN = 0x60;
-	public static final int RUN_EXT = 0xe0;
+    public void init(int sourceSize, int targetSize){
+        try{
+            patch.reset();
+            patch.write(MAGIC);
+            // some flags
+            patch.write(0);
+            encodeInt(sourceSize);
+            encodeInt(targetSize);
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
+    }
 
-	public void init(int sourceSize, int targetSize) {
-		try {
-			patch.reset();
-			patch.write(MAGIC);
-			// some flags
-			patch.write(0);
-			encodeInt(sourceSize);
-			encodeInt(targetSize);
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-	}
+    /**
+     * Encode an opcode + length.
+     *
+     * @param op opcode. extend bit is added automatically.
+     * @param max maximum size of value that can fit in the first byte inclusive. Leave room for opcode bits.
+     * @param len length to encode.
+     */
+    private void encodeOp(int op, int max, int len){
+        if(len <= max){
+            patch.write((byte) (len | op));
+        }else{
+            int i = work.length;
+            int cont = 0;
 
-	/**
-	 * Encode an opcode + length.
-	 *
-	 * @param op opcode. extend bit is added automatically.
-	 * @param max maximum size of value that can fit in the first byte inclusive. Leave room for opcode bits.
-	 * @param len length to encode.
-	 */
-	private void encodeOp(int op, int max, int len) {
-		if (len <= max) {
-			patch.write((byte) (len | op));
-		} else {
-			int i = work.length;
-			int cont = 0;
+            while(len > max){
+                work[--i] = (byte) ((len & 0x7f) | cont);
+                len >>= 7;
+                cont = 0x80;
+            }
+            work[--i] = (byte) (len | 0x80 | op);
+            patch.write(work, i, work.length - i);
+        }
+    }
 
-			while (len > max) {
-				work[--i] = (byte) ((len & 0x7f) | cont);
-				len >>= 7;
-				cont = 0x80;
-			}
-			work[--i] = (byte) (len | 0x80 | op);
-			patch.write(work, i, work.length - i);
-		}
-	}
+    /**
+     * Encodes an integer.
+     * <p>
+     * Format is big-endian order encoded as:
+     * <p>
+     * CXXXXXXX
+     * <p>
+     * Where C is the continue bit.
+     */
+    void encodeInt(int addr){
+        int i = work.length;
+        int cont = 0;
+        while(addr > 0x7f){
+            work[--i] = (byte) ((addr & 0x7f) | cont);
+            addr >>= 7;
+            cont = 0x80;
+        }
+        work[--i] = (byte) (addr | cont);
+        patch.write(work, i, work.length - i);
+    }
 
-	/**
-	 * Encodes an integer.
-	 * <p>
-	 * Format is big-endian order encoded as:
-	 * <p>
-	 * CXXXXXXX
-	 * <p>
-	 * Where C is the continue bit.
-	 *
-	 */
-	void encodeInt(int addr) {
-		int i = work.length;
-		int cont = 0;
-		while (addr > 0x7f) {
-			work[--i] = (byte) ((addr & 0x7f) | cont);
-			addr >>= 7;
-			cont = 0x80;
-		}
-		work[--i] = (byte) (addr | cont);
-		patch.write(work, i, work.length - i);
-	}
+    public void copy(int addr, int len){
+        encodeOp(COPY, 0x3f, len);
+        encodeInt(addr);
+    }
 
-	public void copy(int addr, int len) {
-		encodeOp(COPY, 0x3f, len);
-		encodeInt(addr);
-	}
+    public void add(byte[] data, int off, int len){
+        encodeOp(ADD, 0x1f, len - 1);
+        patch.write(data, off, len);
+    }
 
-	public void add(byte[] data, int off, int len) {
-		encodeOp(ADD, 0x1f, len - 1);
-		patch.write(data, off, len);
-	}
+    public void run(byte b, int len){
+        encodeOp(RUN, 0x1f, len - 1);
+        patch.write(b);
+    }
 
-	public void run(byte b, int len) {
-		encodeOp(RUN, 0x1f, len - 1);
-		patch.write(b);
-	}
-
-	public byte[] toPatch() {
-		return patch.toByteArray();
-	}
+    public byte[] toPatch(){
+        return patch.toByteArray();
+    }
 }

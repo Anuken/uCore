@@ -3,14 +3,20 @@ package io.anuke.ucore.entities.trait;
 import io.anuke.ucore.entities.Entities;
 import io.anuke.ucore.entities.EntityGroup;
 
-public interface Entity extends PosTrait, MutPosTrait {
+public interface Entity extends PosTrait, MutPosTrait{
 
     int getID();
+
     void resetID(int id);
 
-    default void update(){}
-    default void removed(){}
-    default void added(){}
+    default void update(){
+    }
+
+    default void removed(){
+    }
+
+    default void added(){
+    }
 
     default EntityGroup targetGroup(){
         return Entities.defaultGroup();
@@ -21,7 +27,7 @@ public interface Entity extends PosTrait, MutPosTrait {
     }
 
     default void remove(){
-        if(getGroup() != null) {
+        if(getGroup() != null){
             getGroup().remove(this);
         }
 
@@ -29,6 +35,7 @@ public interface Entity extends PosTrait, MutPosTrait {
     }
 
     EntityGroup getGroup();
+
     void setGroup(EntityGroup group);
 
     default boolean isAdded(){

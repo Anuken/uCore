@@ -15,7 +15,7 @@ import io.anuke.ucore.util.QuadTree;
 
 import static io.anuke.ucore.entities.Entities.entityLock;
 
-public class EntityCollisions {
+public class EntityCollisions{
     //range for tile collision scanning
     private static final int r = 2;
     //move in 1-unit chunks
@@ -42,7 +42,7 @@ public class EntityCollisions {
     }
 
     public void setCollider(float tilesize, TileCollider collider){
-        setCollider(tilesize, collider, (x, y, out) -> out.setSize(tilesize).setCenter(x*tilesize, y*tilesize));
+        setCollider(tilesize, collider, (x, y, out) -> out.setSize(tilesize).setCenter(x * tilesize, y * tilesize));
     }
 
     public void move(SolidTrait entity, float deltax, float deltay){
@@ -53,7 +53,7 @@ public class EntityCollisions {
             movedx = true;
             moveInternal(entity, Math.min(Math.abs(deltax), seg) * Mathf.sign(deltax), 0, true);
 
-            if(Math.abs(deltax) >= seg) {
+            if(Math.abs(deltax) >= seg){
                 deltax -= seg * Mathf.sign(deltax);
             }else{
                 deltax = 0f;
@@ -66,7 +66,7 @@ public class EntityCollisions {
             movedy = true;
             moveInternal(entity, 0, Math.min(Math.abs(deltay), seg) * Mathf.sign(deltay), false);
 
-            if(Math.abs(deltay) >= seg) {
+            if(Math.abs(deltay) >= seg){
                 deltay -= seg * Mathf.sign(deltay);
             }else{
                 deltay = 0f;
@@ -84,11 +84,11 @@ public class EntityCollisions {
         rect.x += deltax;
         rect.y += deltay;
 
-        int tilex = Mathf.scl2(rect.x + rect.width/2, tilesize), tiley = Mathf.scl2(rect.y + rect.height/2, tilesize);
+        int tilex = Mathf.scl2(rect.x + rect.width / 2, tilesize), tiley = Mathf.scl2(rect.y + rect.height / 2, tilesize);
 
         for(int dx = -r; dx <= r; dx++){
             for(int dy = -r; dy <= r; dy++){
-                int wx = dx+tilex, wy = dy+tiley;
+                int wx = dx + tilex, wy = dy + tiley;
                 if(collider.solid(wx, wy)){
 
                     hitboxProvider.getHitbox(wx, wy, tmp);
@@ -137,19 +137,19 @@ public class EntityCollisions {
 
         QuadTree tree = group.tree();
 
-        synchronized (entityLock) {
+        synchronized(entityLock){
             tree.clear();
         }
 
         for(Entity entity : group.all()){
             if(entity instanceof SolidTrait){
-                SolidTrait s = (SolidTrait)entity;
+                SolidTrait s = (SolidTrait) entity;
 
                 s.lastPosition().set(s.getX(), s.getY(), s.getRotation());
                 if(s.lastUpdated() != 0) s.setUpdateSpacing(TimeUtils.timeSinceMillis(s.lastUpdated()));
 
                 s.setLastUpdated(TimeUtils.millis());
-                synchronized (entityLock) {
+                synchronized(entityLock){
                     tree.insert(s);
                 }
             }
@@ -178,7 +178,7 @@ public class EntityCollisions {
             l1.set(a.getX(), a.getY());
             boolean collide = r1.overlaps(r2) || collide(r1.x, r1.y, r1.width, r1.height, vax, vay,
                     r2.x, r2.y, r2.width, r2.height, vbx, vby, l1);
-            if(collide) {
+            if(collide){
                 a.collision(b, l1.x, l1.y);
                 b.collision(a, l1.x, l1.y);
             }
@@ -195,18 +195,18 @@ public class EntityCollisions {
         float xInvEntry, yInvEntry;
         float xInvExit, yInvExit;
 
-        if (vx1 > 0.0f) {
+        if(vx1 > 0.0f){
             xInvEntry = x2 - (x1 + w1);
             xInvExit = (x2 + w2) - x1;
-        } else {
+        }else{
             xInvEntry = (x2 + w2) - x1;
             xInvExit = x2 - (x1 + w1);
         }
 
-        if (vy1 > 0.0f) {
+        if(vy1 > 0.0f){
             yInvEntry = y2 - (y1 + h1);
             yInvExit = (y2 + h2) - y1;
-        } else {
+        }else{
             yInvEntry = (y2 + h2) - y1;
             yInvExit = y2 - (y1 + h1);
         }
@@ -223,11 +223,11 @@ public class EntityCollisions {
         float entryTime = Math.max(xEntry, yEntry);
         float exitTime = Math.min(xExit, yExit);
 
-        if (entryTime > exitTime || xExit < 0.0f || yExit < 0.0f || xEntry > 1.0f || yEntry > 1.0f) {
+        if(entryTime > exitTime || xExit < 0.0f || yExit < 0.0f || xEntry > 1.0f || yEntry > 1.0f){
             return false;
         }else{
-            float dx = x1 + w1/2f + px * entryTime;
-            float dy = y1 + h1/2f + py * entryTime;
+            float dx = x1 + w1 / 2f + px * entryTime;
+            float dy = y1 + h1 / 2f + py * entryTime;
 
             out.set(dx, dy);
 
@@ -242,7 +242,7 @@ public class EntityCollisions {
             if(!(entity instanceof SolidTrait) || collided.contains(entity.getID()))
                 continue;
 
-            SolidTrait solid = (SolidTrait)entity;
+            SolidTrait solid = (SolidTrait) entity;
 
             solid.getHitbox(r1);
             r1.x += (solid.lastPosition().x - solid.getX());
@@ -251,13 +251,13 @@ public class EntityCollisions {
             solid.getHitbox(r2);
             r2.merge(r1);
 
-            synchronized (Entities.entityLock) {
+            synchronized(Entities.entityLock){
 
                 arrOut.clear();
                 groupb.tree().getIntersect(arrOut, r2);
 
                 for(SolidTrait sc : arrOut){
-                    if (!collided.contains(sc.getID())) {
+                    if(!collided.contains(sc.getID())){
                         checkCollide(entity, sc);
                     }
                 }

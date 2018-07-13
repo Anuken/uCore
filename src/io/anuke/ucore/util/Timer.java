@@ -5,37 +5,37 @@ import io.anuke.ucore.core.Timers;
 import java.util.Arrays;
 
 public class Timer{
-	float[] times;
-	
-	public Timer(int capacity){
-		times = new float[capacity];
-	}
-	
-	public boolean get(int id, float time){
-		if(id >= times.length) throw new RuntimeException("Out of bounds! Max timer size is " + times.length + "!");
+    float[] times;
 
-		if(Timers.time() - times[id] >= time ||
-				Timers.time() < times[id]){ //when 'time travel' happens, reset.
-			times[id] = Timers.time();
-			return true;
-		}else{
-			return false;
-		}
-	}
+    public Timer(int capacity){
+        times = new float[capacity];
+    }
 
-	public void reset(int id, float time){
-		times[id] = Timers.time() - time;
-	}
+    public boolean get(int id, float time){
+        if(id >= times.length) throw new RuntimeException("Out of bounds! Max timer size is " + times.length + "!");
 
-	public void clear(){
-		Arrays.fill(times, 0);
-	}
+        if(Timers.time() - times[id] >= time ||
+                Timers.time() < times[id]){ //when 'time travel' happens, reset.
+            times[id] = Timers.time();
+            return true;
+        }else{
+            return false;
+        }
+    }
 
-	public float getTime(int id){
-		return Timers.time() - times[id];
-	}
+    public void reset(int id, float time){
+        times[id] = Timers.time() - time;
+    }
 
-	public float[] getTimes(){
-		return times;
-	}
+    public void clear(){
+        Arrays.fill(times, 0);
+    }
+
+    public float getTime(int id){
+        return Timers.time() - times[id];
+    }
+
+    public float[] getTimes(){
+        return times;
+    }
 }

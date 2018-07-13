@@ -21,81 +21,81 @@ package io.anuke.ucore.io.delta;
  * <p>
  * A delta encoder will implement a specific file/transfer format.
  */
-public interface ByteDeltaEncoder {
+public interface ByteDeltaEncoder{
 
-	/**
-	 * Initialises creating a new patch.
-	 *
-	 * @param sourceSize
-	 * @param targetSize
-	 */
-	public void init(int sourceSize, int targetSize);
+    /**
+     * Creates a delta from a matcher and writes it to an encoder.
+     *
+     * @param matcher
+     * @param enc
+     * @return
+     */
+    public static byte[] toDiff(ByteMatcher matcher, ByteDeltaEncoder enc){
+        byte[] source = matcher.getSource();
+        byte[] target = matcher.getTarget();
 
-	/**
-	 * Appends a copy command.
-	 *
-	 * @param addr
-	 * @param len
-	 */
-	public void copy(int addr, int len);
+        enc.init(source.length, target.length);
 
-	/**
-	 * Appends an append command.
-	 *
-	 * @param data
-	 * @param off
-	 * @param len
-	 */
-	public void add(byte[] data, int off, int len);
+        int targetEnd = 0;
+        int state;
 
-	/**
-	 * Appends a byte-run.
-	 *
-	 * @param b
-	 * @param len
-	 */
-	public void run(byte b, int len);
+        while((state = matcher.nextMatch()) != ByteMatcher.EOF){
+            int toff = matcher.getTargetOffset();
+            int slength = matcher.getLength();
 
-	/**
-	 * Retrieves the patch.
-	 *
-	 * @return
-	 */
-	public byte[] toPatch();
+            if(targetEnd != toff)
+                enc.add(target, targetEnd, toff - targetEnd);
 
-	/**
-	 * Creates a delta from a matcher and writes it to an encoder.
-	 *
-	 * @param matcher
-	 * @param enc
-	 * @return
-	 */
-	public static byte[] toDiff(ByteMatcher matcher, ByteDeltaEncoder enc) {
-		byte[] source = matcher.getSource();
-		byte[] target = matcher.getTarget();
+            if(state == ByteMatcher.RUN)
+                enc.run(matcher.getRunByte(), slength);
+            else
+                enc.copy(matcher.getMatchOffset(), slength);
 
-		enc.init(source.length, target.length);
+            targetEnd = toff + slength;
+        }
+        if(targetEnd != target.length)
+            enc.add(target, targetEnd, target.length - targetEnd);
 
-		int targetEnd = 0;
-		int state;
+        return enc.toPatch();
+    }
 
-		while ((state = matcher.nextMatch()) != ByteMatcher.EOF) {
-			int toff = matcher.getTargetOffset();
-			int slength = matcher.getLength();
+    /**
+     * Initialises creating a new patch.
+     *
+     * @param sourceSize
+     * @param targetSize
+     */
+    public void init(int sourceSize, int targetSize);
 
-			if (targetEnd != toff)
-				enc.add(target, targetEnd, toff - targetEnd);
+    /**
+     * Appends a copy command.
+     *
+     * @param addr
+     * @param len
+     */
+    public void copy(int addr, int len);
 
-			if (state == ByteMatcher.RUN)
-				enc.run(matcher.getRunByte(), slength);
-			else
-				enc.copy(matcher.getMatchOffset(), slength);
+    /**
+     * Appends an append command.
+     *
+     * @param data
+     * @param off
+     * @param len
+     */
+    public void add(byte[] data, int off, int len);
 
-			targetEnd = toff + slength;
-		}
-		if (targetEnd != target.length)
-			enc.add(target, targetEnd, target.length - targetEnd);
+    /**
+     * Appends a byte-run.
+     *
+     * @param b
+     * @param len
+     */
+    public void run(byte b, int len);
 
-		return enc.toPatch();
-	}
+    /**
+     * Retrieves the patch.
+     *
+     * @return
+     */
+    public byte[] toPatch();
 }

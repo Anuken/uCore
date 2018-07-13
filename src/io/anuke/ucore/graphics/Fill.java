@@ -10,7 +10,7 @@ import io.anuke.ucore.util.Tmp;
 
 import static io.anuke.ucore.core.Core.batch;
 
-public class Fill {
+public class Fill{
     private static Sprite sprite;
     private static float[] vertices = new float[20];
     private static TextureRegion circleRegion;
@@ -19,8 +19,8 @@ public class Fill {
     private static void initShapes(){
         if(shapeRegions == null){
             shapeRegions = new TextureRegion[9];
-            for(int i = 3; i <= 8; i ++){
-                if(Draw.hasRegion("shape-" + i)) {
+            for(int i = 3; i <= 8; i++){
+                if(Draw.hasRegion("shape-" + i)){
                     shapeRegions[i] = Draw.region("shape-" + i);
                 }
             }
@@ -30,29 +30,29 @@ public class Fill {
     public static void tri(float x1, float y1, float x2, float y2, float x3, float y3){
         int i = 0;
         float color = Core.batch.getPackedColor();
-        vertices[i ++] = x1;
-        vertices[i ++] = y1;
-        vertices[i ++] = color;
-        vertices[i ++] = 0;
-        vertices[i ++] = 0;
+        vertices[i++] = x1;
+        vertices[i++] = y1;
+        vertices[i++] = color;
+        vertices[i++] = 0;
+        vertices[i++] = 0;
 
-        vertices[i ++] = x2;
-        vertices[i ++] = y2;
-        vertices[i ++] = color;
-        vertices[i ++] = 0;
-        vertices[i ++] = 0;
+        vertices[i++] = x2;
+        vertices[i++] = y2;
+        vertices[i++] = color;
+        vertices[i++] = 0;
+        vertices[i++] = 0;
 
-        vertices[i ++] = x3;
-        vertices[i ++] = y3;
-        vertices[i ++] = color;
-        vertices[i ++] = 0;
-        vertices[i ++] = 0;
+        vertices[i++] = x3;
+        vertices[i++] = y3;
+        vertices[i++] = color;
+        vertices[i++] = 0;
+        vertices[i++] = 0;
 
-        vertices[i ++] = x3;
-        vertices[i ++] = y3;
-        vertices[i ++] = color;
-        vertices[i ++] = 0;
-        vertices[i ++] = 0;
+        vertices[i++] = x3;
+        vertices[i++] = y3;
+        vertices[i++] = color;
+        vertices[i++] = 0;
+        vertices[i++] = 0;
 
         batch.draw(Draw.getBlankRegion().getTexture(), vertices, 0, vertices.length);
     }
@@ -83,12 +83,12 @@ public class Fill {
 
     public static void poly(float x, float y, int sides, float radius){
         initShapes();
-        Draw.rect(shapeRegions[sides], x, y, radius*2, radius*2);
+        Draw.rect(shapeRegions[sides], x, y, radius * 2, radius * 2);
     }
 
     public static void poly(float x, float y, int sides, float radius, float rotation){
         initShapes();
-        Draw.rect(shapeRegions[sides], x, y, radius*2, radius*2, rotation);
+        Draw.rect(shapeRegions[sides], x, y, radius * 2, radius * 2, rotation);
     }
 
     public static void circle(float x, float y, float radius){
@@ -96,7 +96,7 @@ public class Fill {
             circleRegion = Draw.region("circle");
         }
 
-        Draw.rect(circleRegion, x, y, radius*2, radius*2);
+        Draw.rect(circleRegion, x, y, radius * 2, radius * 2);
     }
 
     public static void rect(float x, float y, float width, float height){

@@ -3,8 +3,8 @@ package io.anuke.ucore.util;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
-/** @author xSke*/
-public class Spring2D {
+/** @author xSke */
+public class Spring2D{
     public Vector2 value = new Vector2();
     public Vector2 target = new Vector2();
     public Vector2 velocity = new Vector2();
@@ -12,12 +12,12 @@ public class Spring2D {
     public float damping;
     public float frequency;
 
-    public Spring2D(float damping, float frequency) {
+    public Spring2D(float damping, float frequency){
         this.damping = damping;
         this.frequency = frequency;
     }
 
-    public void update(float deltaTime) {
+    public void update(float deltaTime){
         float angularFrequency = frequency;
         angularFrequency *= MathUtils.PI2;
 

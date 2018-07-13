@@ -4,118 +4,118 @@ import io.anuke.ucore.util.Mathf;
 
 import java.util.HashMap;
 
-public class Evolver {
-	public static boolean debug = false;
-	
-	HashMap<Character, String> current = new HashMap<Character, String>();
-	float currentSpace;
-	float currentScore;
-	
-	public LSystemData[] evolve(EvolutionData data, int amount){
-		LSystemData[] result = new LSystemData[amount];
-		
-		for(int i = 0; i < amount; i ++){
-			result[i] = evolve(data);
-		}
-		
-		return result;
-	}
+public class Evolver{
+    public static boolean debug = false;
 
-	public LSystemData evolve(EvolutionData data) {
-		current.clear();
-		current.putAll(data.defaultRules);
-		currentSpace = data.defaultSpace;
-		currentScore = 0f;
+    HashMap<Character, String> current = new HashMap<Character, String>();
+    float currentSpace;
+    float currentScore;
 
-		for (int g = 0; g < data.generations; g ++) {
+    public LSystemData[] evolve(EvolutionData data, int amount){
+        LSystemData[] result = new LSystemData[amount];
 
-			HashMap<Character, String> bestTree = current;
-			float bestSpace = currentSpace;
-			float bestScore = currentScore;
+        for(int i = 0; i < amount; i++){
+            result[i] = evolve(data);
+        }
 
-			for (int i = 0; i < data.variants; i++) {
-				HashMap<Character, String> mutation = mutateCurrent(data);
-				float mutSpace = currentSpace + (data.changeSpace ? Mathf.range(5f) : 0f);
+        return result;
+    }
 
-				LTree tree = LProcessor.getLines(data.axiom, mutation, data.iterations, mutSpace);
+    public LSystemData evolve(EvolutionData data){
+        current.clear();
+        current.putAll(data.defaultRules);
+        currentSpace = data.defaultSpace;
+        currentScore = 0f;
 
-				float score = data.eval.getScore(tree);
+        for(int g = 0; g < data.generations; g++){
 
-				if (score < 0) {
-					continue;
-				}
+            HashMap<Character, String> bestTree = current;
+            float bestSpace = currentSpace;
+            float bestScore = currentScore;
 
-				if (score > bestScore) {
-					bestTree = mutation;
-					bestScore = score;
-					bestSpace = mutSpace;
-				}
-			}
+            for(int i = 0; i < data.variants; i++){
+                HashMap<Character, String> mutation = mutateCurrent(data);
+                float mutSpace = currentSpace + (data.changeSpace ? Mathf.range(5f) : 0f);
 
-			current = bestTree;
-			currentSpace = bestSpace;
-			currentScore = bestScore;
-		}
+                LTree tree = LProcessor.getLines(data.axiom, mutation, data.iterations, mutSpace);
 
-		LSystemData result = new LSystemData(data.axiom, (HashMap<Character, String>) current.clone(), data.iterations, data.swayspace, 
-				data.swayscale, data.swayphase, data.length, currentSpace, data.thickness, data.start, data.end);
-		//result.result = LGen.gen(result.axiom, result.rules, result.iterations);
-		return result;
-	}
+                float score = data.eval.getScore(tree);
 
-	HashMap<Character, String> mutateCurrent(EvolutionData data) {
-		HashMap<Character, String> map = (HashMap<Character, String>) current.clone();
-		
-		map.put('X', mutateString(map.get('X'), data));
+                if(score < 0){
+                    continue;
+                }
 
-		return map;
-	}
+                if(score > bestScore){
+                    bestTree = mutation;
+                    bestScore = score;
+                    bestSpace = mutSpace;
+                }
+            }
 
-	String mutateString(String in, EvolutionData data) {
-		int mutations = Mathf.random(1, data.maxMutations);
-		StringBuilder current = new StringBuilder(in);
+            current = bestTree;
+            currentSpace = bestSpace;
+            currentScore = bestScore;
+        }
 
-		for (int i = 0; i < mutations; i++) {
+        LSystemData result = new LSystemData(data.axiom, (HashMap<Character, String>) current.clone(), data.iterations, data.swayspace,
+                data.swayscale, data.swayphase, data.length, currentSpace, data.thickness, data.start, data.end);
+        //result.result = LGen.gen(result.axiom, result.rules, result.iterations);
+        return result;
+    }
 
-			int rand = Mathf.random(0, data.insertChars.length + 5);
+    HashMap<Character, String> mutateCurrent(EvolutionData data){
+        HashMap<Character, String> map = (HashMap<Character, String>) current.clone();
 
-			// delete a random character
-			if (Mathf.chance(0.2) && current.length() > 5) {
-				int idx = Mathf.random(current.length() - 1);
-				current.deleteCharAt(idx);
-				continue;
-			}
+        map.put('X', mutateString(map.get('X'), data));
 
-			if (data.limitrulesize && current.length() > data.maxrulesize) {
-				// can only change a character, so just delete here, and let other code add
-				if(rand < data.insertChars.length) {
-					int idx = Mathf.random(current.length() - 1);
-					current.deleteCharAt(idx);
-				} else if ((rand <= data.insertChars.length + 1 && current.length() > 1) || 
-						(current.length() > 4)){
-					int idx = Mathf.random(current.length() - 1);
-					current.deleteCharAt(idx);
-					
-					idx = Mathf.random(current.length() - 1);
-					current.deleteCharAt(idx);
-				}
-			}
+        return map;
+    }
 
-			if (rand < data.insertChars.length) { // insert a random character
-				current.insert(Mathf.random(0, current.length() - 1), data.insertChars[rand]);
-			} else if (rand <= data.insertChars.length + 1 && current.length() > 1) {
+    String mutateString(String in, EvolutionData data){
+        int mutations = Mathf.random(1, data.maxMutations);
+        StringBuilder current = new StringBuilder(in);
 
-				current.insert(Mathf.random(0, current.length() - 1), '-');
-				current.insert(Mathf.random(0, current.length() - 1), '+');
+        for(int i = 0; i < mutations; i++){
 
-			} else if (current.length() > 4) {
-				int idx = Mathf.random(0, current.length() - 3);
-				current.insert(idx, '[');
-				current.insert(Mathf.random(idx + 1, current.length() - 1), ']');
-			}
+            int rand = Mathf.random(0, data.insertChars.length + 5);
 
-		}
+            // delete a random character
+            if(Mathf.chance(0.2) && current.length() > 5){
+                int idx = Mathf.random(current.length() - 1);
+                current.deleteCharAt(idx);
+                continue;
+            }
 
-		return current.toString();
-	}
+            if(data.limitrulesize && current.length() > data.maxrulesize){
+                // can only change a character, so just delete here, and let other code add
+                if(rand < data.insertChars.length){
+                    int idx = Mathf.random(current.length() - 1);
+                    current.deleteCharAt(idx);
+                }else if((rand <= data.insertChars.length + 1 && current.length() > 1) ||
+                        (current.length() > 4)){
+                    int idx = Mathf.random(current.length() - 1);
+                    current.deleteCharAt(idx);
+
+                    idx = Mathf.random(current.length() - 1);
+                    current.deleteCharAt(idx);
+                }
+            }
+
+            if(rand < data.insertChars.length){ // insert a random character
+                current.insert(Mathf.random(0, current.length() - 1), data.insertChars[rand]);
+            }else if(rand <= data.insertChars.length + 1 && current.length() > 1){
+
+                current.insert(Mathf.random(0, current.length() - 1), '-');
+                current.insert(Mathf.random(0, current.length() - 1), '+');
+
+            }else if(current.length() > 4){
+                int idx = Mathf.random(0, current.length() - 3);
+                current.insert(idx, '[');
+                current.insert(Mathf.random(idx + 1, current.length() - 1), ']');
+            }
+
+        }
+
+        return current.toString();
+    }
 }

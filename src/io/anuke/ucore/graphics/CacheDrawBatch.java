@@ -17,193 +17,193 @@ public class CacheDrawBatch implements Batch{
     }
 
     @Override
-    public void begin() {
+    public void begin(){
         drawing = true;
         if(batch != null) batch.beginDraw();
     }
 
     @Override
-    public void end() {
+    public void end(){
         if(batch != null) batch.endDraw();
         drawing = false;
     }
 
     @Override
-    public void setColor(Color tint) {
+    public void setColor(Color tint){
         stub();
     }
 
     @Override
-    public void setColor(float r, float g, float b, float a) {
+    public void setColor(float r, float g, float b, float a){
         stub();
     }
 
     @Override
-    public void setColor(float color) {
-        stub();
-    }
-
-    @Override
-    public Color getColor() {
+    public Color getColor(){
         stub();
         return null;
     }
 
     @Override
-    public float getPackedColor() {
+    public void setColor(float color){
+        stub();
+    }
+
+    @Override
+    public float getPackedColor(){
         stub();
         return 0;
     }
 
     @Override
-    public void draw(Texture texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY) {
+    public void draw(Texture texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY){
         stub();
     }
 
     @Override
-    public void draw(Texture texture, float x, float y, float width, float height, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY) {
+    public void draw(Texture texture, float x, float y, float width, float height, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY){
         stub();
     }
 
     @Override
-    public void draw(Texture texture, float x, float y, int srcX, int srcY, int srcWidth, int srcHeight) {
+    public void draw(Texture texture, float x, float y, int srcX, int srcY, int srcWidth, int srcHeight){
         stub();
     }
 
     @Override
-    public void draw(Texture texture, float x, float y, float width, float height, float u, float v, float u2, float v2) {
+    public void draw(Texture texture, float x, float y, float width, float height, float u, float v, float u2, float v2){
         stub();
     }
 
     @Override
-    public void draw(Texture texture, float x, float y) {
+    public void draw(Texture texture, float x, float y){
         stub();
     }
 
     @Override
-    public void draw(Texture texture, float x, float y, float width, float height) {
+    public void draw(Texture texture, float x, float y, float width, float height){
         stub();
     }
 
     @Override
-    public void draw(Texture texture, float[] spriteVertices, int offset, int count) {
+    public void draw(Texture texture, float[] spriteVertices, int offset, int count){
         stub();
     }
 
     @Override
-    public void draw(TextureRegion region, float x, float y) {
+    public void draw(TextureRegion region, float x, float y){
         stub();
     }
 
     @Override
-    public void draw(TextureRegion region, float x, float y, float width, float height) {
+    public void draw(TextureRegion region, float x, float y, float width, float height){
         stub();
     }
 
     @Override
-    public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation) {
+    public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation){
         stub();
     }
 
     @Override
-    public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, boolean clockwise) {
+    public void draw(TextureRegion region, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, boolean clockwise){
         stub();
     }
 
     @Override
-    public void draw(TextureRegion region, float width, float height, Affine2 transform) {
+    public void draw(TextureRegion region, float width, float height, Affine2 transform){
         stub();
     }
 
     @Override
-    public void flush() {
+    public void flush(){
 
     }
 
     @Override
-    public void disableBlending() {
+    public void disableBlending(){
 
     }
 
     @Override
-    public void enableBlending() {
+    public void enableBlending(){
 
     }
 
     @Override
-    public void setBlendFunction(int srcFunc, int dstFunc) {
+    public void setBlendFunction(int srcFunc, int dstFunc){
 
     }
 
     @Override
-    public void setBlendFunctionSeparate(int srcFuncColor, int dstFuncColor, int srcFuncAlpha, int dstFuncAlpha) {
+    public void setBlendFunctionSeparate(int srcFuncColor, int dstFuncColor, int srcFuncAlpha, int dstFuncAlpha){
 
     }
 
     @Override
-    public int getBlendSrcFunc() {
+    public int getBlendSrcFunc(){
         return 0;
     }
 
     @Override
-    public int getBlendDstFunc() {
+    public int getBlendDstFunc(){
         return 0;
     }
 
     @Override
-    public int getBlendSrcFuncAlpha() {
+    public int getBlendSrcFuncAlpha(){
         return 0;
     }
 
     @Override
-    public int getBlendDstFuncAlpha() {
+    public int getBlendDstFuncAlpha(){
         return 0;
     }
 
     @Override
-    public Matrix4 getProjectionMatrix() {
+    public Matrix4 getProjectionMatrix(){
         stub();
         return null;
     }
 
     @Override
-    public Matrix4 getTransformMatrix() {
-        stub();
-        return null;
-    }
-
-    @Override
-    public void setProjectionMatrix(Matrix4 projection) {
+    public void setProjectionMatrix(Matrix4 projection){
         if(batch != null) batch.setProjectionMatrix(projection);
     }
 
     @Override
-    public void setTransformMatrix(Matrix4 transform) {
-        if(batch != null) batch.setTransformMatrix(transform);
-    }
-
-    @Override
-    public void setShader(ShaderProgram shader) {
-        if(batch != null) batch.setShader(shader);
-    }
-
-    @Override
-    public ShaderProgram getShader() {
+    public Matrix4 getTransformMatrix(){
+        stub();
         return null;
     }
 
     @Override
-    public boolean isBlendingEnabled() {
+    public void setTransformMatrix(Matrix4 transform){
+        if(batch != null) batch.setTransformMatrix(transform);
+    }
+
+    @Override
+    public ShaderProgram getShader(){
+        return null;
+    }
+
+    @Override
+    public void setShader(ShaderProgram shader){
+        if(batch != null) batch.setShader(shader);
+    }
+
+    @Override
+    public boolean isBlendingEnabled(){
         return false;
     }
 
     @Override
-    public boolean isDrawing() {
+    public boolean isDrawing(){
         return drawing;
     }
 
     @Override
-    public void dispose() {
+    public void dispose(){
         stub();
     }
 

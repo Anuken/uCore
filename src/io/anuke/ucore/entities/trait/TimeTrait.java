@@ -6,7 +6,9 @@ import io.anuke.ucore.util.Mathf;
 public interface TimeTrait extends ScaleTrait, Entity{
 
     float lifetime();
+
     void time(float time);
+
     float time();
 
     default void updateTime(){
@@ -18,7 +20,7 @@ public interface TimeTrait extends ScaleTrait, Entity{
     }
 
     @Override
-    default float fin() {
+    default float fin(){
         return time() / lifetime();
     }
 }

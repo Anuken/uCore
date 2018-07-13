@@ -27,6 +27,35 @@ public class IndexedRenderer implements Disposable{
         resize(sprites);
     }
 
+    static public ShaderProgram createDefaultShader(){
+        String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
+                + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
+                + "uniform mat4 u_projTrans;\n" //
+                + "varying vec2 v_texCoords;\n" //
+                + "\n" //
+                + "void main()\n" //
+                + "{\n" //
+                + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
+                + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
+                + "}\n";
+        String fragmentShader = "#ifdef GL_ES\n" //
+                + "#define LOWP lowp\n" //
+                + "precision mediump float;\n" //
+                + "#else\n" //
+                + "#define LOWP \n" //
+                + "#endif\n" //
+                + "varying vec2 v_texCoords;\n" //
+                + "uniform sampler2D u_texture;\n" //
+                + "void main()\n"//
+                + "{\n" //
+                + "  gl_FragColor = texture2D(u_texture, v_texCoords);\n" //
+                + "}";
+
+        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
+        if(!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
+        return shader;
+    }
+
     public void render(Texture texture){
         Gdx.gl.glEnable(GL20.GL_BLEND);
 
@@ -39,7 +68,7 @@ public class IndexedRenderer implements Disposable{
         program.setUniformMatrix("u_projTrans", combined);
         program.setUniformi("u_texture", 0);
 
-        mesh.render(program, GL20.GL_TRIANGLES, 0, vertices.length/5);
+        mesh.render(program, GL20.GL_TRIANGLES, 0, vertices.length / 5);
 
         program.end();
     }
@@ -59,42 +88,42 @@ public class IndexedRenderer implements Disposable{
         float[] vertices = tmpVerts;
 
         int idx = 0;
-        vertices[idx ++] = x;
-        vertices[idx ++] = y;
-        vertices[idx ++] = color;
-        vertices[idx ++] = u;
-        vertices[idx ++] = v;
+        vertices[idx++] = x;
+        vertices[idx++] = y;
+        vertices[idx++] = color;
+        vertices[idx++] = u;
+        vertices[idx++] = v;
 
-        vertices[idx ++] = x;
-        vertices[idx ++] = fy2;
-        vertices[idx ++] = color;
-        vertices[idx ++] = u;
-        vertices[idx ++] = v2;
+        vertices[idx++] = x;
+        vertices[idx++] = fy2;
+        vertices[idx++] = color;
+        vertices[idx++] = u;
+        vertices[idx++] = v2;
 
-        vertices[idx ++] = fx2;
-        vertices[idx ++] = fy2;
-        vertices[idx ++] = color;
-        vertices[idx ++] = u2;
-        vertices[idx ++] = v2;
+        vertices[idx++] = fx2;
+        vertices[idx++] = fy2;
+        vertices[idx++] = color;
+        vertices[idx++] = u2;
+        vertices[idx++] = v2;
 
         //tri2
-        vertices[idx ++] = x;
-        vertices[idx ++] = y;
-        vertices[idx ++] = color;
-        vertices[idx ++] = u;
-        vertices[idx ++] = v;
+        vertices[idx++] = x;
+        vertices[idx++] = y;
+        vertices[idx++] = color;
+        vertices[idx++] = u;
+        vertices[idx++] = v;
 
-        vertices[idx ++] = fx2;
-        vertices[idx ++] = y;
-        vertices[idx ++] = color;
-        vertices[idx ++] = u2;
-        vertices[idx ++] = v;
+        vertices[idx++] = fx2;
+        vertices[idx++] = y;
+        vertices[idx++] = color;
+        vertices[idx++] = u2;
+        vertices[idx++] = v;
 
-        vertices[idx ++] = fx2;
-        vertices[idx ++] = fy2;
-        vertices[idx ++] = color;
-        vertices[idx ++] = u2;
-        vertices[idx ++] = v2;
+        vertices[idx++] = fx2;
+        vertices[idx++] = fy2;
+        vertices[idx++] = color;
+        vertices[idx++] = u2;
+        vertices[idx++] = v2;
 
         mesh.updateVertices(index * vsize * 6, vertices);
     }
@@ -106,7 +135,7 @@ public class IndexedRenderer implements Disposable{
         final float u2 = region.getU2();
         final float v2 = region.getV();
 
-        final float originX = w/2, originY = h/2;
+        final float originX = w / 2, originY = h / 2;
 
         final float cos = MathUtils.cosDeg(rotation);
         final float sin = MathUtils.sinDeg(rotation);
@@ -152,70 +181,70 @@ public class IndexedRenderer implements Disposable{
         float[] vertices = tmpVerts;
 
         int idx = 0;
-        vertices[idx ++] = x1;
-        vertices[idx ++] = y1;
-        vertices[idx ++] = color;
-        vertices[idx ++] = u;
-        vertices[idx ++] = v;
+        vertices[idx++] = x1;
+        vertices[idx++] = y1;
+        vertices[idx++] = color;
+        vertices[idx++] = u;
+        vertices[idx++] = v;
 
-        vertices[idx ++] = x3;
-        vertices[idx ++] = y3;
-        vertices[idx ++] = color;
-        vertices[idx ++] = u2;
-        vertices[idx ++] = v2;
+        vertices[idx++] = x3;
+        vertices[idx++] = y3;
+        vertices[idx++] = color;
+        vertices[idx++] = u2;
+        vertices[idx++] = v2;
 
-        vertices[idx ++] = x4;
-        vertices[idx ++] = y4;
-        vertices[idx ++] = color;
-        vertices[idx ++] = u;
-        vertices[idx ++] = v2;
+        vertices[idx++] = x4;
+        vertices[idx++] = y4;
+        vertices[idx++] = color;
+        vertices[idx++] = u;
+        vertices[idx++] = v2;
 
         //tri2
-        vertices[idx ++] = x1;
-        vertices[idx ++] = y1;
-        vertices[idx ++] = color;
-        vertices[idx ++] = u;
-        vertices[idx ++] = v;
+        vertices[idx++] = x1;
+        vertices[idx++] = y1;
+        vertices[idx++] = color;
+        vertices[idx++] = u;
+        vertices[idx++] = v;
 
-        vertices[idx ++] = x2;
-        vertices[idx ++] = y2;
-        vertices[idx ++] = color;
-        vertices[idx ++] = u2;
-        vertices[idx ++] = v;
+        vertices[idx++] = x2;
+        vertices[idx++] = y2;
+        vertices[idx++] = color;
+        vertices[idx++] = u2;
+        vertices[idx++] = v;
 
-        vertices[idx ++] = x3;
-        vertices[idx ++] = y3;
-        vertices[idx ++] = color;
-        vertices[idx ++] = u2;
-        vertices[idx ++] = v2;
+        vertices[idx++] = x3;
+        vertices[idx++] = y3;
+        vertices[idx++] = color;
+        vertices[idx++] = u2;
+        vertices[idx++] = v2;
 
         mesh.updateVertices(index * vsize * 6, vertices);
     }
 
-    public void setProjectionMatrix(Matrix4 matrix){
-        projMatrix = matrix;
+    public Matrix4 getTransformMatrix(){
+        return transMatrix;
     }
 
     public void setTransformMatrix(Matrix4 matrix){
         transMatrix = matrix;
     }
 
-    public Matrix4 getTransformMatrix() {
-        return transMatrix;
+    public Matrix4 getProjectionMatrix(){
+        return projMatrix;
     }
 
-    public Matrix4 getProjectionMatrix() {
-        return projMatrix;
+    public void setProjectionMatrix(Matrix4 matrix){
+        projMatrix = matrix;
     }
 
     public void resize(int sprites){
         if(mesh != null) mesh.dispose();
 
-        mesh = new Mesh(true, 6*sprites, 0,
+        mesh = new Mesh(true, 6 * sprites, 0,
                 new VertexAttribute(Usage.Position, 2, "a_position"),
                 new VertexAttribute(Usage.ColorPacked, 4, "a_color"),
                 new VertexAttribute(Usage.TextureCoordinates, 2, "a_texCoord0"));
-        vertices = new float[6*sprites*vsize];
+        vertices = new float[6 * sprites * vsize];
         mesh.setVertices(vertices);
     }
 
@@ -224,37 +253,8 @@ public class IndexedRenderer implements Disposable{
     }
 
     @Override
-    public void dispose() {
+    public void dispose(){
         mesh.dispose();
         program.dispose();
-    }
-
-    static public ShaderProgram createDefaultShader () {
-        String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
-                + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
-                + "uniform mat4 u_projTrans;\n" //
-                + "varying vec2 v_texCoords;\n" //
-                + "\n" //
-                + "void main()\n" //
-                + "{\n" //
-                + "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
-                + "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
-                + "}\n";
-        String fragmentShader = "#ifdef GL_ES\n" //
-                + "#define LOWP lowp\n" //
-                + "precision mediump float;\n" //
-                + "#else\n" //
-                + "#define LOWP \n" //
-                + "#endif\n" //
-                + "varying vec2 v_texCoords;\n" //
-                + "uniform sampler2D u_texture;\n" //
-                + "void main()\n"//
-                + "{\n" //
-                + "  gl_FragColor = texture2D(u_texture, v_texCoords);\n" //
-                + "}";
-
-        ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
-        if (!shader.isCompiled()) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
-        return shader;
     }
 }

@@ -23,87 +23,87 @@ package io.anuke.ucore.io.delta;
  * a target byte array and may optionally detect runs of duplicated
  * bytes.
  */
-public interface ByteMatcher {
+public interface ByteMatcher{
 
-	public final static int COPY = 0;
-	public final static int RUN = 1;
-	public static final int EOF = -1;
+    public final static int COPY = 0;
+    public final static int RUN = 1;
+    public static final int EOF = -1;
 
-	/**
-	 * Finds the next match or run.
-	 * <p>
-	 * Note that only matches or byte runs will be indicated. The location
-	 * of non-matching data (i.e. append sequences) must be determined from
-	 * the difference between the last targetOffset, the last length, and the
-	 * current targetOffset.
-	 * </p>
-	 *
-	 * @return the new state.
-	 */
-	public int nextMatch();
+    /**
+     * Finds the next match or run.
+     * <p>
+     * Note that only matches or byte runs will be indicated. The location
+     * of non-matching data (i.e. append sequences) must be determined from
+     * the difference between the last targetOffset, the last length, and the
+     * current targetOffset.
+     * </p>
+     *
+     * @return the new state.
+     */
+    public int nextMatch();
 
-	/**
-	 * Retrieves the current target position.
-	 * <p>
-	 * The position within the target to which the current match refers.
-	 *
-	 * @return
-	 */
-	public int getTargetOffset();
+    /**
+     * Retrieves the current target position.
+     * <p>
+     * The position within the target to which the current match refers.
+     *
+     * @return
+     */
+    public int getTargetOffset();
 
-	/**
-	 * Retrieves the best match location.
-	 * <p>
-	 * If the current state is COPY then this returns a valid location
-	 * of the best match. This should be interpreted
-	 * using {@link #getBlockArray} and {@link #getBlockOffset}.
-	 *
-	 * @return
-	 */
-	public int getMatchOffset();
+    /**
+     * Retrieves the best match location.
+     * <p>
+     * If the current state is COPY then this returns a valid location
+     * of the best match. This should be interpreted
+     * using {@link #getBlockArray} and {@link #getBlockOffset}.
+     *
+     * @return
+     */
+    public int getMatchOffset();
 
-	/**
-	 * Retrieves the byte to be run-length encoded.
-	 * <p>
-	 * If the current state is RUN then this returns the corresponding byte to run.
-	 *
-	 * @return
-	 */
-	public byte getRunByte();
+    /**
+     * Retrieves the byte to be run-length encoded.
+     * <p>
+     * If the current state is RUN then this returns the corresponding byte to run.
+     *
+     * @return
+     */
+    public byte getRunByte();
 
-	/**
-	 * Retrieves the current length.
-	 * <p>
-	 * This is the number of bytes to copy for the COPY state or repeat for the RUN state.
-	 *
-	 * @return
-	 */
-	public int getLength();
+    /**
+     * Retrieves the current length.
+     * <p>
+     * This is the number of bytes to copy for the COPY state or repeat for the RUN state.
+     *
+     * @return
+     */
+    public int getLength();
 
-	/**
-	 * Retrieves the array containing the current match.
-	 * <p>
-	 * Maps the offset to the correct internal array.
-	 *
-	 * @param offset
-	 * @return
-	 * @see #getBlockOffset
-	 */
-	public byte[] getBlockArray(int offset);
+    /**
+     * Retrieves the array containing the current match.
+     * <p>
+     * Maps the offset to the correct internal array.
+     *
+     * @param offset
+     * @return
+     * @see #getBlockOffset
+     */
+    public byte[] getBlockArray(int offset);
 
-	/**
-	 * Calculates the offset for the block array.
-	 * <p>
-	 * Maps the match offset to the array from <code>getBlockArray</code>.
-	 *
-	 * @param offset
-	 * @return
-	 * @see #getBlockArray
-	 */
-	public int getBlockOffset(int offset);
+    /**
+     * Calculates the offset for the block array.
+     * <p>
+     * Maps the match offset to the array from <code>getBlockArray</code>.
+     *
+     * @param offset
+     * @return
+     * @see #getBlockArray
+     */
+    public int getBlockOffset(int offset);
 
-	public byte[] getSource();
+    public byte[] getSource();
 
-	public byte[] getTarget();
+    public byte[] getTarget();
 
 }

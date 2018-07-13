@@ -4,9 +4,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import io.anuke.ucore.entities.trait.PosTrait;
 
-public class Translator extends Vector2 implements PosTrait {
+public class Translator extends Vector2 implements PosTrait{
 
-    public Translator(){}
+    public Translator(){
+    }
 
     public Translator(float x, float y){
         super(x, y);
@@ -35,14 +36,14 @@ public class Translator extends Vector2 implements PosTrait {
     }
 
     @Override
-    public float angle() {
+    public float angle(){
         float angle = Mathf.fastAtan2(y, x) * MathUtils.radiansToDegrees;
-        if (angle < 0) angle += 360;
+        if(angle < 0) angle += 360;
         return angle;
     }
 
     @Override
-    public Vector2 rotateRad (float radians) {
+    public Vector2 rotateRad(float radians){
         float cos = MathUtils.cos(radians);
         float sin = MathUtils.sin(radians);
 
@@ -56,12 +57,12 @@ public class Translator extends Vector2 implements PosTrait {
     }
 
     @Override
-    public float getX() {
+    public float getX(){
         return x;
     }
 
     @Override
-    public float getY() {
+    public float getY(){
         return y;
     }
 }

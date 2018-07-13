@@ -17,34 +17,20 @@ package io.anuke.ucore.jbump;
 
 import com.badlogic.gdx.math.Vector2;
 import io.anuke.ucore.jbump.JBCollision.CollisionFilter;
+
 /**
- *
  * @author tao
  */
-public interface JBResponse {
+public interface JBResponse{
 
-	Result response(JBWorld world, JBCollision collision, float x, float y, float w, float h, float goalX, float goalY, CollisionFilter filter, Result result);
-
-	class Result{
-
-		public float goalX;
-		public float goalY;
-		public JBCollisions projectedCollisions = new JBCollisions();
-
-		public void set(float goalX, float goalY){
-			this.goalX = goalX;
-			this.goalY = goalY;
-		}
-	}
-
-	JBResponse slide = (world, collision, x, y, w, h, goalX, goalY, filter, result) -> {
+    JBResponse slide = (world, collision, x, y, w, h, goalX, goalY, filter, result) -> {
         Vector2 tch = collision.touch;
         Vector2 move = collision.move;
         float sx = tch.x, sy = tch.y;
-        if (move.x != 0 || move.y != 0) {
-            if (collision.normal.x == 0) {
+        if(move.x != 0 || move.y != 0){
+            if(collision.normal.x == 0){
                 sx = goalX;
-            } else {
+            }else{
                 sy = goalY;
             }
         }
@@ -58,17 +44,29 @@ public interface JBResponse {
         result.set(goalX, goalY);
         return result;
     };
-
-	JBResponse touch = (world, collision, x, y, w, h, goalX, goalY, filter, result) -> {
+    JBResponse touch = (world, collision, x, y, w, h, goalX, goalY, filter, result) -> {
         result.projectedCollisions.clear();
         result.set(collision.touch.x, collision.touch.y);
         return result;
     };
-
-	JBResponse cross = (world, collision, x, y, w, h, goalX, goalY, filter, result) -> {
+    JBResponse cross = (world, collision, x, y, w, h, goalX, goalY, filter, result) -> {
         result.projectedCollisions.clear();
         world.project(collision.item, x, y, w, h, goalX, goalY, filter, result.projectedCollisions);
         result.set(goalX, goalY);
         return result;
     };
+
+    Result response(JBWorld world, JBCollision collision, float x, float y, float w, float h, float goalX, float goalY, CollisionFilter filter, Result result);
+
+    class Result{
+
+        public float goalX;
+        public float goalY;
+        public JBCollisions projectedCollisions = new JBCollisions();
+
+        public void set(float goalX, float goalY){
+            this.goalX = goalX;
+            this.goalY = goalY;
+        }
+    }
 }

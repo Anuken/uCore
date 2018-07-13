@@ -16,7 +16,7 @@ import io.anuke.ucore.scene.ui.TextButton.TextButtonStyle;
 import io.anuke.ucore.scene.ui.TextField.TextFieldStyle;
 import io.anuke.ucore.scene.ui.Window.WindowStyle;
 
-public class SkinAlias {
+public class SkinAlias{
     public static final ObjectMap<String, Class<?>> aliases = new ObjectMap<String, Class<?>>(){{
         put("font", BitmapFont.class);
         put("color", Color.class);

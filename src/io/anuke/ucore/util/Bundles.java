@@ -2,7 +2,7 @@ package io.anuke.ucore.util;
 
 import io.anuke.ucore.core.Core;
 
-public class Bundles {
+public class Bundles{
 
     public static boolean enabled(){
         return Core.bundle != null;

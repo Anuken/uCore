@@ -1,5 +1,5 @@
 package io.anuke.ucore.function;
 
-public interface FloatConsumer {
+public interface FloatConsumer{
     void accept(float f);
 }

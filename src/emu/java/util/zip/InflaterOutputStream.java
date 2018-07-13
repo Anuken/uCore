@@ -10,7 +10,7 @@ public class InflaterOutputStream extends InputStream{
     }
 
     @Override
-    public int read() throws IOException {
+    public int read() throws IOException{
         return 0;
     }
 }

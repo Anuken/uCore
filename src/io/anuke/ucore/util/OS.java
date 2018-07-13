@@ -5,7 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 
-public class OS {
+public class OS{
     static public boolean isWindows = getPropertyNotNull("os.name").contains("Windows");
     static public boolean isLinux = getPropertyNotNull("os.name").contains("Linux");
     static public boolean isMac = getPropertyNotNull("os.name").contains("Mac");
@@ -18,17 +18,17 @@ public class OS {
     // JDK 8 only.
     static public String abi = (getPropertyNotNull("sun.arch.abi") != null ? getPropertyNotNull("sun.arch.abi") : "");
 
-    static {
+    static{
         boolean isMOEiOS = "iOS".equals(getPropertyNotNull("moe.platform.name"));
         String vm = getPropertyNotNull("java.runtime.name");
-        if (vm != null && vm.contains("Android Runtime")) {
+        if(vm != null && vm.contains("Android Runtime")){
             isAndroid = true;
             isWindows = false;
             isLinux = false;
             isMac = false;
             is64Bit = false;
         }
-        if (isMOEiOS || (!isAndroid && !isWindows && !isLinux && !isMac)) {
+        if(isMOEiOS || (!isAndroid && !isWindows && !isLinux && !isMac)){
             isIos = true;
             isAndroid = false;
             isWindows = false;
@@ -59,7 +59,7 @@ public class OS {
     public static String getProperty(String name){
         try{
             Method method = ClassReflection.getMethod(System.class, "getProperty", String.class);
-            return (String)method.invoke(null, name);
+            return (String) method.invoke(null, name);
         }catch(Exception e){
             return null;
         }
@@ -68,7 +68,7 @@ public class OS {
     public static String getEnv(String name){
         try{
             Method method = ClassReflection.getMethod(System.class, "getenv", String.class);
-            return (String)method.invoke(null, name);
+            return (String) method.invoke(null, name);
         }catch(Exception e){
             return null;
         }
