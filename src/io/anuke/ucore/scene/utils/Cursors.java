@@ -74,11 +74,15 @@ public class Cursors{
         if(ibeam != null) ibeam.dispose();
         if(hand != null) hand.dispose();
 
-        for(Cursor cursor : customCursors.values()){
-            cursor.dispose();
+        if(customCursors != null){
+            for(Cursor cursor : customCursors.values()){
+                if(cursor != null){
+                    cursor.dispose();
+                }
+            }
         }
 
-        customCursors.clear();
+        customCursors = new ObjectMap<>();
         arrow = ibeam = hand = null;
     }
 }
