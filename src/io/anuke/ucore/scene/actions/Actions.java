@@ -20,7 +20,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
-import io.anuke.ucore.function.Callable;
 import io.anuke.ucore.scene.Action;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.EventListener;
@@ -40,7 +39,7 @@ public class Actions{
         return action;
     }
 
-    static public CallAction call(Callable call){
+    static public CallAction call(Runnable call){
         CallAction action = action(CallAction.class);
         action.call = call;
         return action;

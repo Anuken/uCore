@@ -27,6 +27,7 @@ import com.badlogic.gdx.utils.Predicate;
 import com.badlogic.gdx.utils.SnapshotArray;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.scene.event.Touchable;
+import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.utils.Cullable;
 
 /**
@@ -306,6 +307,19 @@ public class Group extends Element implements Cullable{
                 ((Group) e).forEach(cons);
             }
         }
+    }
+
+    /** Adds and returns a table. This table will fill the whole scene.*/
+    public void fill(Consumer<Table> cons){
+        fill(null, cons);
+    }
+
+    /** Adds and returns a table. This table will fill the whole scene.*/
+    public void fill(String background, Consumer<Table> cons){
+        Table table = background == null ? new Table() : new Table(background);
+        table.setFillParent(true);
+        addChild(table);
+        cons.accept(table);
     }
 
     /**

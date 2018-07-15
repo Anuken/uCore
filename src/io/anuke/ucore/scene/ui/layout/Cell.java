@@ -177,7 +177,12 @@ public class Cell<T extends Element> implements Poolable{
     }
 
     public Cell<T> visible(BooleanProvider prov){
-        getElement().setVisible(prov);
+        getElement().visible(prov);
+        return this;
+    }
+
+    public Cell<T> visible(boolean visible){
+        getElement().setVisible(visible);
         return this;
     }
 

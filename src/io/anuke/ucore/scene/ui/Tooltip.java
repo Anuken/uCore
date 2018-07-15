@@ -18,7 +18,6 @@ package io.anuke.ucore.scene.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.event.InputEvent;
@@ -38,14 +37,14 @@ public class Tooltip<T extends Element> extends InputListener{
     final Container<T> container;
     boolean instant = true, always;
     Element targetActor;
-    Listenable show;
+    Runnable show;
 
     /** @param contents May be null. */
     public Tooltip(T contents){
         this(contents, TooltipManager.getInstance());
     }
 
-    public Tooltip(T contents, Listenable show){
+    public Tooltip(T contents, Runnable show){
         this(contents, TooltipManager.getInstance());
         this.show = show;
     }
@@ -134,7 +133,7 @@ public class Tooltip<T extends Element> extends InputListener{
         manager.enter(this);
 
         if(show != null)
-            show.listen();
+            show.run();
     }
 
     public void exit(InputEvent event, float x, float y, int pointer, Element toActor){

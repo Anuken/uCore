@@ -4,8 +4,8 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 
 public class DelayRun implements Poolable{
     public float delay;
-    public Callable run;
-    public Callable finish;
+    public Runnable run;
+    public Runnable finish;
 
     @Override
     public void reset(){

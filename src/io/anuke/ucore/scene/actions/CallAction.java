@@ -1,10 +1,9 @@
 package io.anuke.ucore.scene.actions;
 
-import io.anuke.ucore.function.Callable;
 import io.anuke.ucore.scene.Action;
 
 public class CallAction extends Action{
-    public Callable call;
+    public Runnable call;
     public boolean called = false;
 
     @Override

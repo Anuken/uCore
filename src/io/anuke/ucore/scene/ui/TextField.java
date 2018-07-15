@@ -29,7 +29,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.Timer.Task;
-import io.anuke.ucore.function.TypingListenable;
+import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Group;
 import io.anuke.ucore.scene.Scene;
@@ -575,11 +575,11 @@ public class TextField extends Element implements Disableable{
         this.listener = listener;
     }
 
-    public void typed(TypingListenable cons){
+    public void typed(Consumer<Character> cons){
         setTextFieldListener(new TextFieldListener(){
             @Override
             public void keyTyped(TextField textField, char c){
-                cons.typed(c);
+                cons.accept(c);
             }
         });
     }

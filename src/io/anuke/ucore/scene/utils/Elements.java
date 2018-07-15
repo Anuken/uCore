@@ -1,9 +1,8 @@
 package io.anuke.ucore.scene.utils;
 
 import com.badlogic.gdx.graphics.Color;
-import io.anuke.ucore.function.CheckListenable;
-import io.anuke.ucore.function.FieldListenable;
-import io.anuke.ucore.function.Listenable;
+import io.anuke.ucore.function.BooleanConsumer;
+import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.scene.ui.CheckBox;
 import io.anuke.ucore.scene.ui.ImageButton;
 import io.anuke.ucore.scene.ui.TextButton;
@@ -13,14 +12,14 @@ import static io.anuke.ucore.core.Core.skin;
 
 public class Elements{
 
-    public static CheckBox newCheck(String text, CheckListenable listener){
+    public static CheckBox newCheck(String text, BooleanConsumer listener){
         CheckBox button = new CheckBox(text);
         if(listener != null)
-            button.changed(() -> listener.listen(button.isChecked()));
+            button.changed(() -> listener.accept(button.isChecked()));
         return button;
     }
 
-    public static TextButton newButton(String text, Listenable listener){
+    public static TextButton newButton(String text, Runnable listener){
         TextButton button = new TextButton(text);
         if(listener != null)
             button.changed(listener);
@@ -28,7 +27,7 @@ public class Elements{
         return button;
     }
 
-    public static TextButton newButton(String text, String style, Listenable listener){
+    public static TextButton newButton(String text, String style, Runnable listener){
         TextButton button = new TextButton(text, style);
         if(listener != null)
             button.changed(listener);
@@ -36,14 +35,14 @@ public class Elements{
         return button;
     }
 
-    public static ImageButton newImageButton(String icon, Listenable listener){
+    public static ImageButton newImageButton(String icon, Runnable listener){
         ImageButton button = new ImageButton(skin.getDrawable(icon));
         if(listener != null)
             button.changed(listener);
         return button;
     }
 
-    public static ImageButton newImageButton(String icon, float size, Listenable listener){
+    public static ImageButton newImageButton(String icon, float size, Runnable listener){
         ImageButton button = new ImageButton(skin.getDrawable(icon));
         button.resizeImage(size);
         if(listener != null)
@@ -51,7 +50,7 @@ public class Elements{
         return button;
     }
 
-    public static ImageButton newImageButton(String style, String icon, float size, Listenable listener){
+    public static ImageButton newImageButton(String style, String icon, float size, Runnable listener){
         ImageButton button = new ImageButton(icon, style);
         button.resizeImage(size);
         if(listener != null)
@@ -59,7 +58,7 @@ public class Elements{
         return button;
     }
 
-    public static ImageButton newImageButton(String icon, float size, Color color, Listenable listener){
+    public static ImageButton newImageButton(String icon, float size, Color color, Runnable listener){
         ImageButton button = new ImageButton(skin.getDrawable(icon));
         button.resizeImage(size);
         button.getImage().setColor(color);
@@ -68,18 +67,18 @@ public class Elements{
         return button;
     }
 
-    public static ImageButton newToggleImageButton(String icon, float size, boolean on, CheckListenable listener){
+    public static ImageButton newToggleImageButton(String icon, float size, boolean on, BooleanConsumer listener){
         ImageButton button = new ImageButton(icon, "toggle");
         button.setChecked(on);
         button.resizeImage(size);
-        button.clicked(() -> listener.listen(button.isChecked()));
+        button.clicked(() -> listener.accept(button.isChecked()));
         return button;
     }
 
-    public static TextField newField(String text, FieldListenable listener){
+    public static TextField newField(String text, Consumer<String> listener){
         TextField field = new TextField(text);
         if(listener != null)
-            field.changed(() -> listener.listen(field.getText()));
+            field.changed(() -> listener.accept(field.getText()));
 
         return field;
     }

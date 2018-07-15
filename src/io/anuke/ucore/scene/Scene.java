@@ -252,7 +252,7 @@ public class Scene extends InputAdapter implements Disposable{
         return root.find(pred);
     }
 
-    /** Adds and returns a table. */
+    /** Adds and returns a table. This table will fill the whole scene.*/
     public Table table(){
         Table table = new Table();
         table.setFillParent(true);

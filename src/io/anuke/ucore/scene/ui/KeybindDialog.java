@@ -210,7 +210,7 @@ public class KeybindDialog extends Dialog{
                 }
             }
 
-            table.setVisible(() -> this.section.equals(section));
+            table.visible(() -> this.section.equals(section));
 
             table.addButton(Bundles.get("text.settings.reset", "Reset to Defaults"), () -> {
                 KeyBinds.resetToDefaults();

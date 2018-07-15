@@ -4,7 +4,7 @@ package io.anuke.ucore.scene.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import io.anuke.ucore.core.Core;
-import io.anuke.ucore.function.ColorListenable;
+import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.graphics.Draw;
 import io.anuke.ucore.graphics.Fill;
 import io.anuke.ucore.graphics.Hue;
@@ -20,7 +20,7 @@ public class ColorPicker extends Table{
     private static Texture hue;
 
     private Bar hbar, sbar, bbar;
-    private ColorListenable changed;
+    private Consumer<Color> changed;
     private TextField field;
     private Color color = Color.CORAL.cpy(), tmp = new Color(1, 1, 1, 1);
 
@@ -102,7 +102,7 @@ public class ColorPicker extends Table{
         field.setText(hex);
     }
 
-    public void colorChanged(ColorListenable cons){
+    public void colorChanged(Consumer<Color> cons){
         changed = cons;
     }
 

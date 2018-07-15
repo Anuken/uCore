@@ -20,7 +20,6 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Align;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.ActionProvider;
-import io.anuke.ucore.function.Listenable;
 import io.anuke.ucore.scene.Action;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
@@ -167,22 +166,22 @@ public class Dialog extends Window{
     }
 
     /** Adds a show() listener. */
-    public void shown(Listenable run){
+    public void shown(Runnable run){
         addListener(new VisibilityListener(){
             @Override
             public boolean shown(){
-                run.listen();
+                run.run();
                 return false;
             }
         });
     }
 
     /** Adds a hide() listener. */
-    public void hidden(Listenable run){
+    public void hidden(Runnable run){
         addListener(new VisibilityListener(){
             @Override
             public boolean hidden(){
-                run.listen();
+                run.run();
                 return false;
             }
         });

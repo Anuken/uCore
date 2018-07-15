@@ -8,13 +8,12 @@ import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import io.anuke.ucore.core.Timers;
-import io.anuke.ucore.function.Callable;
 import io.anuke.ucore.util.Log;
 import io.anuke.ucore.util.OS;
 
 public class UCore{
 
-    public static void profile(int iterations, Callable c1, Callable c2){
+    public static void profile(int iterations, Runnable c1, Runnable c2){
         //warmup
         for(int i = 0; i < iterations; i++){
             c1.run();

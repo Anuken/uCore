@@ -3,7 +3,6 @@ package io.anuke.ucore.core;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.Timer.Task;
-import io.anuke.ucore.function.Callable;
 import io.anuke.ucore.function.DelayRun;
 import io.anuke.ucore.util.Pooling;
 
@@ -17,14 +16,14 @@ public class Timers{
     private static LongArray marks = new LongArray();
     private static DeltaProvider deltaimpl = () -> Math.min(Gdx.graphics.getDeltaTime() * 60f, 3f);
 
-    public static synchronized void run(float delay, Callable r){
+    public static synchronized void run(float delay, Runnable r){
         DelayRun run = Pooling.obtain(DelayRun.class);
         run.finish = r;
         run.delay = delay;
         runs.add(run);
     }
 
-    public static synchronized void runTask(float delay, Callable r){
+    public static synchronized void runTask(float delay, Runnable r){
         Timer.schedule(new Task(){
             @Override
             public void run(){
@@ -33,14 +32,14 @@ public class Timers{
         }, delay / 60f);
     }
 
-    public static void runFor(float duration, Callable r){
+    public static void runFor(float duration, Runnable r){
         DelayRun run = Pooling.obtain(DelayRun.class);
         run.run = r;
         run.delay = duration;
         runs.add(run);
     }
 
-    public static void runFor(float duration, Callable r, Callable finish){
+    public static void runFor(float duration, Runnable r, Runnable finish){
         DelayRun run = Pooling.obtain(DelayRun.class);
         run.run = r;
         run.delay = duration;

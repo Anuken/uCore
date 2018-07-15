@@ -9,15 +9,9 @@
     <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene"/>
 
     <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.actions.Actions"/>
-    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.build"/>
-    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.builder"/>
-    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.button"/>
     <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.checkbox"/>
     <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.dialog"/>
     <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.field"/>
-    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.imagebutton"/>
-    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.label"/>
-    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.table"/>
 
     <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.utils.ArraySelection"/>
     <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.utils.Cullable"/>

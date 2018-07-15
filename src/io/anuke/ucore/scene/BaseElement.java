@@ -660,6 +660,14 @@ class BaseElement implements Layout{
         }
     }
 
+    public void setRotationOrigin(float degrees, int align){
+        if(this.rotation != degrees){
+            this.rotation = degrees;
+            setOrigin(align);
+            rotationChanged();
+        }
+    }
+
     /** Adds the specified rotation to the current rotation. */
     public void rotateBy(float amountInDegrees){
         if(amountInDegrees != 0){

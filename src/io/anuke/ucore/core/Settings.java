@@ -5,20 +5,19 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
-import io.anuke.ucore.function.Listenable;
 
 public class Settings{
     private static Preferences prefs;
     private static ObjectMap<String, Object> defaults = new ObjectMap<>();
     private static boolean disabled = false;
-    private static Listenable errorHandler;
+    private static Runnable errorHandler;
     private static Json json = new Json();
 
     static{
         json.addClassTag("str", String.class);
     }
 
-    public static void setErrorHandler(Listenable handler){
+    public static void setErrorHandler(Runnable handler){
         errorHandler = handler;
     }
 
@@ -132,7 +131,7 @@ public class Settings{
         }catch(GdxRuntimeException e){
             if(errorHandler != null){
                 if(!disabled){
-                    errorHandler.listen();
+                    errorHandler.run();
                 }
             }else{
                 throw e;

@@ -26,7 +26,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
-import io.anuke.ucore.function.*;
+import io.anuke.ucore.function.BooleanConsumer;
+import io.anuke.ucore.function.Consumer;
+import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.graphics.Draw;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.Touchable;
@@ -294,8 +296,16 @@ public class Table extends WidgetGroup{
     }
 
     public void add(Element... actors){
-        for(int i = 0, n = actors.length; i < n; i++)
-            add(actors[i]);
+        for(Element actor : actors) add(actor);
+    }
+
+    public Cell<Table> table(){
+        return table((String) null);
+    }
+
+    public Cell<Table> table(String background){
+        Table table = new Table(background);
+        return add(table);
     }
 
     public Cell<Table> table(Consumer<Table> cons){
@@ -329,6 +339,15 @@ public class Table extends WidgetGroup{
         Label label = new Label(text);
         label.setWrap(true);
         return add(label);
+    }
+
+    public Cell<ScrollPane> pane(String style, Element element){
+        ScrollPane pane = new ScrollPane(element, style);
+        return add(pane);
+    }
+
+    public Cell<ScrollPane> pane(Element element){
+        return pane("default", element);
     }
 
     /** Adds a new cell with a label. */
@@ -405,70 +424,70 @@ public class Table extends WidgetGroup{
         return add(new Image(region));
     }
 
-    public Cell<CheckBox> addCheck(String text, CheckListenable listener){
+    public Cell<CheckBox> addCheck(String text, BooleanConsumer listener){
         CheckBox button = Elements.newCheck(text, listener);
         return add(button);
     }
 
-    public Cell<CheckBox> addCheck(String text, boolean checked, CheckListenable listener){
+    public Cell<CheckBox> addCheck(String text, boolean checked, BooleanConsumer listener){
         CheckBox button = Elements.newCheck(text, listener);
         button.setChecked(checked);
         return add(button);
     }
 
-    public Cell<CheckBox> addCheck(String text, float imagesize, boolean checked, CheckListenable listener){
+    public Cell<CheckBox> addCheck(String text, float imagesize, boolean checked, BooleanConsumer listener){
         CheckBox button = Elements.newCheck(text, listener);
         button.getImageCell().size(imagesize);
         button.setChecked(checked);
         return add(button);
     }
 
-    public Cell<TextButton> addButton(String text, Listenable listener){
+    public Cell<TextButton> addButton(String text, Runnable listener){
         TextButton button = Elements.newButton(text, listener);
         return add(button);
     }
 
-    public Cell<TextButton> addButton(String text, String style, Listenable listener){
+    public Cell<TextButton> addButton(String text, String style, Runnable listener){
         TextButton button = Elements.newButton(text, style, listener);
         return add(button);
     }
 
-    public Cell<ImageButton> addImageButton(String icon, Listenable listener){
+    public Cell<ImageButton> addImageButton(String icon, Runnable listener){
         ImageButton button = Elements.newImageButton(icon, listener);
         return add(button);
     }
 
-    public Cell<ImageButton> addImageButton(String icon, float isize, Listenable listener){
+    public Cell<ImageButton> addImageButton(String icon, float isize, Runnable listener){
         ImageButton button = Elements.newImageButton(icon, listener);
         button.resizeImage(isize);
         return add(button);
     }
 
-    public Cell<ImageButton> addImageButton(String icon, String style, float isize, Listenable listener){
+    public Cell<ImageButton> addImageButton(String icon, String style, float isize, Runnable listener){
         ImageButton button = new ImageButton(icon, style);
         button.clicked(listener);
         button.resizeImage(isize);
         return add(button);
     }
 
-    public Cell<TextField> addField(String text, FieldListenable listener){
+    public Cell<TextField> addField(String text, Consumer<String> listener){
         TextField field = Elements.newField(text, listener);
         return add(field);
     }
 
-    public Cell<TextArea> addArea(String text, FieldListenable listener){
+    public Cell<TextArea> addArea(String text, Consumer<String> listener){
         TextArea area = new TextArea(text);
-        area.changed(() -> listener.listen(area.getText()));
+        area.changed(() -> listener.accept(area.getText()));
         return add(area);
     }
 
-    public Cell<TextArea> addArea(String text, String style, FieldListenable listener){
+    public Cell<TextArea> addArea(String text, String style, Consumer<String> listener){
         TextArea area = new TextArea(text, style);
-        area.changed(() -> listener.listen(area.getText()));
+        area.changed(() -> listener.accept(area.getText()));
         return add(area);
     }
 
-    public Cell<TextField> addField(String text, TextFieldFilter filter, FieldListenable listener){
+    public Cell<TextField> addField(String text, TextFieldFilter filter, Consumer<String> listener){
         TextField field = Elements.newField(text, listener);
         field.setTextFieldFilter(filter);
         return add(field);
@@ -489,7 +508,18 @@ public class Table extends WidgetGroup{
         return table;
     }
 
-    public Cell<TextButton> addImageTextButton(String text, String image, float imagesize, Listenable clicked){
+    public Cell<TextButton> addRowImageTextButton(String text, String image, float imagesize, Runnable clicked){
+        TextButton button = new TextButton(text);
+        button.clearChildren();
+        button.add(new Image(image)).size(imagesize).update(i -> i.setColor(button.isDisabled() ? Color.GRAY : Color.WHITE));
+        button.row();
+        button.add(button.getLabel()).padTop(4);
+        button.clicked(clicked);
+        return add(button);
+    }
+
+
+    public Cell<TextButton> addImageTextButton(String text, String image, float imagesize, Runnable clicked){
         TextButton button = new TextButton(text);
         button.add(new Image(image)).size(imagesize);
         button.getCells().reverse();
@@ -497,7 +527,7 @@ public class Table extends WidgetGroup{
         return add(button);
     }
 
-    public Cell<TextButton> addImageTextButton(String text, String image, String style, float imagesize, Listenable clicked){
+    public Cell<TextButton> addImageTextButton(String text, String image, String style, float imagesize, Runnable clicked){
         TextButton button = new TextButton(text, style);
         button.add(new Image(image)).size(imagesize);
         button.getCells().reverse();
@@ -505,7 +535,7 @@ public class Table extends WidgetGroup{
         return add(button);
     }
 
-    public Cell<TextButton> addCenteredImageTextButton(String text, String image, float imagesize, Listenable clicked){
+    public Cell<TextButton> addCenteredImageTextButton(String text, String image, float imagesize, Runnable clicked){
         TextButton button = new TextButton(text);
         button.add(new Image(image)).size(imagesize);
         button.getCells().reverse();
@@ -514,7 +544,7 @@ public class Table extends WidgetGroup{
         return add(button);
     }
 
-    public Cell<TextButton> addCenteredImageTextButton(String text, String image, String style, float imagesize, Listenable clicked){
+    public Cell<TextButton> addCenteredImageTextButton(String text, String image, String style, float imagesize, Runnable clicked){
         TextButton button = new TextButton(text, style);
         button.add(new Image(image)).size(imagesize);
         button.getCells().reverse();
