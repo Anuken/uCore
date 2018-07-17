@@ -341,10 +341,6 @@ public class Mathf{
         return Math.round(a / b);
     }
 
-    public static int sclb(float a, float b, boolean round){
-        return round ? Math.round(a / b) : (int) (a / b);
-    }
-
     public static boolean inRect(float x, float y, float bx, float by, float tx, float ty){
         return x > bx && y > by && x < tx && y < ty;
     }
@@ -362,6 +358,10 @@ public class Mathf{
         return b ? 1 : -1;
     }
 
+    public static boolean between(float i, float min, float max){
+        return i > min && i < max;
+    }
+
     public static float clamp(float i, float min, float max){
         if(i < min)
             i = min;
@@ -373,10 +373,6 @@ public class Mathf{
     /** Clamps to [0,1] */
     public static float clamp(double i){
         return clamp((float) i, 0, 1);
-    }
-
-    public static boolean between(float i, float min, float max){
-        return i > min && i < max;
     }
 
     public static int clamp(int i, int min, int max){

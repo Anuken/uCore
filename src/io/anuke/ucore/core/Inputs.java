@@ -24,6 +24,7 @@ public class Inputs{
     private static InputMultiplexer plex = new InputMultiplexer();
     private static int scroll = 0;
     private static boolean debug = false;
+    private static Array<InputDevice> devices = new Array<>();
     private static InputProcessor listen = new InputAdapter(){
         @Override
         public boolean scrolled(int amount){
@@ -37,7 +38,6 @@ public class Inputs{
             return false;
         }
     };
-    private static Array<InputDevice> devices = new Array<>();
 
     public static void initialize(){
         plex.addProcessor(listen);

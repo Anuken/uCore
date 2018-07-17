@@ -5,6 +5,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 public class Settings{
     private static Preferences prefs;
@@ -81,7 +82,7 @@ public class Settings{
     }
 
     public static <T> T getJson(String name, Class<T> type){
-        return json.fromJson(type, getString(name, "{}"));
+        return json.fromJson(type, getString(name, ClassReflection.isArray(type) ? "[]" : "{}"));
     }
 
     public static float getFloat(String name){
