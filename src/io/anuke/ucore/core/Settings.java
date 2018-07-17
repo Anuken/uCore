@@ -32,6 +32,10 @@ public class Settings{
         KeyBinds.load();
     }
 
+    public static Json json(){
+        return json;
+    }
+
     public static Object getDefault(String name){
         return defaults.get(name);
     }
