@@ -23,9 +23,9 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Predicate;
 import com.badlogic.gdx.utils.SnapshotArray;
 import io.anuke.ucore.function.Consumer;
+import io.anuke.ucore.function.Predicate;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.utils.Cullable;
@@ -458,7 +458,7 @@ public class Group extends Element implements Cullable{
     public <T extends Element> T find(Predicate<Element> pred){
         Array<Element> children = this.children;
         for(int i = 0, n = children.size; i < n; i++)
-            if(pred.evaluate(children.get(i))) return (T) children.get(i);
+            if(pred.test(children.get(i))) return (T) children.get(i);
 
         for(int i = 0, n = children.size; i < n; i++){
             Element child = children.get(i);

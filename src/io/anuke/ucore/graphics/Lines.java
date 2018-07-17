@@ -283,7 +283,11 @@ public class Lines{
     }
 
     public static void crect(float x, float y, float width, float height){
-        rect(x - width / 2, y - height / 2, width, height, 0);
+        rect(x - width / 2f, y - height / 2f, width, height, 0);
+    }
+
+    public static void crect(float x, float y, float width, float height, int space){
+        rect(x - width / 2f, y - height / 2f, width, height, space);
     }
 
     public static void stroke(float thick){

@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.LongMap.Values;
 
 /** A 2-dimensional hashmap that stores objects using an x/y coordinate. */
 public class GridMap<T>{
-    protected LongMap<T> map = new LongMap<T>();
+    protected LongMap<T> map = new LongMap<>();
 
     private static long getHash(int x, int y){
         return (((long) x) << 32) | (y & 0xffffffffL);
