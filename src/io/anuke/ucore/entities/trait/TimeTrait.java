@@ -19,8 +19,5 @@ public interface TimeTrait extends ScaleTrait, Entity{
         }
     }
 
-    @Override
-    default float fin(){
-        return time() / lifetime();
-    }
+    //fin() is not implemented due to compiler issues with iOS/RoboVM
 }

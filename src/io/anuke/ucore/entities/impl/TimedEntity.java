@@ -26,4 +26,9 @@ public abstract class TimedEntity extends BaseEntity implements ScaleTrait, Time
     public void reset(){
         time = 0f;
     }
+
+    @Override
+    public float fin(){
+        return time() / lifetime();
+    }
 }
