@@ -133,6 +133,10 @@ public class Mathf{
         return x * x;
     }
 
+    public static int sqr(int x){
+        return x * x;
+    }
+
     public static float dst(float x, float y){
         return Vector2.dst(x, y, 0, 0);
     }
