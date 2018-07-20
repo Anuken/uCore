@@ -18,7 +18,7 @@ public abstract class CustomSurface extends Surface{
     }
 
     @Override
-    public void resize(){
+    public void onResize(){
 
     }
 

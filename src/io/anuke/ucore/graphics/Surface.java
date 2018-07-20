@@ -21,32 +21,43 @@ public class Surface implements Disposable{
     public Surface(int scale, int bind){
         this.scale = scale;
         this.bind = bind;
-        resize();
+        onResize();
     }
 
     public FrameBuffer getBuffer(){
         return buffer;
     }
 
-    public Surface setFixedSize(int width, int height){
+    public Surface setSize(int width, int height){
         fixedSize = true;
         this.fixedWidth = width;
         this.fixedHeight = height;
-        resize();
+        onResize();
         return this;
     }
 
-    public void resize(){
-        if(buffer != null){
-            buffer.dispose();
-            buffer = null;
-        }
+    public int width(){
+        return buffer.getWidth();
+    }
+
+    public int height(){
+        return buffer.getHeight();
+    }
+
+    public void onResize(){
 
         if(!fixedSize){
+            if(buffer != null){
+                buffer.dispose();
+            }
             int scale = this.scale == -1 ? Core.cameraScale : this.scale;
 
             buffer = new FrameBuffer(Format.RGBA8888, Gdx.graphics.getBackBufferWidth() / scale, Gdx.graphics.getBackBufferHeight() / scale, false);
-        }else{
+        }else if(buffer == null || buffer.getWidth() != fixedWidth || buffer.getHeight() != fixedHeight){
+            if(buffer != null){
+                buffer.dispose();
+            }
+
             buffer = new FrameBuffer(Format.RGBA8888, fixedWidth, fixedHeight, false);
         }
 
@@ -64,7 +75,7 @@ public class Surface implements Disposable{
 
     public void setScale(int scale){
         this.scale = scale;
-        resize();
+        onResize();
     }
 
     public void begin(){

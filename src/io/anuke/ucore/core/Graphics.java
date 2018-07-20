@@ -340,7 +340,7 @@ public class Graphics{
         }
 
         for(Surface surface : surfaceArray){
-            surface.resize();
+            surface.onResize();
         }
     }
 
@@ -349,7 +349,7 @@ public class Graphics{
         Core.camera.viewportWidth = Gdx.graphics.getWidth() / scale;
         Core.camera.viewportHeight = Gdx.graphics.getHeight() / scale;
         for(Surface surface : surfaceArray){
-            surface.resize();
+            surface.onResize();
         }
         Core.camera.update();
     }
