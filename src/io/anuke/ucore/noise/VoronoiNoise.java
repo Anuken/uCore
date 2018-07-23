@@ -25,6 +25,8 @@ package io.anuke.ucore.noise;
  *
  */
 
+import com.badlogic.gdx.math.RandomXS128;
+
 import java.util.Random;
 
 /**
@@ -74,7 +76,7 @@ public class VoronoiNoise{
 
     private long seed;
     private short distanceMethod;
-
+    private RandomXS128 rnd = new RandomXS128();
 
     public VoronoiNoise(long seed, short distanceMethod){
         this.seed = seed;
@@ -147,6 +149,8 @@ public class VoronoiNoise{
     public double noise(double x, double z, double frequency){
         x *= frequency;
         z *= frequency;
+        rnd.setSeed(seed);
+        long result = rnd.nextLong();
 
         int xInt = (x > .0 ? (int) x : (int) x - 1);
         int zInt = (z > .0 ? (int) z : (int) z - 1);
@@ -160,7 +164,7 @@ public class VoronoiNoise{
             for(int xCur = xInt - 2; xCur <= xInt + 2; xCur++){
 
                 double xPos = xCur + valueNoise2D(xCur, zCur, seed);
-                double zPos = zCur + valueNoise2D(xCur, zCur, new Random(seed).nextLong());
+                double zPos = zCur + valueNoise2D(xCur, zCur, result);
                 double xDist = xPos - x;
                 double zDist = zPos - z;
                 double dist = xDist * xDist + zDist * zDist;
@@ -177,7 +181,7 @@ public class VoronoiNoise{
             double xDist = xCandidate - x;
             double zDist = zCandidate - z;
             return getDistance(xDist, zDist);
-        }else return ((double) VoronoiNoise.valueNoise2D(
+        }else return (VoronoiNoise.valueNoise2D(
                 (int) (Math.floor(xCandidate)),
                 (int) (Math.floor(zCandidate)), seed));
     }
