@@ -28,13 +28,9 @@ public abstract class ModuleCore extends ApplicationAdapter{
 
     /** Adds a module to the list. */
     protected <N extends Module> void module(N t){
-        try{
-            modules.put(t.getClass(), t);
-            modulearray.add(t);
-            t.preInit();
-        }catch(RuntimeException e){
-            throw e;
-        }
+        modules.put(t.getClass(), t);
+        modulearray.add(t);
+        t.preInit();
     }
 
     @Override

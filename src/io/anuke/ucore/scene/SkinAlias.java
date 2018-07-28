@@ -15,23 +15,24 @@ import io.anuke.ucore.scene.ui.Slider.SliderStyle;
 import io.anuke.ucore.scene.ui.TextButton.TextButtonStyle;
 import io.anuke.ucore.scene.ui.TextField.TextFieldStyle;
 import io.anuke.ucore.scene.ui.Window.WindowStyle;
+import io.anuke.ucore.util.Mathf;
 
 public class SkinAlias{
-    public static final ObjectMap<String, Class<?>> aliases = new ObjectMap<String, Class<?>>(){{
-        put("font", BitmapFont.class);
-        put("color", Color.class);
-        put("tintedDrawable", TintedDrawable.class);
+    public static final ObjectMap<String, Class<?>> aliases = Mathf.map(
+        "Font", BitmapFont.class,
+        "Color", Color.class,
+        "TintedDrawable", TintedDrawable.class,
 
-        put("buttonStyle", ButtonStyle.class);
-        put("textButtonStyle", TextButtonStyle.class);
-        put("imageButtonStyle", ImageButtonStyle.class);
-        put("scrollPaneStyle", ScrollPaneStyle.class);
-        put("windowStyle", WindowStyle.class);
-        put("keybindDialogStyle", KeybindDialogStyle.class);
-        put("sliderStyle", SliderStyle.class);
-        put("labelStyle", LabelStyle.class);
-        put("textFieldStyle", TextFieldStyle.class);
-        put("checkBoxStyle", CheckBoxStyle.class);
-        put("listStyle", ListStyle.class);
-    }};
+        "ButtonStyle", ButtonStyle.class,
+        "TextButtonStyle", TextButtonStyle.class,
+        "ImageButtonStyle", ImageButtonStyle.class,
+        "ScrollPaneStyle", ScrollPaneStyle.class,
+        "WindowStyle", WindowStyle.class,
+        "KeybindDialogStyle", KeybindDialogStyle.class,
+        "SliderStyle", SliderStyle.class,
+        "LabelStyle", LabelStyle.class,
+        "TextFieldStyle", TextFieldStyle.class,
+        "CheckBoxStyle", CheckBoxStyle.class,
+        "ListStyle", ListStyle.class
+    );
 }
