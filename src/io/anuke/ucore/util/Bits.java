@@ -9,7 +9,7 @@ public class Bits{
     }
 
     public static int packInt(short left, short right){
-        return (left << 16) | (right & 0xFFF);
+        return (left << 16) | (right & 0xFFFF);
     }
 
     public static long packLong(int x, int y){
@@ -34,7 +34,7 @@ public class Bits{
     }
 
     public static short getRightShort(int field){
-        return (short) (field & 0xFFF);
+        return (short) (field & 0xFFFF);
     }
 
     public static int getLeftInt(long field){
