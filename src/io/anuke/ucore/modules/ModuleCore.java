@@ -6,10 +6,11 @@ import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Graphics;
 import io.anuke.ucore.core.Inputs;
+import io.anuke.ucore.util.ThreadArray;
 
 public abstract class ModuleCore extends ApplicationAdapter{
     protected ObjectMap<Class<? extends Module>, Module> modules = new ObjectMap<>();
-    protected Array<Module> modulearray = new Array<Module>();
+    protected Array<Module> modulearray = new ThreadArray<>();
 
     public ModuleCore(){
     }
