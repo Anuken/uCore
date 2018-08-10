@@ -115,14 +115,11 @@ public class Physics{
 
                 // Find out which axis is the axis of least penetration
                 if(Math.abs(xoverlap) < Math.abs(yoverlap)){
-
                     // Point towards B knowing that n points from A to B
                     vector.x = nx < 0 ? 1 : -1;
                     vector.y = 0;
                     penetration = xoverlap;
-
                 }else{
-
                     // Point towards B knowing that n points from A to B
                     vector.x = 0;
                     vector.y = ny < 0 ? 1 : -1;

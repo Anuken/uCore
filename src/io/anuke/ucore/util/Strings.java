@@ -132,6 +132,16 @@ public class Strings{
         }
     }
 
+    /** Returns Integer.MIN_VALUE if parsing failed. */
+    public static int parsePositiveInt(String s){
+        if(!canParsePostiveInt(s)) return Integer.MIN_VALUE;
+        try{
+            return Integer.parseInt(s);
+        }catch(Exception e){
+            return Integer.MIN_VALUE;
+        }
+    }
+
     /** Returns Float.NEGATIVE_INFINITY if parsing failed. */
     public static float parseFloat(String s){
         try{

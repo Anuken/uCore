@@ -36,6 +36,7 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.anuke.ucore.core.Core;
+import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
 import io.anuke.ucore.graphics.ClipSpriteBatch;
 import io.anuke.ucore.scene.event.*;
@@ -261,6 +262,24 @@ public class Scene extends InputAdapter implements Disposable{
         Table table = new Table();
         table.setFillParent(true);
         add(table);
+        return table;
+    }
+
+    /** Adds and returns a table. This table will fill the whole scene.*/
+    public Table table(Consumer<Table> cons){
+        Table table = new Table();
+        table.setFillParent(true);
+        add(table);
+        cons.accept(table);
+        return table;
+    }
+
+    /** Adds and returns a table. This table will fill the whole scene.*/
+    public Table table(String style, Consumer<Table> cons){
+        Table table = new Table(style);
+        table.setFillParent(true);
+        add(table);
+        cons.accept(table);
         return table;
     }
 
