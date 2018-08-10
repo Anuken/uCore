@@ -19,14 +19,6 @@ public class SettingsDialog extends Dialog{
         main = new SettingsTable();
 
         content().add(main);
-        content().row();
-        content().addButton(Bundles.get("text.settings.reset", "Reset to Defaults"), () -> {
-            for(SettingsTable.Setting setting : main.list){
-                Settings.put(setting.name, Settings.getDefault(setting.name));
-                Settings.save();
-            }
-            main.rebuild();
-        }).pad(4).left();
     }
 
     public static class SettingsTable extends Table{
