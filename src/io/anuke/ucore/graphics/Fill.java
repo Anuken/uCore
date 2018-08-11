@@ -27,6 +27,36 @@ public class Fill{
         }
     }
 
+    public static void quad(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4){
+        int i = 0;
+        float color = Core.batch.getPackedColor();
+        vertices[i++] = x1;
+        vertices[i++] = y1;
+        vertices[i++] = color;
+        vertices[i++] = 0;
+        vertices[i++] = 0;
+
+        vertices[i++] = x2;
+        vertices[i++] = y2;
+        vertices[i++] = color;
+        vertices[i++] = 0;
+        vertices[i++] = 0;
+
+        vertices[i++] = x3;
+        vertices[i++] = y3;
+        vertices[i++] = color;
+        vertices[i++] = 0;
+        vertices[i++] = 0;
+
+        vertices[i++] = x4;
+        vertices[i++] = y4;
+        vertices[i++] = color;
+        vertices[i++] = 0;
+        vertices[i++] = 0;
+
+        batch.draw(Draw.getBlankRegion().getTexture(), vertices, 0, vertices.length);
+    }
+
     public static void tri(float x1, float y1, float x2, float y2, float x3, float y3){
         int i = 0;
         float color = Core.batch.getPackedColor();

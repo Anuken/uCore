@@ -150,6 +150,11 @@ public class Draw{
         batch.draw(region, x - region.getRegionWidth() / 2f, y, region.getRegionWidth() / 2f, 0, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
     }
 
+    /** Rectangle centered and rotated around its bottom middle point. */
+    public static void grect(TextureRegion region, float x, float y, float w, float h, float rotation){
+        batch.draw(region, x - w / 2f, y, w / 2f, 0, w, h, 1, 1, rotation);
+    }
+
     /** Grounded rect. */
     public static void grect(String name, float x, float y){
         TextureRegion region = region(name);
