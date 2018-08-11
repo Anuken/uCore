@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import io.anuke.ucore.entities.trait.SolidTrait;
 
 public abstract class SolidEntity extends BaseEntity implements SolidTrait{
-    public transient Rectangle hitbox = new Rectangle(), hitboxTile = new Rectangle();
+    public transient Rectangle hitbox = new Rectangle(0, 0, 2, 2), hitboxTile = new Rectangle(0, 0, 2, 2);
     private transient Vector3 lastPosition = new Vector3(Float.NaN, Float.NaN, Float.NaN);
     private transient long lastUpdated = 0, updateSpacing;
 
