@@ -157,6 +157,10 @@ public class Image extends Element{
         if(drawable != null) drawable.draw(batch, x + imageX, y + imageY, imageWidth * scaleX, imageHeight * scaleY);
     }
 
+    public void setDrawable(TextureRegion region){
+        setDrawable(new TextureRegionDrawable(region));
+    }
+
     public void setDrawable(String drawableName){
         setDrawable(Core.skin.getDrawable(drawableName));
     }

@@ -126,6 +126,18 @@ public class Musics{
         }
     }
 
+    public static void fadeOut(){
+        fading = 0f;
+
+        Timers.runFor(fadeTime, () -> {
+            playing.setVolume(Mathf.clamp((1f - fading / fadeTime) * baseVolume()));
+            fading += Timers.delta();
+        }, () -> {
+            playing.stop();
+            fading = 0f;
+        });
+    }
+
     //TODO less crappy method name
     public static void createTracks(String name, String... names){
         TrackList list = new TrackList(names);
