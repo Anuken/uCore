@@ -48,7 +48,7 @@ public class SettingsDialog extends Dialog{
                 Musics.updateVolume();
                 return (int) (i * 10) + "%";
             });
-            checkPref("mutemusic", Bundles.get("setting.mutemusic.name", "Music Music"), false, Musics::setMuted);
+            checkPref("mutemusic", Bundles.get("setting.mutemusic.name", "Mute Music"), false, Musics::setMuted);
 
             sliderPref("sfxvol", Bundles.get("setting.sfxvol.name", "SFX Volume"), 10, 0, 10, 1, i -> (int) (i * 10) + "%");
             checkPref("mutesound", Bundles.get("setting.mutesound.name", "Mute Sound"), false, Sounds::setMuted);
