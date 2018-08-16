@@ -111,7 +111,7 @@ public class KeybindDialog extends Dialog{
             }
 
             if(sections.size != 1){
-                TextButton button = new TextButton(Strings.capitalize(section.name), "toggle");
+                TextButton button = new TextButton(Bundles.get("section." + section.name + ".name", Strings.capitalize(section.name)), "toggle");
                 if(section.equals(this.section))
                     button.toggle();
 
@@ -185,7 +185,7 @@ public class KeybindDialog extends Dialog{
                 String key = keybind.name;
                 if(keybind.input instanceof Axis){
                     Axis axis = (Axis) KeyBinds.get(section.name, keybind.name);
-                    table.add(Strings.capitalize(Bundles.get("keybind." + key + ".name", key)), style.keyNameColor).left().padRight(40).padLeft(8);
+                    table.add(Bundles.get("keybind." + key + ".name", Strings.capitalize(key)), style.keyNameColor).left().padRight(40).padLeft(8);
 
                     if(axis.min.axis){
                         table.add(axis.min.toString(), style.keyColor).left().minWidth(90).padRight(20);
@@ -203,7 +203,7 @@ public class KeybindDialog extends Dialog{
                     }).width(110f);
                     table.row();
                 }else{
-                    table.add(Strings.capitalize(key), style.keyNameColor).left().padRight(40).padLeft(8);
+                    table.add(Bundles.get("keybind." + key + ".name", Strings.capitalize(key)), style.keyNameColor).left().padRight(40).padLeft(8);
                     table.add(section.binds.get(section.device.type).get(key, keybind.input).toString(), style.keyColor).left().minWidth(90).padRight(20);
                     table.addButton(Bundles.get("text.settings.rebind", "Rebind"), () -> openDialog(section, key)).width(110f);
                     table.row();
