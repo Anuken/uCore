@@ -391,7 +391,7 @@ public class TextField extends Element implements Disableable{
                 y - textHeight - font.getDescent(), cursorPatch.getMinWidth(), textHeight);
     }
 
-    void updateDisplayText(){
+    protected void updateDisplayText(){
         BitmapFont font = style.font;
         BitmapFontData data = font.getData();
         String text = this.text;
