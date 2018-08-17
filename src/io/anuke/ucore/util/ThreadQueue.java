@@ -27,11 +27,13 @@ public class ThreadQueue<T> extends Queue<T>{
 
     @Override
     public synchronized T removeFirst(){
+        if(size == 0) return null;
         return super.removeFirst();
     }
 
     @Override
     public synchronized T removeLast(){
+        if(size == 0) return null;
         return super.removeLast();
     }
 
