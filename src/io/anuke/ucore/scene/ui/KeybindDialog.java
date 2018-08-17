@@ -178,7 +178,7 @@ public class KeybindDialog extends Dialog{
 
             for(Keybind keybind : section.keybinds.get(section.device.type)){
                 if(lastCategory != keybind.category && keybind.category != null){
-                    table.add(keybind.category.name).color(Color.GRAY).colspan(3).pad(10).padBottom(4).row();
+                    table.add(Bundles.get("category." + keybind.category.name + ".name", Strings.capitalize(keybind.category.name))).color(Color.GRAY).colspan(3).pad(10).padBottom(4).row();
                     table.addImage("white").color(Color.GRAY).fillX().height(3).pad(6).colspan(3).padTop(0).padBottom(10).row();
                     lastCategory = keybind.category;
                 }
