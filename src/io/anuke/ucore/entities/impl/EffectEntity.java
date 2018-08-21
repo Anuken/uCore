@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 import io.anuke.ucore.core.Effects;
 import io.anuke.ucore.core.Effects.Effect;
 import io.anuke.ucore.entities.trait.DrawTrait;
+import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.util.Pooling;
 
 public class EffectEntity extends TimedEntity implements Poolable, DrawTrait{
@@ -13,17 +14,17 @@ public class EffectEntity extends TimedEntity implements Poolable, DrawTrait{
     public Object data;
     public float rotation = 0f;
 
-    public BaseEntity parent;
+    public Entity parent;
     public float poffsetx, poffsety;
 
     /** For pooling use only! */
     public EffectEntity(){
     }
 
-    public void setParent(BaseEntity parent){
+    public void setParent(Entity parent){
         this.parent = parent;
-        this.poffsetx = x - parent.x;
-        this.poffsety = y - parent.y;
+        this.poffsetx = x - parent.getX();
+        this.poffsety = y - parent.getY();
     }
 
     @Override
@@ -45,8 +46,8 @@ public class EffectEntity extends TimedEntity implements Poolable, DrawTrait{
 
         super.update();
         if(parent != null){
-            x = parent.x + poffsetx;
-            y = parent.y + poffsety;
+            x = parent.getX() + poffsetx;
+            y = parent.getY() + poffsety;
         }
     }
 
