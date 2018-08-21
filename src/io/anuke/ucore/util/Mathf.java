@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.IntIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.function.Consumer;
+import io.anuke.ucore.function.Processor;
 
 import java.util.Comparator;
 import java.util.Random;
@@ -422,6 +423,19 @@ public class Mathf{
         for(T t : arr){
             if(result == null || comp.compare(result, t) < 0){
                 result = t;
+            }
+        }
+        return result;
+    }
+
+    public static <T> T findMin(T[] arr, Processor<T, Integer> proc){
+        T result = null;
+        int min = Integer.MAX_VALUE;
+        for(T t : arr){
+            int val = proc.get(t);
+            if(val <= min){
+                result = t;
+                min = val;
             }
         }
         return result;
