@@ -19,7 +19,11 @@ public class EnumSet<T extends Enum<T>> implements Iterable<T>{
     }
 
     public boolean contains(T t){
-        return (i & Mathf.pow2(t.ordinal())) != 0;
+        return (i & (1 << t.ordinal())) != 0;
+    }
+
+    public int size(){
+        return set.length;
     }
 
     @Override
