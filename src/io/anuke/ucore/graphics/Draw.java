@@ -118,6 +118,11 @@ public class Draw{
         batch.setColor(color.r, color.g, color.b, alpha);
     }
 
+    public static void rect(Surface surface, float offsetX, float offsetY){
+        float vw = Core.camera.viewportWidth * Core.camera.zoom, vh = Core.camera.viewportHeight * Core.camera.zoom;
+        batch.draw(surface.texture(), Core.camera.position.x - vw/2 + offsetX, Core.camera.position.y + vh/2 + offsetY, vw, -vh);
+    }
+
     public static void rect(Texture texture, float x, float y){
         batch.draw(texture, x - texture.getWidth() / 2, y - texture.getHeight() / 2);
     }
