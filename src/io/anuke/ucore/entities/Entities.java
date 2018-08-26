@@ -6,7 +6,7 @@ import io.anuke.ucore.util.ThreadArray;
 
 public class Entities{
     public static final Object entityLock = new Object();
-    public static final int maxLeafObjects = 4;
+    public static final int maxLeafObjects = 5;
     private static final EntityGroup<Entity> defaultGroup;
     private static final ThreadArray<EntityGroup<?>> groupArray = new ThreadArray<>();
     private static final IntMap<EntityGroup<?>> groups = new IntMap<>();

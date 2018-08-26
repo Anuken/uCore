@@ -2,7 +2,6 @@ package io.anuke.ucore.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Music.OnCompletionListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.ucore.util.Mathf;
@@ -26,22 +25,20 @@ public class Musics{
             music.add(Gdx.audio.newMusic(Gdx.files.internal("music/" + s)));
             map.put(name, music.peek());
 
-            music.peek().setOnCompletionListener(new OnCompletionListener(){
-                public void onCompletion(Music other){
-                    //don't switch while transitioning
-                    if(!Mathf.zero(fading)) return;
+            music.peek().setOnCompletionListener(other -> {
+                //don't switch while transitioning
+                if(!Mathf.zero(fading)) return;
 
-                    Music music = current.select(other);
-                    playing = music;
-                    updateVolume();
-                    Gdx.app.postRunnable(() -> {
-                        try{
-                            music.play();
-                        }catch(Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-                }
+                Music music = current.select(other);
+                playing = music;
+                updateVolume();
+                Gdx.app.postRunnable(() -> {
+                    try{
+                        music.play();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                });
             });
         }
     }

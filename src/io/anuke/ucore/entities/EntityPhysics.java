@@ -23,8 +23,9 @@ public class EntityPhysics{
 
     public static void initPhysics(float x, float y, float w, float h){
         for(EntityGroup group : Entities.getAllGroups()){
-            if(group.useTree)
+            if(group.useTree){
                 group.setTree(x, y, w, h);
+            }
         }
     }
 
