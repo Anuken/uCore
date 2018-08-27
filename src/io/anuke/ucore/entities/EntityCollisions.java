@@ -95,8 +95,8 @@ public class EntityCollisions{
 
                     if(tmp.overlaps(rect)){
                         Vector2 v = Physics.overlap(rect, tmp, x);
-                        if(x) rect.x += v.x;
-                        if(!x) rect.y += v.y;
+                        rect.x += v.x;
+                        rect.y += v.y;
                     }
                 }
             }
