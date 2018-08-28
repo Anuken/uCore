@@ -31,6 +31,7 @@ public class Graphics{
     private static Surface effects1, effects2;
 
     private static Shader[] currentShaders;
+    private static Shader[] tmpShaders = {null};
 
     public static int width(){
         return Gdx.graphics.getWidth();
@@ -234,8 +235,9 @@ public class Graphics{
      * Begin the postprocessing shaders.
      * FIXME does not work with multiple shaders
      */
-    public static void beginShaders(Shader... types){
-        currentShaders = types;
+    public static void beginShaders(Shader types){
+        tmpShaders[0] = types;
+        currentShaders = tmpShaders;
 
         batch.flush();
 
@@ -261,7 +263,6 @@ public class Graphics{
             flushSurface();
             Graphics.shader();
         }else{
-
             throw new RuntimeException("Multiple shaders not supported!");
 			/*
 			

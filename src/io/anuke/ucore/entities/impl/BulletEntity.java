@@ -7,7 +7,7 @@ import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.entities.trait.*;
 import io.anuke.ucore.util.Mathf;
 
-public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity implements DamageTrait, ScaleTrait, Poolable, DrawTrait, VelocityTrait{
+public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity implements DamageTrait, ScaleTrait, Poolable, DrawTrait, VelocityTrait, TimeTrait{
     protected T type;
     protected Entity owner;
     protected Vector2 velocity = new Vector2();
@@ -22,6 +22,21 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 
         velocity.set(0, type.speed).setAngle(angle);
         hitbox.setSize(type.hitsize);
+    }
+
+    @Override
+    public float lifetime(){
+        return type.lifetime;
+    }
+
+    @Override
+    public void time(float time){
+        this.time = time;
+    }
+
+    @Override
+    public float time(){
+        return time;
     }
 
     @Override
