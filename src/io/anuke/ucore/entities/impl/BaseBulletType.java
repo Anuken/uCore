@@ -1,8 +1,8 @@
 package io.anuke.ucore.entities.impl;
 
-import com.badlogic.gdx.math.Vector2;
 import io.anuke.ucore.core.Effects;
 import io.anuke.ucore.core.Effects.Effect;
+import io.anuke.ucore.util.Translator;
 
 /** Presumably you would extends BulletType and put in the default bullet entity type. */
 public abstract class BaseBulletType<T extends BulletEntity>{
@@ -15,7 +15,7 @@ public abstract class BaseBulletType<T extends BulletEntity>{
     public boolean pierce;
     public Effect hiteffect = null, despawneffect = null;
 
-    protected Vector2 vector = new Vector2();
+    protected Translator vector = new Translator();
 
     public BaseBulletType(){
 

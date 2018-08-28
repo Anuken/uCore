@@ -1,7 +1,6 @@
 package io.anuke.ucore.graphics;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -70,11 +69,6 @@ public class Draw{
         carr[1] = b;
         carr[2] = c;
         batch.setColor(Hue.mix(carr, Tmp.c1, progress));
-    }
-
-    @Deprecated
-    public static void color(String name){
-        color(Colors.get(name));
     }
 
     /** Sets the color to the provided color multiplied by the factor. */
