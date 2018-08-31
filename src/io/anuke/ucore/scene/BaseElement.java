@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.Pools;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
 import io.anuke.ucore.scene.actions.Actions;
 import io.anuke.ucore.scene.event.*;
 import io.anuke.ucore.scene.event.InputEvent.Type;
@@ -335,17 +334,6 @@ class BaseElement implements Layout{
             if(actor == elem()) return true;
             actor = actor.parent;
         }
-    }
-
-    /** Returns this actor or the first ascendant of this actor that is assignable with the specified type. */
-    public <T extends Element> T firstAscendant(Class<T> type){
-        if(type == null) throw new IllegalArgumentException("actor cannot be null.");
-        Element actor = elem();
-        do{
-            if(ClassReflection.isInstance(type, actor)) return (T) actor;
-            actor = actor.getParent();
-        }while(actor != null);
-        return null;
     }
 
     /** Returns true if the actor's parent is not null. */
