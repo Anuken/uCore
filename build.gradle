@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'maven'
 
 sourceCompatibility = 1.8
@@ -32,10 +31,6 @@ artifacts {
 dependencies {
 	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
-}
-
-test {
-    systemProperties 'property': 'value'
 }
 
 uploadArchives {

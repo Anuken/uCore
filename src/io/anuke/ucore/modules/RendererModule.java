@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
-import io.anuke.ucore.UCore;
 import io.anuke.ucore.core.*;
 import io.anuke.ucore.graphics.Surface;
 import io.anuke.ucore.util.Mathf;
@@ -41,11 +40,9 @@ public abstract class RendererModule extends Module{
         try{
             recorderClass = ClassReflection.forName("io.anuke.gif.GifRecorder");
             recorder = ClassReflection.getConstructor(recorderClass, Batch.class).newInstance(new SpriteBatch());
-            if(UCore.isAssets()){
-                Method method = ClassReflection.getMethod(recorderClass, "setExportDirectory", FileHandle.class);
-                method.invoke(recorder, Gdx.files.local("../../desktop/gifexport"));
-            }
-        }catch(Exception e){
+            Method method = ClassReflection.getMethod(recorderClass, "setExportDirectory", FileHandle.class);
+            method.invoke(recorder, Gdx.files.local("../../desktop/gifexport"));
+        }catch(Throwable ignored){
         }
     }
 
