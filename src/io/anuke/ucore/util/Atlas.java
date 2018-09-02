@@ -56,7 +56,7 @@ public class Atlas extends TextureAtlas{
     public Pixmap getPixmapOf(TextureRegion region){
         Texture texture = region.getTexture();
         if(pixmaps.containsKey(texture)) return pixmaps.get(texture);
-        texture.getTextureData().prepare();
+        if(!texture.getTextureData().isPrepared()) texture.getTextureData().prepare();
         Pixmap pixmap = texture.getTextureData().consumePixmap();
         pixmaps.put(texture, pixmap);
         return pixmap;
