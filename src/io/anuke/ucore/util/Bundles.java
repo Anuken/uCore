@@ -13,7 +13,7 @@ public class Bundles{
     }
 
     public static boolean has(String key){
-        return Core.bundle != null && !Core.bundle.get(key).contains("???");
+        return Core.bundle != null && !(Core.bundle.get(key).startsWith("???") && Core.bundle.get(key).endsWith("???"));
     }
 
     public static String get(String name){
@@ -26,7 +26,7 @@ public class Bundles{
 
     public static String getNotNull(String name){
         String s = get(name);
-        if(s.contains("???")){
+        if(s == null || (s.endsWith("???") && s.startsWith("???"))){
             throw new NullPointerException("No key with name \"" + name + "\" found!");
         }
         return s;
