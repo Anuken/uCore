@@ -272,7 +272,7 @@ public class KeybindDialog extends Dialog{
     private void openDialog(KeyBinds.Section section, String name){
         //boolean rebindTwo = section.device.type != DeviceType.controller;
 
-        rebindDialog = new Dialog(rebindAxis ? "Press an axis or key..." : "Press a key...", "dialog");
+        rebindDialog = new Dialog(rebindAxis ? Bundles.get("keybind.press.axis", "Press an axis or key...") : Bundles.get("keybind.press", "Press a key..."), "dialog");
 
         rebindKey = name;
 
