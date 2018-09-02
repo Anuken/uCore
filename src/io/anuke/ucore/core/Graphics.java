@@ -170,7 +170,7 @@ public class Graphics{
 
         Surface surface = surfaceStack.pop();
 
-        end();
+        if(Core.batch.isDrawing()) end();
 
         Surface current = surfaceStack.empty() ? null : surfaceStack.peek();
 

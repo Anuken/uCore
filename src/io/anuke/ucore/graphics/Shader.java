@@ -15,6 +15,7 @@ public class Shader{
     public TextureRegion region;
 
     public Shader(String frag, String vert){
+        ShaderProgram.pedantic = false;
         this.frag = frag;
         this.vert = vert;
         reload();
