@@ -81,12 +81,12 @@ public class EntityGroup<T extends Entity>{
     }
 
     public synchronized T getByID(int id){
-        if(map == null) throw new RuntimeException("Mapping is not enabled for this group!");
+        if(map == null) throw new RuntimeException("Mapping is not enabled for group " + id + "!");
         return map.get(id);
     }
 
     public synchronized void removeByID(int id){
-        if(map == null) throw new RuntimeException("Mapping is not enabled for this group!");
+        if(map == null) throw new RuntimeException("Mapping is not enabled for group " + id + "!");
         T t = map.get(id);
         if(t != null){ //remove if present in map already
             remove(t);
