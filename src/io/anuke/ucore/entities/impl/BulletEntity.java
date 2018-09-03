@@ -62,6 +62,10 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 
         time = Mathf.clamp(time, 0, type.lifetime);
 
+        updateLife();
+    }
+
+    protected void updateLife(){
         if(time >= type.lifetime){
             type.despawned(this);
             remove();
