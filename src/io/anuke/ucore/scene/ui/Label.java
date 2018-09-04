@@ -172,7 +172,7 @@ public class Label extends Element{
     public void setText(CharSequence newText){
         if(Bundles.enabled() && newText != null && newText.length() > 0 && newText.charAt(0) == '$'){
             String out = newText.toString().substring(1);
-            setTextInternal(Bundles.getNotNull(out));
+            setTextInternal(Bundles.get(out, out));
         }else{
             setTextInternal(newText);
         }
