@@ -18,6 +18,10 @@ public class Settings{
         json.addClassTag("str", String.class);
     }
 
+    public static Preferences prefs(){
+        return prefs;
+    }
+
     public static void setErrorHandler(Runnable handler){
         errorHandler = handler;
     }
