@@ -2,7 +2,6 @@ package io.anuke.ucore.input;
 
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.controllers.mappings.Xbox;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
 import io.anuke.ucore.util.OS;
 
 public class XboxBinds{
@@ -124,16 +123,8 @@ public class XboxBinds{
             L_STICK_HORIZONTAL_AXIS = Xbox.L_STICK_HORIZONTAL_AXIS;
             R_STICK_VERTICAL_AXIS = Xbox.R_STICK_VERTICAL_AXIS;
             R_STICK_HORIZONTAL_AXIS = Xbox.R_STICK_HORIZONTAL_AXIS;
-            L_STICK = getBind("L_STICK");
-            R_STICK = getBind("R_STICK");
-        }
-    }
-
-    private static int getBind(String name){
-        try{
-            return (Integer) ClassReflection.getField(XboxBinds.class, name).get(null);
-        }catch(Exception e){
-            return -1;
+            L_STICK = -1;
+            R_STICK = -1;
         }
     }
 }

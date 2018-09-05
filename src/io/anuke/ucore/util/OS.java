@@ -2,8 +2,6 @@ package io.anuke.ucore.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.Method;
 
 public class OS{
     static public boolean isWindows = getPropertyNotNull("os.name").contains("Windows");
@@ -57,21 +55,11 @@ public class OS{
     }
 
     public static String getProperty(String name){
-        try{
-            Method method = ClassReflection.getMethod(System.class, "getProperty", String.class);
-            return (String) method.invoke(null, name);
-        }catch(Exception e){
-            return null;
-        }
+        return OSEmu.getProperty(name);
     }
 
     public static String getEnv(String name){
-        try{
-            Method method = ClassReflection.getMethod(System.class, "getenv", String.class);
-            return (String) method.invoke(null, name);
-        }catch(Exception e){
-            return null;
-        }
+        return OSEmu.getEnv(name);
     }
 
     public static String getPropertyNotNull(String name){

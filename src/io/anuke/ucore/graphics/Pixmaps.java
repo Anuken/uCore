@@ -1,5 +1,6 @@
 package io.anuke.ucore.graphics;
 
+import com.badlogic.gdx.PixmapIO;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -8,8 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.ReflectionException;
 import io.anuke.ucore.UCore;
 
 import java.nio.Buffer;
@@ -119,10 +118,6 @@ public class Pixmaps{
         return (i & 0x000000ff) == 0;
     }
 
-    public static boolean isDisposed(Pixmap pix){
-        return (Boolean) UCore.getPrivate(pix, "disposed");
-    }
-
     public static void traverse(Pixmap input, PixmapTraverser t){
         for(int x = 0; x < input.getWidth(); x++){
             for(int y = 0; y < input.getHeight(); y++){
@@ -168,13 +163,7 @@ public class Pixmaps{
 
     /** Platform-safe pixmapIO write. */
     public static void write(Pixmap pixmap, FileHandle file){
-        try{
-            ClassReflection.getMethod(ClassReflection.forName("com.badlogic.gdx.graphics.PixmapIO"),
-                    "writePNG", FileHandle.class, Pixmap.class)
-                    .invoke(null, file, pixmap);
-        }catch(ReflectionException e){
-            throw new RuntimeException(e);
-        }
+        PixmapIO.writePNG(file, pixmap);
     }
 
     public static void drawPixel(Texture texture, int x, int y, int color){
