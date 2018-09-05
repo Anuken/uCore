@@ -605,28 +605,6 @@ public class Container<T extends Element> extends WidgetGroup{
         if(background != null) v = Math.max(v, background.getMinHeight());
         return Math.max(getMinHeight(), v + padTop.get(this) + padBottom.get(this));
     }
-	
-	/*
-	public Value getMaxWidthValue () {
-		return maxWidth;
-	}
-	
-	public float getMaxWidth () {
-		float v = maxWidth.get(actor);
-		if (v > 0) v += marginLeft.get(this) + marginRight.get(this);
-		return v;
-	}
-
-	public Value getMaxHeightValue () {
-		return maxHeight;
-	}
-
-	public float getMaxHeight () {
-		float v = maxHeight.get(actor);
-		if (v > 0) v += marginTop.get(this) + marginBottom.get(this);
-		return v;
-	}
-*/
 
     /** @return May be null if this value is not set. */
     public Value getPadTopValue(){

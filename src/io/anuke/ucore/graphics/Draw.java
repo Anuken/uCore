@@ -109,7 +109,7 @@ public class Draw{
 
     public static void alpha(float alpha){
         Color color = batch.getColor();
-        batch.setColor(color.r, color.g, color.b, alpha);
+        batch.setColor(color.r, color.g, color.b, Mathf.clamp(alpha));
     }
 
     public static void rect(Surface surface, float offsetX, float offsetY){

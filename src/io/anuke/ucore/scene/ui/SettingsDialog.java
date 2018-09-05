@@ -38,6 +38,11 @@ public class SettingsDialog extends Dialog{
             return list;
         }
 
+        public void pref(Setting setting){
+            list.add(setting);
+            rebuild();
+        }
+
         public void screenshakePref(){
             sliderPref("screenshake", Bundles.get("setting.screenshake.name", "Screen Shake"), 4, 0, 8, i -> (i / 4f) + "x");
         }
@@ -121,11 +126,11 @@ public class SettingsDialog extends Dialog{
             if(rebuilt != null) rebuilt.accept(this);
         }
 
-        public abstract class Setting{
+        public abstract static class Setting{
             public String name;
             public String title;
 
-            abstract void add(SettingsTable table);
+            public abstract void add(SettingsTable table);
         }
 
         public class CheckSetting extends Setting{
@@ -140,7 +145,7 @@ public class SettingsDialog extends Dialog{
             }
 
             @Override
-            void add(SettingsTable table){
+            public void add(SettingsTable table){
                 CheckBox box = new CheckBox(title);
 
                 box.setChecked(Settings.getBool(name));
@@ -178,7 +183,7 @@ public class SettingsDialog extends Dialog{
             }
 
             @Override
-            void add(SettingsTable table){
+            public void add(SettingsTable table){
                 Slider slider = new Slider(min, max, step, false);
 
                 slider.setValue(Settings.getInt(name));

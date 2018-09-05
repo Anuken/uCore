@@ -56,6 +56,7 @@ public class Timers{
         timers.clear();
     }
 
+    @Deprecated
     public static synchronized float getTime(Object object, String label){
         return time() - timers.get(hash(object, label), 0f);
     }
@@ -68,6 +69,7 @@ public class Timers{
         return get(hash(label), frames);
     }
 
+    @Deprecated
     public static boolean get(Object object, String label, float frames){
         return get(hash(object, label), frames);
     }
