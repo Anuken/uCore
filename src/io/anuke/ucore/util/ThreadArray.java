@@ -15,6 +15,10 @@ public class ThreadArray<T> extends Array<T>{
         super(ordered, 16);
     }
 
+    public ThreadArray(int capacity){
+        super(capacity);
+    }
+
     @Override
     public Iterator<T> iterator(){
         if(threaditer.get() == null){

@@ -20,13 +20,13 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
         this.type = type;
         this.owner = owner;
 
-        velocity.set(0, type.speed).setAngle(angle);
-        hitbox.setSize(type.hitsize);
+        velocity.set(0, type.speed()).setAngle(angle);
+        hitbox.setSize(type.hitSize());
     }
 
     @Override
     public float lifetime(){
-        return type.lifetime;
+        return type.lifetime();
     }
 
     @Override
@@ -56,17 +56,17 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
         x += velocity.x * Timers.delta();
         y += velocity.y * Timers.delta();
 
-        velocity.scl(1f - type.drag * Timers.delta());
+        velocity.scl(1f - type.drag() * Timers.delta());
 
         time += Timers.delta();
 
-        time = Mathf.clamp(time, 0, type.lifetime);
+        time = Mathf.clamp(time, 0, type.lifetime());
 
         updateLife();
     }
 
     protected void updateLife(){
-        if(time >= type.lifetime){
+        if(time >= type.lifetime()){
             type.despawned(this);
             remove();
         }
@@ -78,7 +78,7 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 
     @Override
     public float drawSize(){
-        return type.drawSize;
+        return type.drawSize();
     }
 
     @Override
@@ -88,7 +88,7 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 
     @Override
     public float getDamage(){
-        return type.damage;
+        return type.damage();
     }
 
     @Override
@@ -103,13 +103,13 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 
     @Override
     public void collision(SolidTrait other, float x, float y){
-        if(!type.pierce) remove();
+        if(!type.pierce()) remove();
         type.hit(this, x, y);
     }
 
     @Override
     public float fin(){
-        return time / type.lifetime;
+        return time / type.lifetime();
     }
 
     @Override
