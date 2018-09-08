@@ -16,6 +16,7 @@ public class Mathf{
     public static final int[] signs = {-1, 1};
     public static final boolean[] booleans = {false, true};
     public static final float sqrt2 = Mathf.sqrt(2f);
+    public static final float sqrt3 = Mathf.sqrt(3f);
     private static final RandomXS128 seedr = new RandomXS128();
     private static final RandomXS128 rand = new RandomXS128();
 
