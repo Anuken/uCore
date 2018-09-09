@@ -23,7 +23,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectSet;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
@@ -37,6 +39,7 @@ import io.anuke.ucore.scene.ui.List.ListStyle;
 import io.anuke.ucore.scene.ui.ScrollPane.ScrollPaneStyle;
 import io.anuke.ucore.scene.utils.ArraySelection;
 import io.anuke.ucore.scene.utils.Disableable;
+import io.anuke.ucore.util.Pooling;
 
 import static io.anuke.ucore.scene.actions.Actions.*;
 
@@ -181,13 +184,12 @@ public class SelectBox<T> extends Element implements Disableable{
             prefHeight = font.getCapHeight() - font.getDescent() * 2;
 
         float maxItemWidth = 0;
-        Pool<GlyphLayout> layoutPool = Pools.get(GlyphLayout.class);
-        GlyphLayout layout = layoutPool.obtain();
+        GlyphLayout layout = Pooling.obtain(GlyphLayout.class, GlyphLayout::new);
         for(int i = 0; i < items.size; i++){
             layout.setText(font, toString(items.get(i)));
             maxItemWidth = Math.max(layout.width, maxItemWidth);
         }
-        layoutPool.free(layout);
+        Pooling.free(layout);
 
         prefWidth = maxItemWidth;
         if(bg != null) prefWidth += bg.getLeftWidth() + bg.getRightWidth();

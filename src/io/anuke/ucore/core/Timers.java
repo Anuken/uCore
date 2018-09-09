@@ -17,7 +17,7 @@ public class Timers{
     private static DeltaProvider deltaimpl = () -> Math.min(Gdx.graphics.getDeltaTime() * 60f, 3f);
 
     public static synchronized void run(float delay, Runnable r){
-        DelayRun run = Pooling.obtain(DelayRun.class);
+        DelayRun run = Pooling.obtain(DelayRun.class, DelayRun::new);
         run.finish = r;
         run.delay = delay;
         runs.add(run);
@@ -33,14 +33,11 @@ public class Timers{
     }
 
     public static void runFor(float duration, Runnable r){
-        DelayRun run = Pooling.obtain(DelayRun.class);
-        run.run = r;
-        run.delay = duration;
-        runs.add(run);
+        runFor(duration, r, null);
     }
 
     public static void runFor(float duration, Runnable r, Runnable finish){
-        DelayRun run = Pooling.obtain(DelayRun.class);
+        DelayRun run = Pooling.obtain(DelayRun.class, DelayRun::new);
         run.run = r;
         run.delay = duration;
         run.finish = finish;

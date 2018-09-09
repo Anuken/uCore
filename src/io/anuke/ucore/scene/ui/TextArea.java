@@ -23,12 +23,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.IntArray;
-import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.util.Pooling;
 
 /** A multiple-line text input field, entirely based on {@link TextField} */
 public class TextArea extends TextField{
@@ -264,8 +263,7 @@ public class TextArea extends TextField{
             int lineStart = 0;
             int lastSpace = 0;
             char lastCharacter;
-            Pool<GlyphLayout> layoutPool = Pools.get(GlyphLayout.class);
-            GlyphLayout layout = layoutPool.obtain();
+            GlyphLayout layout = Pooling.obtain(GlyphLayout.class, GlyphLayout::new);
             for(int i = 0; i < text.length(); i++){
                 lastCharacter = text.charAt(i);
                 if(lastCharacter == ENTER_DESKTOP || lastCharacter == ENTER_ANDROID){
@@ -286,7 +284,7 @@ public class TextArea extends TextField{
                     }
                 }
             }
-            layoutPool.free(layout);
+            Pooling.free(layout);
             // Add last line
             if(lineStart < text.length()){
                 linesBreak.add(lineStart);

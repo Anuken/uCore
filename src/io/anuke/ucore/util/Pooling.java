@@ -5,26 +5,21 @@ import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.ReflectionPool;
 import io.anuke.ucore.function.Supplier;
 
-/** A thread-safe wrapper for pools. */
+/** A thread-safe wrapper for Pooling. */
 public class Pooling{
-    private static boolean reflectionless;
-
     public static synchronized void free(Object object){
-        Pools.free(object);
+        Pooling.free(object);
     }
 
-    public static synchronized <T> T obtain(Class<T> type){
-        if(reflectionless && Pools.get(type) instanceof ReflectionPool){
-            throw new IllegalArgumentException("Can't instantiate type with reflection: " + type);
+    public static synchronized <T> T obtain(Class<T> type, Supplier<T> sup){
+        if(Pools.get(type) instanceof ReflectionPool){
+            registerType(type, sup);
+            //throw new IllegalArgumentException("Can't instantiate type with reflection: " + type);
         }
         return Pools.obtain(type);
     }
 
-    public static void setReflectionless(boolean on){
-        reflectionless = on;
-    }
-
-    public static synchronized <T> void registerType(Class<T> type, Supplier<T> constructor){
+    private static synchronized <T> void registerType(Class<T> type, Supplier<T> constructor){
         Pools.set(type, new Pool<T>(){
             @Override
             protected T newObject(){

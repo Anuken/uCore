@@ -18,7 +18,7 @@ public class Effects{
     private static ScreenshakeProvider shakeProvider;
     private static float shakeFalloff = 1000f;
     private static EffectProvider provider = (effect, color, x, y, rotation, data) -> {
-        EffectEntity entity = Pooling.obtain(EffectEntity.class);
+        EffectEntity entity = Pooling.obtain(EffectEntity.class, EffectEntity::new);
         entity.effect = effect;
         entity.color = color;
         entity.rotation = rotation;

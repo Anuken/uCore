@@ -43,6 +43,7 @@ import io.anuke.ucore.scene.utils.UIUtils;
 import io.anuke.ucore.util.Bundles;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.OS;
+import io.anuke.ucore.util.Pooling;
 
 import java.lang.StringBuilder;
 
@@ -650,10 +651,10 @@ public class TextField extends Element implements Disableable{
     boolean changeText(String oldText, String newText){
         if(newText.equals(oldText)) return false;
         text = newText;
-        ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
+        ChangeEvent changeEvent = Pooling.obtain(ChangeEvent.class, ChangeEvent::new);
         boolean cancelled = fire(changeEvent);
         text = cancelled ? oldText : newText;
-        Pools.free(changeEvent);
+        Pooling.free(changeEvent);
         return !cancelled;
     }
 

@@ -25,7 +25,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.function.BooleanConsumer;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Supplier;
@@ -1517,7 +1516,12 @@ public class Table extends WidgetGroup{
 
     /** @author Nathan Sweet */
     static public class DebugRect extends Rectangle{
-        static Pool<DebugRect> pool = Pools.get(DebugRect.class);
+        static Pool<DebugRect> pool = new Pool<DebugRect>(){
+            @Override
+            protected DebugRect newObject(){
+                return new DebugRect();
+            }
+        };
         Color color;
     }
 }

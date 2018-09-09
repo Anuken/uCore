@@ -8,11 +8,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.NumberUtils;
-import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.util.Log;
 import io.anuke.ucore.util.Mathf;
+import io.anuke.ucore.util.Pooling;
 import io.anuke.ucore.util.Tmp;
 
 import static io.anuke.ucore.core.Core.batch;
@@ -233,11 +233,11 @@ public class Draw{
     }
 
     public static Vector2 textc(String text, float x, float y, Vector2 outsize){
-        GlyphLayout lay = Pools.obtain(GlyphLayout.class);
+        GlyphLayout lay = Pooling.obtain(GlyphLayout.class, GlyphLayout::new);
         lay.setText(Core.font, text);
         Core.font.draw(batch, text, x - lay.width / 2, y + lay.height / 2);
         outsize.set(lay.width, lay.height);
-        Pools.free(lay);
+        Pooling.free(lay);
         return outsize;
     }
 

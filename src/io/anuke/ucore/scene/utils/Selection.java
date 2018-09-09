@@ -2,9 +2,9 @@ package io.anuke.ucore.scene.utils;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.OrderedSet;
-import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
+import io.anuke.ucore.util.Pooling;
 
 import java.util.Iterator;
 
@@ -220,11 +220,11 @@ public class Selection<T> implements Disableable, Iterable<T>{
      */
     public boolean fireChangeEvent(){
         if(actor == null) return false;
-        ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
+        ChangeEvent changeEvent = Pooling.obtain(ChangeEvent.class, ChangeEvent::new);
         try{
             return actor.fire(changeEvent);
         }finally{
-            Pools.free(changeEvent);
+            Pooling.free(changeEvent);
         }
     }
 

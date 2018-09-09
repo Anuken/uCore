@@ -1,37 +1,11 @@
 package io.anuke.ucore.util;
 
-import com.badlogic.gdx.utils.reflect.ClassReflection;
 import io.anuke.ucore.core.Timers;
 
 public class Strings{
 
     public static String dir(int i){
         return i < 0 ? "left" : "right";
-    }
-
-    public static String parseFullException(Throwable e){
-        StringBuilder build = new StringBuilder();
-
-        while(e != null){
-            build.append(ClassReflection.getSimpleName(e.getClass()));
-            if(e.getMessage() != null){
-                build.append(": '");
-                build.append(e.getMessage());
-                build.append("'");
-            }
-            build.append("\n");
-
-            for(StackTraceElement s : e.getStackTrace()){
-                build.append(s.toString());
-                build.append("\n");
-            }
-
-            e = e.getCause();
-            if(e != null){
-                build.append("-- Caused by:\n");
-            }
-        }
-        return build.toString();
     }
 
     public static String parseException(Throwable e, boolean stacktrace){
@@ -41,7 +15,7 @@ public class Strings{
             e = e.getCause();
         }
 
-        String name = ClassReflection.getSimpleName(e.getClass()).replace("Exception", "");
+        String name = e.getClass().toString().split("@")[0].replace("Exception", "");
 
         build.append(name);
         if(e.getMessage() != null){

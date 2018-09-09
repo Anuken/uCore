@@ -20,13 +20,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.util.Pooling;
 
 /**
  * An on-screen joystick. The movement area of the joystick is circular, centered on the touchpad, and its size determined by the
@@ -114,12 +114,12 @@ public class Touchpad extends Element{
             }
         }
         if(oldPercentX != knobPercent.x || oldPercentY != knobPercent.y){
-            ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
+            ChangeEvent changeEvent = Pooling.obtain(ChangeEvent.class, ChangeEvent::new);
             if(fire(changeEvent)){
                 knobPercent.set(oldPercentX, oldPercentY);
                 knobPosition.set(oldPositionX, oldPositionY);
             }
-            Pools.free(changeEvent);
+            Pooling.free(changeEvent);
         }
     }
 

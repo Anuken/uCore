@@ -485,6 +485,26 @@ public class Mathf{
         return x >= 0 && y >= 0 && x < width && y < height;
     }
 
+    public static void profile(int iterations, Runnable c1, Runnable c2){
+        //warmup
+        for(int i = 0; i < iterations; i++){
+            c1.run();
+            c2.run();
+        }
+
+        Timers.mark();
+        for(int i = 0; i < iterations; i++){
+            c1.run();
+        }
+        Log.info("Time taken for procedure 1: {0}ms", Timers.elapsed());
+
+        Timers.mark();
+        for(int i = 0; i < iterations; i++){
+            c2.run();
+        }
+        Log.info("Time taken for procedure 2: {0}ms", Timers.elapsed());
+    }
+
     public static void traverseSpiral(int width, int height, SpiralTraverser con){
         traverseSpiral(width, height, 0, con);
     }

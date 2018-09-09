@@ -21,7 +21,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.core.Graphics;
 import io.anuke.ucore.function.BooleanProvider;
 import io.anuke.ucore.scene.Element;
@@ -35,6 +34,7 @@ import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.utils.Disableable;
+import io.anuke.ucore.util.Pooling;
 
 import static io.anuke.ucore.core.Core.skin;
 
@@ -132,9 +132,9 @@ public class Button extends Table implements Disableable{
         this.isChecked = isChecked;
 
         if(fireEvent){
-            ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
+            ChangeEvent changeEvent = Pooling.obtain(ChangeEvent.class, ChangeEvent::new);
             if(fire(changeEvent)) this.isChecked = !isChecked;
-            Pools.free(changeEvent);
+            Pooling.free(changeEvent);
         }
     }
 

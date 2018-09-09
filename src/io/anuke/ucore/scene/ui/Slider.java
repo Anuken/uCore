@@ -21,7 +21,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
@@ -29,6 +28,7 @@ import io.anuke.ucore.scene.event.HandCursorListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.util.Pooling;
 
 import static io.anuke.ucore.core.Core.skin;
 
@@ -88,9 +88,9 @@ public class Slider extends ProgressBar{
                 draggingPointer = -1;
                 if(!calculatePositionAndValue(x, y)){
                     // Fire an event on touchUp even if the value didn't change, so listeners can see when a drag ends via isDragging.
-                    ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
+                    ChangeEvent changeEvent = Pooling.obtain(ChangeEvent.class, ChangeEvent::new);
                     fire(changeEvent);
-                    Pools.free(changeEvent);
+                    Pooling.free(changeEvent);
                 }
             }
 

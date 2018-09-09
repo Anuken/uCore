@@ -22,7 +22,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectSet;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
@@ -32,6 +34,7 @@ import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.utils.ArraySelection;
 import io.anuke.ucore.scene.utils.Cullable;
 import io.anuke.ucore.scene.utils.UIUtils;
+import io.anuke.ucore.util.Pooling;
 
 /**
  * A list (aka list box) displays textual items and highlights the currently selected item.
@@ -122,13 +125,12 @@ public class List<T> extends Element implements Cullable{
         itemHeight += selectedDrawable.getTopHeight() + selectedDrawable.getBottomHeight();
 
         prefWidth = 0;
-        Pool<GlyphLayout> layoutPool = Pools.get(GlyphLayout.class);
-        GlyphLayout layout = layoutPool.obtain();
+        GlyphLayout layout = Pooling.obtain(GlyphLayout.class, GlyphLayout::new);
         for(int i = 0; i < items.size; i++){
             layout.setText(font, toString(items.get(i)));
             prefWidth = Math.max(layout.width, prefWidth);
         }
-        layoutPool.free(layout);
+        Pooling.free(layout);
         prefWidth += selectedDrawable.getLeftWidth() + selectedDrawable.getRightWidth();
         prefHeight = items.size * itemHeight;
 

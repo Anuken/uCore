@@ -11,12 +11,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
-import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.scene.actions.Actions;
 import io.anuke.ucore.scene.event.*;
 import io.anuke.ucore.scene.event.InputEvent.Type;
 import io.anuke.ucore.scene.utils.Layout;
 import io.anuke.ucore.scene.utils.ScissorStack;
+import io.anuke.ucore.util.Pooling;
 
 import static com.badlogic.gdx.utils.Align.*;
 
@@ -110,7 +110,7 @@ class BaseElement implements Layout{
         event.setTarget(elem());
 
         // Collect ancestors so event propagation is unaffected by hierarchy changes.
-        Array<Group> ancestors = Pools.obtain(Array.class);
+        Array<Group> ancestors = Pooling.obtain(Array.class, Array::new);
         Group parent = this.parent;
         while(parent != null){
             ancestors.add(parent);
@@ -144,7 +144,7 @@ class BaseElement implements Layout{
             return event.isCancelled();
         }finally{
             ancestors.clear();
-            Pools.free(ancestors);
+            Pooling.free(ancestors);
         }
     }
 
@@ -754,16 +754,16 @@ class BaseElement implements Layout{
         tableBounds.width = width;
         tableBounds.height = height;
         Scene stage = this.stage;
-        Rectangle scissorBounds = Pools.obtain(Rectangle.class);
+        Rectangle scissorBounds = Pooling.obtain(Rectangle.class, Rectangle::new);
         stage.calculateScissors(tableBounds, scissorBounds);
         if(ScissorStack.pushScissors(scissorBounds)) return true;
-        Pools.free(scissorBounds);
+        Pooling.free(scissorBounds);
         return false;
     }
 
     /** Ends clipping begun by {@link #clipBegin(float, float, float, float)}. */
     public void clipEnd(){
-        Pools.free(ScissorStack.popScissors());
+        Pooling.free(ScissorStack.popScissors());
     }
 
     /** Transforms the specified point in screen coordinates to the actor's local coordinate system. */

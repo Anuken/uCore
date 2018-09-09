@@ -23,13 +23,13 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
 import io.anuke.ucore.scene.style.Drawable;
 import io.anuke.ucore.scene.utils.Disableable;
+import io.anuke.ucore.util.Pooling;
 
 /**
  * A progress bar is a widget that visually displays the progress of some activity or a value within given range. The progress
@@ -280,7 +280,7 @@ public class ProgressBar extends Element implements Disableable{
         if(value == oldValue) return false;
         float oldVisualValue = getVisualValue();
         this.value = value;
-        ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
+        ChangeEvent changeEvent = Pooling.obtain(ChangeEvent.class, ChangeEvent::new);
         boolean cancelled = fire(changeEvent);
         if(cancelled)
             this.value = oldValue;
@@ -288,7 +288,7 @@ public class ProgressBar extends Element implements Disableable{
             animateFromValue = oldVisualValue;
             animateTime = animateDuration;
         }
-        Pools.free(changeEvent);
+        Pooling.free(changeEvent);
         return !cancelled;
     }
 

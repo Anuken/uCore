@@ -1,10 +1,8 @@
 package io.anuke.ucore.lsystem;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Json;
 import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.graphics.Draw;
 import io.anuke.ucore.graphics.Lines;
@@ -28,10 +26,6 @@ public class LSystem{
     public LSystem(LSystemData data){
         this.data = data;
         string = LGen.gen(data.axiom, data.rules, data.iterations);
-    }
-
-    public LSystem(FileHandle file){
-        this(new Json().fromJson(LSystemData.class, file));
     }
 
     public void draw(){

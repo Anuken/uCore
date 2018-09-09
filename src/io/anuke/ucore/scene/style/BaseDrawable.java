@@ -17,7 +17,6 @@
 package io.anuke.ucore.scene.style;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 /**
  * Drawable that stores the size information but doesn't draw anything.
@@ -106,7 +105,7 @@ public class BaseDrawable implements Drawable{
     }
 
     public String toString(){
-        if(name == null) return ClassReflection.getSimpleName(getClass());
+        if(name == null) return getClass().toString();
         return name;
     }
 }
