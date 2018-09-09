@@ -2,20 +2,37 @@ package io.anuke.ucore.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.StreamUtils.OptimizedByteArrayOutputStream;
+import io.anuke.ucore.function.Supplier;
+import io.anuke.ucore.io.DefaultSerializers;
+import io.anuke.ucore.io.ReusableByteArrayInputStream;
+import io.anuke.ucore.io.TypeSerializer;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+
+@SuppressWarnings("unchecked")
 public class Settings{
     private static Preferences prefs;
     private static ObjectMap<String, Object> defaults = new ObjectMap<>();
     private static boolean disabled = false;
     private static Runnable errorHandler;
-    private static Json json = new Json();
+
+    private static ObjectMap<Class<?>, TypeSerializer<?>> serializers = new ObjectMap<>();
+    private static ObjectMap<String, TypeSerializer<?>> serializerNames = new ObjectMap<>();
+    private static ObjectMap<Class<?>, String> classNames = new ObjectMap<>();
+
+    private static ByteArrayOutputStream byteStream = new OptimizedByteArrayOutputStream(16);
+    private static ReusableByteArrayInputStream byteInputStream = new ReusableByteArrayInputStream();
+    private static DataOutputStream dataOutput = new DataOutputStream(byteStream);
+    private static DataInputStream dataInput = new DataInputStream(byteInputStream);
 
     static{
-        json.addClassTag("str", String.class);
+        DefaultSerializers.register();
     }
 
     public static Preferences prefs(){
@@ -34,10 +51,6 @@ public class Settings{
     public static void loadAll(String name){
         load(name);
         KeyBinds.load();
-    }
-
-    public static Json json(){
-        return json;
     }
 
     public static Object getDefault(String name){
@@ -61,12 +74,45 @@ public class Settings{
         prefs.putString(name, val);
     }
 
-    public static void putJson(String name, Object value){
-        prefs.putString(name, json.toJson(value));
+    public static <T> void setSerializer(Class<T> type, TypeSerializer<T> serializer){
+        serializers.put(type, serializer);
+        serializerNames.put(classID(type), serializer);
     }
 
-    public static void putJson(String name, Object value, Class<?> type){
-        prefs.putString(name, json.toJson(value, value.getClass(), type));
+    public static TypeSerializer getSerializer(String name){
+        return serializerNames.get(name);
+    }
+
+    public static TypeSerializer getSerializer(Class<?> type){
+        return serializers.get(type);
+    }
+
+    public static String classID(Class<?> type){
+        if(classNames.containsKey(type)){
+            return classNames.get(type);
+        }
+        classNames.put(type, type.toString().split("@")[0]);
+        return classNames.get(type);
+    }
+
+    public static synchronized void putBinary(String name, Object value){
+        putBinary(name, value, value.getClass());
+    }
+
+    public static synchronized void putBinary(String name, Object value, Class<?> type){
+        byteStream.reset();
+        if(!serializers.containsKey(type)){
+            throw new IllegalArgumentException(type + " does not have a serializer registered!");
+        }
+        TypeSerializer serializer = serializers.get(type);
+        try{
+            serializer.write(dataOutput, value);
+            byte[] bytes = byteStream.toByteArray();
+            String str = new String(Base64Coder.encode(bytes));
+            putString(name, str);
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     public static void putFloat(String name, float val){
@@ -89,8 +135,28 @@ public class Settings{
         return prefs.getString(name, (String) def(name));
     }
 
-    public static <T> T getJson(String name, Class<T> type){
-        return json.fromJson(type, getString(name, ClassReflection.isArray(type) ? "[]" : "{}"));
+    public static synchronized <T> T getBinary(String name, Class<T> type, Supplier<T> def){
+        T t = getBinary(name, type);
+        return t == null ? def.get() : t;
+    }
+
+    private static synchronized <T> T getBinary(String name, Class<T> type){
+        if(!serializers.containsKey(type)){
+            throw new IllegalArgumentException("Type " + type + " does not have a serializer registered!");
+        }
+
+        String str = getString(name, null);
+        if(str == null) return null;
+
+        TypeSerializer serializer = serializers.get(type);
+
+        try{
+            byteInputStream.setBytes(Base64Coder.decode(str));
+            Object obj = serializer.read(dataInput);
+            return (T)obj;
+        }catch(Exception e){
+            return null;
+        }
     }
 
     public static float getFloat(String name){
