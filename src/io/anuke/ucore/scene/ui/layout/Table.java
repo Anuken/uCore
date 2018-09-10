@@ -37,6 +37,7 @@ import io.anuke.ucore.scene.ui.Label.LabelStyle;
 import io.anuke.ucore.scene.ui.TextField.TextFieldFilter;
 import io.anuke.ucore.scene.ui.layout.Value.Fixed;
 import io.anuke.ucore.scene.utils.Elements;
+import io.anuke.ucore.util.Pooling;
 
 import static io.anuke.ucore.core.Core.skin;
 
@@ -1454,7 +1455,7 @@ public class Table extends WidgetGroup{
 
     private void addDebugRect(float x, float y, float w, float h, Color color){
         if(debugRects == null) debugRects = new Array();
-        DebugRect rect = DebugRect.pool.obtain();
+        DebugRect rect = Pooling.obtain(DebugRect.class, DebugRect::new);
         rect.color = color;
         rect.set(x, getHeight() - y - h, w, h);
         debugRects.add(rect);

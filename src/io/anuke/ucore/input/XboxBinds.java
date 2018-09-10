@@ -1,7 +1,6 @@
 package io.anuke.ucore.input;
 
 import com.badlogic.gdx.controllers.PovDirection;
-import com.badlogic.gdx.controllers.mappings.Xbox;
 import io.anuke.ucore.util.OS;
 
 public class XboxBinds{
@@ -104,7 +103,28 @@ public class XboxBinds{
             R_STICK_HORIZONTAL_AXIS = 11;
             R_STICK = 107;
         }else{ //fallback controls.
-            A = Xbox.A;
+            A = -1;
+            B = -1;
+            X = -1;
+            Y = -1;
+            GUIDE = -1;
+            L_BUMPER = -1;
+            R_BUMPER = -1;
+            L_TRIGGER = -1;
+            R_TRIGGER = -1;
+            BACK = -1;
+            START = -1;
+            DPAD_UP = -1;
+            DPAD_DOWN = -1;
+            DPAD_LEFT = -1;
+            DPAD_RIGHT = -1;
+            L_STICK_VERTICAL_AXIS = -1;
+            L_STICK_HORIZONTAL_AXIS = -1;
+            L_STICK = -1;
+            R_STICK_VERTICAL_AXIS = -1;
+            R_STICK_HORIZONTAL_AXIS = -1;
+            R_STICK = -1;
+            /*A = Xbox.A;
             B = Xbox.B;
             X = Xbox.X;
             Y = Xbox.Y;
@@ -124,7 +144,7 @@ public class XboxBinds{
             R_STICK_VERTICAL_AXIS = Xbox.R_STICK_VERTICAL_AXIS;
             R_STICK_HORIZONTAL_AXIS = Xbox.R_STICK_HORIZONTAL_AXIS;
             L_STICK = -1;
-            R_STICK = -1;
+            R_STICK = -1;*/
         }
     }
 }

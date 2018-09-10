@@ -18,7 +18,6 @@ package io.anuke.ucore.scene.actions;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.utils.Pools;
 import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.scene.Action;
 import io.anuke.ucore.scene.Element;
@@ -35,7 +34,7 @@ public class Actions{
     /** Returns a new or pooled action of the specified type. */
     static public <T extends Action> T action(Class<T> type, Supplier<T> sup){
         T action = Pooling.obtain(type, sup);
-        action.setPool(Pools.get(type));
+        action.setPool(Pooling.get(type, sup));
         return action;
     }
 

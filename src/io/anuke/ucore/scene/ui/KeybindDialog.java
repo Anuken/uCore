@@ -51,40 +51,43 @@ public class KeybindDialog extends Dialog{
         Iterable<KeyBinds.Section> sections = KeyBinds.getSections();
         section = sections.iterator().next();
 
-        Controllers.addListener(new ControllerAdapter(){
-            public void connected(Controller controller){
-                setup();
-            }
+        try{
 
-            public void disconnected(Controller controller){
-                setup();
-            }
+            Controllers.addListener(new ControllerAdapter(){
+                public void connected(Controller controller){
+                    setup();
+                }
 
-            public boolean buttonDown(Controller controller, int buttonIndex){
-                if(canRebindController()){
-                    rebind(Input.findByType(Type.controller, buttonIndex, false));
+                public void disconnected(Controller controller){
+                    setup();
+                }
+
+                public boolean buttonDown(Controller controller, int buttonIndex){
+                    if(canRebindController()){
+                        rebind(Input.findByType(Type.controller, buttonIndex, false));
+                        return false;
+                    }
                     return false;
                 }
-                return false;
-            }
 
-            public boolean axisMoved(Controller controller, int axisIndex, float value){
-                if(canRebindController() && rebindAxis && Math.abs(value) > 0.5f){
-                    rebind(Input.findByType(Type.controller, axisIndex, true));
+                public boolean axisMoved(Controller controller, int axisIndex, float value){
+                    if(canRebindController() && rebindAxis && Math.abs(value) > 0.5f){
+                        rebind(Input.findByType(Type.controller, axisIndex, true));
+                        return false;
+                    }
                     return false;
                 }
-                return false;
-            }
 
-            @Override
-            public boolean povMoved(Controller controller, int povIndex, PovDirection value){
-                if(canRebindController() && value != PovDirection.center){
-                    rebind(Input.findPOV(value));
-                    return false;
+                @Override
+                public boolean povMoved(Controller controller, int povIndex, PovDirection value){
+                    if(canRebindController() && value != PovDirection.center){
+                        rebind(Input.findPOV(value));
+                        return false;
+                    }
+                    return super.povMoved(controller, povIndex, value);
                 }
-                return super.povMoved(controller, povIndex, value);
-            }
-        });
+            });
+        }catch(Throwable t){}
 
     }
 

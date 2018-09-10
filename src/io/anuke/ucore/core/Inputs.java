@@ -61,69 +61,72 @@ public class Inputs{
     }
 
     protected static void loadControllers(){
-        int i = 0;
-        for(Controller c : Controllers.getControllers()){
-            Inputs.getDevices().add(new InputDevice(DeviceType.controller, "Controller " + (++i), c));
-        }
-
-        Controllers.addListener(new ControllerAdapter(){
-            @Override
-            public void connected(Controller controller){
-                if(!useControllers) return;
-                InputDevice device = new InputDevice(DeviceType.controller, "Controller " + Controllers.getControllers().size, controller);
-                Inputs.getDevices().add(device);
+        try{
+            int i = 0;
+            for(Controller c : Controllers.getControllers()){
+                Inputs.getDevices().add(new InputDevice(DeviceType.controller, "Controller " + (++i), c));
             }
 
-            @Override
-            public void disconnected(Controller controller){
-                for(InputDevice d : Inputs.getDevices()){
-                    if(d.controller == controller){
-                        Inputs.getDevices().removeValue(d, true);
-                        for(Section s : KeyBinds.getSections()){
-                            if(s.device == d){
-                                s.device = devices.get(0);
+            Controllers.addListener(new ControllerAdapter(){
+                @Override
+                public void connected(Controller controller){
+                    if(!useControllers) return;
+                    InputDevice device = new InputDevice(DeviceType.controller, "Controller " + Controllers.getControllers().size, controller);
+                    Inputs.getDevices().add(device);
+                }
+
+                @Override
+                public void disconnected(Controller controller){
+                    for(InputDevice d : Inputs.getDevices()){
+                        if(d.controller == controller){
+                            Inputs.getDevices().removeValue(d, true);
+                            for(Section s : KeyBinds.getSections()){
+                                if(s.device == d){
+                                    s.device = devices.get(0);
+                                }
                             }
+                            break;
                         }
-                        break;
                     }
                 }
-            }
 
-            @Override
-            public boolean axisMoved(Controller controller, int axisIndex, float value){
-                if(Math.abs(value) > 0.3f && debug){
-                    Log.info("Axis: {0}, Code: {1}, Value: {2},", Input.findByType(Type.controller, axisIndex, true), axisIndex, value);
+                @Override
+                public boolean axisMoved(Controller controller, int axisIndex, float value){
+                    if(Math.abs(value) > 0.3f && debug){
+                        Log.info("Axis: {0}, Code: {1}, Value: {2},", Input.findByType(Type.controller, axisIndex, true), axisIndex, value);
+                    }
+                    return false;
                 }
-                return false;
-            }
 
-            @Override
-            public boolean povMoved(Controller controller, int povIndex, PovDirection value){
-                if(debug){
-                    Log.info("POV: {0}, Code: {1}, Value: {2}", Input.findByType(Type.controller, povIndex, false), povIndex, value);
+                @Override
+                public boolean povMoved(Controller controller, int povIndex, PovDirection value){
+                    if(debug){
+                        Log.info("POV: {0}, Code: {1}, Value: {2}", Input.findByType(Type.controller, povIndex, false), povIndex, value);
+                    }
+                    return false;
                 }
-                return false;
-            }
 
-            @Override
-            public boolean buttonDown(Controller controller, int buttonCode){
-                if(debug)
-                    Log.info("Button: {0}, Code: {1}", Input.findByType(Type.controller, buttonCode, false), buttonCode);
+                @Override
+                public boolean buttonDown(Controller controller, int buttonCode){
+                    if(debug)
+                        Log.info("Button: {0}, Code: {1}", Input.findByType(Type.controller, buttonCode, false), buttonCode);
 
-                InputDevice device = findBy(controller);
-                if(device == null) return false;
-                device.pressed[buttonCode] = true;
-                return false;
-            }
+                    InputDevice device = findBy(controller);
+                    if(device == null) return false;
+                    device.pressed[buttonCode] = true;
+                    return false;
+                }
 
-            @Override
-            public boolean buttonUp(Controller controller, int buttonCode){
-                InputDevice device = findBy(controller);
-                if(device == null) return false;
-                device.released[buttonCode] = true;
-                return false;
-            }
-        });
+                @Override
+                public boolean buttonUp(Controller controller, int buttonCode){
+                    InputDevice device = findBy(controller);
+                    if(device == null) return false;
+                    device.released[buttonCode] = true;
+                    return false;
+                }
+            });
+
+        }catch(Throwable ignored){}
     }
 
     private static InputDevice findBy(Controller controller){
