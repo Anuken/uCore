@@ -29,6 +29,8 @@ import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.SkinReader.ReadContext;
+import io.anuke.ucore.scene.style.Style;
 import io.anuke.ucore.scene.ui.Label.LabelStyle;
 import io.anuke.ucore.scene.ui.layout.Table;
 
@@ -360,7 +362,7 @@ public class Window extends Table{
      *
      * @author Nathan Sweet
      */
-    static public class WindowStyle{
+    static public class WindowStyle extends Style{
         /** Optional. */
         public Drawable background;
         public BitmapFont titleFont;
@@ -372,16 +374,12 @@ public class Window extends Table{
         public WindowStyle(){
         }
 
-        public WindowStyle(BitmapFont titleFont, Color titleFontColor, Drawable background){
-            this.background = background;
-            this.titleFont = titleFont;
-            this.titleFontColor.set(titleFontColor);
-        }
-
-        public WindowStyle(WindowStyle style){
-            this.background = style.background;
-            this.titleFont = style.titleFont;
-            this.titleFontColor = new Color(style.titleFontColor);
+        @Override
+        public void read(ReadContext read){
+            background = read.draw("background");
+            titleFont = read.rfont("titleFont");
+            titleFontColor = read.color("titleFontColor");
+            stageBackground = read.draw("stageBackground");
         }
     }
 }

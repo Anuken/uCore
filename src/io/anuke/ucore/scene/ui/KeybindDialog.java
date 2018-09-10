@@ -25,6 +25,8 @@ import io.anuke.ucore.input.Input;
 import io.anuke.ucore.input.Input.Type;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
+import io.anuke.ucore.scene.style.SkinReader.ReadContext;
+import io.anuke.ucore.scene.style.Style;
 import io.anuke.ucore.scene.ui.layout.Stack;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.util.Bundles;
@@ -314,10 +316,18 @@ public class KeybindDialog extends Dialog{
         });
     }
 
-    static public class KeybindDialogStyle{
+    static public class KeybindDialogStyle extends Style{
         public Color keyColor = Color.WHITE;
         public Color keyNameColor = Color.WHITE;
         public Color controllerColor = Color.WHITE;
         public String paneStyle = "default";
+
+        @Override
+        public void read(ReadContext read){
+            keyColor = read.color("keyColor");
+            keyNameColor = read.color("keyNameColor");
+            controllerColor = read.color("controllerColor");
+            paneStyle = read.str("paneStyle", "default");
+        }
     }
 }

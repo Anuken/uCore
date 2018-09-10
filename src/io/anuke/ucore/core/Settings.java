@@ -10,10 +10,10 @@ import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.io.DefaultSerializers;
 import io.anuke.ucore.io.ReusableByteArrayInputStream;
 import io.anuke.ucore.io.TypeSerializer;
+import io.anuke.ucore.io.TypeSerializer.TypeReader;
+import io.anuke.ucore.io.TypeSerializer.TypeWriter;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.*;
 
 @SuppressWarnings("unchecked")
 public class Settings{
@@ -72,6 +72,20 @@ public class Settings{
 
     public static void putString(String name, String val){
         prefs.putString(name, val);
+    }
+
+    public static <T> void setSerializer(Class<T> type, TypeWriter<T> writer, TypeReader<T> reader){
+        setSerializer(type, new TypeSerializer<T>(){
+            @Override
+            public void write(DataOutput stream, T object) throws IOException{
+                writer.write(stream, object);
+            }
+
+            @Override
+            public T read(DataInput stream) throws IOException{
+                return reader.read(stream);
+            }
+        });
     }
 
     public static <T> void setSerializer(Class<T> type, TypeSerializer<T> serializer){

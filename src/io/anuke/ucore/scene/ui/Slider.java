@@ -28,6 +28,7 @@ import io.anuke.ucore.scene.event.HandCursorListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.SkinReader.ReadContext;
 import io.anuke.ucore.util.Pooling;
 
 import static io.anuke.ucore.core.Core.skin;
@@ -213,17 +214,11 @@ public class Slider extends ProgressBar{
         /** Optional. */
         public Drawable knobOver, knobDown;
 
-        public SliderStyle(){
-        }
-
-        public SliderStyle(Drawable background, Drawable knob){
-            super(background, knob);
-        }
-
-        public SliderStyle(SliderStyle style){
-            super(style);
-            this.knobOver = style.knobOver;
-            this.knobDown = style.knobDown;
+        @Override
+        public void read(ReadContext read){
+            super.read(read);
+            knobOver = read.draw("knobOver");
+            knobDown = read.draw("knobDown");
         }
     }
 }

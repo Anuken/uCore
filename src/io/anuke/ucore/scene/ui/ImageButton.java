@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Scaling;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.SkinReader.ReadContext;
 import io.anuke.ucore.scene.style.TextureRegionDrawable;
 import io.anuke.ucore.scene.ui.layout.Cell;
 
@@ -199,8 +200,21 @@ public class ImageButton extends Button{
             this.imageDisabledColor = style.imageDisabledColor;
         }
 
-        public ImageButtonStyle(ButtonStyle style){
-            super(style);
+        @Override
+        public void read(ReadContext read){
+            super.read(read);
+
+            imageUp = read.draw("imageUp");
+            imageDown = read.draw("imageDown");
+            imageOver = read.draw("imageOver");
+            imageChecked = read.draw("imageChecked");
+            imageCheckedOver = read.draw("imageCheckedOver");
+            imageDisabled = read.draw("imageDisabled");
+
+            imageUpColor = read.color("imageUpColor");
+            imageCheckedColor = read.color("imageCheckedColor");
+            imageDownColor = read.color("imageDownColor");
+            imageDisabledColor = read.color("imageDisabledColor");
         }
     }
 }

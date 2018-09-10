@@ -31,6 +31,8 @@ import io.anuke.ucore.scene.event.Event;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.SkinReader.ReadContext;
+import io.anuke.ucore.scene.style.Style;
 import io.anuke.ucore.scene.ui.layout.WidgetGroup;
 import io.anuke.ucore.scene.utils.Cullable;
 import io.anuke.ucore.scene.utils.Layout;
@@ -1095,7 +1097,7 @@ public class ScrollPane extends WidgetGroup{
      * @author mzechner
      * @author Nathan Sweet
      */
-    static public class ScrollPaneStyle{
+    static public class ScrollPaneStyle extends Style{
         /** Optional. */
         public Drawable background, corner;
         /** Optional. */
@@ -1106,21 +1108,22 @@ public class ScrollPane extends WidgetGroup{
         public ScrollPaneStyle(){
         }
 
-        public ScrollPaneStyle(Drawable background, Drawable hScroll, Drawable hScrollKnob, Drawable vScroll,
-                               Drawable vScrollKnob){
-            this.background = background;
-            this.hScroll = hScroll;
-            this.hScrollKnob = hScrollKnob;
-            this.vScroll = vScroll;
-            this.vScrollKnob = vScrollKnob;
-        }
-
         public ScrollPaneStyle(ScrollPaneStyle style){
             this.background = style.background;
             this.hScroll = style.hScroll;
             this.hScrollKnob = style.hScrollKnob;
             this.vScroll = style.vScroll;
             this.vScrollKnob = style.vScrollKnob;
+        }
+
+        @Override
+        public void read(ReadContext read){
+            background = read.draw("background");
+            corner = read.draw("corner");
+            hScroll = read.draw("hScroll");
+            hScrollKnob = read.draw("hScrollKnob");
+            vScroll = read.draw("vScroll");
+            vScrollKnob = read.draw("vScrollKnob");
         }
     }
 }

@@ -29,6 +29,8 @@ import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.SkinReader.ReadContext;
+import io.anuke.ucore.scene.style.Style;
 import io.anuke.ucore.util.Bundles;
 
 import static io.anuke.ucore.core.Core.font;
@@ -413,7 +415,7 @@ public class Label extends Element{
      *
      * @author Nathan Sweet
      */
-    static public class LabelStyle{
+    static public class LabelStyle extends Style{
         public BitmapFont font;
         /** Optional. */
         public Color fontColor;
@@ -432,6 +434,13 @@ public class Label extends Element{
             this.font = style.font;
             if(style.fontColor != null) fontColor = new Color(style.fontColor);
             background = style.background;
+        }
+
+        @Override
+        public void read(ReadContext read){
+            font = read.rfont("font");
+            fontColor = read.color("fontColor");
+            background = read.draw("background");
         }
     }
 }

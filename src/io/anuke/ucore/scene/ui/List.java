@@ -31,6 +31,8 @@ import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.SkinReader.ReadContext;
+import io.anuke.ucore.scene.style.Style;
 import io.anuke.ucore.scene.utils.ArraySelection;
 import io.anuke.ucore.scene.utils.Cullable;
 import io.anuke.ucore.scene.utils.UIUtils;
@@ -311,7 +313,7 @@ public class List<T> extends Element implements Cullable{
      * @author mzechner
      * @author Nathan Sweet
      */
-    static public class ListStyle{
+    static public class ListStyle extends Style{
         public BitmapFont font;
         public Color fontColorSelected = new Color(1, 1, 1, 1);
         public Color fontColorUnselected = new Color(1, 1, 1, 1);
@@ -319,21 +321,20 @@ public class List<T> extends Element implements Cullable{
         /** Optional. */
         public Drawable background;
 
-        public ListStyle(){
-        }
-
-        public ListStyle(BitmapFont font, Color fontColorSelected, Color fontColorUnselected, Drawable selection){
-            this.font = font;
-            this.fontColorSelected.set(fontColorSelected);
-            this.fontColorUnselected.set(fontColorUnselected);
-            this.selection = selection;
-        }
-
         public ListStyle(ListStyle style){
             this.font = style.font;
             this.fontColorSelected.set(style.fontColorSelected);
             this.fontColorUnselected.set(style.fontColorUnselected);
             this.selection = style.selection;
+        }
+
+        @Override
+        public void read(ReadContext read){
+            font = read.rfont("font");
+            fontColorSelected = read.rcolor("fontColorSelected");
+            fontColorUnselected = read.rcolor("fontColorUnselected");
+            selection = read.rdraw("selection");
+            background = read.draw("background");
         }
     }
 }

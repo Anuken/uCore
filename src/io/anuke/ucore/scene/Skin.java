@@ -16,19 +16,15 @@
 
 package io.anuke.ucore.scene;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasSprite;
 import com.badlogic.gdx.utils.*;
-import com.badlogic.gdx.utils.Json.ReadOnlySerializer;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.ReflectionException;
 import io.anuke.ucore.scene.style.*;
+import io.anuke.ucore.scene.style.SkinReader.ValueReader;
 import io.anuke.ucore.util.Atlas;
 
 /**
@@ -44,6 +40,7 @@ import io.anuke.ucore.util.Atlas;
 public class Skin implements Disposable{
     ObjectMap<Class, ObjectMap<String, Object>> resources = new ObjectMap<>();
     Atlas atlas;
+    FileHandle file;
 
     /** Creates an empty skin. */
     public Skin(){
@@ -83,16 +80,38 @@ public class Skin implements Disposable{
         addRegions(atlas);
     }
 
+    public FileHandle getFile(){
+        return file;
+    }
+
     public BitmapFont font(){
         return getFont("default-font");
     }
 
     /** Adds all resources in the specified skin JSON file. */
     public void load(FileHandle skinFile){
-        try{
-            getJsonLoader(skinFile).fromJson(Skin.class, skinFile);
-        }catch(SerializationException ex){
-            throw new SerializationException("Error reading file: " + skinFile, ex);
+        this.file = skinFile;
+
+        JsonReader reader = new JsonReader();
+        JsonValue value = reader.parse(skinFile).child;
+
+        while(value != null){
+            String type = value.name;
+
+            ValueReader<?> valreader = SkinReader.getReader(type);
+            if(valreader == null) throw new SerializationException("Unknown type: " + type);
+            JsonValue child = value.child;
+            while(child != null){
+                Object result = valreader.read(this, child);
+                add(child.name, result, result.getClass());
+
+                if(result.getClass() != Drawable.class && result instanceof Drawable)
+                    add(child.name, result, Drawable.class);
+
+                child = child.next;
+            }
+
+            value = value.next;
         }
     }
 
@@ -214,7 +233,7 @@ public class Skin implements Disposable{
         int i = 0;
         TextureRegion region = optional(regionName + "_" + (i++), TextureRegion.class);
         if(region != null){
-            regions = new Array<TextureRegion>();
+            regions = new Array<>();
             while(region != null){
                 regions.add(region);
                 region = optional(regionName + "_" + (i++), TextureRegion.class);
@@ -407,131 +426,5 @@ public class Skin implements Disposable{
             for(Object resource : entry.values())
                 if(resource instanceof Disposable) ((Disposable) resource).dispose();
         }
-    }
-
-    protected Json getJsonLoader(final FileHandle skinFile){
-        final Skin skin = this;
-
-        final Json json = new Json(){
-            public <T> T readValue(Class<T> type, Class elementType, JsonValue jsonData){
-                // If the JSON is a string but the type is not, look up the actual value by name.
-                if(jsonData.isString() && !ClassReflection.isAssignableFrom(CharSequence.class, type))
-                    return get(jsonData.asString(), type);
-                return super.readValue(type, elementType, jsonData);
-            }
-        };
-        json.setTypeName(null);
-        json.setUsePrototypes(false);
-
-        for(ObjectMap.Entry<String, Class<?>> entry : SkinAlias.aliases){
-            json.addClassTag(entry.key, entry.value);
-        }
-
-        json.setSerializer(Skin.class, new ReadOnlySerializer<Skin>(){
-            public Skin read(Json json, JsonValue typeToValueMap, Class ignored){
-                for(JsonValue valueMap = typeToValueMap.child; valueMap != null; valueMap = valueMap.next){
-                    try{
-                        Class type = json.getClass(valueMap.name());
-                        readNamedObjects(json, type == null ? ClassReflection.forName(valueMap.name()) : type, valueMap);
-                    }catch(ReflectionException ex){
-                        throw new SerializationException(ex);
-                    }
-                }
-                return skin;
-            }
-
-            private void readNamedObjects(Json json, Class type, JsonValue valueMap){
-                Class addType = type == TintedDrawable.class ? Drawable.class : type;
-                for(JsonValue valueEntry = valueMap.child; valueEntry != null; valueEntry = valueEntry.next){
-                    Object object = json.readValue(type, valueEntry);
-                    if(object == null) continue;
-                    try{
-                        add(valueEntry.name, object, addType);
-                        if(addType != Drawable.class && ClassReflection.isAssignableFrom(Drawable.class, addType))
-                            add(valueEntry.name, object, Drawable.class);
-                    }catch(Exception ex){
-                        throw new SerializationException(
-                                "Error reading " + type + ": " + valueEntry.name, ex);
-                    }
-                }
-            }
-        });
-
-        json.setSerializer(BitmapFont.class, new ReadOnlySerializer<BitmapFont>(){
-            public BitmapFont read(Json json, JsonValue jsonData, Class type){
-                String path = json.readValue("file", String.class, jsonData);
-                int scaledSize = json.readValue("scaledSize", int.class, -1, jsonData);
-                Boolean flip = json.readValue("flip", Boolean.class, false, jsonData);
-                Boolean markupEnabled = json.readValue("markupEnabled", Boolean.class, false, jsonData);
-
-                float scale = json.readValue("scale", float.class, -1f, jsonData);
-
-                FileHandle fontFile = skinFile.parent().child(path);
-                if(!fontFile.exists()) fontFile = Gdx.files.internal(path);
-                if(!fontFile.exists()) throw new SerializationException("Font file not found: " + fontFile);
-
-                // Use a region with the same name as the font, else use a PNG file in the same directory as the FNT file.
-                String regionName = fontFile.nameWithoutExtension();
-                try{
-                    BitmapFont font;
-                    Array<TextureRegion> regions = skin.getRegions(regionName);
-                    if(regions != null)
-                        font = new BitmapFont(new BitmapFontData(fontFile, flip), regions, true);
-                    else{
-                        TextureRegion region = skin.optional(regionName, TextureRegion.class);
-                        if(region != null)
-                            font = new BitmapFont(fontFile, region, flip);
-                        else{
-                            FileHandle imageFile = fontFile.parent().child(regionName + ".png");
-                            if(imageFile.exists())
-                                font = new BitmapFont(fontFile, imageFile, flip);
-                            else
-                                font = new BitmapFont(fontFile, flip);
-                        }
-                    }
-                    font.getData().markupEnabled = markupEnabled;
-                    // Scaled size is the desired cap height to scale the font to.
-                    if(scaledSize != -1) font.getData().setScale(scaledSize / font.getCapHeight());
-                    if(scale > 0) font.getData().setScale(scale);
-                    return font;
-                }catch(RuntimeException ex){
-                    throw new SerializationException("Error loading bitmap font: " + fontFile, ex);
-                }
-            }
-        });
-
-        json.setSerializer(Color.class, new ReadOnlySerializer<Color>(){
-            public Color read(Json json, JsonValue jsonData, Class type){
-                if(jsonData.isString()) return get(jsonData.asString(), Color.class);
-                String hex = json.readValue("hex", String.class, (String) null, jsonData);
-                if(hex != null) return Color.valueOf(hex);
-                float r = json.readValue("r", float.class, 0f, jsonData);
-                float g = json.readValue("g", float.class, 0f, jsonData);
-                float b = json.readValue("b", float.class, 0f, jsonData);
-                float a = json.readValue("a", float.class, 1f, jsonData);
-                return new Color(r, g, b, a);
-            }
-        });
-
-        json.setSerializer(TintedDrawable.class, new ReadOnlySerializer(){
-            public Object read(Json json, JsonValue jsonData, Class type){
-                String name = json.readValue("name", String.class, jsonData);
-                Color color = json.readValue("color", Color.class, jsonData);
-                Drawable drawable = newDrawable(name, color);
-                if(drawable instanceof BaseDrawable){
-                    BaseDrawable named = (BaseDrawable) drawable;
-                    named.setName(jsonData.name + " (" + name + ", " + color + ")");
-                }
-                return drawable;
-            }
-        });
-
-        return json;
-    }
-
-    /** @author Nathan Sweet */
-    static public class TintedDrawable{
-        public String name;
-        public Color color;
     }
 }

@@ -16,12 +16,11 @@
 
 package io.anuke.ucore.scene.ui;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.SkinReader.ReadContext;
 import io.anuke.ucore.scene.ui.layout.Cell;
 
 import static io.anuke.ucore.core.Core.skin;
@@ -108,24 +107,16 @@ public class CheckBox extends TextButton{
         /** Optional. */
         public Drawable checkboxOver, checkboxOnDisabled, checkboxOffDisabled, checkboxOnOver;
 
-        public CheckBoxStyle(){
-        }
+        @Override
+        public void read(ReadContext read){
+            super.read(read);
+            checkboxOn = read.rdraw("checkboxOn");
+            checkboxOff = read.rdraw("checkboxOff");
 
-        public CheckBoxStyle(Drawable checkboxOff, Drawable checkboxOn, BitmapFont font, Color fontColor){
-            this.checkboxOff = checkboxOff;
-            this.checkboxOn = checkboxOn;
-            this.font = font;
-            this.fontColor = fontColor;
-        }
-
-        public CheckBoxStyle(CheckBoxStyle style){
-            super(style);
-            this.checkboxOff = style.checkboxOff;
-            this.checkboxOn = style.checkboxOn;
-            this.checkboxOver = style.checkboxOver;
-            this.checkboxOffDisabled = style.checkboxOffDisabled;
-            this.checkboxOnDisabled = style.checkboxOnDisabled;
-            this.checkboxOnOver = style.checkboxOnOver;
+            checkboxOver = read.draw("checkboxOver");
+            checkboxOnDisabled = read.draw("checkboxOnDisabled");
+            checkboxOffDisabled = read.draw("checkboxOffDisabled");
+            checkboxOnOver = read.draw("checkboxOnOver");
         }
     }
 }

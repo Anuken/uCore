@@ -32,6 +32,8 @@ import io.anuke.ucore.scene.event.HandCursorListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.Touchable;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.SkinReader.ReadContext;
+import io.anuke.ucore.scene.style.Style;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.scene.utils.Disableable;
 import io.anuke.ucore.util.Pooling;
@@ -340,7 +342,7 @@ public class Button extends Table implements Disableable{
      *
      * @author mzechner
      */
-    static public class ButtonStyle{
+    static public class ButtonStyle extends Style{
         /** Optional. */
         public Drawable up, down, over, checked, checkedOver, disabled;
         /** Optional. */
@@ -370,6 +372,18 @@ public class Button extends Table implements Disableable{
             this.checkedOffsetX = style.checkedOffsetX;
             this.checkedOffsetY = style.checkedOffsetY;
             this.transition = style.transition;
+        }
+
+        @Override
+        public void read(ReadContext read){
+            up = read.draw("up");
+            down = read.draw("down");
+            over = read.draw("over");
+            checked = read.draw("checked");
+            checkedOver = read.draw("checkedOver");
+            disabled = read.draw("disabled");
+
+            //TODO read offsets
         }
     }
 }

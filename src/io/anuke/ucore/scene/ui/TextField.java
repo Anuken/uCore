@@ -38,6 +38,8 @@ import io.anuke.ucore.scene.event.IbeamCursorListener;
 import io.anuke.ucore.scene.event.InputEvent;
 import io.anuke.ucore.scene.event.InputListener;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.SkinReader.ReadContext;
+import io.anuke.ucore.scene.style.Style;
 import io.anuke.ucore.scene.utils.Disableable;
 import io.anuke.ucore.scene.utils.UIUtils;
 import io.anuke.ucore.util.Bundles;
@@ -865,7 +867,7 @@ public class TextField extends Element implements Disableable{
      * @author mzechner
      * @author Nathan Sweet
      */
-    static public class TextFieldStyle{
+    static public class TextFieldStyle extends Style{
         public BitmapFont font;
         public Color fontColor;
         /** Optional. */
@@ -880,14 +882,6 @@ public class TextField extends Element implements Disableable{
         public TextFieldStyle(){
         }
 
-        public TextFieldStyle(BitmapFont font, Color fontColor, Drawable cursor, Drawable selection, Drawable background){
-            this.background = background;
-            this.cursor = cursor;
-            this.font = font;
-            this.fontColor = fontColor;
-            this.selection = selection;
-        }
-
         public TextFieldStyle(TextFieldStyle style){
             this.messageFont = style.messageFont;
             if(style.messageFontColor != null) this.messageFontColor = new Color(style.messageFontColor);
@@ -900,6 +894,21 @@ public class TextField extends Element implements Disableable{
             if(style.focusedFontColor != null) this.focusedFontColor = new Color(style.focusedFontColor);
             if(style.disabledFontColor != null) this.disabledFontColor = new Color(style.disabledFontColor);
             this.selection = style.selection;
+        }
+
+        @Override
+        public void read(ReadContext read){
+            font = read.rfont("font");
+            messageFont = read.font("messageFont");
+            fontColor = read.color("fontColor");
+            focusedFontColor = read.color("focusedFontColor");
+            disabledFontColor = read.color("disabledFontColor");
+            messageFontColor = read.color("messageFontColor");
+            background = read.draw("background");
+            focusedBackground = read.draw("focusedBackground");
+            disabledBackground = read.draw("disabledBackground");
+            cursor = read.draw("cursor");
+            selection = read.draw("selection");
         }
     }
 

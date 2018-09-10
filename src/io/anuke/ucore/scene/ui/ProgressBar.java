@@ -28,6 +28,8 @@ import io.anuke.ucore.scene.Scene;
 import io.anuke.ucore.scene.Skin;
 import io.anuke.ucore.scene.event.ChangeListener.ChangeEvent;
 import io.anuke.ucore.scene.style.Drawable;
+import io.anuke.ucore.scene.style.SkinReader.ReadContext;
+import io.anuke.ucore.scene.style.Style;
 import io.anuke.ucore.scene.utils.Disableable;
 import io.anuke.ucore.util.Pooling;
 
@@ -386,7 +388,7 @@ public class ProgressBar extends Element implements Disableable{
      * @author mzechner
      * @author Nathan Sweet
      */
-    static public class ProgressBarStyle{
+    static public class ProgressBarStyle extends Style{
         /** The progress bar background, stretched only in one direction. Optional. */
         public Drawable background;
         /** Optional. **/
@@ -413,6 +415,18 @@ public class ProgressBar extends Element implements Disableable{
             this.knobAfter = style.knobAfter;
             this.disabledKnobBefore = style.disabledKnobBefore;
             this.disabledKnobAfter = style.disabledKnobAfter;
+        }
+
+        @Override
+        public void read(ReadContext read){
+            background = read.draw("background");
+            disabledBackground = read.draw("disabledBackground");
+            knob = read.draw("knob");
+            disabledKnob = read.draw("disabledKnob");
+            knobBefore = read.draw("knobBefore");
+            knobAfter = read.draw("knobAfter");
+            disabledKnobBefore = read.draw("disabledKnobBefore");
+            disabledKnobAfter = read.draw("disabledKnobAfter");
         }
     }
 }
