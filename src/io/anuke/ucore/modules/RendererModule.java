@@ -24,8 +24,7 @@ public abstract class RendererModule extends Module{
     public boolean pixelate;
     public Surface pixelSurface;
 
-    private Object recorder;
-    private Class<?> recorderClass;
+    private Runnable record;
 
     public RendererModule(){
         Settings.defaults("screenshake", 4);
@@ -38,12 +37,19 @@ public abstract class RendererModule extends Module{
         //set up recorder if possible; ignore if it doesn't work
         //(to disable the recorder, just don't call record(), or remove GifRecorder from the classpath)
         try{
-            recorderClass = ClassReflection.forName("io.anuke.gif.GifRecorder");
-            recorder = ClassReflection.getConstructor(recorderClass, Batch.class).newInstance(new SpriteBatch());
+            Class<?> recorderClass = ClassReflection.forName("io.anuke.gif.GifRecorder");
+            Object recorder = ClassReflection.getConstructor(recorderClass, Batch.class).newInstance(new SpriteBatch());
             Method method = ClassReflection.getMethod(recorderClass, "setExportDirectory", FileHandle.class);
             method.invoke(recorder, Gdx.files.local("../../desktop/gifexport"));
-        }catch(Throwable ignored){
-        }
+            Method r = ClassReflection.getMethod(recorderClass, "update");
+            record = () -> {
+                try{
+                    r.invoke(recorder);
+                }catch(Exception e){
+                    throw new RuntimeException(e);
+                }
+            };
+        }catch(Throwable ignored){}
     }
 
     public void setCamera(float x, float y){
@@ -138,14 +144,8 @@ public abstract class RendererModule extends Module{
 
     /** Updates the gif recorder. Does nothing on GWT or projects without it on the classpath. */
     public void record(){
-        if(recorder == null) return;
-
-        try{
-            Method method = ClassReflection.getMethod(recorderClass, "update");
-            method.invoke(recorder);
-        }catch(Exception e){
-            throw new RuntimeException(e);
-        }
+        if(record == null) return;
+        record.run();
     }
 
     public void pixelate(){
