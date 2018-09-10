@@ -15,18 +15,6 @@ public class Fill{
     private static Sprite sprite;
     private static float[] vertices = new float[20];
     private static TextureRegion circleRegion;
-    private static TextureRegion[] shapeRegions;
-
-    private static void initShapes(){
-        if(shapeRegions == null){
-            shapeRegions = new TextureRegion[9];
-            for(int i = 3; i <= 8; i++){
-                if(Draw.hasRegion("shape-" + i)){
-                    shapeRegions[i] = Draw.region("shape-" + i);
-                }
-            }
-        }
-    }
 
     public static void quad(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4){
         int i = 0;
@@ -116,21 +104,23 @@ public class Fill{
         sprite.draw(batch);
     }
 
-    public static void polyTri(float x, float y, int sides, float radius){
-        polyTri(x, y, sides, radius, 0f);
+    public static void poly(float x, float y, int sides, float radius){
+        poly(x, y, sides, radius, 0f);
     }
 
-    public static void polyTri(float x, float y, int sides, float radius, float rotation){
+    public static void poly(float x, float y, int sides, float radius, float rotation){
         float space = 360f/sides;
 
-        for(int i = 0; i < sides-1; i += 2){
+        for(int i = 0; i < sides-2; i += 3){
             float px = Angles.trnsx(space * i+rotation, radius);
             float py = Angles.trnsy(space * i+rotation, radius);
             float px2 = Angles.trnsx(space * (i+1)+rotation, radius);
             float py2 = Angles.trnsy(space * (i+1)+rotation, radius);
             float px3 = Angles.trnsx(space * (i+2)+rotation, radius);
             float py3 = Angles.trnsy(space * (i+2)+rotation, radius);
-            quad(x, y, x+px, y+py, x+px2, y+py2, x+px3, y+py3);
+            float px4 = Angles.trnsx(space * (i+3)+rotation, radius);
+            float py4 = Angles.trnsy(space * (i+3)+rotation, radius);
+            quad(x+px, y+py, x+px2, y+py2, x+px3, y+py3, x+px4, y + py4);
         }
 
 
@@ -143,16 +133,6 @@ public class Fill{
             float py2 = Angles.trnsy(space * (i+1)+rotation, radius);
             tri(x, y, x + px, y + py, x + px2, y + py2);
         }
-    }
-
-    public static void poly(float x, float y, int sides, float radius){
-        initShapes();
-        Draw.rect(shapeRegions[sides], x, y, radius * 2, radius * 2);
-    }
-
-    public static void poly(float x, float y, int sides, float radius, float rotation){
-        initShapes();
-        Draw.rect(shapeRegions[sides], x, y, radius * 2, radius * 2, rotation);
     }
 
     public static void circle(float x, float y, float radius){
