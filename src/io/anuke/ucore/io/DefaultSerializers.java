@@ -36,7 +36,7 @@ public class DefaultSerializers{
         Settings.setSerializer(String.class, new TypeSerializer<String>(){
             @Override
             public void write(DataOutput stream, String object) throws IOException{
-                stream.writeUTF(object);
+                stream.writeUTF(object == null ? "" : object);
             }
 
             @Override
