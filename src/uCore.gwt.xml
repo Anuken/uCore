@@ -2,5 +2,38 @@
 <module>
     <source path="io/anuke/ucore"/>
     <super-source path="emu/"/>
-    <extend-configuration-property name="gdx.reflect.include" value="java.lang.System"/>
+    <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.function.DelayRun"/>
+    <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.function.TriFunction"/>
+    <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.function.BiFunction"/>
+    <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.function.Function"/>
+
+    <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.scene"/>
+
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.actions.Actions"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.checkbox"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.dialog"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.builders.field"/>
+
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.utils.ArraySelection"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.utils.Cullable"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.utils.Cursors"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.utils.Disableable"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.utils.DragAndDrop"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.utils.Elements"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.utils.Layout"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.utils.Selection"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.utils.ScissorStack"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.utils.UIUtils"/>
+
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.event.HandCursorListener"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.event.IbeamCursorListener"/>
+
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.ui.layout.Table"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.ui.layout.Container"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.ui.layout.HorizontalGroup"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.ui.layout.VerticalGroup"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.ui.layout.WidgetGroup"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.ui.layout.Value"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.ui.layout.Unit"/>
+    <extend-configuration-property name="gdx.reflect.exclude" value="io.anuke.ucore.scene.ui.layout.Stack"/>
 </module>
