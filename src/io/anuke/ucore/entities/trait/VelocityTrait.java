@@ -6,6 +6,10 @@ import io.anuke.ucore.core.Timers;
 public interface VelocityTrait extends MutPosTrait{
     Vector2 getVelocity();
 
+    default float getDrag(){
+        return 0f;
+    }
+
     default void updateVelocity(float drag){
         if(this instanceof SolidTrait){
             ((SolidTrait) this).move(getVelocity().x * Timers.delta(), getVelocity().y * Timers.delta());
