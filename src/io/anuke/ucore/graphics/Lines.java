@@ -32,6 +32,12 @@ public class Lines{
         setCircleVertices(circle, amount);
     }
 
+    public static void lineAngle(float x, float y, float angle, float length, CapStyle style){
+        vector.set(1, 1).setLength(length).setAngle(angle);
+
+        line(x, y, x + vector.x, y + vector.y, style);
+    }
+
     public static void lineAngle(float x, float y, float angle, float length){
         vector.set(1, 1).setLength(length).setAngle(angle);
 
