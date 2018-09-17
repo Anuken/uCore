@@ -58,14 +58,13 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
 
         velocity.scl(1f - type.drag() * Timers.delta());
 
-        time += Timers.delta();
-
-        time = Mathf.clamp(time, 0, type.lifetime());
-
         updateLife();
     }
 
     protected void updateLife(){
+        time += Timers.delta();
+        time = Mathf.clamp(time, 0, type.lifetime());
+
         if(time >= type.lifetime()){
             type.despawned(this);
             remove();
