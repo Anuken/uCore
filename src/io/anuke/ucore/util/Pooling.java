@@ -9,7 +9,7 @@ public class Pooling{
     static private final int max = 100;
     static private final ObjectMap<Class, Pool> typePools = new ObjectMap();
 
-    public static void free (Object object) {
+    public static synchronized void free (Object object) {
         if (object == null) throw new IllegalArgumentException("Object cannot be null.");
         Pool pool = typePools.get(object.getClass());
         if (pool == null) return; // Ignore freeing an object that was never retained.
@@ -20,7 +20,7 @@ public class Pooling{
         return get(type, sup).obtain();
     }
 
-    public static <T> Pool<T> get(Class<T> type, Supplier<T> cons){
+    public static synchronized <T> Pool<T> get(Class<T> type, Supplier<T> cons){
         Pool<T> pool = typePools.get(type);
         if (pool == null) {
             pool = new Pool<T>(4, max){
