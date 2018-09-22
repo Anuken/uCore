@@ -3,7 +3,7 @@ package io.anuke.ucore.scene.event;
 import io.anuke.ucore.function.BooleanProvider;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.utils.Cursors;
-import io.anuke.ucore.scene.utils.Disableable;
+import io.anuke.ucore.scene.utils.UIUtils;
 
 public class HandCursorListener extends ClickListener{
     private BooleanProvider enabled = () -> true;
@@ -17,17 +17,12 @@ public class HandCursorListener extends ClickListener{
     public void enter(InputEvent event, float x, float y, int pointer, Element fromActor){
         super.enter(event, x, y, pointer, fromActor);
 
-        if(!enabled.get()) return;
-
-        if(event.getTarget() instanceof Disableable){
-            if(((Disableable) event.getTarget()).isDisabled())
-                return;
+        if(!enabled.get() || UIUtils.isDisabled(event.getTarget()) || UIUtils.isDisabled(fromActor) || pointer != -1){
+            return;
         }
 
-        if(pointer == -1 && event.getTarget().isVisible()){
-            Cursors.setHand();
-            set = true;
-        }
+        Cursors.setHand();
+        set = true;
     }
 
     @Override

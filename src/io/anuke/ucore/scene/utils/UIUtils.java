@@ -3,9 +3,14 @@ package io.anuke.ucore.scene.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.util.OS;
 
 public class UIUtils{
+
+    static public boolean isDisabled(Element element){
+        return element != null && ((element instanceof Disableable && ((Disableable) element).isDisabled()) || !element.isVisible());
+    }
 
     static public boolean portrait(){
         return Gdx.graphics.getHeight() > Gdx.graphics.getWidth();
