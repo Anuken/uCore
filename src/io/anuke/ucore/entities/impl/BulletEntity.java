@@ -1,6 +1,7 @@
 package io.anuke.ucore.entities.impl;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import io.anuke.ucore.core.Timers;
@@ -21,7 +22,16 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
         this.owner = owner;
 
         velocity.set(0, type.speed()).setAngle(angle);
-        hitbox.setSize(type.hitSize());
+    }
+
+    @Override
+    public void getHitbox(Rectangle rectangle){
+        rectangle.setSize(type.hitSize()).setCenter(x, y);
+    }
+
+    @Override
+    public void getHitboxTile(Rectangle rectangle){
+        rectangle.setSize(type.hitSize()).setCenter(x, y);
     }
 
     @Override

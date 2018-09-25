@@ -23,21 +23,16 @@ public interface SolidTrait extends QuadTreeObject, PosTrait, MutPosTrait, Rotat
     }
 
     /** Sets up hitbox data. */
-    default void getHitbox(Rectangle rectangle){
-        rectangle.setSize(0f).setCenter(getX(), getY());
-    }
+    void getHitbox(Rectangle rectangle);
 
     /** Sets up tile hitbox data. */
-    default void getHitboxTile(Rectangle rectangle){
-        rectangle.setSize(0f).setCenter(getX(), getY());
-    }
+    void getHitboxTile(Rectangle rectangle);
 
     default boolean collides(SolidTrait other){
         return true;
     }
 
-    default void collision(SolidTrait other, float x, float y){
-    }
+    default void collision(SolidTrait other, float x, float y){}
 
     //no-op implementations of rotation accessors
 
@@ -45,7 +40,5 @@ public interface SolidTrait extends QuadTreeObject, PosTrait, MutPosTrait, Rotat
         return 0;
     }
 
-    default void setRotation(float rotation){
-
-    }
+    default void setRotation(float rotation){}
 }
