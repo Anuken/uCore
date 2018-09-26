@@ -10,6 +10,7 @@ import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Bits;
+import com.badlogic.gdx.utils.IntFloatMap;
 import com.badlogic.gdx.utils.IntSet;
 import io.anuke.ucore.core.KeyBinds.Section;
 import io.anuke.ucore.input.Input;
@@ -96,6 +97,10 @@ public class Inputs{
                     if(Math.abs(value) > 0.3f && debug){
                         Log.info("Axis: {0}, Code: {1}, Value: {2},", Input.findByType(Type.controller, axisIndex, true), axisIndex, value);
                     }
+                    InputDevice device = findBy(controller);
+                    if(device == null) return false;
+                    device.axes.put(axisIndex, value);
+
                     return false;
                 }
 
@@ -156,10 +161,6 @@ public class Inputs{
             if(device.type == DeviceType.keyboard) continue;
             device.pressed.clear();
             device.released.clear();
-
-            for(int i = 0; i < device.axes.length; i++){
-                device.axes[i] = device.controller.getAxis(i);
-            }
 
             device.lastPOV = device.controller.getPov(0);
         }
@@ -243,7 +244,7 @@ public class Inputs{
             return false;
 
         if(input.type == Input.Type.controller){
-            if(input.axis) return device.controller.getAxis(input.code) > 0f && device.axes[input.code] < 0;
+            if(input.axis) return device.controller.getAxis(input.code) > 0f && device.axes.get(input.code, 0) < 0;
             if(input.pov)
                 return device.controller.getPov(input.code) == input.direction && device.lastPOV != input.direction;
             return input.code >= 0 && device.pressed.get(input.code);
@@ -419,7 +420,7 @@ public class Inputs{
         public final ControllerType controllerType;
         public final Bits pressed = new Bits();
         public final Bits released = new Bits();
-        public final float[] axes = new float[BUTTONS];
+        public final IntFloatMap axes = new IntFloatMap();
         public PovDirection lastPOV = PovDirection.center;
 
         public InputDevice(DeviceType type, String name){
