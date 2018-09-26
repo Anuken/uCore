@@ -9,6 +9,7 @@ import com.badlogic.gdx.controllers.ControllerAdapter;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Bits;
 import com.badlogic.gdx.utils.IntSet;
 import io.anuke.ucore.core.KeyBinds.Section;
 import io.anuke.ucore.input.Input;
@@ -113,7 +114,7 @@ public class Inputs{
 
                     InputDevice device = findBy(controller);
                     if(device == null) return false;
-                    device.pressed[buttonCode] = true;
+                    device.pressed.set(buttonCode);
                     return false;
                 }
 
@@ -121,7 +122,7 @@ public class Inputs{
                 public boolean buttonUp(Controller controller, int buttonCode){
                     InputDevice device = findBy(controller);
                     if(device == null) return false;
-                    device.released[buttonCode] = true;
+                    device.released.set(buttonCode);
                     return false;
                 }
             });
@@ -153,10 +154,10 @@ public class Inputs{
         scroll = 0;
         for(InputDevice device : devices){
             if(device.type == DeviceType.keyboard) continue;
+            device.pressed.clear();
+            device.released.clear();
 
-            for(int i = 0; i < device.pressed.length; i++){
-                device.pressed[i] = false;
-                device.released[i] = false;
+            for(int i = 0; i < device.axes.length; i++){
                 device.axes[i] = device.controller.getAxis(i);
             }
 
@@ -245,7 +246,7 @@ public class Inputs{
             if(input.axis) return device.controller.getAxis(input.code) > 0f && device.axes[input.code] < 0;
             if(input.pov)
                 return device.controller.getPov(input.code) == input.direction && device.lastPOV != input.direction;
-            return input.code >= 0 && device.pressed[input.code];
+            return input.code >= 0 && device.pressed.get(input.code);
         }else if(input.type == Input.Type.key){
             return Gdx.input.isKeyJustPressed(input.code);
         }else if(input.type == Input.Type.mouse){
@@ -276,7 +277,7 @@ public class Inputs{
         if(input.type == Input.Type.controller){
             if(input.pov)
                 return device.controller.getPov(input.code) != input.direction && device.lastPOV == input.direction;
-            return input.code >= 0 && device.released[input.code];
+            return input.code >= 0 && device.released.get(input.code);
         }else if(input.type == Input.Type.key){
             return keysReleased.contains(input.code);
         }else if(input.type == Input.Type.mouse){
@@ -416,8 +417,8 @@ public class Inputs{
         public final String name;
         public final Controller controller;
         public final ControllerType controllerType;
-        public final boolean[] pressed = new boolean[BUTTONS];
-        public final boolean[] released = new boolean[BUTTONS];
+        public final Bits pressed = new Bits();
+        public final Bits released = new Bits();
         public final float[] axes = new float[BUTTONS];
         public PovDirection lastPOV = PovDirection.center;
 
