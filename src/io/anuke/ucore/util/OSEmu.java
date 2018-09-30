@@ -15,7 +15,11 @@ class OSEmu {
     }
 
     public static String getEnv(String name){
-        return null;
+        try{
+            return (String) ClassReflection.getMethod(System.class, "getenv", String.class).invoke(null, name);
+        }catch(Throwable e){
+            return null;
+        }
     }
 
 }
