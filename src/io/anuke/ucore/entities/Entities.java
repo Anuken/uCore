@@ -50,7 +50,7 @@ public class Entities{
 
     public static void update(){
         update(defaultGroup());
-        EntityPhysics.collideGroups(defaultGroup(), defaultGroup());
+        EntityQuery.collideGroups(defaultGroup(), defaultGroup());
     }
 
     public static void update(EntityGroup<?> group){
@@ -58,7 +58,7 @@ public class Entities{
         group.updateEvents();
 
         if(group.useTree){
-            EntityPhysics.collisions().updatePhysics(group);
+            EntityQuery.collisions().updatePhysics(group);
         }
 
         for(Entity e : group.all()){

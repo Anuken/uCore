@@ -12,7 +12,7 @@ import io.anuke.ucore.util.ThreadArray;
 import static io.anuke.ucore.entities.Entities.defaultGroup;
 import static io.anuke.ucore.entities.Entities.entityLock;
 
-public class EntityPhysics{
+public class EntityQuery{
     private static final EntityCollisions collisions = new EntityCollisions();
     private static final ThreadArray<SolidTrait> array = new ThreadArray<>();
     private static final Rectangle r1 = new Rectangle();
@@ -21,7 +21,7 @@ public class EntityPhysics{
         return collisions;
     }
 
-    public static void initPhysics(float x, float y, float w, float h){
+    public static void init(float x, float y, float w, float h){
         for(EntityGroup group : Entities.getAllGroups()){
             if(group.useTree){
                 group.setTree(x, y, w, h);
@@ -29,12 +29,12 @@ public class EntityPhysics{
         }
     }
 
-    public static void initPhysics(){
-        initPhysics(0, 0, 0, 0);
+    public static void init(){
+        init(0, 0, 0, 0);
     }
 
     public static void resizeTree(float x, float y, float w, float h){
-        initPhysics(x, y, w, h);
+        init(x, y, w, h);
     }
 
     public static void getNearby(EntityGroup<?> group, Rectangle rect, Consumer<SolidTrait> out){
