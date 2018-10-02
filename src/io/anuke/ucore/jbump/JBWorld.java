@@ -17,6 +17,7 @@ package io.anuke.ucore.jbump;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
 import io.anuke.ucore.jbump.JBCollision.CollisionFilter;
 
@@ -42,14 +43,13 @@ public class JBWorld<E>{
     private final Rectangle update_c1 = new Rectangle();
     private final Rectangle update_c2 = new Rectangle();
     private final ObjectSet<JBItem> check_visited = new ObjectSet<>();
-    private final JBCollisions check_cols = new JBCollisions();
-    private final JBCollisions check_projectedCols = new JBCollisions();
+    private final Array<JBCollision> check_cols = new Array<>();
+    private final Array<JBCollision> check_projectedCols = new Array<>();
     private final JBResponse.Result check_result = new JBResponse.Result();
     private HashMap<Float, HashMap<Float, JBCell>> rows = new HashMap<>();
     private JBGrid grid = new JBGrid();
     private boolean tileMode = true;
     private float cellSize = 64;
-    private HashMap<JBItem, Rectangle> rects = new HashMap<>();
 
     public boolean isTileMode(){
         return tileMode;
@@ -137,11 +137,11 @@ public class JBWorld<E>{
         return result;
     }
 
-    public JBCollisions project(JBItem item, float x, float y, float w, float h, float goalX, float goalY, JBCollisions collisions){
+    public Array<JBCollision> project(JBItem item, float x, float y, float w, float h, float goalX, float goalY, Array<JBCollision> collisions){
         return project(item, x, y, w, h, goalX, goalY, CollisionFilter.defaultFilter, collisions);
     }
 
-    public JBCollisions project(JBItem item, float x, float y, float w, float h, float goalX, float goalY, CollisionFilter filter, JBCollisions collisions){
+    public Array<JBCollision> project(JBItem item, float x, float y, float w, float h, float goalX, float goalY, CollisionFilter filter, Array<JBCollision> collisions){
         collisions.clear();
         ObjectSet<JBItem> visited = project_visited;
         visited.clear();
@@ -165,12 +165,21 @@ public class JBWorld<E>{
                 visited.add(other);
                 JBResponse response = filter.filter(item, other);
                 if(response != null){
-                    Rectangle o = getRect(other);
+                    Rectangle o = item.rect;
                     float ox = o.x, oy = o.y, ow = o.width, oh = o.height;
                     JBCollision col = JBRectUtils.detectCollision(x, y, w, h, ox, oy, ow, oh, goalX, goalY);
 
                     if(col != null){
-                        collisions.add(col.overlaps, col.ti, col.move.x, col.move.y, col.normal.x, col.normal.y, col.touch.x, col.touch.y, col.itemRect.x, col.itemRect.y, col.itemRect.width, col.itemRect.height, col.otherRect.x, col.otherRect.y, col.otherRect.width, col.otherRect.height, item, other, response);
+                        JBCollision j = new JBCollision();
+                        j.set(col.overlaps, col.ti, col.move.x, col.move.y, col.normal.x, col.normal.y,
+                        col.touch.x, col.touch.y, col.itemRect.x, col.itemRect.y,
+                        col.itemRect.width, col.itemRect.height, col.otherRect.x, col.otherRect.y,
+                        col.otherRect.width, col.otherRect.height);
+                        j.item = item;
+                        j.other = other;
+                        j.type = response;
+
+                        collisions.add(j);
                     }
                 }
             }
@@ -181,9 +190,9 @@ public class JBWorld<E>{
         return collisions;
     }
 
-    public Rectangle getRect(JBItem item){
-        return rects.get(item);
-    }
+    //public Rectangle getRect(JBItem item){
+    //    return rects.get(item);
+   // }
 
     public int countCells(){
         int count = 0;
@@ -194,11 +203,7 @@ public class JBWorld<E>{
     }
 
     public boolean hasItem(JBItem item){
-        return rects.containsKey(item);
-    }
-
-    public int countItems(){
-        return rects.keySet().size();
+        return item.rect != null;
     }
 
     public Vector2 toWorld(float cx, float cy, Vector2 result){
@@ -212,10 +217,10 @@ public class JBWorld<E>{
     }
 
     public JBItem<E> add(JBItem<E> item, float x, float y, float w, float h){
-        if(rects.containsKey(item)){
+        if(item.rect != null){
             return item;
         }
-        rects.put(item, new Rectangle(x, y, w, h));
+        item.rect = new Rectangle(x, y, w, h);
         grid.toCellRect(cellSize, x, y, w, h, add_c);
         float cl = add_c.x, ct = add_c.y, cw = add_c.width, ch = add_c.height;
         for(float cy = ct; cy < ct + ch; cy++){
@@ -227,11 +232,11 @@ public class JBWorld<E>{
     }
 
     public void remove(JBItem item){
-        Rectangle rect = getRect(item);
+        Rectangle rect = item.rect;
         if(rect == null) return;
         float x = rect.x, y = rect.y, w = rect.width, h = rect.height;
 
-        rects.remove(item);
+        item.rect = null;
         grid.toCellRect(cellSize, x, y, w, h, remove_c);
         float cl = remove_c.x, ct = remove_c.y, cw = remove_c.width, ch = remove_c.height;
 
@@ -243,13 +248,13 @@ public class JBWorld<E>{
     }
 
     public void update(JBItem item, float x2, float y2){
-        Rectangle rect = getRect(item);
+        Rectangle rect = item.rect;
         float /* x = rect.x, y = rect.y, */ w = rect.width, h = rect.height;
         update(item, x2, y2, w, h);
     }
 
     public void update(JBItem item, float x2, float y2, float w2, float h2){
-        Rectangle rect = getRect(item);
+        Rectangle rect = item.rect;
         float x1 = rect.x, y1 = rect.y, w1 = rect.width, h1 = rect.height;
         if(x1 != x2 || y1 != y2 || w1 != w2 || h1 != h2){
 
@@ -301,15 +306,15 @@ public class JBWorld<E>{
             return filter.filter(item1, other);
         };
 
-        Rectangle rect = getRect(item);
+        Rectangle rect = item.rect;
         float x = rect.x, y = rect.y, w = rect.width, h = rect.height;
-        JBCollisions cols = check_cols;
+        Array<JBCollision> cols = check_cols;
         cols.clear();
-        JBCollisions projectedCols = project(item, x, y, w, h, goalX, goalY, filter, check_projectedCols);
+        Array<JBCollision> projectedCols = project(item, x, y, w, h, goalX, goalY, filter, check_projectedCols);
         JBResponse.Result result = check_result;
-        while(projectedCols != null && !projectedCols.isEmpty()){
+        while(projectedCols != null && projectedCols.size > 0){
             JBCollision col = projectedCols.get(0);
-            cols.add(col.overlaps, col.ti, col.move.x, col.move.y, col.normal.x, col.normal.y, col.touch.x, col.touch.y, col.itemRect.x, col.itemRect.y, col.itemRect.width, col.itemRect.height, col.otherRect.x, col.otherRect.y, col.otherRect.width, col.otherRect.height, col.item, col.other, col.type);
+            cols.add(col);
 
             visited.add(col.other);
 
@@ -322,7 +327,7 @@ public class JBWorld<E>{
 
         result.set(goalX, goalY);
         result.projectedCollisions.clear();
-        for(int i = 0; i < cols.size(); i++){
+        for(int i = 0; i < cols.size; i++){
             result.projectedCollisions.add(cols.get(i));
         }
         return result;
@@ -342,7 +347,7 @@ public class JBWorld<E>{
     }
 
     public static class JBItem<E>{
-
+        private Rectangle rect;
         public E userData;
 
         public JBItem(){

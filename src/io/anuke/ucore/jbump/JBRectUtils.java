@@ -17,6 +17,7 @@ package io.anuke.ucore.jbump;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import io.anuke.ucore.util.Mathf;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
@@ -174,8 +175,8 @@ public class JBRectUtils{
                 }else{
                     px = 0;
                 }
-                nx = sign(px);
-                ny = sign(py);
+                nx = Mathf.sign(px);
+                ny = Mathf.sign(py);
                 tx = x1 + px;
                 ty = y1 + py;
             }else{
@@ -195,15 +196,6 @@ public class JBRectUtils{
         }
         col.set(overlaps, ti, dx, dy, nx, ny, tx, ty, x1, y1, w1, h1, x2, y2, w2, h2);
         return col;
-    }
-
-    public static int sign(float x){
-        if(x > 0){
-            return 1;
-        }else if(x < 0){
-            return -1;
-        }
-        return 0;
     }
 
     public static float nearest(float x, float a, float b){

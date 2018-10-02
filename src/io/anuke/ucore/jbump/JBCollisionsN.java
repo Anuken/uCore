@@ -29,7 +29,7 @@ import static io.anuke.ucore.jbump.JBRectUtils.getSquareDistance;
 /**
  * @author tao
  */
-public class JBCollisions implements Comparator<Integer>{
+public class JBCollisionsN implements Comparator<Integer>{
 
     private final BooleanArray overlaps = new BooleanArray();
     private final FloatArray tis = new FloatArray();
@@ -48,12 +48,12 @@ public class JBCollisions implements Comparator<Integer>{
     private final FloatArray w2s = new FloatArray();
     private final FloatArray h2s = new FloatArray();
     private final JBCollision collision = new JBCollision();
-    private final ArrayList<Integer> order = new ArrayList<Integer>();
+    private final ArrayList<Integer> order = new ArrayList<>();
     private final IntIntMap swapMap = new IntIntMap();
-    public ArrayList<JBWorld.JBItem> items = new ArrayList<JBWorld.JBItem>();
-    public ArrayList<JBWorld.JBItem> others = new ArrayList<JBWorld.JBItem>();
-    public ArrayList<JBResponse> types = new ArrayList<JBResponse>();
     private int size = 0;
+    public ArrayList<JBWorld.JBItem> items = new ArrayList<>();
+    public ArrayList<JBWorld.JBItem> others = new ArrayList<>();
+    public ArrayList<JBResponse> types = new ArrayList<>();
 
     public void add(JBCollision col){
         add(col.overlaps, col.ti, col.move.x, col.move.y, col.normal.x, col.normal.y, col.touch.x, col.touch.y, col.itemRect.x, col.itemRect.y, col.itemRect.width, col.itemRect.height, col.otherRect.x, col.otherRect.y, col.otherRect.width, col.otherRect.height, col.item, col.other, col.type);

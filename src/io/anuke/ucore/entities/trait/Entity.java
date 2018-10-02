@@ -3,7 +3,7 @@ package io.anuke.ucore.entities.trait;
 import io.anuke.ucore.entities.Entities;
 import io.anuke.ucore.entities.EntityGroup;
 
-public interface Entity extends PosTrait, MutPosTrait{
+public interface Entity extends PosTrait, MoveTrait{
 
     int getID();
 

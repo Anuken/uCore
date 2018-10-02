@@ -131,8 +131,8 @@ public class Mathf{
         return (float) Math.sqrt(x);
     }
 
-    public static float sqr(float x){
-        return x * x;
+    public static float sqr(float f){
+        return f * f;
     }
 
     public static int sqr(int x){

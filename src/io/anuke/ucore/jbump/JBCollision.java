@@ -21,7 +21,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * @author tao
  */
-public class JBCollision{
+public class JBCollision implements Comparable<JBCollision>{
     public boolean overlaps;
     public float ti;
     public Vector2 move = new Vector2();
@@ -44,6 +44,11 @@ public class JBCollision{
         this.touch.set(touchX, touchY);
         this.itemRect.set(x1, y1, w1, h1);
         this.otherRect.set(x2, y2, w2, h2);
+    }
+
+    @Override
+    public int compareTo(JBCollision other){
+        return Float.compare(ti, other.ti);
     }
 
     public interface CollisionFilter{

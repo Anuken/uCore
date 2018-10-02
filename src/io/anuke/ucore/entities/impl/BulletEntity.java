@@ -11,7 +11,6 @@ import io.anuke.ucore.util.Mathf;
 public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity implements DamageTrait, ScaleTrait, Poolable, DrawTrait, VelocityTrait, TimeTrait{
     protected T type;
     protected Entity owner;
-    protected Vector2 velocity = new Vector2();
     protected float time = 0f;
 
     public BulletEntity(){
@@ -49,12 +48,10 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
         return time;
     }
 
-    @Override
     public float getRotation(){
         return angle();
     }
 
-    @Override
     public void setRotation(float rotation){
         velocity.setAngle(rotation);
     }
@@ -132,7 +129,6 @@ public abstract class BulletEntity<T extends BaseBulletType> extends SolidEntity
         owner = null;
         velocity.setZero();
         time = 0f;
-        lastPosition().set(Float.NaN, Float.NaN, Float.NaN);
     }
 
     public void setVelocity(float speed, float angle){

@@ -1,36 +1,14 @@
 package io.anuke.ucore.entities.impl;
 
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import io.anuke.ucore.entities.trait.SolidTrait;
+import io.anuke.ucore.util.Translator;
 
 public abstract class SolidEntity extends BaseEntity implements SolidTrait{
-    private transient Vector3 lastPosition = new Vector3(Float.NaN, Float.NaN, Float.NaN);
-    private transient long lastUpdated = 0, updateSpacing;
+    protected transient Vector2 velocity = new Translator(0f, 0.0001f);
 
     @Override
-    public Vector3 lastPosition(){
-        return lastPosition;
+    public Vector2 getVelocity(){
+        return velocity;
     }
-
-    @Override
-    public long lastUpdated(){
-        return lastUpdated;
-    }
-
-    @Override
-    public void setLastUpdated(long l){
-        this.lastUpdated = l;
-    }
-
-    @Override
-    public long updateSpacing(){
-        return updateSpacing;
-    }
-
-    @Override
-    public void setUpdateSpacing(long l){
-        this.updateSpacing = l;
-    }
-
-
 }

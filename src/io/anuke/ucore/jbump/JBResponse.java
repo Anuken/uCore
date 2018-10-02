@@ -16,6 +16,7 @@
 package io.anuke.ucore.jbump;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import io.anuke.ucore.jbump.JBCollision.CollisionFilter;
 
 /**
@@ -62,7 +63,7 @@ public interface JBResponse{
 
         public float goalX;
         public float goalY;
-        public JBCollisions projectedCollisions = new JBCollisions();
+        public Array<JBCollision> projectedCollisions = new Array<>();
 
         public void set(float goalX, float goalY){
             this.goalX = goalX;
