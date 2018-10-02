@@ -6,6 +6,12 @@ import io.anuke.ucore.util.Translator;
 
 public abstract class SolidEntity extends BaseEntity implements SolidTrait{
     protected transient Vector2 velocity = new Translator(0f, 0.0001f);
+    protected transient Vector2 lastPosition = new Vector2();
+
+    @Override
+    public Vector2 lastPosition(){
+        return lastPosition;
+    }
 
     @Override
     public Vector2 getVelocity(){

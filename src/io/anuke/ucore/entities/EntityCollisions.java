@@ -25,7 +25,7 @@ public class EntityCollisions{
     private Rectangle tmp = new Rectangle();
     private TileCollider collider;
     private TileHitboxProvider hitboxProvider;
-    private Vector2 vector = new Vector2();
+    private Vector2 vector = new Vector2(), vec1 = new Vector2(), vec2 = new Vector2();
     private Vector2 l1 = new Vector2();
     private Rectangle r1 = new Rectangle();
     private Rectangle r2 = new Rectangle();
@@ -143,6 +143,7 @@ public class EntityCollisions{
         for(Entity entity : group.all()){
             if(entity instanceof SolidTrait){
                 SolidTrait s = (SolidTrait) entity;
+                s.lastPosition().set(s.getX(), s.getY());
 
                 synchronized(entityLock){
                     tree.insert(s);
@@ -171,16 +172,49 @@ public class EntityCollisions{
 
     private void checkCollide(Entity entity, Entity other){
 
+        SolidTrait a = (SolidTrait) entity;
+        SolidTrait b = (SolidTrait) other;
 
+        a.getHitbox(this.r1);
+        b.getHitbox(this.r2);
 
-        /*
+        r1.x += (a.getVelocity().x);
+        r1.y += (a.getVelocity().y);
+        r2.x += (b.getVelocity().x);
+        r2.y += (b.getVelocity().y);
+
+        float vax = a.getX() + a.getVelocity().x;
+        float vay = a.getY() + a.getVelocity().y;
+        float vbx = b.getX() + b.getVelocity().x;
+        float vby = b.getY() + b.getVelocity().y;
+
+        if(a != b && a.collides(b) && b.collides(a)){
+            l1.set(a.getX(), a.getY());
+            boolean collide = r1.overlaps(r2) || collide(r1.x, r1.y, r1.width, r1.height, vax, vay,
+            r2.x, r2.y, r2.width, r2.height, vbx, vby, l1);
+            if(collide){
+                a.collision(b, l1.x, l1.y);
+                b.collision(a, l1.x, l1.y);
+
+                if(a.movable() && b.movable()){
+                    Vector2 vec = Physics.overlap(r1, r2, true);
+                    float msum = a.getMass() + b.getMass();
+                    a.moveBy(vec.x * (1f - a.getMass() / msum), vec.y * (1f - a.getMass() / msum));
+                    b.moveBy(-vec.x * (1f - b.getMass() / msum), -vec.y * (1f - b.getMass() / msum));
+                    a.applyImpulse(vec.x, vec.y);
+                    b.applyImpulse(-vec.x, -vec.y);
+                }
+            }
+        }
+
+/*
         SolidTrait circle1 = (SolidTrait) entity;
         SolidTrait circle2 = (SolidTrait) other;
 
         circle1.getHitbox(this.r1);
         circle2.getHitbox(this.r2);
 
-        if(circle1 == circle2 || !circle1.collides(circle2) || !circle2.collides(circle1)/* || !r1.overlaps(r2)) return;
+        if(circle1 == circle2 || !circle1.collides(circle2) || !circle2.collides(circle1)) return;
 
         float rad1 = r1.width, rad2 = r2.width;
         float vx = circle1.getVelocity().x - circle2.getVelocity().y, vy = circle1.getVelocity().y - circle2.getVelocity().y;
@@ -215,9 +249,6 @@ public class EntityCollisions{
         }
 
         /*
-
-
-
         float v1x = a.getVelocity().x, v1y = a.getVelocity().y, v2x = b.getVelocity().x, v2y = b.getVelocity().y;
         float cx1 = a.getX(), cy1 = a.getY(), cx2 = b.getX(), cy2 = b.getY();
 
