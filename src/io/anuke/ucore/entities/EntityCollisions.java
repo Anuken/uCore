@@ -184,9 +184,9 @@ public class EntityCollisions{
                     float msum = a.getMass() + b.getMass();
                     a.moveBy(vec.x * (1f - a.getMass() / msum), vec.y * (1f - a.getMass() / msum));
                     b.moveBy(-vec.x * (1f - b.getMass() / msum), -vec.y * (1f - b.getMass() / msum));
-                    vec.scl(1f / Timers.delta());
-                    //a.applyImpulse(vec.x, vec.y);
-                    //b.applyImpulse(-vec.x, -vec.y);
+                    vec.scl(0.5f / Timers.delta());
+                    a.applyImpulse(vec.x, vec.y);
+                    b.applyImpulse(-vec.x, -vec.y);
                 }
             }
         }
