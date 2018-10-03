@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
+import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.entities.trait.SolidTrait;
 import io.anuke.ucore.function.TileCollider;
@@ -150,24 +151,6 @@ public class EntityCollisions{
                 }
             }
         }
-
-    }
-
-    private Vector2 cline(float lx1, float ly1, float lx2, float ly2, float x0, float y0){
-        float A1 = ly2 - ly1;
-        float B1 = lx1 - lx2;
-        float C1 = (ly2 - ly1)*lx1 + (lx1 - lx2)*ly1;
-        float C2 = -B1*x0 + A1*y0;
-        float det = A1*A1 - -B1*B1;
-        float cx, cy;
-        if(det != 0){
-            cx = ((A1*C1 - B1*C2)/det);
-            cy = ((A1*C2 - -B1*C1)/det);
-        }else{
-            cx = x0;
-            cy = y0;
-        }
-        return vector.set(cx, cy);
     }
 
     private void checkCollide(Entity entity, Entity other){
@@ -201,87 +184,12 @@ public class EntityCollisions{
                     float msum = a.getMass() + b.getMass();
                     a.moveBy(vec.x * (1f - a.getMass() / msum), vec.y * (1f - a.getMass() / msum));
                     b.moveBy(-vec.x * (1f - b.getMass() / msum), -vec.y * (1f - b.getMass() / msum));
+                    vec.scl(1f / Timers.delta());
                     a.applyImpulse(vec.x, vec.y);
                     b.applyImpulse(-vec.x, -vec.y);
                 }
             }
         }
-
-/*
-        SolidTrait circle1 = (SolidTrait) entity;
-        SolidTrait circle2 = (SolidTrait) other;
-
-        circle1.getHitbox(this.r1);
-        circle2.getHitbox(this.r2);
-
-        if(circle1 == circle2 || !circle1.collides(circle2) || !circle2.collides(circle1)) return;
-
-        float rad1 = r1.width, rad2 = r2.width;
-        float vx = circle1.getVelocity().x - circle2.getVelocity().y, vy = circle1.getVelocity().y - circle2.getVelocity().y;
-
-        Vector2 d = cline(circle1.getX(), circle1.getY(),
-        circle1.getX() + vx, circle1.getY() + vy, circle2.getX(), circle2.getY());
-        float closestdistsq = Mathf.sqr(circle2.getX() - d.x) + Mathf.sqr(circle2.getY() - d.y);
-
-        if(closestdistsq <= Mathf.sqr(rad1 + rad2)){
-            // a collision has occurred
-            float backdist = Mathf.sqrt(Mathf.sqr(rad1 + rad2) - closestdistsq);
-            float movementvectorlength = Mathf.sqrt(Mathf.sqr(vx) + Mathf.sqr(vy));
-            //collision x/y
-            float c_x = d.x - backdist * (vx / movementvectorlength);
-            float c_y = d.y - backdist * (vy / movementvectorlength);
-
-            float collisiondist = Mathf.sqrt(Mathf.sqr(circle2.getX() - c_x) + Mathf.sqr(circle2.getY() - c_y));
-            float n_x = (circle2.getX() - c_x) / collisiondist;
-            float n_y = (circle2.getY() - c_y) / collisiondist;
-            float p = 2 * (vx * n_x + vy * n_y) / (circle1.getMass() + circle2.getMass());
-
-            float vx1 = circle1.getVelocity().x - p * circle1.getMass() * n_x;
-            float vy1 = circle1.getVelocity().y - p * circle1.getMass() * n_y;
-            float vx2 = circle2.getVelocity().x + p * circle2.getMass() * n_x;
-            float vy2 = circle2.getVelocity().y + p * circle2.getMass() * n_y;
-
-            circle1.getVelocity().set(vx1, vy1);
-            circle2.getVelocity().set(vx2, vy2);
-
-            circle1.collision(circle2, c_x, c_y);
-            circle2.collision(circle1, c_x, c_y);
-        }
-
-        /*
-        float v1x = a.getVelocity().x, v1y = a.getVelocity().y, v2x = b.getVelocity().x, v2y = b.getVelocity().y;
-        float cx1 = a.getX(), cy1 = a.getY(), cx2 = b.getX(), cy2 = b.getY();
-
-        float d = Mathf.sqrt(Mathf.sqr(cx1 - cx2) + Mathf.sqr(cy1 - cy2));
-        float nx = (cx2 - cx1) / d;
-        float ny = (cy2 - cy1) / d;
-        float p = 2 * (v1x * nx + v1y * n_y - v2x * nx - v2y * n_y) / (a.getMass() + b.getMass());
-        vx1 = circle1.vx - p * circle1.mass * n_x;
-        vy1 = circle1.vy - p * circle1.mass * n_y;
-        vx2 = circle2.vx + p * circle2.mass * n_x;
-        vy2 = circle2.vy + p * circle2.mass * n_y;
-
-        /*
-
-        r1.x += (a.lastPosition().x - a.getX());
-        r1.y += (a.lastPosition().y - a.getY());
-        r2.x += (b.lastPosition().x - b.getX());
-        r2.y += (b.lastPosition().y - b.getY());
-
-        float vax = a.getX() - a.lastPosition().x;
-        float vay = a.getY() - a.lastPosition().y;
-        float vbx = b.getX() - b.lastPosition().x;
-        float vby = b.getY() - b.lastPosition().y;
-
-        if(a != b && a.collides(b) && b.collides(a)){
-            l1.set(a.getX(), a.getY());
-            boolean collide = r1.overlaps(r2) || collide(r1.x, r1.y, r1.width, r1.height, vax, vay,
-                    r2.x, r2.y, r2.width, r2.height, vbx, vby, l1);
-            if(collide){
-                a.collision(b, l1.x, l1.y);
-                b.collision(a, l1.x, l1.y);
-            }
-        }*/
     }
 
     private boolean collide(float x1, float y1, float w1, float h1, float vx1, float vy1,
