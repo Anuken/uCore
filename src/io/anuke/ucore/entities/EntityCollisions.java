@@ -161,15 +161,15 @@ public class EntityCollisions{
         a.getHitbox(this.r1);
         b.getHitbox(this.r2);
 
-        r1.x += (a.getVelocity().x);
-        r1.y += (a.getVelocity().y);
-        r2.x += (b.getVelocity().x);
-        r2.y += (b.getVelocity().y);
+        r1.x += (a.lastPosition().x - a.getX());
+        r1.y += (a.lastPosition().y - a.getY());
+        r2.x += (b.lastPosition().x - b.getX());
+        r2.y += (b.lastPosition().y - b.getY());
 
-        float vax = a.getX() + a.getVelocity().x;
-        float vay = a.getY() + a.getVelocity().y;
-        float vbx = b.getX() + b.getVelocity().x;
-        float vby = b.getY() + b.getVelocity().y;
+        float vax = a.getX() - a.lastPosition().x;
+        float vay = a.getY() - a.lastPosition().y;
+        float vbx = b.getX() - b.lastPosition().x;
+        float vby = b.getY() - b.lastPosition().y;
 
         if(a != b && a.collides(b) && b.collides(a)){
             l1.set(a.getX(), a.getY());
@@ -185,8 +185,8 @@ public class EntityCollisions{
                     a.moveBy(vec.x * (1f - a.getMass() / msum), vec.y * (1f - a.getMass() / msum));
                     b.moveBy(-vec.x * (1f - b.getMass() / msum), -vec.y * (1f - b.getMass() / msum));
                     vec.scl(1f / Timers.delta());
-                    a.applyImpulse(vec.x, vec.y);
-                    b.applyImpulse(-vec.x, -vec.y);
+                    //a.applyImpulse(vec.x, vec.y);
+                    //b.applyImpulse(-vec.x, -vec.y);
                 }
             }
         }
@@ -252,8 +252,8 @@ public class EntityCollisions{
             SolidTrait solid = (SolidTrait) entity;
 
             solid.getHitbox(r1);
-            r1.x += (solid.getVelocity().x + solid.getX());
-            r1.y += (solid.getVelocity().y + solid.getY());
+            r1.x += (solid.lastPosition().x - solid.getX());
+            r1.y += (solid.lastPosition().y - solid.getY());
 
             solid.getHitbox(r2);
             r2.merge(r1);
@@ -264,7 +264,8 @@ public class EntityCollisions{
                 groupb.tree().getIntersect(arrOut, r2);
 
                 for(SolidTrait sc : arrOut){
-                    if(!collided.contains(sc.getID())){
+                    sc.getHitbox(r1);
+                    if(r2.overlaps(r1) && !collided.contains(sc.getID())){
                         checkCollide(entity, sc);
                     }
                 }
