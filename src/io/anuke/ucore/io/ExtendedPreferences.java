@@ -239,6 +239,7 @@ public class ExtendedPreferences implements Preferences{
                     stream.writeUTF((String) value);
                 }else if(value instanceof byte[]){
                     stream.writeByte(TYPE_BINARY);
+                    stream.writeInt(((byte[]) value).length);
                     stream.write((byte[]) value);
                 }
             }

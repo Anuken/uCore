@@ -47,7 +47,7 @@ public class Settings{
     }
 
     public static void load(String appName, String name){
-        if(Gdx.app.getType() != ApplicationType.WebGL){
+        if(Gdx.app.getType() == ApplicationType.WebGL){
             prefs = Gdx.app.getPreferences(name);
         }else{
             prefs = new ExtendedPreferences(OS.getAppDataDirectory(appName).child(name));
@@ -116,11 +116,11 @@ public class Settings{
         return classNames.get(type);
     }
 
-    public static synchronized void putBytes(String name, Object value){
-        putBinary(name, value, value.getClass());
+    public static synchronized void putObject(String name, Object value){
+        putObject(name, value, value.getClass());
     }
 
-    public static synchronized void putBinary(String name, Object value, Class<?> type){
+    public static synchronized void putObject(String name, Object value, Class<?> type){
         byteStream.reset();
         if(!serializers.containsKey(type)){
             throw new IllegalArgumentException(type + " does not have a serializer registered!");
@@ -134,7 +134,7 @@ public class Settings{
         }
     }
 
-    public static synchronized void putBinary(String name, byte[] bytes){
+    public static synchronized void putBytes(String name, byte[] bytes){
         if(prefs instanceof ExtendedPreferences){
             ((ExtendedPreferences) prefs).putBytes(name, bytes);
         }else{
@@ -175,23 +175,20 @@ public class Settings{
         }
     }
 
-    public static synchronized <T> T getBinary(String name, Class<T> type, Supplier<T> def){
-        T t = getBinary(name, type);
+    public static synchronized <T> T getObject(String name, Class<T> type, Supplier<T> def){
+        T t = getObject(name, type);
         return t == null ? def.get() : t;
     }
 
-    private static synchronized <T> T getBinary(String name, Class<T> type){
+    private static synchronized <T> T getObject(String name, Class<T> type){
         if(!serializers.containsKey(type)){
             throw new IllegalArgumentException("Type " + type + " does not have a serializer registered!");
         }
 
-        String str = getString(name, null);
-        if(str == null) return null;
-
         TypeSerializer serializer = serializers.get(type);
 
         try{
-            byteInputStream.setBytes(Base64Coder.decode(str));
+            byteInputStream.setBytes(getBytes(name));
             Object obj = serializer.read(dataInput);
             return (T)obj;
         }catch(Exception e){

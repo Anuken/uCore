@@ -142,7 +142,7 @@ public class KeyBinds{
             int min = Settings.getInt(name + "-min", -1);
             int max = Settings.getInt(name + "-max", -1);
 
-            if(min != -1 || max != -1){
+            if(min != -1 && max != -1){
                 Axis axis = new Axis(Input.values()[min], Input.values()[max]);
                 return axis;
             }
