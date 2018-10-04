@@ -1,5 +1,6 @@
 package io.anuke.ucore.core;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.Base64Coder;
@@ -8,10 +9,12 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.StreamUtils.OptimizedByteArrayOutputStream;
 import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.io.DefaultSerializers;
+import io.anuke.ucore.io.ExtendedPreferences;
 import io.anuke.ucore.io.ReusableByteArrayInputStream;
 import io.anuke.ucore.io.TypeSerializer;
 import io.anuke.ucore.io.TypeSerializer.TypeReader;
 import io.anuke.ucore.io.TypeSerializer.TypeWriter;
+import io.anuke.ucore.util.OS;
 
 import java.io.*;
 
@@ -43,13 +46,17 @@ public class Settings{
         errorHandler = handler;
     }
 
-    public static void load(String name){
-        prefs = Gdx.app.getPreferences(name);
+    public static void load(String appName, String name){
+        if(Gdx.app.getType() != ApplicationType.WebGL){
+            prefs = Gdx.app.getPreferences(name);
+        }else{
+            prefs = new ExtendedPreferences(OS.getAppDataDirectory(appName).child(name));
+        }
     }
 
     /** Loads binds as well as prefs. */
-    public static void loadAll(String name){
-        load(name);
+    public static void loadAll(String appName, String name){
+        load(appName, name);
         KeyBinds.load();
     }
 
@@ -109,7 +116,7 @@ public class Settings{
         return classNames.get(type);
     }
 
-    public static synchronized void putBinary(String name, Object value){
+    public static synchronized void putBytes(String name, Object value){
         putBinary(name, value, value.getClass());
     }
 
@@ -121,11 +128,18 @@ public class Settings{
         TypeSerializer serializer = serializers.get(type);
         try{
             serializer.write(dataOutput, value);
-            byte[] bytes = byteStream.toByteArray();
-            String str = new String(Base64Coder.encode(bytes));
-            putString(name, str);
+            putBytes(name, byteStream.toByteArray());
         }catch(Exception e){
             throw new RuntimeException(e);
+        }
+    }
+
+    public static synchronized void putBinary(String name, byte[] bytes){
+        if(prefs instanceof ExtendedPreferences){
+            ((ExtendedPreferences) prefs).putBytes(name, bytes);
+        }else{
+            String str = new String(Base64Coder.encode(bytes));
+            putString(name, str);
         }
     }
 
@@ -147,6 +161,18 @@ public class Settings{
 
     public static String getString(String name){
         return prefs.getString(name, (String) def(name));
+    }
+
+    public static byte[] getBytes(String name){
+        if(prefs instanceof ExtendedPreferences){
+            return ((ExtendedPreferences) prefs).getBytes(name);
+        }else{
+            String str = getString(name, null);
+            if(str == null){
+                return null;
+            }
+            return Base64Coder.decode(str);
+        }
     }
 
     public static synchronized <T> T getBinary(String name, Class<T> type, Supplier<T> def){
@@ -188,7 +214,6 @@ public class Settings{
     public static long getLong(String name){
         return prefs.getLong(name, (Long) def(name));
     }
-
 
     public static String getString(String name, String def){
         return prefs.getString(name, def);
