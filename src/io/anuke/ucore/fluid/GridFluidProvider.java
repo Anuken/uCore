@@ -1,6 +1,6 @@
 package io.anuke.ucore.fluid;
 
-import io.anuke.ucore.util.Mathf;
+import io.anuke.ucore.util.Structs;
 
 public class GridFluidProvider implements FluidProvider{
     private final int width, height;
@@ -25,7 +25,7 @@ public class GridFluidProvider implements FluidProvider{
 
     @Override
     public boolean isSolid(int x, int y){
-        return !Mathf.inBounds(x, y, solid) || solid[x][y];
+        return !Structs.inBounds(x, y, solid) || solid[x][y];
     }
 
     @Override
@@ -35,7 +35,7 @@ public class GridFluidProvider implements FluidProvider{
 
     @Override
     public void setSettled(int x, int y, boolean settle){
-        if(!Mathf.inBounds(x, y, settled)) return;
+        if(!Structs.inBounds(x, y, settled)) return;
         settled[x][y] = settle;
     }
 

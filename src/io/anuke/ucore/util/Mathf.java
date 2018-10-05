@@ -3,13 +3,8 @@ package io.anuke.ucore.util;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.IntIntMap;
-import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.ucore.core.Timers;
-import io.anuke.ucore.function.Consumer;
-import io.anuke.ucore.function.Processor;
 
-import java.util.Comparator;
 import java.util.Random;
 
 public class Mathf{
@@ -389,102 +384,7 @@ public class Mathf{
         return i;
     }
 
-    public static IntIntMap mapInt(int... values){
-        IntIntMap map = new IntIntMap();
-        for(int i = 0; i < values.length; i += 2){
-            map.put(values[i], values[i + 1]);
-        }
-        return map;
-    }
-
-    public static <K, V> ObjectMap<K, V> map(Object... values){
-        ObjectMap<K, V> map = new ObjectMap<>();
-
-        for(int i = 0; i < values.length / 2; i++){
-            map.put((K) values[i * 2], (V) values[i * 2 + 1]);
-        }
-
-        return map;
-    }
-
-    public static <T> void each(Consumer<T> cons, T... objects){
-        for(T t : objects){
-            cons.accept(t);
-        }
-    }
-
-    public static <T> void forEach(Iterable<T> i, Consumer<T> cons){
-        for(T t : i){
-            cons.accept(t);
-        }
-    }
-
-    public static <T> T findMin(T[] arr, Comparator<T> comp){
-        T result = null;
-        for(T t : arr){
-            if(result == null || comp.compare(result, t) < 0){
-                result = t;
-            }
-        }
-        return result;
-    }
-
-    public static <T> T findMin(T[] arr, Processor<T, Integer> proc){
-        T result = null;
-        int min = Integer.MAX_VALUE;
-        for(T t : arr){
-            int val = proc.get(t);
-            if(val <= min){
-                result = t;
-                min = val;
-            }
-        }
-        return result;
-    }
-
-    public static <T> T findMin(Iterable<T> arr, Comparator<T> comp){
-        T result = null;
-        for(T t : arr){
-            if(result == null || comp.compare(result, t) < 0){
-                result = t;
-            }
-        }
-        return result;
-    }
-
-    public static <T> boolean inBounds(int x, int y, T[][] array){
-        return x >= 0 && y >= 0 && x < array.length && y < array[0].length;
-    }
-
-    public static boolean inBounds(int x, int y, int[][] array){
-        return x >= 0 && y >= 0 && x < array.length && y < array[0].length;
-    }
-
-    public static boolean inBounds(int x, int y, float[][] array){
-        return x >= 0 && y >= 0 && x < array.length && y < array[0].length;
-    }
-
-    public static boolean inBounds(int x, int y, boolean[][] array){
-        return x >= 0 && y >= 0 && x < array.length && y < array[0].length;
-    }
-
-    public static <T> boolean inBounds(int x, int y, int z, T[][][] array){
-        return x >= 0 && y >= 0 && z >= 0 && x < array.length && y < array[0].length && z < array[0][0].length;
-    }
-
-    public static <T> boolean inBounds(int x, int y, int z, int[][][] array){
-        return x >= 0 && y >= 0 && z >= 0 && x < array.length && y < array[0].length && z < array[0][0].length;
-    }
-
-    public static boolean inBounds(int x, int y, int z, int size, int padding){
-        return x >= padding && y >= padding && z >= padding && x < size - padding && y < size - padding
-                && z < size - padding;
-    }
-
-    public static <T> boolean inBounds(int x, int y, int width, int height){
-        return x >= 0 && y >= 0 && x < width && y < height;
-    }
-
+    //TODO remove!
     public static void profile(int iterations, Runnable c1, Runnable c2){
         //warmup
         for(int i = 0; i < iterations; i++){
@@ -505,6 +405,7 @@ public class Mathf{
         Log.info("Time taken for procedure 2: {0}ms", Timers.elapsed());
     }
 
+    //TODO move spiral related stuff
     public static void traverseSpiral(int width, int height, SpiralTraverser con){
         traverseSpiral(width, height, 0, con);
     }
