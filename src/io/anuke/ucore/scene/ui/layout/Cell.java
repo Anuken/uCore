@@ -1,7 +1,5 @@
 package io.anuke.ucore.scene.ui.layout;
 
-import com.badlogic.gdx.Files;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Pool.Poolable;
@@ -23,23 +21,18 @@ import io.anuke.ucore.scene.ui.layout.Value.Fixed;
  * @author Nathan Sweet
  */
 public class Cell<T extends Element> implements Poolable{
-    static private final Float zerof = 0f, onef = 1f;
-    static private final Integer zeroi = 0, onei = 1;
-    static private final Integer centeri = onei, topi = Align.top, bottomi = Align.bottom, lefti = Align.left,
-            righti = Align.right;
-
-    static private Files files;
     static private Cell defaults;
+    static private boolean initialized;
 
     Value minWidth, minHeight;
     Value maxWidth, maxHeight;
     Value spaceTop, spaceLeft, spaceBottom, spaceRight;
     Value padTop, padLeft, padBottom, padRight;
-    Float fillX, fillY;
-    Integer align;
-    Integer expandX, expandY;
-    Integer colspan;
-    Boolean uniformX, uniformY;
+    float fillX, fillY;
+    int align;
+    int expandX, expandY;
+    int colspan;
+    boolean uniformX, uniformY;
 
     Element actor;
     float actorX, actorY;
@@ -59,8 +52,9 @@ public class Cell<T extends Element> implements Poolable{
      * for spacing).
      */
     static public Cell defaults(){
-        if(files == null || files != Gdx.files){
-            files = Gdx.files;
+        if(!initialized){
+            initialized = true;
+
             defaults = new Cell();
             defaults.minWidth = Value.minWidth;
             defaults.minHeight = Value.minHeight;
@@ -74,14 +68,14 @@ public class Cell<T extends Element> implements Poolable{
             defaults.padLeft = Value.zero;
             defaults.padBottom = Value.zero;
             defaults.padRight = Value.zero;
-            defaults.fillX = zerof;
-            defaults.fillY = zerof;
-            defaults.align = centeri;
-            defaults.expandX = zeroi;
-            defaults.expandY = zeroi;
-            defaults.colspan = onei;
-            defaults.uniformX = null;
-            defaults.uniformY = null;
+            defaults.fillX = 0;
+            defaults.fillY = 0;
+            defaults.align = 0;
+            defaults.expandX = 0;
+            defaults.expandY = 0;
+            defaults.colspan = 1;
+            defaults.uniformX = false;
+            defaults.uniformY = false;
         }
         return defaults;
     }
@@ -599,20 +593,20 @@ public class Cell<T extends Element> implements Poolable{
 
     /** Sets fillX and fillY to 1. */
     public Cell<T> fill(){
-        fillX = onef;
-        fillY = onef;
+        fillX = 1;
+        fillY = 1;
         return this;
     }
 
     /** Sets fillX to 1. */
     public Cell<T> fillX(){
-        fillX = onef;
+        fillX = 1;
         return this;
     }
 
     /** Sets fillY to 1. */
     public Cell<T> fillY(){
-        fillY = onef;
+        fillY = 1;
         return this;
     }
 
@@ -624,15 +618,15 @@ public class Cell<T extends Element> implements Poolable{
 
     /** Sets fillX and fillY to 1 if true, 0 if false. */
     public Cell<T> fill(boolean x, boolean y){
-        fillX = x ? onef : zerof;
-        fillY = y ? onef : zerof;
+        fillX = x ? 1 : 0;
+        fillY = y ? 1 : 0;
         return this;
     }
 
     /** Sets fillX and fillY to 1 if true, 0 if false. */
     public Cell<T> fill(boolean fill){
-        fillX = fill ? onef : zerof;
-        fillY = fill ? onef : zerof;
+        fillX = fill ? 1 : 0;
+        fillY = fill ? 1 : 0;
         return this;
     }
 
@@ -647,85 +641,73 @@ public class Cell<T extends Element> implements Poolable{
 
     /** Sets the alignment of the actor within the cell to {@link Align#center}. This clears any other alignment. */
     public Cell<T> center(){
-        align = centeri;
+        align = Align.center;
         return this;
     }
 
     /** Adds {@link Align#top} and clears {@link Align#bottom} for the alignment of the actor within the cell. */
     public Cell<T> top(){
-        if(align == null)
-            align = topi;
-        else
-            align = (align | Align.top) & ~Align.bottom;
+        align = (align | Align.top) & ~Align.bottom;
         return this;
     }
 
     /** Adds {@link Align#left} and clears {@link Align#right} for the alignment of the actor within the cell. */
     public Cell<T> left(){
-        if(align == null)
-            align = lefti;
-        else
-            align = (align | Align.left) & ~Align.right;
+        align = (align | Align.left) & ~Align.right;
         return this;
     }
 
     /** Adds {@link Align#bottom} and clears {@link Align#top} for the alignment of the actor within the cell. */
     public Cell<T> bottom(){
-        if(align == null)
-            align = bottomi;
-        else
-            align = (align | Align.bottom) & ~Align.top;
+        align = (align | Align.bottom) & ~Align.top;
         return this;
     }
 
     /** Adds {@link Align#right} and clears {@link Align#left} for the alignment of the actor within the cell. */
     public Cell<T> right(){
-        if(align == null)
-            align = righti;
-        else
-            align = (align | Align.right) & ~Align.left;
+        align = (align | Align.right) & ~Align.left;
         return this;
     }
 
     /** Sets expandX, expandY, fillX, and fillY to 1. */
     public Cell<T> grow(){
-        expandX = onei;
-        expandY = onei;
-        fillX = onef;
-        fillY = onef;
+        expandX = 1;
+        expandY = 1;
+        fillX = 1;
+        fillY = 1;
         return this;
     }
 
     /** Sets expandX and fillX to 1. */
     public Cell<T> growX(){
-        expandX = onei;
-        fillX = onef;
+        expandX = 1;
+        fillX = 1;
         return this;
     }
 
     /** Sets expandY and fillY to 1. */
     public Cell<T> growY(){
-        expandY = onei;
-        fillY = onef;
+        expandY = 1;
+        fillY = 1;
         return this;
     }
 
     /** Sets expandX and expandY to 1. */
     public Cell<T> expand(){
-        expandX = onei;
-        expandY = onei;
+        expandX = 1;
+        expandY = 1;
         return this;
     }
 
     /** Sets expandX to 1. */
     public Cell<T> expandX(){
-        expandX = onei;
+        expandX = 1;
         return this;
     }
 
     /** Sets expandY to 1. */
     public Cell<T> expandY(){
-        expandY = onei;
+        expandY = 1;
         return this;
     }
 
@@ -737,8 +719,8 @@ public class Cell<T extends Element> implements Poolable{
 
     /** Sets expandX and expandY to 1 if true, 0 if false. */
     public Cell<T> expand(boolean x, boolean y){
-        expandX = x ? onei : zeroi;
-        expandY = y ? onei : zeroi;
+        expandX = x ? 1 : 0;
+        expandY = y ? 1 : 0;
         return this;
     }
 
@@ -1024,14 +1006,14 @@ public class Cell<T extends Element> implements Poolable{
         padLeft = null;
         padBottom = null;
         padRight = null;
-        fillX = null;
-        fillY = null;
-        align = null;
-        expandX = null;
-        expandY = null;
-        colspan = null;
-        uniformX = null;
-        uniformY = null;
+        fillX = 0;
+        fillY = 0;
+        align = 0;
+        expandX = 0;
+        expandY = 0;
+        colspan = 1;
+        uniformX = false;
+        uniformY = false;
     }
 
     /** Reset state so the cell can be reused, setting all constraints to their {@link #defaults() default} values. */
@@ -1084,14 +1066,14 @@ public class Cell<T extends Element> implements Poolable{
         if(cell.padLeft != null) padLeft = cell.padLeft;
         if(cell.padBottom != null) padBottom = cell.padBottom;
         if(cell.padRight != null) padRight = cell.padRight;
-        if(cell.fillX != null) fillX = cell.fillX;
-        if(cell.fillY != null) fillY = cell.fillY;
-        if(cell.align != null) align = cell.align;
-        if(cell.expandX != null) expandX = cell.expandX;
-        if(cell.expandY != null) expandY = cell.expandY;
-        if(cell.colspan != null) colspan = cell.colspan;
-        if(cell.uniformX != null) uniformX = cell.uniformX;
-        if(cell.uniformY != null) uniformY = cell.uniformY;
+        fillX = cell.fillX;
+        fillY = cell.fillY;
+        if(cell.align != 0) align = cell.align;
+        expandX = cell.expandX;
+        expandY = cell.expandY;
+        colspan = cell.colspan;
+        uniformX = cell.uniformX;
+        uniformY = cell.uniformY;
     }
 
     public String toString(){

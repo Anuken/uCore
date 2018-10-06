@@ -77,7 +77,7 @@ public class WidgetGroup extends Group implements Layout{
         for(int i = 0, n = children.size; i < n; i++){
             Element actor = children.get(i);
             if(actor instanceof Layout)
-                ((Layout) actor).setLayoutEnabled(enabled);
+                actor.setLayoutEnabled(enabled);
             else if(actor instanceof Group) //
                 setLayoutEnabled((Group) actor, enabled);
         }
@@ -121,7 +121,7 @@ public class WidgetGroup extends Group implements Layout{
     public void invalidateHierarchy(){
         invalidate();
         Group parent = getParent();
-        if(parent instanceof Layout) ((Layout) parent).invalidateHierarchy();
+        if(parent instanceof Layout) parent.invalidateHierarchy();
     }
 
     protected void childrenChanged(){

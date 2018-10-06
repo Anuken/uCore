@@ -195,8 +195,7 @@ public class Skin implements Disposable{
 
     public boolean has(String name, Class type){
         ObjectMap<String, Object> typeResources = resources.get(type);
-        if(typeResources == null) return false;
-        return typeResources.containsKey(name);
+        return typeResources != null && typeResources.containsKey(name);
     }
 
     /** Returns the name to resource mapping for the specified type, or null if no resources of that type exist. */

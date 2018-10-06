@@ -68,13 +68,13 @@ public class RayHandler implements Disposable{
      * <p>
      * <p>NOTE: DO NOT MODIFY THIS LIST
      */
-    final Array<Light> lightList = new Array<Light>(false, 16);
+    final Array<Light> lightList = new Array<>(false, 16);
     /**
      * This Array contain all the disabled lights.
      * <p>
      * <p>NOTE: DO NOT MODIFY THIS LIST
      */
-    final Array<Light> disabledLights = new Array<Light>(false, 16);
+    final Array<Light> disabledLights = new Array<>(false, 16);
     final ShaderProgram lightShader;
     private final Rectangle r1 = new Rectangle();
     private final Rectangle r2 = new Rectangle();
@@ -102,9 +102,9 @@ public class RayHandler implements Disposable{
     /** camera matrix corners */
     float x1, x2, y1, y2;
 
-    Array<Rectangle> rectangles = new Array<Rectangle>();
+    Array<Rectangle> rectangles = new Array<>();
     RectQuadTree tree = new RectQuadTree(4, new Rectangle(-1000, -1000, 2000, 2000));
-    Array<Rectangle> tmprects = new Array<Rectangle>();
+    Array<Rectangle> tmprects = new Array<>();
     private float cdist = -1f;
 
     /**
@@ -204,41 +204,6 @@ public class RayHandler implements Disposable{
                 camera.position.y,
                 camera.viewportWidth * camera.zoom,
                 camera.viewportHeight * camera.zoom);
-    }
-
-    /**
-     * Sets combined camera matrix.
-     * <p>
-     * <p>Matrix must be set to work in box2d coordinates, it will be copied
-     * and used for culling and rendering. Remember to update it if camera
-     * changes. This will work with rotated cameras.
-     * <p>
-     * <p>NOTE: Matrix4 is assumed to be orthogonal for culling
-     * and directional lights.
-     *
-     * @param combined matrix that include projection and translation matrices
-     * @deprecated use {@link #setCombinedMatrix(OrthographicCamera)} or
-     * {@link #setCombinedMatrix(Matrix4, float, float, float, float)} instead
-     */
-    @Deprecated
-    public void setCombinedMatrix(Matrix4 combined){
-        System.arraycopy(combined.val, 0, this.combined.val, 0, 16);
-
-        // updateCameraCorners
-        float invWidth = combined.val[Matrix4.M00];
-
-        final float halfViewPortWidth = 1f / invWidth;
-        final float x = -halfViewPortWidth * combined.val[Matrix4.M03];
-        x1 = x - halfViewPortWidth;
-        x2 = x + halfViewPortWidth;
-
-        float invHeight = combined.val[Matrix4.M11];
-
-        final float halfViewPortHeight = 1f / invHeight;
-        final float y = -halfViewPortHeight * combined.val[Matrix4.M13];
-        y1 = y - halfViewPortHeight;
-        y2 = y + halfViewPortHeight;
-
     }
 
     /**
@@ -395,7 +360,6 @@ public class RayHandler implements Disposable{
      *
      * @see #updateAndRender()
      * @see #update()
-     * @see #setCombinedMatrix(Matrix4)
      * @see #setCombinedMatrix(Matrix4, float, float, float, float)
      */
     public void render(){

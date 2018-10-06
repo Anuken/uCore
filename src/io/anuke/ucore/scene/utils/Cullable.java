@@ -30,5 +30,5 @@ import io.anuke.ucore.scene.Group;
  */
 public interface Cullable{
     /** @param cullingArea The culling area in the child actor's coordinates. */
-    public void setCullingArea(Rectangle cullingArea);
+    void setCullingArea(Rectangle cullingArea);
 }

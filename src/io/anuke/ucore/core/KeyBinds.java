@@ -136,15 +136,13 @@ public class KeyBinds{
     private static InputType load(InputType def, String name){
         if(def instanceof Input){
             int key = Settings.getInt(name, -1);
-            Input input = key == -1 ? null : Input.values()[key];
-            return input;
+            return key == -1 ? null : Input.values()[key];
         }else if(def instanceof Axis){
             int min = Settings.getInt(name + "-min", -1);
             int max = Settings.getInt(name + "-max", -1);
 
             if(min != -1 && max != -1){
-                Axis axis = new Axis(Input.values()[min], Input.values()[max]);
-                return axis;
+                return new Axis(Input.values()[min], Input.values()[max]);
             }
             return null;
         }else{

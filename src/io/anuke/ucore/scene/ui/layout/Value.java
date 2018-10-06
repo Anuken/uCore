@@ -25,104 +25,57 @@ import io.anuke.ucore.scene.Element;
  *
  * @author Nathan Sweet
  */
-abstract public class Value{
+public interface Value{
     /** A value that is always zero. */
-    static public final Fixed zero = new Fixed(0);
+    Fixed zero = new Fixed(0);
     /** Value that is the minWidth of the actor in the cell. */
-    static public Value minWidth = new Value(){
-        public float get(Element context){
-            return context == null ? 0 : context.getMinWidth();
-        }
-    };
+    Value minWidth = context -> context == null ? 0 : context.getMinWidth();
     /** Value that is the minHeight of the actor in the cell. */
-    static public Value minHeight = new Value(){
-        public float get(Element context){
-            return context == null ? 0 : context.getMinHeight();
-        }
-    };
+    Value minHeight = context -> context == null ? 0 : context.getMinHeight();
     /** Value that is the prefWidth of the actor in the cell. */
-    static public Value prefWidth = new Value(){
-        public float get(Element context){
-            return context == null ? 0 : context.getPrefWidth();
-
-        }
-    };
+    Value prefWidth = context -> context == null ? 0 : context.getPrefWidth();
     /** Value that is the prefHeight of the actor in the cell. */
-    static public Value prefHeight = new Value(){
-        public float get(Element context){
-            return context == null ? 0 : context.getPrefHeight();
-        }
-    };
+    Value prefHeight = context -> context == null ? 0 : context.getPrefHeight();
     /** Value that is the maxWidth of the actor in the cell. */
-    static public Value maxWidth = new Value(){
-        public float get(Element context){
-            return context == null ? 0 : context.getMaxWidth();
-        }
-    };
+    Value maxWidth = context -> context == null ? 0 : context.getMaxWidth();
     /** Value that is the maxHeight of the actor in the cell. */
-    static public Value maxHeight = new Value(){
-        public float get(Element context){
-            return context == null ? 0 : context.getMaxHeight();
-        }
-    };
-    static int amount = 0;
+    Value maxHeight = context -> context == null ? 0 : context.getMaxHeight();
 
-    public static Value create(Supplier<Float> prov){
-        return new Value(){
-            @Override
-            public float get(Element context){
-                return prov.get();
-            }
-        };
+    static Value create(Supplier<Float> prov){
+        return context -> prov.get();
     }
 
     /** Returns a value that is a percentage of the actor's width. */
-    static public Value percentWidth(final float percent){
-        return new Value(){
-            public float get(Element actor){
-                return actor.getWidth() * percent;
-            }
-        };
+    static Value percentWidth(final float percent){
+        return actor -> actor.getWidth() * percent;
     }
 
     /** Returns a value that is a percentage of the actor's height. */
-    static public Value percentHeight(final float percent){
-        return new Value(){
-            public float get(Element actor){
-                return actor.getHeight() * percent;
-            }
-        };
+    static Value percentHeight(final float percent){
+        return actor -> actor.getHeight() * percent;
     }
 
     /** Returns a value that is a percentage of the specified actor's width. The context actor is ignored. */
-    static public Value percentWidth(final float percent, final Element actor){
+    static Value percentWidth(final float percent, final Element actor){
         if(actor == null) throw new IllegalArgumentException("actor cannot be null.");
-        return new Value(){
-            public float get(Element context){
-                return actor.getWidth() * percent;
-            }
-        };
+        return context -> actor.getWidth() * percent;
     }
 
     /** Returns a value that is a percentage of the specified actor's height. The context actor is ignored. */
-    static public Value percentHeight(final float percent, final Element actor){
+    static Value percentHeight(final float percent, final Element actor){
         if(actor == null) throw new IllegalArgumentException("actor cannot be null.");
-        return new Value(){
-            public float get(Element context){
-                return actor.getHeight() * percent;
-            }
-        };
+        return context -> actor.getHeight() * percent;
     }
 
     /** @param context May be null. */
-    abstract public float get(Element context);
+    float get(Element context);
 
     /**
      * A fixed value that is not computed each time it is used.
      *
      * @author Nathan Sweet
      */
-    static public class Fixed extends Value{
+    class Fixed implements Value{
         private final float value;
 
         public Fixed(float value){

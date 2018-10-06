@@ -30,7 +30,7 @@ public class Fluidsim{
 
     private float CalculateVerticalFlowValue(float remainingLiquid, float destination){
         float sum = remainingLiquid + destination;
-        float value = 0;
+        float value;
 
         if(sum <= maxValue){
             value = maxValue;
@@ -50,7 +50,7 @@ public class Fluidsim{
     }
 
     private void runCycle(){
-        float flow = 0;
+        float flow;
 
         // Reset the diffs array
         provider.clearChanges();
@@ -78,9 +78,7 @@ public class Fluidsim{
 
 
                 // Keep track of how much liquid this cell started off with
-                float startValue = liquid;
                 float remainingValue = liquid;
-                flow = 0;
 
                 // Flow to bottom cell
                 if(!provider.isSolid(x, y - 1)){
@@ -194,7 +192,7 @@ public class Fluidsim{
                 }
 
                 // Check if cell is settled
-                if(MathUtils.isEqual(startValue, remainingValue)){
+                if(MathUtils.isEqual(liquid, remainingValue)){
                     provider.setSettleCount(x, y, provider.getSettleCount(x, y) + 1);
                     if(provider.getSettleCount(x, y) >= 10){
                         provider.setSettled(x, y, true);

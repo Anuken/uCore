@@ -160,7 +160,7 @@ public class Strings{
 
         append(buf,sgn,0,(val/3600000)); val %= 3600000;
         append(buf,":",2,(val/ 60000)); val %= 60000;
-        append(buf,":",2,(val/1000)); val %= 1000;
+        append(buf,":",2,(val/1000));
         return buf.toString();
     }
 

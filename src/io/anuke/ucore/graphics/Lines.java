@@ -246,7 +246,7 @@ public class Lines{
             float x = vertices[i * 2];
             float y = vertices[i * 2 + 1];
 
-            float x2 = 0, y2 = 0;
+            float x2, y2;
             if(i == vertices.length / 2 - 1){
                 x2 = vertices[0];
                 y2 = vertices[1];

@@ -29,5 +29,5 @@ public interface EventListener{
      *
      * @return true if the event should be considered {@link Event#handle() handled} by scene2d.
      */
-    public boolean handle(Event event);
+    boolean handle(Event event);
 }

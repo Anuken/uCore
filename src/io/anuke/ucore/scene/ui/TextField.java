@@ -168,7 +168,7 @@ public class TextField extends Element implements Disableable{
 
     protected int[] wordUnderCursor(int at){
         String text = this.text;
-        int start = at, right = text.length(), left = 0, index = start;
+        int right = text.length(), left = 0, index = at;
         if(at >= text.length()){
             left = text.length();
             right = 0;
@@ -179,7 +179,7 @@ public class TextField extends Element implements Disableable{
                     break;
                 }
             }
-            for(index = start - 1; index > -1; index--){
+            for(index = at - 1; index > -1; index--){
                 if(!isWordCharacter(text.charAt(index))){
                     left = index + 1;
                     break;
@@ -579,12 +579,7 @@ public class TextField extends Element implements Disableable{
     }
 
     public void typed(Consumer<Character> cons){
-        setTextFieldListener(new TextFieldListener(){
-            @Override
-            public void keyTyped(TextField textField, char c){
-                cons.accept(c);
-            }
-        });
+        setTextFieldListener((textField, c) -> cons.accept(c));
     }
 
     public TextFieldFilter getTextFieldFilter(){
@@ -818,8 +813,8 @@ public class TextField extends Element implements Disableable{
      *
      * @author mzechner
      */
-    static public interface TextFieldListener{
-        public void keyTyped(TextField textField, char c);
+    public interface TextFieldListener{
+        void keyTyped(TextField textField, char c);
     }
 
     /**
@@ -827,10 +822,10 @@ public class TextField extends Element implements Disableable{
      *
      * @author mzechner
      */
-    static public interface TextFieldFilter{
-        public boolean acceptChar(TextField textField, char c);
+    public interface TextFieldFilter{
+        boolean acceptChar(TextField textField, char c);
 
-        static public class DigitsOnlyFilter implements TextFieldFilter{
+        class DigitsOnlyFilter implements TextFieldFilter{
             @Override
             public boolean acceptChar(TextField textField, char c){
                 return Character.isDigit(c);
@@ -844,8 +839,8 @@ public class TextField extends Element implements Disableable{
      *
      * @author mzechner
      */
-    static public interface OnscreenKeyboard{
-        public void show(boolean visible);
+    public interface OnscreenKeyboard{
+        void show(boolean visible);
     }
 
     /**

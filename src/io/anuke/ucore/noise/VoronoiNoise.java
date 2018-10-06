@@ -238,10 +238,10 @@ public class VoronoiNoise{
             double zDist = zCandidate - z;
 
             return getDistance(xDist, yDist, zDist);
-        }else return ((double) VoronoiNoise.valueNoise3D(
+        }else return VoronoiNoise.valueNoise3D(
                 (int) (Math.floor(xCandidate)),
                 (int) (Math.floor(yCandidate)),
-                (int) (Math.floor(zCandidate)), seed));
+                (int) (Math.floor(zCandidate)), seed);
 
     }
 }

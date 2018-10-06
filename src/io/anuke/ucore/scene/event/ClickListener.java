@@ -40,7 +40,7 @@ public class ClickListener extends InputListener{
     private int button;
     private boolean pressed, over, overAny, cancelled;
     private long visualPressedTime;
-    private long tapCountInterval = (long) (0.4f * 1000000000l);
+    private long tapCountInterval = (long) (0.4f * 1000000000L);
     private int tapCount;
     private long lastTapTime;
     private boolean stop = false;
@@ -125,13 +125,11 @@ public class ClickListener extends InputListener{
     /** Returns true if the specified position is over the specified actor or within the tap square. */
     public boolean isOver(Element actor, float x, float y){
         Element hit = actor.hit(x, y, true);
-        if(hit == null || !hit.isDescendantOf(actor)) return inTapSquare(x, y);
-        return true;
+        return hit != null && hit.isDescendantOf(actor) || inTapSquare(x, y);
     }
 
     public boolean inTapSquare(float x, float y){
-        if(touchDownX == -1 && touchDownY == -1) return false;
-        return Math.abs(x - touchDownX) < tapSquareSize && Math.abs(y - touchDownY) < tapSquareSize;
+        return (!(touchDownX == -1) || !(touchDownY == -1)) && Math.abs(x - touchDownX) < tapSquareSize && Math.abs(y - touchDownY) < tapSquareSize;
     }
 
     /** Returns true if a touch is within the tap square. */

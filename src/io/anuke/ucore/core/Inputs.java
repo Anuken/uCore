@@ -403,7 +403,7 @@ public class Inputs{
     //TODO don't treat triggers as axes?
 
     public enum ControllerType{
-        xbox, unknown;
+        xbox, unknown
     }
 
     public interface InputType{

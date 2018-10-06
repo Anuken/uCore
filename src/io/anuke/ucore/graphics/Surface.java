@@ -12,9 +12,9 @@ import io.anuke.ucore.core.Graphics;
 /** A framebuffer wrapper. */
 public class Surface implements Disposable{
     private FrameBuffer buffer;
-    private int scale = 1;
+    private int scale;
     private boolean linear = false;
-    private int bind = 0;
+    private int bind;
     private boolean fixedSize = false;
     private int fixedWidth, fixedHeight;
 

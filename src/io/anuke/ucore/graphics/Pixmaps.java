@@ -175,7 +175,7 @@ public class Pixmaps{
         texture.draw(drawPixmap, x, y);
     }
 
-    public static interface PixmapTraverser{
-        public void traverse(int x, int y);
+    public interface PixmapTraverser{
+        void traverse(int x, int y);
     }
 }

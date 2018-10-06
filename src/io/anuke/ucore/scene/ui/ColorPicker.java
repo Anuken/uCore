@@ -66,8 +66,7 @@ public class ColorPicker extends Table{
                 Color color = Color.valueOf(f);
                 this.color.set(color);
                 setColor(this.color);
-            }catch(Exception e){
-            }
+            }catch(Exception ignored){}
         });
 
         field = cell.getElement();
@@ -92,14 +91,8 @@ public class ColorPicker extends Table{
 
         Hue.fromHSB(hue, sat, bri, color);
 
-        String hex = Integer.toHexString((0xFFFFFF & Color.rgb888(color)));
-        int l = 6 - hex.length();
-        for(int i = 0; i < l; i++){
-            hex = "0" + hex;
-        }
-
         //if(DrawContext.scene.getKeyboardFocus() != field)
-        field.setText(hex);
+        field.setText(color.toString());
     }
 
     public void colorChanged(Consumer<Color> cons){

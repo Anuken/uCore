@@ -37,8 +37,7 @@ public class DelayAction extends DelegateAction{
             if(time < duration) return false;
             delta = time - duration;
         }
-        if(action == null) return true;
-        return action.act(delta);
+        return action == null || action.act(delta);
     }
 
     /** Causes the delay to be complete. */

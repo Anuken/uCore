@@ -82,7 +82,7 @@ public class HorizontalGroup extends WidgetGroup{
 
                 float width, height;
                 if(child instanceof Layout){
-                    Layout layout = (Layout) child;
+                    Layout layout = child;
                     width = layout.getPrefWidth();
                     height = layout.getPrefHeight();
                 }else{
@@ -114,7 +114,7 @@ public class HorizontalGroup extends WidgetGroup{
             for(int i = 0; i < n; i++){
                 Element child = children.get(i);
                 if(child instanceof Layout){
-                    Layout layout = (Layout) child;
+                    Layout layout = child;
                     prefWidth += layout.getPrefWidth();
                     prefHeight = Math.max(prefHeight, layout.getPrefHeight());
                 }else{
@@ -171,7 +171,7 @@ public class HorizontalGroup extends WidgetGroup{
             float width, height;
             Layout layout = null;
             if(child instanceof Layout){
-                layout = (Layout) child;
+                layout = child;
                 width = layout.getPrefWidth();
                 height = layout.getPrefHeight();
             }else{
@@ -243,7 +243,7 @@ public class HorizontalGroup extends WidgetGroup{
             float width, height;
             Layout layout = null;
             if(child instanceof Layout){
-                layout = (Layout) child;
+                layout = child;
                 width = layout.getPrefWidth();
                 height = layout.getPrefHeight();
             }else{

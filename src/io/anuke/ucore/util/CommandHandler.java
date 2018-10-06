@@ -91,7 +91,7 @@ public class CommandHandler{
     }
 
     public enum ResponseType{
-        noCommand, unknownCommand, fewArguments, manyArguments, valid;
+        noCommand, unknownCommand, fewArguments, manyArguments, valid
     }
 
     public static class Command{
@@ -121,7 +121,7 @@ public class CommandHandler{
                     if(param.length() <= 2) throw new IllegalArgumentException("Malformed param '" + param + "'");
 
                     char l = param.charAt(0), r = param.charAt(param.length() - 1);
-                    boolean optional = false, variadic = false;
+                    boolean optional, variadic = false;
 
                     if(l == '<' && r == '>'){
                         if(hadOptional)

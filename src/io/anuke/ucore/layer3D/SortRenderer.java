@@ -30,7 +30,7 @@ public class SortRenderer implements LayerRenderer{
     /** Whether or not to draw shadows. May make the model look more solid, but will affect performance. */
     public boolean drawShadows = false;
 
-    private SnapshotArray<TextureLayer> layers = new SnapshotArray<TextureLayer>();
+    private SnapshotArray<TextureLayer> layers = new SnapshotArray<>();
     private boolean needsSort;
 
     /** Returns the instance of the LayeredRenderer */
@@ -128,11 +128,7 @@ public class SortRenderer implements LayerRenderer{
 
         @Override
         public int compareTo(TextureLayer tex){
-            if(getZ() < tex.getZ())
-                return -1;
-            if(getZ() > tex.getZ())
-                return 1;
-            return 0;
+            return Float.compare(getZ(), tex.getZ());
         }
     }
 }

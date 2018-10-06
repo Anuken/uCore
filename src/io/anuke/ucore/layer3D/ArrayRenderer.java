@@ -27,7 +27,7 @@ public class ArrayRenderer implements LayerRenderer{
 
     public ArrayRenderer(){
         for(int i = 0; i < layers.length; i++){
-            layers[i] = new Array<TextureLayer>();
+            layers[i] = new Array<>();
         }
     }
 

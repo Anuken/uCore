@@ -10,7 +10,7 @@ import io.anuke.ucore.graphics.Lines;
 import java.util.Stack;
 
 public class LSystem{
-    protected final Array<Line> lines = new Array<Line>();
+    protected final Array<Line> lines = new Array<>();
     public float x, y, timeOffset;
     public boolean sortMode = true;
     public boolean sort = true;

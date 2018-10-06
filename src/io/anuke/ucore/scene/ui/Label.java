@@ -66,7 +66,7 @@ public class Label extends Element{
         update(() -> setText(sup.get()));
         try{
             setText(sup.get());
-        }catch(Exception e){
+        }catch(Exception ignored){
         }
     }
 

@@ -66,8 +66,7 @@ public class Actions{
 
     /** Sets the origin to the center. */
     static public Action originCenter(){
-        OriginAction action = new OriginAction();
-        return action;
+        return new OriginAction();
     }
 
     /** Moves the actor instantly. */

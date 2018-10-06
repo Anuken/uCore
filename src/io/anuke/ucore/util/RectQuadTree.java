@@ -42,7 +42,7 @@ public class RectQuadTree{
         this.level = level;
         this.bounds = bounds;
         this.maxObjectsPerNode = maxObjectsPerNode;
-        objects = new Array<Rectangle>();
+        objects = new Array<>();
         leaf = true;
     }
 

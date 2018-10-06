@@ -129,7 +129,6 @@ public class IndexedRenderer implements Disposable{
     }
 
     public void draw(int index, TextureRegion region, float x, float y, float w, float h, float rotation){
-        final float sx = x, sy = y;
         final float u = region.getU();
         final float v = region.getV2();
         final float u2 = region.getU2();
@@ -145,26 +144,17 @@ public class IndexedRenderer implements Disposable{
         float fx2 = w - originX;
         float fy2 = h - originY;
 
-        final float p1x = fx;
-        final float p1y = fy;
-        final float p2x = fx;
-        final float p2y = fy2;
-        final float p3x = fx2;
-        final float p3y = fy2;
-        final float p4x = fx2;
-        final float p4y = fy;
-
         final float worldOriginX = x + originX;
         final float worldOriginY = y + originY;
 
-        float x1 = cos * p1x - sin * p1y;
-        float y1 = sin * p1x + cos * p1y;
+        float x1 = cos * fx - sin * fy;
+        float y1 = sin * fx + cos * fy;
 
-        float x2 = cos * p2x - sin * p2y;
-        float y2 = sin * p2x + cos * p2y;
+        float x2 = cos * fx - sin * fy2;
+        float y2 = sin * fx + cos * fy2;
 
-        float x3 = cos * p3x - sin * p3y;
-        float y3 = sin * p3x + cos * p3y;
+        float x3 = cos * fx2 - sin * fy2;
+        float y3 = sin * fx2 + cos * fy2;
 
         float x4 = x1 + (x3 - x2);
         float y4 = y3 - (y2 - y1);

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 public class PixelShader{
 
-    static final public ShaderProgram createPixelShader(){
+    static public ShaderProgram createPixelShader(){
 
         String frag = String.join("\n",
                 "#ifdef GL_ES",

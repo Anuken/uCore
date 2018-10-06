@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Array;
 
 /** Used for easily storing and freeing a list of LayeredObjects. */
 public class LayerList{
-    public Array<LayeredObject> objects = new Array<LayeredObject>();
+    public Array<LayeredObject> objects = new Array<>();
     public LayerRenderer renderer;
 
     public LayerList(LayerRenderer renderer){

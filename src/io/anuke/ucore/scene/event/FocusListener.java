@@ -91,7 +91,7 @@ abstract public class FocusListener implements EventListener{
         }
 
         /** @author Nathan Sweet */
-        static public enum Type{
+        public enum Type{
             keyboard, scroll
         }
     }

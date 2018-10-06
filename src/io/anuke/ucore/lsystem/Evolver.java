@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Evolver{
     public static boolean debug = false;
 
-    HashMap<Character, String> current = new HashMap<Character, String>();
+    HashMap<Character, String> current = new HashMap<>();
     float currentSpace;
     float currentScore;
 
@@ -57,10 +57,9 @@ public class Evolver{
             currentScore = bestScore;
         }
 
-        LSystemData result = new LSystemData(data.axiom, (HashMap<Character, String>) current.clone(), data.iterations, data.swayspace,
-                data.swayscale, data.swayphase, data.length, currentSpace, data.thickness, data.start, data.end);
         //result.result = LGen.gen(result.axiom, result.rules, result.iterations);
-        return result;
+        return new LSystemData(data.axiom, (HashMap<Character, String>) current.clone(), data.iterations, data.swayspace,
+                data.swayscale, data.swayphase, data.length, currentSpace, data.thickness, data.start, data.end);
     }
 
     HashMap<Character, String> mutateCurrent(EvolutionData data){

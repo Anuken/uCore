@@ -25,9 +25,9 @@ package io.anuke.ucore.io.delta;
  */
 public interface ByteMatcher{
 
-    public final static int COPY = 0;
-    public final static int RUN = 1;
-    public static final int EOF = -1;
+    int COPY = 0;
+    int RUN = 1;
+    int EOF = -1;
 
     /**
      * Finds the next match or run.
@@ -40,7 +40,7 @@ public interface ByteMatcher{
      *
      * @return the new state.
      */
-    public int nextMatch();
+    int nextMatch();
 
     /**
      * Retrieves the current target position.
@@ -49,7 +49,7 @@ public interface ByteMatcher{
      *
      * @return
      */
-    public int getTargetOffset();
+    int getTargetOffset();
 
     /**
      * Retrieves the best match location.
@@ -60,7 +60,7 @@ public interface ByteMatcher{
      *
      * @return
      */
-    public int getMatchOffset();
+    int getMatchOffset();
 
     /**
      * Retrieves the byte to be run-length encoded.
@@ -69,7 +69,7 @@ public interface ByteMatcher{
      *
      * @return
      */
-    public byte getRunByte();
+    byte getRunByte();
 
     /**
      * Retrieves the current length.
@@ -78,7 +78,7 @@ public interface ByteMatcher{
      *
      * @return
      */
-    public int getLength();
+    int getLength();
 
     /**
      * Retrieves the array containing the current match.
@@ -89,7 +89,7 @@ public interface ByteMatcher{
      * @return
      * @see #getBlockOffset
      */
-    public byte[] getBlockArray(int offset);
+    byte[] getBlockArray(int offset);
 
     /**
      * Calculates the offset for the block array.
@@ -100,10 +100,10 @@ public interface ByteMatcher{
      * @return
      * @see #getBlockArray
      */
-    public int getBlockOffset(int offset);
+    int getBlockOffset(int offset);
 
-    public byte[] getSource();
+    byte[] getSource();
 
-    public byte[] getTarget();
+    byte[] getTarget();
 
 }

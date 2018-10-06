@@ -11,7 +11,7 @@ public class ConfirmDialog extends Dialog{
             confirm.run();
             hide();
         });
-        buttons().addButton("Cancel", () -> hide());
+        buttons().addButton("Cancel", this::hide);
     }
 
 }

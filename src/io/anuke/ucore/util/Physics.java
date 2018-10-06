@@ -49,8 +49,7 @@ public class Physics{
     }
 
     public static Vector2 raycastRect(float startx, float starty, float endx, float endy, float x, float y, float halfx, float halfy){
-        float posx = startx, posy = starty,
-                deltax = endx - startx, deltay = endy - starty;
+        float deltax = endx - startx, deltay = endy - starty;
 
         Vector2 hit = vector;
 
@@ -61,10 +60,10 @@ public class Physics{
         float scaleY = 1.0f / deltay;
         int signX = Mathf.sign(scaleX);
         int signY = Mathf.sign(scaleY);
-        float nearTimeX = (x - signX * (halfx + paddingX) - posx) * scaleX;
-        float nearTimeY = (y - signY * (halfy + paddingY) - posy) * scaleY;
-        float farTimeX = (x + signX * (halfx + paddingX) - posx) * scaleX;
-        float farTimeY = (y + signY * (halfy + paddingY) - posy) * scaleY;
+        float nearTimeX = (x - signX * (halfx + paddingX) - startx) * scaleX;
+        float nearTimeY = (y - signY * (halfy + paddingY) - starty) * scaleY;
+        float farTimeX = (x + signX * (halfx + paddingX) - startx) * scaleX;
+        float farTimeY = (y + signY * (halfy + paddingY) - starty) * scaleY;
 
         if(nearTimeX > farTimeY || nearTimeY > farTimeX)
             return null;
@@ -78,8 +77,8 @@ public class Physics{
         float htime = Mathf.clamp(nearTime);
         float hdeltax = htime * deltax;
         float hdeltay = htime * deltay;
-        hit.x = posx + hdeltax;
-        hit.y = posy + hdeltay;
+        hit.x = startx + hdeltax;
+        hit.y = starty + hdeltay;
         return hit;
     }
 

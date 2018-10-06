@@ -30,7 +30,7 @@ public interface ByteDeltaEncoder{
      * @param enc
      * @return
      */
-    public static byte[] toDiff(ByteMatcher matcher, ByteDeltaEncoder enc){
+    static byte[] toDiff(ByteMatcher matcher, ByteDeltaEncoder enc){
         byte[] source = matcher.getSource();
         byte[] target = matcher.getTarget();
 
@@ -65,7 +65,7 @@ public interface ByteDeltaEncoder{
      * @param sourceSize
      * @param targetSize
      */
-    public void init(int sourceSize, int targetSize);
+    void init(int sourceSize, int targetSize);
 
     /**
      * Appends a copy command.
@@ -73,7 +73,7 @@ public interface ByteDeltaEncoder{
      * @param addr
      * @param len
      */
-    public void copy(int addr, int len);
+    void copy(int addr, int len);
 
     /**
      * Appends an append command.
@@ -82,7 +82,7 @@ public interface ByteDeltaEncoder{
      * @param off
      * @param len
      */
-    public void add(byte[] data, int off, int len);
+    void add(byte[] data, int off, int len);
 
     /**
      * Appends a byte-run.
@@ -90,12 +90,12 @@ public interface ByteDeltaEncoder{
      * @param b
      * @param len
      */
-    public void run(byte b, int len);
+    void run(byte b, int len);
 
     /**
      * Retrieves the patch.
      *
      * @return
      */
-    public byte[] toPatch();
+    byte[] toPatch();
 }

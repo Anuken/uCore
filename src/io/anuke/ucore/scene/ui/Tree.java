@@ -221,7 +221,7 @@ public class Tree extends WidgetGroup{
             float rowWidth = indent + iconSpacingRight;
             Element actor = node.actor;
             if(actor instanceof Layout){
-                Layout layout = (Layout) actor;
+                Layout layout = actor;
                 rowWidth += layout.getPrefWidth();
                 node.height = layout.getPrefHeight();
                 layout.pack();

@@ -46,7 +46,6 @@ public class AfterAction extends DelegateAction{
             int index = currentActions.indexOf(action, true);
             if(index == -1) waitForActions.removeIndex(i);
         }
-        if(waitForActions.size > 0) return false;
-        return action.act(delta);
+        return waitForActions.size <= 0 && action.act(delta);
     }
 }

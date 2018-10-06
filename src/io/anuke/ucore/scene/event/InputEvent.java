@@ -152,7 +152,7 @@ public class InputEvent extends Event{
     }
 
     /** Types of low-level input events supported by scene2d. */
-    static public enum Type{
+    public enum Type{
         /** A new touch for a pointer on the stage was detected */
         touchDown,
         /** A pointer has stopped touching the stage. */

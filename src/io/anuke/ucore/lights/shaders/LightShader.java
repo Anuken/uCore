@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import io.anuke.ucore.lights.RayHandler;
 
 public final class LightShader{
-    static final public ShaderProgram createLightShader(){
+    static public ShaderProgram createLightShader(){
         String gamma = "";
         if(RayHandler.getGammaCorrection())
             gamma = "sqrt";

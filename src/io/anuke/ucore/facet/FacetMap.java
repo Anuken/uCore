@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Values;
 
 public class FacetMap{
-    public ObjectMap<String, Facet> map = new ObjectMap<String, Facet>();
+    public ObjectMap<String, Facet> map = new ObjectMap<>();
 
     public Iterable<? extends Facet> list(){
         return map.values();

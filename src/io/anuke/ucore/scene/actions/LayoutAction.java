@@ -37,7 +37,7 @@ public class LayoutAction extends Action{
     }
 
     public boolean act(float delta){
-        ((Layout) target).setLayoutEnabled(enabled);
+        target.setLayoutEnabled(enabled);
         return true;
     }
 

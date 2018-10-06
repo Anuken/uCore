@@ -29,32 +29,32 @@ public interface Drawable{
      * Draws this drawable at the specified bounds. The drawable should be tinted with {@link Batch#getColor()}, possibly by mixing
      * its own color.
      */
-    public void draw(Batch batch, float x, float y, float width, float height);
+    void draw(Batch batch, float x, float y, float width, float height);
 
-    public void draw(Batch batch, float x, float y, float originX, float originY, float width, float height, float scaleX,
-                     float scaleY, float rotation);
+    void draw(Batch batch, float x, float y, float originX, float originY, float width, float height, float scaleX,
+              float scaleY, float rotation);
 
-    public float getLeftWidth();
+    float getLeftWidth();
 
-    public void setLeftWidth(float leftWidth);
+    void setLeftWidth(float leftWidth);
 
-    public float getRightWidth();
+    float getRightWidth();
 
-    public void setRightWidth(float rightWidth);
+    void setRightWidth(float rightWidth);
 
-    public float getTopHeight();
+    float getTopHeight();
 
-    public void setTopHeight(float topHeight);
+    void setTopHeight(float topHeight);
 
-    public float getBottomHeight();
+    float getBottomHeight();
 
-    public void setBottomHeight(float bottomHeight);
+    void setBottomHeight(float bottomHeight);
 
-    public float getMinWidth();
+    float getMinWidth();
 
-    public void setMinWidth(float minWidth);
+    void setMinWidth(float minWidth);
 
-    public float getMinHeight();
+    float getMinHeight();
 
-    public void setMinHeight(float minHeight);
+    void setMinHeight(float minHeight);
 }

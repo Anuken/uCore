@@ -87,7 +87,7 @@ public class KeybindDialog extends Dialog{
                     return super.povMoved(controller, povIndex, value);
                 }
             });
-        }catch(Throwable t){}
+        }catch(Throwable ignored){}
 
     }
 

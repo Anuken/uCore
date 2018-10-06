@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 import io.anuke.ucore.facet.BaseFacet.DrawFunc;
 
 public class FacetList implements Poolable{
-    public Array<Facet> facets = new Array<Facet>();
+    public Array<Facet> facets = new Array<>();
 
     public void add(float layer, Sorter sort, DrawFunc draw){
         BaseFacet r = new BaseFacet(layer, sort, draw);

@@ -59,32 +59,24 @@ public class Table extends WidgetGroup{
     static public Color debugCellColor = new Color(1, 0, 0, 1);
     static public Color debugActorColor = new Color(0, 1, 0, 1);
     /** Value that is the top padding of the table's background. */
-    static public Value backgroundTop = new Value(){
-        public float get(Element context){
-            Drawable background = ((Table) context).background;
-            return background == null ? 0 : background.getTopHeight();
-        }
+    static public Value backgroundTop = context -> {
+        Drawable background = ((Table) context).background;
+        return background == null ? 0 : background.getTopHeight();
     };
     /** Value that is the left padding of the table's background. */
-    static public Value backgroundLeft = new Value(){
-        public float get(Element context){
-            Drawable background = ((Table) context).background;
-            return background == null ? 0 : background.getLeftWidth();
-        }
+    static public Value backgroundLeft = context -> {
+        Drawable background = ((Table) context).background;
+        return background == null ? 0 : background.getLeftWidth();
     };
     /** Value that is the bottom padding of the table's background. */
-    static public Value backgroundBottom = new Value(){
-        public float get(Element context){
-            Drawable background = ((Table) context).background;
-            return background == null ? 0 : background.getBottomHeight();
-        }
+    static public Value backgroundBottom = context -> {
+        Drawable background = ((Table) context).background;
+        return background == null ? 0 : background.getBottomHeight();
     };
     /** Value that is the right padding of the table's background. */
-    static public Value backgroundRight = new Value(){
-        public float get(Element context){
-            Drawable background = ((Table) context).background;
-            return background == null ? 0 : background.getRightWidth();
-        }
+    static public Value backgroundRight = context -> {
+        Drawable background = ((Table) context).background;
+        return background == null ? 0 : background.getRightWidth();
     };
     static private float[] columnWeightedWidth, rowWeightedHeight;
     private final Array<Cell> cells = new Array<>(4);
@@ -1128,12 +1120,12 @@ public class Table extends WidgetGroup{
             }
 
             // Collect uniform sizes.
-            if(c.uniformX == Boolean.TRUE && c.colspan == 1){
+            if(c.uniformX && c.colspan == 1){
                 float hpadding = c.computedPadLeft + c.computedPadRight;
                 uniformMinWidth = Math.max(uniformMinWidth, columnMinWidth[column] - hpadding);
                 uniformPrefWidth = Math.max(uniformPrefWidth, columnPrefWidth[column] - hpadding);
             }
-            if(c.uniformY == Boolean.TRUE){
+            if(c.uniformY){
                 float vpadding = c.computedPadTop + c.computedPadBottom;
                 uniformMinHeight = Math.max(uniformMinHeight, rowMinHeight[c.row] - vpadding);
                 uniformPrefHeight = Math.max(uniformPrefHeight, rowPrefHeight[c.row] - vpadding);
@@ -1144,12 +1136,12 @@ public class Table extends WidgetGroup{
         if(uniformPrefWidth > 0 || uniformPrefHeight > 0){
             for(int i = 0; i < cellCount; i++){
                 Cell c = cells.get(i);
-                if(uniformPrefWidth > 0 && c.uniformX == Boolean.TRUE && c.colspan == 1){
+                if(uniformPrefWidth > 0 && c.uniformX && c.colspan == 1){
                     float hpadding = c.computedPadLeft + c.computedPadRight;
                     columnMinWidth[c.column] = uniformMinWidth + hpadding;
                     columnPrefWidth[c.column] = uniformPrefWidth + hpadding;
                 }
-                if(uniformPrefHeight > 0 && c.uniformY == Boolean.TRUE){
+                if(uniformPrefHeight > 0 && c.uniformY){
                     float vpadding = c.computedPadTop + c.computedPadBottom;
                     rowMinHeight[c.row] = uniformMinHeight + vpadding;
                     rowPrefHeight[c.row] = uniformPrefHeight + vpadding;
@@ -1507,7 +1499,7 @@ public class Table extends WidgetGroup{
     }
 
     /** @author Nathan Sweet */
-    static public enum Debug{
+    public enum Debug{
         none, all, table, cell, actor
     }
 

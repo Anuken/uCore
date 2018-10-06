@@ -17,7 +17,7 @@
 package io.anuke.ucore.scene.utils;
 
 public interface Disableable{
-    public boolean isDisabled();
+    boolean isDisabled();
 
-    public void setDisabled(boolean isDisabled);
+    void setDisabled(boolean isDisabled);
 }

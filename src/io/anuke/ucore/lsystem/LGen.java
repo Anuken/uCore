@@ -7,7 +7,7 @@ public class LGen{
     public static String gen(String axiom, HashMap<Character, String> map, int iterations){
 
         StringBuilder out = new StringBuilder(axiom);
-        StringBuilder temp = new StringBuilder();
+        StringBuilder temp;
 
         for(int i = 0; i < iterations; i++){
             temp = new StringBuilder(out);

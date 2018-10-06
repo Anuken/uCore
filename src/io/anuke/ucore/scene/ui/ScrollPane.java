@@ -655,7 +655,7 @@ public class ScrollPane extends WidgetGroup{
 
     public float getPrefWidth(){
         if(widget instanceof Layout){
-            float width = ((Layout) widget).getPrefWidth();
+            float width = widget.getPrefWidth();
             if(style.background != null) width += style.background.getLeftWidth() + style.background.getRightWidth();
             if(forceScrollY){
                 float scrollbarWidth = 0;
@@ -670,7 +670,7 @@ public class ScrollPane extends WidgetGroup{
 
     public float getPrefHeight(){
         if(widget instanceof Layout){
-            float height = ((Layout) widget).getPrefHeight();
+            float height = widget.getPrefHeight();
             if(style.background != null) height += style.background.getTopHeight() + style.background.getBottomHeight();
             if(forceScrollX){
                 float scrollbarHeight = 0;

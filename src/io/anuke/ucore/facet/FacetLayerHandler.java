@@ -39,7 +39,6 @@ public class FacetLayerHandler implements FacetHandler{
         }
         if(selected != null){
             endBufferLayer(selected, blayers);
-            selected = null;
         }
     }
 

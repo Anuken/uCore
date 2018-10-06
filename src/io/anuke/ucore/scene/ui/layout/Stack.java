@@ -76,7 +76,7 @@ public class Stack extends WidgetGroup{
             Element child = children.get(i);
             float childMaxWidth, childMaxHeight;
             if(child instanceof Layout){
-                Layout layout = (Layout) child;
+                Layout layout = child;
                 prefWidth = Math.max(prefWidth, layout.getPrefWidth());
                 prefHeight = Math.max(prefHeight, layout.getPrefHeight());
                 minWidth = Math.max(minWidth, layout.getMinWidth());
@@ -107,7 +107,7 @@ public class Stack extends WidgetGroup{
         for(int i = 0, n = children.size; i < n; i++){
             Element child = children.get(i);
             child.setBounds(0, 0, width, height);
-            if(child instanceof Layout) ((Layout) child).validate();
+            if(child instanceof Layout) child.validate();
         }
     }
 

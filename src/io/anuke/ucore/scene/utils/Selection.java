@@ -229,8 +229,7 @@ public class Selection<T> implements Disableable, Iterable<T>{
     }
 
     public boolean contains(T item){
-        if(item == null) return false;
-        return selected.contains(item);
+        return item != null && selected.contains(item);
     }
 
     /** Makes a best effort to return the last item selected, else returns an arbitrary item or null if the selection is empty. */

@@ -43,7 +43,7 @@ public class JBRectUtils{
         float dx = x2 - x1;
         float dy = y2 - y1;
 
-        float nx = 0, ny = 0;
+        float nx, ny;
         float nx1 = 0, ny1 = 0, nx2 = 0, ny2 = 0;
         float p, q, r;
 

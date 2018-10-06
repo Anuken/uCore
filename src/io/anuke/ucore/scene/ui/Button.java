@@ -215,7 +215,7 @@ public class Button extends Table implements Disableable{
         if(style == null) throw new IllegalArgumentException("style cannot be null.");
         this.style = style;
 
-        Drawable background = null;
+        Drawable background;
         if(isPressed() && !isDisabled()){
             background = style.down == null ? style.up : style.down;
         }else{
@@ -275,7 +275,7 @@ public class Button extends Table implements Disableable{
 
         setBackground(background);
 
-        float offsetX = 0, offsetY = 0;
+        float offsetX, offsetY;
         if(isPressed && !isDisabled){
             offsetX = style.pressedOffsetX;
             offsetY = style.pressedOffsetY;

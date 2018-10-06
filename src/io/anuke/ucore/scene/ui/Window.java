@@ -98,19 +98,19 @@ public class Window extends Table{
             private void updateEdge(float x, float y){
                 float border = resizeBorder / 2f;
                 float width = getWidth(), height = getHeight();
-                float padTop = getMarginTop(), padLeft = getMarginLeft(), padBottom = getMarginBottom(), padRight = getMarginRight();
-                float left = padLeft, right = width - padRight, bottom = padBottom;
+                float padTop = getMarginTop(), padRight = getMarginRight();
+                float right = width - padRight;
                 edge = 0;
-                if(isResizable && x >= left - border && x <= right + border && y >= bottom - border){
-                    if(x < left + border) edge |= Align.left;
+                if(isResizable && x >= getMarginLeft() - border && x <= right + border && y >= getMarginBottom() - border){
+                    if(x < getMarginLeft() + border) edge |= Align.left;
                     if(x > right - border) edge |= Align.right;
-                    if(y < bottom + border) edge |= Align.bottom;
+                    if(y < getMarginBottom() + border) edge |= Align.bottom;
                     if(edge != 0) border += 25;
-                    if(x < left + border) edge |= Align.left;
+                    if(x < getMarginLeft() + border) edge |= Align.left;
                     if(x > right - border) edge |= Align.right;
-                    if(y < bottom + border) edge |= Align.bottom;
+                    if(y < getMarginBottom() + border) edge |= Align.bottom;
                 }
-                if(isMovable && edge == 0 && y <= height && y >= height - padTop && x >= left && x <= right)
+                if(isMovable && edge == 0 && y <= height && y >= height - padTop && x >= getMarginLeft() && x <= right)
                     edge = MOVE;
             }
 
@@ -136,9 +136,7 @@ public class Window extends Table{
                 float windowX = getX(), windowY = getY();
 
                 float minWidth = getMinWidth();
-                getMaxWidth();
                 float minHeight = getMinHeight();
-                getMaxHeight();
                 Scene stage = getScene();
                 boolean clampPosition = keepWithinStage && getParent() == stage.getRoot();
 

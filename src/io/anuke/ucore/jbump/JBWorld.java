@@ -34,7 +34,7 @@ import static java.lang.Math.min;
  */
 public class JBWorld<E>{
 
-    private final ArrayList<JBCell> getCellsTouchedBySegment_visited = new ArrayList<JBCell>();
+    private final ArrayList<JBCell> getCellsTouchedBySegment_visited = new ArrayList<>();
     private final ObjectSet<JBItem> project_visited = new ObjectSet<>();
     private final Rectangle project_c = new Rectangle();
     private final ObjectSet<JBItem> project_dictItemsInCellRect = new ObjectSet<>();

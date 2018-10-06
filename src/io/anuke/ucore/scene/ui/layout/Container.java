@@ -157,7 +157,7 @@ public class Container<T extends Element> extends WidgetGroup{
         }
 
         actor.setBounds(x, y, width, height);
-        if(actor instanceof Layout) ((Layout) actor).validate();
+        if(actor instanceof Layout) actor.validate();
     }
 
     /** @return May be null. */

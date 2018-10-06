@@ -48,7 +48,7 @@ public class BaseFacet extends Facet{
         return layer;
     }
 
-    public static interface DrawFunc{
-        public void draw(BaseFacet l);
+    public interface DrawFunc{
+        void draw(BaseFacet l);
     }
 }

@@ -210,8 +210,7 @@ class BaseElement implements Layout{
      * @see Group#removeChild(Element)
      */
     public boolean remove(){
-        if(parent != null) return parent.removeChild(elem(), true);
-        return false;
+        return parent != null && parent.removeChild(elem(), true);
     }
 
     /**
@@ -975,7 +974,7 @@ class BaseElement implements Layout{
      * ...which you should never do!
      */
     private Element elem(){
-        return (Element) (Object) this;
+        return (Element) this;
     }
 
     public String toString(){

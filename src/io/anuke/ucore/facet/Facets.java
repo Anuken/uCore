@@ -7,11 +7,9 @@ public class Facets{
     private Array<Facet> container = new Array<>();
     private boolean updated;
 
-    private FacetHandler manager = new FacetHandler(){
-        public void drawRenderables(Iterable<Facet> renderables){
-            for(Facet renderable : renderables){
-                renderable.draw();
-            }
+    private FacetHandler manager = renderables -> {
+        for(Facet renderable : renderables){
+            renderable.draw();
         }
     };
 
