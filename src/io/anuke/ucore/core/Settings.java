@@ -143,6 +143,10 @@ public class Settings{
         }
     }
 
+    public static void clearBytes(String name){
+        putBytes(name, new byte[]{});
+    }
+
     public static void putFloat(String name, float val){
         prefs.putFloat(name, val);
     }
