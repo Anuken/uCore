@@ -79,6 +79,19 @@ public class Geometry{
         return closest;
     }
 
+    public static <T extends PosTrait> T findFurthest(float x, float y, Iterable<T> list){
+        T closest = null;
+        float cdist = 0f;
+        for(T t : list){
+            float dst = t.distanceTo(x, y);
+            if(closest == null || dst > cdist){
+                closest = t;
+                cdist = dst;
+            }
+        }
+        return closest;
+    }
+
     public static Vector2[] pixelCircle(float tindex){
         return pixelCircle(tindex, (index, x, y) -> Vector2.dst(x, y, index, index) < index - 0.5f);
     }

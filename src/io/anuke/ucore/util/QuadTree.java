@@ -203,7 +203,7 @@ public class QuadTree<T>{
     /**
      * Processes objects that may intersect the given rectangle.
      * <p>
-     * This will result in false positives, but never a false negative.
+     * This will never result in false positives.
      */
     public void getIntersect(Consumer<T> out, Rectangle toCheck){
         if(!leaf){
@@ -214,7 +214,10 @@ public class QuadTree<T>{
         }
 
         for(int i = 0; i < objects.size; i++){
-            out.accept(objects.get(i));
+            provider.getBoundingBox(objects.get(i), tmp);
+            if(tmp.overlaps(toCheck)){
+                out.accept(objects.get(i));
+            }
         }
     }
 
