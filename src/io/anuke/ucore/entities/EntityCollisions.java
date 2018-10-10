@@ -26,7 +26,7 @@ public class EntityCollisions{
     private Rectangle tmp = new Rectangle();
     private TileCollider collider;
     private TileHitboxProvider hitboxProvider;
-    private Vector2 vector = new Vector2(), vec1 = new Vector2(), vec2 = new Vector2();
+    private Vector2 vector = new Vector2();
     private Vector2 l1 = new Vector2();
     private Rectangle r1 = new Rectangle();
     private Rectangle r2 = new Rectangle();
@@ -182,8 +182,8 @@ public class EntityCollisions{
                 if(a.movable() && b.movable()){
                     Vector2 vec = Physics.overlap(r1, r2, true);
                     float msum = a.getMass() + b.getMass();
-                    a.moveBy(vec.x * (1f - a.getMass() / msum), vec.y * (1f - a.getMass() / msum));
-                    b.moveBy(-vec.x * (1f - b.getMass() / msum), -vec.y * (1f - b.getMass() / msum));
+                    a.move(vec.x * (1f - a.getMass() / msum), vec.y * (1f - a.getMass() / msum));
+                    b.move(-vec.x * (1f - b.getMass() / msum), -vec.y * (1f - b.getMass() / msum));
                     vec.scl(0.5f / Timers.delta());
                     a.applyImpulse(vec.x, vec.y);
                     b.applyImpulse(-vec.x, -vec.y);
