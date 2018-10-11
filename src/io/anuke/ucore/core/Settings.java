@@ -116,11 +116,11 @@ public class Settings{
         return classNames.get(type);
     }
 
-    public static synchronized void putObject(String name, Object value){
+    public static void putObject(String name, Object value){
         putObject(name, value, value.getClass());
     }
 
-    public static synchronized void putObject(String name, Object value, Class<?> type){
+    public static void putObject(String name, Object value, Class<?> type){
         byteStream.reset();
         if(!serializers.containsKey(type)){
             throw new IllegalArgumentException(type + " does not have a serializer registered!");
@@ -134,7 +134,7 @@ public class Settings{
         }
     }
 
-    public static synchronized void putBytes(String name, byte[] bytes){
+    public static void putBytes(String name, byte[] bytes){
         if(prefs instanceof ExtendedPreferences){
             ((ExtendedPreferences) prefs).putBytes(name, bytes);
         }else{
@@ -179,12 +179,12 @@ public class Settings{
         }
     }
 
-    public static synchronized <T> T getObject(String name, Class<T> type, Supplier<T> def){
+    public static <T> T getObject(String name, Class<T> type, Supplier<T> def){
         T t = getObject(name, type);
         return t == null ? def.get() : t;
     }
 
-    private static synchronized <T> T getObject(String name, Class<T> type){
+    private static <T> T getObject(String name, Class<T> type){
         if(!serializers.containsKey(type)){
             throw new IllegalArgumentException("Type " + type + " does not have a serializer registered!");
         }

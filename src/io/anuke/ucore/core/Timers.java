@@ -7,11 +7,7 @@ import io.anuke.ucore.function.DelayRun;
 import io.anuke.ucore.util.Pooling;
 
 public class Timers{
-    /** Time resets after 5 hours due to percision issues. */
-    private static final float maxValue = 1080000;
-
-    private static float time;
-    private static IntFloatMap timers = new IntFloatMap();
+    private static double time;
     private static DelayedRemovalArray<DelayRun> runs = new DelayedRemovalArray<>();
     private static LongArray marks = new LongArray();
     private static DeltaProvider deltaimpl = () -> Math.min(Gdx.graphics.getDeltaTime() * 60f, 3f);
@@ -32,63 +28,8 @@ public class Timers{
         }, delay / 60f);
     }
 
-    public static void runFor(float duration, Runnable r){
-        runFor(duration, r, null);
-    }
-
-    public static void runFor(float duration, Runnable r, Runnable finish){
-        DelayRun run = Pooling.obtain(DelayRun.class, DelayRun::new);
-        run.run = r;
-        run.delay = duration;
-        run.finish = finish;
-        runs.add(run);
-    }
-
-    public static synchronized void reset(Object o, String label, float duration){
-        timers.put(hash(o, label), time - duration);
-    }
-
-    public static synchronized void clear(){
-        runs.clear();
-        timers.clear();
-    }
-
-    @Deprecated
-    public static synchronized float getTime(Object object, String label){
-        return time() - timers.get(hash(object, label), 0f);
-    }
-
-    public static float getTime(String label){
-        return time() - timers.get(hash(label), 0f);
-    }
-
-    public static boolean get(String label, float frames){
-        return get(hash(label), frames);
-    }
-
-    @Deprecated
-    public static boolean get(Object object, String label, float frames){
-        return get(hash(object, label), frames);
-    }
-
-    public static synchronized boolean get(int hash, float frames){
-        if(timers.containsKey(hash)){
-            float value = timers.get(hash, time);
-
-            if(time - value > frames || time < value){ //fix time travel too
-                timers.put(hash, time);
-                return true;
-            }else{
-                return false;
-            }
-        }else{
-            timers.put(hash, time);
-            return true;
-        }
-    }
-
     public static float time(){
-        return time;
+        return (float)time;
     }
 
     public static void resetTime(float time){
@@ -113,9 +54,6 @@ public class Timers{
         float delta = delta();
 
         time += delta;
-        if(time >= maxValue){
-            time = 0f;
-        }
 
         runs.begin();
 
@@ -136,6 +74,10 @@ public class Timers{
         runs.end();
     }
 
+    public static synchronized void clear(){
+        runs.clear();
+    }
+
     public static float delta(){
         return deltaimpl.get();
     }
@@ -144,16 +86,7 @@ public class Timers{
         deltaimpl = impl;
     }
 
-    private static int hash(Object object, String label){
-        return hash(label) + object.hashCode();
-    }
-
-    private static int hash(String label){
-        return label.hashCode();
-    }
-
     static void dispose(){
-        timers.clear();
         runs.clear();
     }
 
