@@ -42,9 +42,10 @@ public abstract class RendererModule extends Module{
             Method method = ClassReflection.getMethod(recorderClass, "setExportDirectory", FileHandle.class);
             method.invoke(recorder, Gdx.files.local("../../desktop/gifexport"));
             Method r = ClassReflection.getMethod(recorderClass, "update");
+            Object[] args = {};
             record = () -> {
                 try{
-                    r.invoke(recorder);
+                    r.invoke(recorder, args);
                 }catch(Exception e){
                     throw new RuntimeException(e);
                 }
