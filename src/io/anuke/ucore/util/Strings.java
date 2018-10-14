@@ -15,8 +15,6 @@ public class Strings{
             e = e.getCause();
         }
 
-        Log.info(e.getClass().toString());
-
         String name = e.getClass().toString().substring("class ".length()).replace("Exception", "");
         if(name.indexOf('.') != -1){
             name = name.substring(name.lastIndexOf('.') + 1);
