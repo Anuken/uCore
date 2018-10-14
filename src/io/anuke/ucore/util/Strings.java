@@ -15,7 +15,12 @@ public class Strings{
             e = e.getCause();
         }
 
-        String name = e.getClass().toString().split("@")[0].replace("Exception", "");
+        Log.info(e.getClass().toString());
+
+        String name = e.getClass().toString().substring("class ".length()).replace("Exception", "");
+        if(name.indexOf('.') != -1){
+            name = name.substring(name.lastIndexOf('.') + 1);
+        }
 
         build.append(name);
         if(e.getMessage() != null){
