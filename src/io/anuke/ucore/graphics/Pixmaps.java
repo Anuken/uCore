@@ -160,11 +160,6 @@ public class Pixmaps{
         return new TextureRegion(blankTexture());
     }
 
-    /** Platform-safe pixmapIO write. */
-    public static void write(Pixmap pixmap, FileHandle file){
-        PixmapIO.writePNG(file, pixmap);
-    }
-
     public static void drawPixel(Texture texture, int x, int y, int color){
         if(drawPixmap == null){
             drawPixmap = new Pixmap(1, 1, Format.RGBA8888);
