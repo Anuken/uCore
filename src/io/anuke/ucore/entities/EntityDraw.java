@@ -23,7 +23,7 @@ public class EntityDraw{
         draw(Entities.defaultGroup());
     }
 
-    public static <T extends DrawTrait> void draw(EntityGroup<?> group){
+    public static void draw(EntityGroup<?> group){
         draw(group, e -> true);
     }
 
@@ -31,6 +31,7 @@ public class EntityDraw{
         drawWith(group, toDraw, DrawTrait::draw);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends DrawTrait> void drawWith(EntityGroup<?> group, Predicate<T> toDraw, Consumer<T> cons){
         if(clip){
             OrthographicCamera cam = Core.camera;
@@ -39,7 +40,7 @@ public class EntityDraw{
 
         try{
             for(Entity e : group.all()){
-                if(e == null || !(e instanceof DrawTrait)) continue;
+                if(!(e instanceof DrawTrait)) continue;
                 T t = (T) e;
 
                 if(!toDraw.test(t) || !e.isAdded()) continue;
