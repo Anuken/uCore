@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.IntMap;
 import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
-import io.anuke.ucore.threading.Threads;
+import io.anuke.ucore.util.Threads;
 import io.anuke.ucore.util.QuadTree;
 
 public class EntityGroup<T extends Entity>{

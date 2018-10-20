@@ -1,5 +1,7 @@
-package io.anuke.ucore.threading;
+package io.anuke.ucore.util;
 
+/**Class for thread-specific utilities. Assumes the application has two threads: logic and graphics.
+ * In a single-threaded environment, the one and only thread is both logic and graphics.*/
 public class Threads{
     private static ThreadInfoProvider info = new ThreadInfoProvider(){
         @Override
@@ -17,6 +19,8 @@ public class Threads{
         info = prov;
     }
 
+    /**Returns whether the logic thread is currently active.
+     * In a single-threaded environment, this should always return true.*/
     public static boolean isLogic(){
         return info.isOnLogicThread();
     }
@@ -31,6 +35,8 @@ public class Threads{
         if(!info.isOnGraphicsThread()) throw new UnsupportedOperationException("This method can only be called on the graphics thread.");
     }
 
+    /**Provides information about the currently running thread.
+     * The base implementation always returns true.*/
     public interface ThreadInfoProvider{
         boolean isOnLogicThread();
         boolean isOnGraphicsThread();

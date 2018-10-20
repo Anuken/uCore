@@ -2,7 +2,7 @@ package io.anuke.ucore.entities;
 
 import com.badlogic.gdx.utils.IntMap;
 import io.anuke.ucore.entities.trait.Entity;
-import io.anuke.ucore.threading.Threads;
+import io.anuke.ucore.util.Threads;
 import io.anuke.ucore.util.ThreadArray;
 
 public class Entities{

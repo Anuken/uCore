@@ -7,7 +7,7 @@ import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.entities.trait.SolidTrait;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
-import io.anuke.ucore.threading.Threads;
+import io.anuke.ucore.util.Threads;
 import io.anuke.ucore.util.ThreadArray;
 
 import static io.anuke.ucore.entities.Entities.defaultGroup;
