@@ -111,12 +111,12 @@ public class ExtendedPreferences implements Preferences{
     }
 
     @Override
-    public Preferences put(Map<String, ?> vals){
+    public synchronized Preferences put(Map<String, ?> vals){
         values.putAll(vals);
         return this;
     }
 
-    public synchronized byte[] getBytes(String key){
+    public byte[] getBytes(String key){
         return getBytes(key, null);
     }
 

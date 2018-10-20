@@ -98,7 +98,7 @@ public class Surface implements Disposable{
             Graphics.clear(1f, 1f, 1f, 0f);
     }
 
-    //TODO bind all textures to 0 as well, maybe?
+    //bind textures to 0 if necessary here
     public void end(boolean render){
         buffer.end();
         if(bind != 0) buffer.getColorBufferTexture().bind(0);

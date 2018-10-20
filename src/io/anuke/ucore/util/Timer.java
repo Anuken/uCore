@@ -11,6 +11,14 @@ public class Timer{
         times = new float[capacity];
     }
 
+    public Timer(){
+        this(1);
+    }
+
+    public boolean get(float time){
+        return get(0, time);
+    }
+
     public boolean get(int id, float time){
         if(id >= times.length) throw new RuntimeException("Out of bounds! Max timer size is " + times.length + "!");
 

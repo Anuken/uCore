@@ -88,7 +88,7 @@ public class XboxBinds{
             GUIDE = 110;
             L_BUMPER = 102;
             R_BUMPER = 103;
-            BACK = 109; //TODO wrong key?
+            BACK = 109;
             START = 108;
             DPAD_UP = 19;
             DPAD_DOWN = 20;
