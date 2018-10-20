@@ -7,6 +7,7 @@ import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.entities.trait.SolidTrait;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
+import io.anuke.ucore.threading.Threads;
 import io.anuke.ucore.util.ThreadArray;
 
 import static io.anuke.ucore.entities.Entities.defaultGroup;
@@ -21,8 +22,10 @@ public class EntityQuery{
     }
 
     public static void init(float x, float y, float w, float h){
+        Threads.assertLogic();
+
         for(EntityGroup group : Entities.getAllGroups()){
-            if(group.useTree){
+            if(group.useTree()){
                 group.setTree(x, y, w, h);
             }
         }
@@ -37,14 +40,18 @@ public class EntityQuery{
     }
 
     public static void getNearby(EntityGroup<?> group, Rectangle rect, Consumer<SolidTrait> out){
-        if(!group.useTree)
+        Threads.assertLogic();
+
+        if(!group.useTree())
             throw new RuntimeException("This group does not support quadtrees! Enable quadtrees when creating it.");
         group.tree().getIntersect(out, rect);
     }
 
     public static Array<SolidTrait> getNearby(EntityGroup<?> group, Rectangle rect){
+        Threads.assertLogic();
+
         array.clear();
-        if(!group.useTree)
+        if(!group.useTree())
             throw new RuntimeException("This group does not support quadtrees! Enable quadtrees when creating it.");
         group.tree().getIntersect(array, rect);
         return array;
@@ -67,6 +74,8 @@ public class EntityQuery{
     }
 
     public static <T extends Entity> T getClosest(EntityGroup<T> group, float x, float y, float range, Predicate<T> pred){
+        Threads.assertLogic();
+
         T closest = null;
         float cdist = 0f;
         Array<SolidTrait> entities = getNearby(group, x, y, range * 2f);

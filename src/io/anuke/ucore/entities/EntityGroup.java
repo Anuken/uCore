@@ -6,19 +6,20 @@ import com.badlogic.gdx.utils.IntMap;
 import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
+import io.anuke.ucore.threading.Threads;
 import io.anuke.ucore.util.QuadTree;
-import io.anuke.ucore.util.ThreadArray;
 
 public class EntityGroup<T extends Entity>{
     private static int lastid;
-    public final boolean useTree;
+    private final boolean useTree;
     private final int id;
+    private final Class<T> type;
+    private final Array<T> entityWriteBackArray = new Array<>(false, 16);
+    private final Array<T> entityArray = new Array<>(false, 16);
+    private final Array<T> entitiesToRemove = new Array<>(false, 16);
+    private final Array<T> entitiesToAdd = new Array<>(false, 16);
     private IntMap<T> map;
-    private Array<T> entityArray = new ThreadArray<>(false);
-    private Array<T> entitiesToRemove = new Array<>(false, 16);
-    private Array<T> entitiesToAdd = new Array<>(false, 16);
     private QuadTree<T> tree;
-    private Class<T> type;
     private Consumer<T> removeListener;
     private Consumer<T> addListener;
 
@@ -26,6 +27,10 @@ public class EntityGroup<T extends Entity>{
         this.useTree = useTree;
         this.id = lastid++;
         this.type = type;
+    }
+
+    public boolean useTree(){
+        return useTree;
     }
 
     public void setRemoveListener(Consumer<T> removeListener){
@@ -54,6 +59,8 @@ public class EntityGroup<T extends Entity>{
     }
 
     public synchronized void updateEvents(){
+        Threads.assertLogic();
+
         for(T e : entitiesToAdd){
             if(e == null)
                 continue;
@@ -76,6 +83,11 @@ public class EntityGroup<T extends Entity>{
         }
 
         entitiesToRemove.clear();
+
+        synchronized(entityWriteBackArray){
+            entityWriteBackArray.clear();
+            entityWriteBackArray.addAll(entityArray);
+        }
     }
 
     public synchronized T getByID(int id){
@@ -106,6 +118,8 @@ public class EntityGroup<T extends Entity>{
     }
 
     public void setTree(float x, float y, float w, float h){
+        Threads.assertLogic();
+
         tree = new QuadTree<>(Entities.maxLeafObjects, new Rectangle(x, y, w, h));
     }
 
@@ -118,11 +132,24 @@ public class EntityGroup<T extends Entity>{
     }
 
     public int count(Predicate<T> pred){
-        int count = 0;
-        for(T t : entityArray){
-            if(t != null && pred.test(t)) count++;
+
+        if(Threads.isLogic()){
+            int count = 0;
+            for(T t : entityArray){
+                if(pred.test(t)) count++;
+            }
+            return count;
+        }else{
+            synchronized(entityWriteBackArray){
+                int count = 0;
+
+                for(T t : entityWriteBackArray){
+                    if(pred.test(t)) count++;
+                }
+
+                return count;
+            }
         }
-        return count;
     }
 
     public synchronized void add(T type){
@@ -167,7 +194,22 @@ public class EntityGroup<T extends Entity>{
             map.clear();
     }
 
-    public synchronized Array<T> all(){
+    /**Returns the logic-only array for iteration.*/
+    public Array<T> all(){
+        Threads.assertLogic();
+
         return entityArray;
+    }
+
+    /**Iterates through each entity in the writeback array.
+     * This should be called on the graphics thread only.*/
+    public void forEach(Consumer<T> cons){
+        Threads.assertGraphics();
+
+        synchronized(entityWriteBackArray){
+            for(T t : entityWriteBackArray){
+                cons.accept(t);
+            }
+        }
     }
 }
