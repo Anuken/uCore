@@ -112,7 +112,7 @@ public class Settings{
         if(classNames.containsKey(type)){
             return classNames.get(type);
         }
-        classNames.put(type, type.toString().split("@")[0]);
+        classNames.put(type, type.toString().substring("class ".length()));
         return classNames.get(type);
     }
 
