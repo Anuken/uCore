@@ -112,7 +112,9 @@ public class Settings{
         if(classNames.containsKey(type)){
             return classNames.get(type);
         }
-        classNames.put(type, type.toString().substring("class ".length()));
+        //TODO uncomment to shrink entry size slightly
+        //kept for backwards compatibility
+        classNames.put(type, type.toString()/*.substring("class ".length())*/);
         return classNames.get(type);
     }
 

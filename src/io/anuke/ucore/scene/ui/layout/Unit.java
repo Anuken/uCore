@@ -16,9 +16,16 @@ public enum Unit{
 
         @Override
         public float scl(float amount){
-            if(scl <= -0.1f){
-                scl = Math.max(((Gdx.app.getType() == ApplicationType.Desktop || Gdx.app.getType() == ApplicationType.WebGL)
-                        ? 1f : Mathf.round2(Gdx.graphics.getDensity() / 1.5f + addition, 0.5f)), 1f);
+            if(scl < 0f){
+                //calculate scaling value if it hasn't been set yet
+                if(Gdx.app.getType() == ApplicationType.Desktop){
+                    scl = 1f;
+                }else if(Gdx.app.getType() == ApplicationType.WebGL){
+                    scl = 1f;
+                }else{
+                    //mobile scaling
+                    scl = Math.max(Mathf.round2(Gdx.graphics.getDensity() / 1.5f + addition, 0.5f), 1f);
+                }
             }
             return amount * scl;
         }
