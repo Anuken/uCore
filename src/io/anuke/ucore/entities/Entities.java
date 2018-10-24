@@ -54,7 +54,9 @@ public class Entities{
     }
 
     public static void update(EntityGroup<?> group){
-        Threads.assertLogic();
+        if(group.useTree()){
+            Threads.assertLogic();
+        }
 
         group.updateEvents();
 
