@@ -19,7 +19,7 @@ public enum Unit{
             if(scl < 0f){
                 //calculate scaling value if it hasn't been set yet
                 if(Gdx.app.getType() == ApplicationType.Desktop){
-                    scl = 1f;
+                    scl = 1f * product;
                 }else if(Gdx.app.getType() == ApplicationType.WebGL){
                     scl = 1f;
                 }else{
@@ -31,6 +31,7 @@ public enum Unit{
         }
     };
     public float addition = 0f;
+    public float product = 1f;
 
     public abstract float scl(float amount);
 }
