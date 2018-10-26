@@ -118,8 +118,9 @@ abstract public class Action implements Poolable{
         this.pool = pool;
     }
 
+    @Override
     public String toString(){
-        String name = getClass().getName();
+        String name = super.toString().split("@")[0];
         int dotIndex = name.lastIndexOf('.');
         if(dotIndex != -1) name = name.substring(dotIndex + 1);
         if(name.endsWith("Action")) name = name.substring(0, name.length() - 6);
