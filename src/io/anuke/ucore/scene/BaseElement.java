@@ -977,10 +977,11 @@ class BaseElement implements Layout{
         return (Element) this;
     }
 
+    @Override
     public String toString(){
         String name = this.name;
         if(name == null){
-            name = getClass().getName();
+            name = super.toString().split("@")[0];
             int dotIndex = name.lastIndexOf('.');
             if(dotIndex != -1) name = name.substring(dotIndex + 1);
         }
