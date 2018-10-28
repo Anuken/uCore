@@ -194,6 +194,16 @@ public class EntityGroup<T extends Entity>{
             map.clear();
     }
 
+    public T find(Predicate<T> pred){
+        Threads.assertLogic();
+
+        for(T t : entityArray){
+            if(pred.test(t)) return t;
+        }
+
+        return null;
+    }
+
     /**Returns the logic-only array for iteration.*/
     public Array<T> all(){
         Threads.assertLogic();
