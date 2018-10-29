@@ -181,10 +181,12 @@ public class Image extends Element{
         this.drawable = drawable;
     }
 
-    public void setScaling(Scaling scaling){
+    public Image setScaling(Scaling scaling){
         if(scaling == null) throw new IllegalArgumentException("scaling cannot be null.");
         this.scaling = scaling;
         invalidate();
+
+        return this;
     }
 
     public void setAlign(int align){
