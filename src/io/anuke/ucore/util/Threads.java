@@ -1,8 +1,14 @@
 package io.anuke.ucore.util;
 
+import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Method;
+
 /**Class for thread-specific utilities. Assumes the application has two threads: logic and graphics.
  * In a single-threaded environment, the one and only thread is both logic and graphics.*/
 public class Threads{
+    private static Method sleepMethod, notifyMethod;
     private static ThreadInfoProvider info = new ThreadInfoProvider(){
         @Override
         public boolean isOnLogicThread(){
@@ -14,6 +20,32 @@ public class Threads{
             return true;
         }
     };
+
+    public static void wait(Object object){
+        if(Gdx.app.getType() == ApplicationType.WebGL) return;
+
+        try{
+            if(sleepMethod == null){
+                sleepMethod = ClassReflection.getMethod(Object.class, "wait");
+            }
+            sleepMethod.invoke(object);
+        }catch(Throwable r){
+            r.printStackTrace();
+        }
+    }
+
+    public static void notify(Object object){
+        if(Gdx.app.getType() == ApplicationType.WebGL) return;
+
+        try{
+            if(notifyMethod == null){
+                notifyMethod = ClassReflection.getMethod(Object.class, "notify");
+            }
+            notifyMethod.invoke(object);
+        }catch(Throwable r){
+            r.printStackTrace();
+        }
+    }
 
     public static void setThreadInfoProvider(ThreadInfoProvider prov){
         info = prov;

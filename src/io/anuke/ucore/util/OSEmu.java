@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 /**Class for getting system properties. Do not use directly.
  * Only for GWT emulation.*/
-class OSEmu {
+class OSEmu{
 
     public static String getProperty(String name){
         try{
