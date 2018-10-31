@@ -43,6 +43,10 @@ public class Log{
     }
 
     public static String format(String text, Object... args){
+        return format(text, useColors, args);
+    }
+
+    public static String format(String text, boolean useColors, Object... args){
         text = Strings.formatArgs(text, args);
 
         if(useColors){
