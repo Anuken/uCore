@@ -1,14 +1,8 @@
 package io.anuke.ucore.util;
 
-import com.badlogic.gdx.Application.ApplicationType;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.Method;
-
 /**Class for thread-specific utilities. Assumes the application has two threads: logic and graphics.
  * In a single-threaded environment, the one and only thread is both logic and graphics.*/
 public class Threads{
-    private static Method sleepMethod, notifyMethod;
     private static ThreadInfoProvider info = new ThreadInfoProvider(){
         @Override
         public boolean isOnLogicThread(){
@@ -22,28 +16,10 @@ public class Threads{
     };
 
     public static void wait(Object object){
-        if(Gdx.app.getType() == ApplicationType.WebGL) return;
-
         try{
-            if(sleepMethod == null){
-                sleepMethod = ClassReflection.getMethod(Object.class, "wait");
-            }
-            sleepMethod.invoke(object);
-        }catch(Throwable r){
-            r.printStackTrace();
-        }
-    }
-
-    public static void notify(Object object){
-        if(Gdx.app.getType() == ApplicationType.WebGL) return;
-
-        try{
-            if(notifyMethod == null){
-                notifyMethod = ClassReflection.getMethod(Object.class, "notify");
-            }
-            notifyMethod.invoke(object);
-        }catch(Throwable r){
-            r.printStackTrace();
+            object.wait();
+        }catch(InterruptedException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -57,14 +33,19 @@ public class Threads{
         return info.isOnLogicThread();
     }
 
+    /**Asserts that calculations are happening on a spcific thread.*/
+    public static void assertOn(Thread thread){
+        if(Thread.currentThread() != thread) throw new UnsupportedOperationException("This method can only be called on the thread \"" + thread + "\". Current thread: " + Thread.currentThread());
+    }
+
     /**Asserts that a method is being called on the logic thread.*/
     public static void assertLogic(){
-        if(!info.isOnLogicThread()) throw new UnsupportedOperationException("This method can only be called on the logic thread.");
+        if(!info.isOnLogicThread()) throw new UnsupportedOperationException("This method can only be called on the logic thread. Current thread: " + Thread.currentThread());
     }
 
     /**Asserts that a method is being called on the graphics thread.*/
     public static void assertGraphics(){
-        if(!info.isOnGraphicsThread()) throw new UnsupportedOperationException("This method can only be called on the graphics thread.");
+        if(!info.isOnGraphicsThread()) throw new UnsupportedOperationException("This method can only be called on the graphics thread. Current thread: " + Thread.currentThread());
     }
 
     /**Provides information about the currently running thread.
