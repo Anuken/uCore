@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
-import io.anuke.ucore.core.Timers;
 import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.entities.trait.SolidTrait;
 import io.anuke.ucore.function.TileCollider;
@@ -170,16 +169,6 @@ public class EntityCollisions{
             if(collide){
                 a.collision(b, l1.x, l1.y);
                 b.collision(a, l1.x, l1.y);
-
-                if(a.movable() && b.movable()){
-                    Vector2 vec = Physics.overlap(r1, r2, true);
-                    float msum = a.getMass() + b.getMass();
-                    a.move(vec.x * (1f - a.getMass() / msum), vec.y * (1f - a.getMass() / msum));
-                    b.move(-vec.x * (1f - b.getMass() / msum), -vec.y * (1f - b.getMass() / msum));
-                    vec.scl(0.5f / Timers.delta());
-                    a.applyImpulse(vec.x, vec.y);
-                    b.applyImpulse(-vec.x, -vec.y);
-                }
             }
         }
     }
