@@ -1,14 +1,15 @@
 package io.anuke.ucore.modules;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+
 import io.anuke.ucore.core.Core;
 import io.anuke.ucore.core.Graphics;
 import io.anuke.ucore.core.Inputs;
 import io.anuke.ucore.util.ThreadArray;
 
-public abstract class ModuleCore extends ApplicationAdapter{
+public abstract class ModuleCore implements Screen {
     protected ObjectMap<Class<? extends Module>, Module> modules = new ObjectMap<>();
     protected Array<Module> modulearray = new ThreadArray<>();
 
@@ -43,7 +44,7 @@ public abstract class ModuleCore extends ApplicationAdapter{
     }
 
     @Override
-    public final void create(){
+    public final void show(){
         Inputs.initialize();
 
         init();
@@ -54,13 +55,17 @@ public abstract class ModuleCore extends ApplicationAdapter{
         postInit();
     }
 
-    @Override
-    public void render(){
+    public void render() {
         for(Module module : modulearray){
             module.update();
         }
 
         update();
+    }
+
+    @Override
+    public void render(float delta){
+        render();
     }
 
     @Override
@@ -73,6 +78,11 @@ public abstract class ModuleCore extends ApplicationAdapter{
     public void resume(){
         for(Module module : modulearray)
             module.resume();
+    }
+
+    @Override
+    public void hide() {
+        dispose();
     }
 
     @Override
