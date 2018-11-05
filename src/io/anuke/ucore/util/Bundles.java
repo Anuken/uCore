@@ -43,7 +43,7 @@ public class Bundles{
         for(int i = 0; i < value.length(); i++){
            char c = value.charAt(i);
            if(i < value.length() - 2 && c == '{' && Character.isDigit(value.charAt(i + 1)) && value.charAt(i + 2) == '}'){
-               int argument = Character.getNumericValue(value.charAt(i + 1));
+               int argument = "0123456789".indexOf(value.charAt(i + 1));
                if(args.length >= argument){
                    build.append(args[argument]);
                    i += 2;

@@ -27,6 +27,11 @@ public class Log{
         logger.info(String.valueOf(object));
     }
 
+    public static void warn(String text, Object... args){
+        if(disabled) return;
+        logger.warn(text, args);
+    }
+
     public static void err(String text, Object... args){
         if(disabled) return;
         logger.err(text, args);
@@ -37,12 +42,11 @@ public class Log{
         logger.err(th);
     }
 
-    public static void print(String text, Object... args){
-        if(disabled) return;
-        logger.print(text, args);
+    public static String format(String text, Object... args){
+        return format(text, useColors, args);
     }
 
-    public static String format(String text, Object... args){
+    public static String format(String text, boolean useColors, Object... args){
         text = Strings.formatArgs(text, args);
 
         if(useColors){
@@ -65,6 +69,10 @@ public class Log{
 
         public void err(String text, Object... args){
             print("&lr&fb" + format(text, args));
+        }
+
+        public void warn(String text, Object... args){
+            print("&ly&fb" + format(text, args));
         }
 
         public void err(Throwable e){

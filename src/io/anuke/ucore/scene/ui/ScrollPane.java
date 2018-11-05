@@ -38,6 +38,7 @@ import io.anuke.ucore.scene.utils.Cullable;
 import io.anuke.ucore.scene.utils.Layout;
 import io.anuke.ucore.scene.utils.ScissorStack;
 
+import static io.anuke.ucore.core.Core.scene;
 import static io.anuke.ucore.core.Core.skin;
 
 /**
@@ -606,7 +607,7 @@ public class ScrollPane extends WidgetGroup{
 
         // Caculate the scissor bounds based on the batch transform, the available widget area and the camera transform. We need to
         // project those to screen coordinates for OpenGL ES to consume.
-        getScene().calculateScissors(widgetAreaBounds, scissorBounds);
+        scene.calculateScissors(widgetAreaBounds, scissorBounds);
 
         // Enable scissors for widget area and draw the widget.
         batch.flush();

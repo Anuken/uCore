@@ -42,7 +42,7 @@ import io.anuke.ucore.scene.style.TransformDrawable;
 public class Image extends Element{
     protected float imageX, imageY, imageWidth, imageHeight;
     private Scaling scaling;
-    private int align = Align.center;
+    private int align;
     private Drawable drawable;
 
     /** Creates an image with no region or patch, stretched, and aligned center. */
@@ -181,10 +181,12 @@ public class Image extends Element{
         this.drawable = drawable;
     }
 
-    public void setScaling(Scaling scaling){
+    public Image setScaling(Scaling scaling){
         if(scaling == null) throw new IllegalArgumentException("scaling cannot be null.");
         this.scaling = scaling;
         invalidate();
+
+        return this;
     }
 
     public void setAlign(int align){

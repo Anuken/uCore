@@ -15,6 +15,14 @@ public class Threads{
         }
     };
 
+    public static void wait(Object object){
+        try{
+            object.wait();
+        }catch(InterruptedException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void setThreadInfoProvider(ThreadInfoProvider prov){
         info = prov;
     }
@@ -25,14 +33,19 @@ public class Threads{
         return info.isOnLogicThread();
     }
 
+    /**Asserts that calculations are happening on a spcific thread.*/
+    public static void assertOn(Thread thread){
+        if(Thread.currentThread() != thread) throw new UnsupportedOperationException("This method can only be called on the thread \"" + thread + "\". Current thread: " + Thread.currentThread());
+    }
+
     /**Asserts that a method is being called on the logic thread.*/
     public static void assertLogic(){
-        if(!info.isOnLogicThread()) throw new UnsupportedOperationException("This method can only be called on the logic thread.");
+        if(!info.isOnLogicThread()) throw new UnsupportedOperationException("This method can only be called on the logic thread. Current thread: " + Thread.currentThread());
     }
 
     /**Asserts that a method is being called on the graphics thread.*/
     public static void assertGraphics(){
-        if(!info.isOnGraphicsThread()) throw new UnsupportedOperationException("This method can only be called on the graphics thread.");
+        if(!info.isOnGraphicsThread()) throw new UnsupportedOperationException("This method can only be called on the graphics thread. Current thread: " + Thread.currentThread());
     }
 
     /**Provides information about the currently running thread.

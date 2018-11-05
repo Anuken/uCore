@@ -173,10 +173,7 @@ public class Settings{
         if(prefs instanceof ExtendedPreferences){
             return ((ExtendedPreferences) prefs).getBytes(name);
         }else{
-            String str = getString(name, null);
-            if(str == null){
-                return null;
-            }
+            String str = getString(name, "");
             return Base64Coder.decode(str);
         }
     }

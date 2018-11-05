@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import io.anuke.ucore.graphics.CustomSurface;
 import io.anuke.ucore.graphics.Shader;
 import io.anuke.ucore.graphics.Surface;
+import io.anuke.ucore.scene.utils.ScissorStack;
 
 import java.util.Stack;
 
@@ -32,6 +34,10 @@ public class Graphics{
 
     private static Shader[] currentShaders;
     private static Shader[] tmpShaders = {null};
+
+    private static boolean clipping;
+    private static boolean wasClipped;
+    private static Rectangle clipRect = new Rectangle();
 
     public static int width(){
         return Gdx.graphics.getWidth();
@@ -68,6 +74,23 @@ public class Graphics{
     /** Screen size. */
     public static Vector2 size(){
         return size.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    public static void beginClip(float x, float y, float width, float height){
+        if(clipping) throw new IllegalStateException("Call endClip() first.");
+        if(drawing()) flush();
+
+        wasClipped = ScissorStack.pushScissors(clipRect.set(x, y, width, height));
+        clipping = true;
+    }
+
+    public static void endClip(){
+        if(!clipping) throw new IllegalStateException("Call beginClip() first.");
+        if(wasClipped){
+            if(drawing()) Graphics.flush();
+            ScissorStack.popScissors();
+        }
+        clipping = false;
     }
 
     public static void setAdditiveBlending(){
