@@ -33,7 +33,7 @@ public class Bundles{
         return s;
     }
 
-    public static synchronized String format(String key, Object... args){
+    public static String format(String key, Object... args){
         if(args.length > 9) throw new IllegalArgumentException("Only up to 9 arguments are allowed.");
         String value = get(key);
         if(value == null || value.startsWith("???")) return value;
