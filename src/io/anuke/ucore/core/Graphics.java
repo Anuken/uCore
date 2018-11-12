@@ -30,7 +30,8 @@ public class Graphics{
     private static Array<Surface> surfaceArray = new Array<>();
     private static Stack<Surface> surfaceStack = new Stack<>();
 
-    private static Surface effects1, effects2;
+    private static Surface effects1;
+    private static boolean scaleEffects = true;
 
     private static Shader[] currentShaders;
     private static Shader[] tmpShaders = {null};
@@ -103,17 +104,17 @@ public class Graphics{
 
     public static void clear(Color color){
         Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
     public static void clear(float r, float g, float b){
         Gdx.gl.glClearColor(r, g, b, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
     public static void clear(float r, float g, float b, float a){
         Gdx.gl.glClearColor(r, g, b, a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
     public static void useBatch(Batch batch){
@@ -254,10 +255,7 @@ public class Graphics{
             throw new RuntimeException("Surface stack is empty! Set a surface first.");
     }
 
-    /**
-     * Begin the postprocessing shaders.
-     * FIXME does not work with multiple shaders
-     */
+    /**Begin the postprocessing shader.*/
     public static void beginShaders(Shader types){
         tmpShaders[0] = types;
         currentShaders = tmpShaders;
@@ -267,53 +265,19 @@ public class Graphics{
         surface(effects1, true, false);
     }
 
-    //FIXME does not work with multiple shaders
 
     /** End the postprocessing shader. */
     public static void endShaders(){
+        Shader shader = currentShaders[0];
+        tempregion.setRegion(currentSurface().texture());
+        shader.region = tempregion;
 
-        //batch.flush();
-
-        if(currentShaders.length == 1){
-            Shader shader = currentShaders[0];
-            tempregion.setRegion(currentSurface().texture());
-            shader.region = tempregion;
-
-            Graphics.shader(shader);
-            shader.program().begin();
-            shader.applyParams();
-            shader.program().end();
-            flushSurface();
-            Graphics.shader();
-        }else{
-            throw new RuntimeException("Multiple shaders not supported!");
-			/*
-			
-			int i = 0;
-			boolean index = true;
-			
-			for(Shader shader : currentShaders){
-				boolean ending = i == currentShaders.length - 1;
-				
-				tempregion.setRegion(currentSurface().texture());
-				
-				Graphics.shader(shader);
-				shader.program().begin();
-				shader.region = tempregion;
-				shader.applyParams();
-				shader.program().end();
-				flushSurface(ending ? null : (index ? effects2 : effects1));
-				Graphics.shader();
-				
-				if(!ending){
-					surface((index ? effects2 : effects1));
-				}
-				
-				index = !index;
-				
-				i ++;
-			}*/
-        }
+        Graphics.shader(shader);
+        shader.program().begin();
+        shader.applyParams();
+        shader.program().end();
+        flushSurface();
+        Graphics.shader();
     }
 
     public static void flush(){
@@ -347,20 +311,15 @@ public class Graphics{
         batch.setShader(null);
     }
 
-    public static Surface getEffects1(){
-        return effects1;
-    }
-
-    public static Surface getEffects2(){
-        return effects2;
+    public static void setScaleEffects(boolean scl){
+        scaleEffects = scl;
     }
 
     public static void resize(){
         if(Gdx.graphics.getWidth() <= 2 || Gdx.graphics.getHeight() <= 2) return;
 
         if(effects1 == null){
-            effects1 = Graphics.createSurface(Core.cameraScale);
-            effects2 = Graphics.createSurface(Core.cameraScale);
+            effects1 = Graphics.createSurface(scaleEffects ? Core.cameraScale : 1);
         }
 
         for(Surface surface : surfaceArray){

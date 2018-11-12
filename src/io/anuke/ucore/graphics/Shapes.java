@@ -22,9 +22,9 @@ public class Shapes{
 
         TextureRegion region = Draw.region(edge);
 
-        Draw.rect(edge, x, y, region.getRegionWidth(), region.getRegionHeight() * scale, rotation + 180);
+        Draw.rect(edge, x, y, region.getRegionWidth() * Draw.scale(), region.getRegionHeight() * scale * Draw.scale(), rotation + 180);
 
-        Draw.rect(edge, x2, y2, region.getRegionWidth(), region.getRegionHeight() * scale, rotation);
+        Draw.rect(edge, x2, y2, region.getRegionWidth() * Draw.scale(), region.getRegionHeight() * scale * Draw.scale(), rotation);
     }
 
     public static void tri(float x, float y, float width, float length, float rotation){

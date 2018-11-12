@@ -21,6 +21,15 @@ public class Draw{
     private static Color[] carr = new Color[3];
     private static float cwhite = Color.WHITE.toFloatBits();
     private static TextureRegion blankRegion;
+    private static float scl = 1f;
+
+    public static void scale(float scaling){
+        Draw.scl = scaling;
+    }
+
+    public static float scale(){
+        return scl;
+    }
 
     public static TextureRegion getBlankRegion(){
         if(blankRegion == null){
@@ -112,10 +121,7 @@ public class Draw{
         batch.setColor(color.r, color.g, color.b, Mathf.clamp(alpha));
     }
 
-    public static void rect(Surface surface, float offsetX, float offsetY){
-        float vw = Core.camera.viewportWidth * Core.camera.zoom, vh = Core.camera.viewportHeight * Core.camera.zoom;
-        batch.draw(surface.texture(), Core.camera.position.x - vw/2 + offsetX, Core.camera.position.y + vh/2 + offsetY, vw, -vh);
-    }
+    //region textures
 
     public static void rect(Texture texture, float x, float y){
         batch.draw(texture, x - texture.getWidth() / 2, y - texture.getHeight() / 2);
@@ -125,28 +131,48 @@ public class Draw{
         batch.draw(texture, x - w / 2, y - h / 2, w, h);
     }
 
+    //endregion textures
+
     public static void rect(TextureRegion region, float x, float y){
-        batch.draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2);
+        rect(region, x, y, region.getRegionWidth() * scl, region.getRegionHeight() * scl);
     }
 
     public static void rect(TextureRegion region, float x, float y, float width, float height){
         batch.draw(region, x - width / 2, y - height / 2, width, height);
     }
 
+    public static void rect(TextureRegion region, float x, float y, float w, float h, float rotation){
+        batch.draw(region, x - w / 2, y - h / 2, w / 2, h / 2, w, h, 1, 1, rotation);
+    }
+
     public static void rect(String name, float x, float y){
-        TextureRegion region = region(name);
-        batch.draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2);
+        rect(region(name), x, y);
+    }
+
+    public static void rect(String name, float x, float y, float rotation){
+        rect(region(name), x, y, rotation);
+    }
+
+    public static void rect(TextureRegion region, float x, float y, float rotation){
+        rect(region, x, y, region.getRegionWidth() * scl, region.getRegionHeight() * scl, rotation);
+    }
+
+    public static void rect(String name, float x, float y, float w, float h, float rotation){
+        rect(region(name), x, y, w, h, rotation);
+    }
+
+    public static void rect(String name, float x, float y, float w, float h){
+        rect(region(name), x, y, w, h);
     }
 
     /** Rectangle centered and rotated around its bottom middle point. */
     public static void grect(String name, float x, float y, float rotation){
-        TextureRegion region = region(name);
-        batch.draw(region, x - region.getRegionWidth() / 2f, y, region.getRegionWidth() / 2f, 0, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
+        grect(region(name), x, y, rotation);
     }
 
     /** Rectangle centered and rotated around its bottom middle point. */
     public static void grect(TextureRegion region, float x, float y, float rotation){
-        batch.draw(region, x - region.getRegionWidth() / 2f, y, region.getRegionWidth() / 2f, 0, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
+        grect(region, x, y, region.getRegionWidth() * scl, region.getRegionHeight() * scl, rotation);
     }
 
     /** Rectangle centered and rotated around its bottom middle point. */
@@ -183,45 +209,12 @@ public class Draw{
         batch.draw(region, x - w / 2, y, w, h);
     }
 
-    public static void rect(String name, float x, float y, float rotation){
-        TextureRegion region = region(name);
-        batch.draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2, region.getRegionWidth() / 2, region.getRegionHeight() / 2, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
-    }
-
-    public static void rect(TextureRegion region, float x, float y, float rotation){
-        batch.draw(region, x - region.getRegionWidth() / 2, y - region.getRegionHeight() / 2, region.getRegionWidth() / 2, region.getRegionHeight() / 2, region.getRegionWidth(), region.getRegionHeight(), 1, 1, rotation);
-    }
-
-    public static void rect(String name, float x, float y, float w, float h, float rotation){
-        TextureRegion region = region(name);
-        batch.draw(region, x - w / 2, y - h / 2, w / 2, h / 2, w, h, 1, 1, rotation);
-    }
-
-    public static void rect(TextureRegion region, float x, float y, float w, float h, float rotation){
-        batch.draw(region, x - w / 2, y - h / 2, w / 2, h / 2, w, h, 1, 1, rotation);
-    }
-
-    public static void rect(String name, float x, float y, float w, float h){
-        TextureRegion region = region(name);
-        batch.draw(region, x - w / 2, y - h / 2, w, h);
-    }
-
-    public static void crect(Texture texture, float x, float y, float w, float h){
-        batch.draw(texture, x, y, w, h);
-    }
-
     public static void crect(TextureRegion texture, float x, float y, float w, float h){
         batch.draw(texture, x, y, w, h);
     }
 
-    public static void crect(String name, float x, float y, float w, float h){
-        TextureRegion region = region(name);
-        batch.draw(region, x, y, w, h);
-    }
-
-    public static void crect(String name, float x, float y){
-        TextureRegion region = region(name);
-        batch.draw(region, x, y);
+    public static void crect(TextureRegion texture, float x, float y){
+        crect(texture, x, y, texture.getRegionWidth(), texture.getRegionHeight());
     }
 
     public static void tscl(float scl){
