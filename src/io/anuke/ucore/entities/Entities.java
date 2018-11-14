@@ -2,7 +2,6 @@ package io.anuke.ucore.entities;
 
 import com.badlogic.gdx.utils.IntMap;
 import io.anuke.ucore.entities.trait.Entity;
-import io.anuke.ucore.util.Threads;
 import io.anuke.ucore.util.ThreadArray;
 
 public class Entities{
@@ -54,10 +53,6 @@ public class Entities{
     }
 
     public static void update(EntityGroup<?> group){
-        if(group.useTree()){
-            Threads.assertLogic();
-        }
-
         group.updateEvents();
 
         if(group.useTree()){
