@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.IntMap;
 import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
-import io.anuke.ucore.util.Threads;
 import io.anuke.ucore.util.QuadTree;
 
 public class EntityGroup<T extends Entity>{
@@ -58,7 +57,6 @@ public class EntityGroup<T extends Entity>{
     }
 
     public void updateEvents(){
-        Threads.assertLogic();
 
         for(T e : entitiesToAdd){
             if(e == null)
@@ -112,8 +110,6 @@ public class EntityGroup<T extends Entity>{
     }
 
     public void setTree(float x, float y, float w, float h){
-        Threads.assertLogic();
-
         tree = new QuadTree<>(Entities.maxLeafObjects, new Rectangle(x, y, w, h));
     }
 
@@ -176,7 +172,6 @@ public class EntityGroup<T extends Entity>{
     }
 
     public T find(Predicate<T> pred){
-        Threads.assertLogic();
 
         for(T t : entityArray){
             if(pred.test(t)) return t;
@@ -187,13 +182,10 @@ public class EntityGroup<T extends Entity>{
 
     /**Returns the logic-only array for iteration.*/
     public Array<T> all(){
-        Threads.assertLogic();
-
         return entityArray;
     }
 
     public void forEach(Consumer<T> cons){
-        Threads.assertLogic();
 
         for(T t : entityArray){
             cons.accept(t);
