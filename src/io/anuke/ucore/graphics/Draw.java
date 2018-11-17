@@ -19,7 +19,6 @@ import static io.anuke.ucore.core.Core.batch;
 
 public class Draw{
     private static Color[] carr = new Color[3];
-    private static float cwhite = Color.WHITE.toFloatBits();
     private static TextureRegion blankRegion;
     private static float scl = 1f;
 
@@ -91,11 +90,11 @@ public class Draw{
     }
 
     public static void color(int color){
-        batch.setColor(NumberUtils.intBitsToFloat(color));
+        batch.setPackedColor(NumberUtils.intBitsToFloat(color));
     }
 
     public static void color(){
-        batch.setColor(cwhite);
+        batch.setPackedColor(Color.WHITE_FLOAT_BITS);
     }
 
     public static void color(float r, float g, float b){
