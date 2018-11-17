@@ -22,6 +22,7 @@ import io.anuke.ucore.scene.ui.Slider.SliderStyle;
 import io.anuke.ucore.scene.ui.TextButton.TextButtonStyle;
 import io.anuke.ucore.scene.ui.TextField.TextFieldStyle;
 import io.anuke.ucore.scene.ui.Window.WindowStyle;
+import io.anuke.ucore.util.Log;
 
 public class SkinReader{
     private static final ObjectMap<String, ValueReader<?>> readers = new ObjectMap<String, ValueReader<?>>(){{
@@ -78,6 +79,7 @@ public class SkinReader{
                 BaseDrawable named = (BaseDrawable) drawable;
                 named.setName(value.name + " (" + name + ", " + color + ")");
             }
+            Log.info(drawable);
             return drawable;
         });
 
