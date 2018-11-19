@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
+import com.badlogic.gdx.utils.ObjectSet;
 import io.anuke.ucore.core.Settings;
 
 import java.io.DataInput;
@@ -73,6 +74,42 @@ public class DefaultSerializers{
                 TypeSerializer ser = Settings.getSerializer(type);
                 if(ser == null) throw new IllegalArgumentException(type + " does not have a serializer registered!");
 
+
+                for(int i = 0; i < size; i++){
+                    arr.add(ser.read(stream));
+                }
+
+                return arr;
+            }
+        });
+
+        Settings.setSerializer(ObjectSet.class, new TypeSerializer<ObjectSet>(){
+            @Override
+            public void write(DataOutput stream, ObjectSet object) throws IOException{
+                stream.writeInt(object.size);
+                if(object.size != 0){
+                    TypeSerializer ser = Settings.getSerializer(object.first().getClass());
+                    if(ser == null) throw new IllegalArgumentException(object.first().getClass() + " does not have a serializer registered!");
+
+                    stream.writeUTF(Settings.classID(object.first().getClass()));
+
+                    for(Object element : object){
+                        ser.write(stream, element);
+                    }
+                }
+            }
+
+            @Override
+            public ObjectSet read(DataInput stream) throws IOException{
+                int size = stream.readInt();
+                ObjectSet arr = new ObjectSet();
+
+                if(size == 0) return arr;
+
+                String type = stream.readUTF();
+
+                TypeSerializer ser = Settings.getSerializer(type);
+                if(ser == null) throw new IllegalArgumentException(type + " does not have a serializer registered!");
 
                 for(int i = 0; i < size; i++){
                     arr.add(ser.read(stream));
