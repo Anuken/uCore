@@ -3,10 +3,12 @@ package io.anuke.ucore.core;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.StreamUtils.OptimizedByteArrayOutputStream;
+import io.anuke.ucore.function.Function;
 import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.io.DefaultSerializers;
 import io.anuke.ucore.io.ExtendedPreferences;
@@ -21,6 +23,7 @@ import java.io.*;
 @SuppressWarnings("unchecked")
 public class Settings{
     private static Preferences prefs;
+    private static Function<String, FileHandle> prefHandler = OS::getAppDataDirectory;
     private static ObjectMap<String, Object> defaults = new ObjectMap<>();
     private static boolean disabled = false;
     private static Runnable errorHandler;
@@ -38,6 +41,14 @@ public class Settings{
         DefaultSerializers.register();
     }
 
+    public static FileHandle getDataDirectory(String appName){
+        return prefHandler.get(appName);
+    }
+
+    public static void setPrefHandler(Function<String, FileHandle> handler){
+        prefHandler = handler;
+    }
+
     public static Preferences prefs(){
         return prefs;
     }
@@ -50,7 +61,7 @@ public class Settings{
         if(Gdx.app.getType() == ApplicationType.WebGL){
             prefs = Gdx.app.getPreferences(name);
         }else{
-            prefs = new ExtendedPreferences(OS.getAppDataDirectory(appName).child(name));
+            prefs = new ExtendedPreferences(prefHandler.get(appName).child(name));
         }
     }
 

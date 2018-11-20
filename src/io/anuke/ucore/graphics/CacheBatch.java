@@ -84,8 +84,8 @@ public class CacheBatch implements Batch{
     }
 
     @Override
-    public void setColor(float color){
-        cache.setColor(color);
+    public void setPackedColor(float color){
+        cache.setPackedColor(color);
     }
 
     @Override

@@ -219,4 +219,14 @@ public class InputProxy implements Input{
     public void setCursorPosition(int x, int y){
         input.setCursorPosition(x, y);
     }
+
+    @Override
+    public float getPressure(){
+        return 0;
+    }
+
+    @Override
+    public float getPressure(int pointer){
+        return 0;
+    }
 }
