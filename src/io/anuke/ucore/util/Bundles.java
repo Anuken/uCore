@@ -33,7 +33,7 @@ public class Bundles{
         return s;
     }
 
-    public static synchronized String format(String key, Object... args){
+    public static String format(String key, Object... args){
         if(args.length > 9) throw new IllegalArgumentException("Only up to 9 arguments are allowed.");
         String value = get(key);
         if(value == null || value.startsWith("???")) return value;
@@ -44,7 +44,7 @@ public class Bundles{
            char c = value.charAt(i);
            if(i < value.length() - 2 && c == '{' && Character.isDigit(value.charAt(i + 1)) && value.charAt(i + 2) == '}'){
                int argument = "0123456789".indexOf(value.charAt(i + 1));
-               if(args.length >= argument){
+               if(args.length > argument){
                    build.append(args[argument]);
                    i += 2;
                }else{

@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.IntMap;
 import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.Predicate;
-import io.anuke.ucore.util.Threads;
 import io.anuke.ucore.util.QuadTree;
 
 public class EntityGroup<T extends Entity>{
@@ -14,7 +13,6 @@ public class EntityGroup<T extends Entity>{
     private final boolean useTree;
     private final int id;
     private final Class<T> type;
-    private final Array<T> entityWriteBackArray = new Array<>(false, 16);
     private final Array<T> entityArray = new Array<>(false, 16);
     private final Array<T> entitiesToRemove = new Array<>(false, 16);
     private final Array<T> entitiesToAdd = new Array<>(false, 16);
@@ -58,8 +56,7 @@ public class EntityGroup<T extends Entity>{
         return id;
     }
 
-    public synchronized void updateEvents(){
-        Threads.assertLogic();
+    public void updateEvents(){
 
         for(T e : entitiesToAdd){
             if(e == null)
@@ -83,19 +80,14 @@ public class EntityGroup<T extends Entity>{
         }
 
         entitiesToRemove.clear();
-
-        synchronized(entityWriteBackArray){
-            entityWriteBackArray.clear();
-            entityWriteBackArray.addAll(entityArray);
-        }
     }
 
-    public synchronized T getByID(int id){
+    public T getByID(int id){
         if(map == null) throw new RuntimeException("Mapping is not enabled for group " + id + "!");
         return map.get(id);
     }
 
-    public synchronized void removeByID(int id){
+    public void removeByID(int id){
         if(map == null) throw new RuntimeException("Mapping is not enabled for group " + id + "!");
         T t = map.get(id);
         if(t != null){ //remove if present in map already
@@ -118,8 +110,6 @@ public class EntityGroup<T extends Entity>{
     }
 
     public void setTree(float x, float y, float w, float h){
-        Threads.assertLogic();
-
         tree = new QuadTree<>(Entities.maxLeafObjects, new Rectangle(x, y, w, h));
     }
 
@@ -132,27 +122,14 @@ public class EntityGroup<T extends Entity>{
     }
 
     public int count(Predicate<T> pred){
-
-        if(Threads.isLogic()){
-            int count = 0;
-            for(T t : entityArray){
-                if(pred.test(t)) count++;
-            }
-            return count;
-        }else{
-            synchronized(entityWriteBackArray){
-                int count = 0;
-
-                for(T t : entityWriteBackArray){
-                    if(pred.test(t)) count++;
-                }
-
-                return count;
-            }
+        int count = 0;
+        for(int i = 0; i < entityArray.size; i++){
+            if(pred.test(entityArray.get(i))) count++;
         }
+        return count;
     }
 
-    public synchronized void add(T type){
+    public void add(T type){
         if(type == null) throw new RuntimeException("Cannot add a null entity!");
         if(type.getGroup() != null) return;
         type.setGroup(this);
@@ -167,7 +144,7 @@ public class EntityGroup<T extends Entity>{
         }
     }
 
-    public synchronized void remove(T type){
+    public void remove(T type){
         if(type == null) throw new RuntimeException("Cannot remove a null entity!");
         type.setGroup(null);
         entitiesToRemove.add(type);
@@ -177,7 +154,7 @@ public class EntityGroup<T extends Entity>{
         }
     }
 
-    public synchronized void clear(){
+    public void clear(){
         for(T entity : entityArray)
             entity.setGroup(null);
 
@@ -195,10 +172,9 @@ public class EntityGroup<T extends Entity>{
     }
 
     public T find(Predicate<T> pred){
-        Threads.assertLogic();
 
-        for(T t : entityArray){
-            if(pred.test(t)) return t;
+        for(int i = 0; i < entityArray.size; i++){
+            if(pred.test(entityArray.get(i))) return entityArray.get(i);
         }
 
         return null;
@@ -206,20 +182,13 @@ public class EntityGroup<T extends Entity>{
 
     /**Returns the logic-only array for iteration.*/
     public Array<T> all(){
-        Threads.assertLogic();
-
         return entityArray;
     }
 
-    /**Iterates through each entity in the writeback array.
-     * This should be called on the graphics thread only.*/
     public void forEach(Consumer<T> cons){
-        Threads.assertGraphics();
 
-        synchronized(entityWriteBackArray){
-            for(T t : entityWriteBackArray){
-                cons.accept(t);
-            }
+        for(T t : entityArray){
+            cons.accept(t);
         }
     }
 }

@@ -27,6 +27,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasSprite;
  * @author Nathan Sweet
  */
 public class SpriteDrawable extends BaseDrawable implements TransformDrawable{
+    private static final Color temp = new Color();
     private Sprite sprite;
 
     /** Creates an uninitialized SpriteDrawable. The sprite must be set before use. */
@@ -44,24 +45,23 @@ public class SpriteDrawable extends BaseDrawable implements TransformDrawable{
 
     public void draw(Batch batch, float x, float y, float width, float height){
         Color spriteColor = sprite.getColor();
-        float batchColor = batch.getPackedColor();
-        sprite.setColor(batch.getColor().mul(spriteColor));
+        temp.set(spriteColor);
+        sprite.setColor(spriteColor.mul(batch.getColor()));
 
         sprite.setRotation(0);
         sprite.setScale(1, 1);
         sprite.setBounds(x, y, width, height);
         sprite.draw(batch);
 
-        sprite.setColor(spriteColor);
-        batch.setColor(batchColor);
+        sprite.setColor(temp);
     }
 
     public void draw(Batch batch, float x, float y, float originX, float originY, float width, float height, float scaleX,
                      float scaleY, float rotation){
 
         Color spriteColor = sprite.getColor();
-        float batchColor = batch.getPackedColor();
-        sprite.setColor(batch.getColor().mul(spriteColor));
+        temp.set(spriteColor);
+        sprite.setColor(spriteColor.mul(batch.getColor()));
 
         sprite.setOrigin(originX, originY);
         sprite.setRotation(rotation);
@@ -69,8 +69,7 @@ public class SpriteDrawable extends BaseDrawable implements TransformDrawable{
         sprite.setBounds(x, y, width, height);
         sprite.draw(batch);
 
-        sprite.setColor(spriteColor);
-        batch.setColor(batchColor);
+        sprite.setColor(temp);
     }
 
     public Sprite getSprite(){

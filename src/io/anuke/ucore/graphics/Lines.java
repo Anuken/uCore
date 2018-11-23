@@ -4,32 +4,24 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.FloatArray;
+import io.anuke.ucore.util.Angles;
 import io.anuke.ucore.util.Mathf;
+import io.anuke.ucore.util.Translator;
 
 import static io.anuke.ucore.core.Core.batch;
 
 public class Lines{
     private static float stroke = 1f;
-    private static Vector2 vector = new Vector2();
-    private static Vector2[] circle;
-
-    static{
-        setCircleVertices(30);
-    }
-
-    private static void setCircleVertices(Vector2[] vertices, int amount){
-        float step = 360f / amount;
-        vector.set(1f, 0);
-        for(int i = 0; i < amount; i++){
-            vector.setAngle(i * step);
-            vertices[i] = vector.cpy();
-        }
-    }
+    private static Vector2 vector = new Translator();
+    private static FloatArray floats = new FloatArray(100);
+    private static FloatArray floatBuilder = new FloatArray(100);
+    private static boolean building;
+    private static int circleVertices = 30;
 
     /** Set the vertices used for drawing a line circle. */
     public static void setCircleVertices(int amount){
-        circle = new Vector2[amount];
-        setCircleVertices(circle, amount);
+        circleVertices = amount;
     }
 
     public static void lineAngle(float x, float y, float angle, float length, CapStyle style){
@@ -84,6 +76,91 @@ public class Lines{
         }
     }
 
+    public static void linePoint(float x, float y){
+        if(!building) throw new IllegalStateException("Not building");
+        floatBuilder.add(x, y);
+    }
+
+    public static void beginLine(){
+        if(building) throw new IllegalStateException("Already building");
+        floatBuilder.clear();
+        building = true;
+    }
+
+    public static void endLine(){
+        if(!building) throw new IllegalStateException("Not building");
+        polyline(floatBuilder, false);
+        building = false;
+    }
+
+    public static void polyline(FloatArray points, boolean wrap){
+        polyline(points.items, points.size, wrap);
+    }
+
+    public static void polyline(float[] points, int length, boolean wrap){
+
+        if(length < 4) return;
+
+        float lasta;
+
+        {
+            float x1 = points[length-2];
+            float y1 = points[length-1];
+            float x2 = points[0];
+            float y2 = points[1];
+            float x3 = points[2];
+            float y3 = points[3];
+
+            if(wrap){
+                lasta = Mathf.slerp(Angles.angle(x1, y1, x2, y2), Angles.angle(x2, y2, x3, y3), 0.5f);
+            }else{
+                lasta = Angles.angle(x1, y1, x2, y2) + 180f;
+            }
+        }
+
+        for(int i = 0; i < (wrap ? length : length - 2); i+= 2){
+            float x1 = points[i];
+            float y1 = points[i+1];
+            float x2 = points[(i+2)%length];
+            float y2 = points[(i+3)%length];
+
+            float avg;
+            float ang1 = Angles.angle(x1, y1, x2, y2);
+
+            if(wrap){
+                float x3 = points[(i+4)%length];
+                float y3 = points[(i+5)%length];
+                float ang2 = Angles.angle(x2, y2, x3, y3);
+
+                avg = Mathf.slerp(ang1, ang2, 0.5f);
+            }else{
+                avg = ang1;
+            }
+
+            float s = stroke/2f;
+
+            float cos1 = MathUtils.cosDeg(lasta - 90) * s;
+            float sin1 = MathUtils.sinDeg(lasta - 90) * s;
+            float cos2 = MathUtils.cosDeg(avg - 90) * s;
+            float sin2 = MathUtils.sinDeg(avg - 90) * s;
+
+            float qx1 = x1 + cos1;
+            float qy1 = y1 + sin1;
+            float qx4 = x1 - cos1;
+            float qy4 = y1 - sin1;
+
+            float qx2 = x2 + cos2;
+            float qy2 = y2 + sin2;
+            float qx3 = x2 - cos2;
+            float qy3 = y2 - sin2;
+
+            Fill.quad(qx1, qy1, qx2, qy2, qx3, qy3, qx4, qy4);
+
+            lasta = avg;
+        }
+
+    }
+
     public static void dashLine(float x1, float y1, float x2, float y2, int divisions){
         float dx = x2 - x1, dy = y2 - y1;
 
@@ -96,7 +173,7 @@ public class Lines{
     }
 
     public static void circle(float x, float y, float rad){
-        poly(circle, x, y, rad);
+        poly(x, y, circleVertices, rad);
     }
 
     public static void dashCircle(float x, float y, float radius){
@@ -146,6 +223,8 @@ public class Lines{
 
             vector.set(radius, 0).setAngle(360f / sides * (i + 1) + angle + 90);
 
+
+
             line(x1 + x, y1 + y, vector.x + x, vector.y + y);
         }
     }
@@ -191,7 +270,6 @@ public class Lines{
         float ddfx = tmp1x * pre4 + tmp2x * pre5;
         float ddfy = tmp1y * pre4 + tmp2y * pre5;
 
-        //needs more d
         float dddfx = tmp2x * pre5;
         float dddfy = tmp2y * pre5;
 
@@ -230,7 +308,13 @@ public class Lines{
     }
 
     public static void poly(float x, float y, int sides, float radius){
-        poly(x, y, sides, radius, 0);
+        floats.clear();
+        for(int i = 0; i < sides; i++){
+            float rad = (float)i /sides * MathUtils.PI2;
+            floats.add(MathUtils.cos(rad) * radius + x, MathUtils.sin(rad) * radius + y);
+        }
+
+        polyline(floats, true);
     }
 
     public static void poly(Vector2[] vertices, float offsetx, float offsety, float scl){
@@ -238,24 +322,6 @@ public class Lines{
             Vector2 current = vertices[i];
             Vector2 next = i == vertices.length - 1 ? vertices[0] : vertices[i + 1];
             line(current.x * scl + offsetx, current.y * scl + offsety, next.x * scl + offsetx, next.y * scl + offsety);
-        }
-    }
-
-    public static void poly(float[] vertices, float offsetx, float offsety, float scl){
-        for(int i = 0; i < vertices.length / 2; i++){
-            float x = vertices[i * 2];
-            float y = vertices[i * 2 + 1];
-
-            float x2, y2;
-            if(i == vertices.length / 2 - 1){
-                x2 = vertices[0];
-                y2 = vertices[1];
-            }else{
-                x2 = vertices[i * 2 + 2];
-                y2 = vertices[i * 2 + 3];
-            }
-
-            line(x * scl + offsetx, y * scl + offsety, x2 * scl + offsetx, y2 * scl + offsety);
         }
     }
 

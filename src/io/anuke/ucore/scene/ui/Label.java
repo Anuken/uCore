@@ -19,13 +19,11 @@ package io.anuke.ucore.scene.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.Glyph;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
-import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.Supplier;
 import io.anuke.ucore.scene.Element;
 import io.anuke.ucore.scene.style.Drawable;
@@ -33,7 +31,6 @@ import io.anuke.ucore.scene.style.SkinReader.ReadContext;
 import io.anuke.ucore.scene.style.Style;
 import io.anuke.ucore.util.Bundles;
 
-import static io.anuke.ucore.core.Core.font;
 import static io.anuke.ucore.core.Core.skin;
 
 /**
@@ -59,7 +56,6 @@ public class Label extends Element{
     private float fontScaleX = 1, fontScaleY = 1;
     private boolean fontScaleChanged = false;
     private String ellipsis;
-    private boolean fallback = true;
 
     public Label(Supplier<CharSequence> sup){
         this("", new LabelStyle(skin.get(LabelStyle.class)));
@@ -122,39 +118,12 @@ public class Label extends Element{
             if(text.equals(newText)) return;
             text.setLength(0);
             text.append((StringBuilder) newText);
-            if(fallback){
-                checkFallback();
-            }
         }else{
             if(textEquals(newText)) return;
             text.setLength(0);
             text.append(newText);
-            if(fallback){
-                checkFallback();
-            }
         }
         invalidateHierarchy();
-    }
-
-    private void checkFallback(){
-
-        for(int i = 0; i < text.length; i++){
-            if(isControl((int) text.charAt(i))) continue;
-            Glyph g = font.getData().getGlyph(text.charAt(i));
-            if(g == null || g == font.getData().missingGlyph){
-                for(BitmapFont font : Core.skin.getAll(BitmapFont.class).values()){
-                    if(font.getData().getGlyph(text.charAt(i)) != null){
-                        this.style.font = font;
-                        setStyle(this.style);
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
-    private boolean isControl(int var0){
-        return var0 <= 159 && (var0 >= 127 || var0 >>> 5 == 0);
     }
 
     public boolean textEquals(CharSequence other){
