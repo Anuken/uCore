@@ -123,7 +123,9 @@ public class EntityGroup<T extends Entity>{
 
     public int count(Predicate<T> pred){
         int count = 0;
-        for(T t : entityArray){
+        Array.ArrayIterator<T> it = new Array.ArrayIterator<T>(entityArray);
+        while (it.hasNext()) {
+            T t = it.next();
             if(pred.test(t)) count++;
         }
         return count;
