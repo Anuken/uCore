@@ -123,8 +123,8 @@ public class EntityGroup<T extends Entity>{
 
     public int count(Predicate<T> pred){
         int count = 0;
-        for(T t : entityArray){
-            if(pred.test(t)) count++;
+        for(int i = 0; i < entityArray.size; i++){
+            if(pred.test(entityArray.get(i))) count++;
         }
         return count;
     }
@@ -173,8 +173,8 @@ public class EntityGroup<T extends Entity>{
 
     public T find(Predicate<T> pred){
 
-        for(T t : entityArray){
-            if(pred.test(t)) return t;
+        for(int i = 0; i < entityArray.size; i++){
+            if(pred.test(entityArray.get(i))) return entityArray.get(i);
         }
 
         return null;
