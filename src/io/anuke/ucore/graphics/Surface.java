@@ -29,7 +29,11 @@ public class Surface implements Disposable{
     }
 
     public Surface setSize(int width, int height){
-        fixedSize = true;
+        return setSize(width, height, true);
+    }
+
+    public Surface setSize(int width, int height, boolean fixed){
+        fixedSize = fixed;
         this.fixedWidth = width;
         this.fixedHeight = height;
         onResize();

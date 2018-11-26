@@ -240,6 +240,10 @@ public class Graphics{
         if(dest != null) surface();
     }
 
+    public static Surface getEffectSurface(){
+        return effects1;
+    }
+
     /** Sets the batch projection matrix to the screen, without the camera. */
     public static void setScreen(){
         boolean drawing = batch.isDrawing();
