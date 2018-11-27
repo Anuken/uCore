@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.*;
  * DO NOT USE IN ANY MULTITHREADED OR BASE uCore CODE.
  */
 public class Tmp{
-    public static final Vector2 v1 = new Vector2();
-    public static final Vector2 v2 = new Vector2();
-    public static final Vector2 v3 = new Vector2();
+    public static final Vector2 v1 = new Translator();
+    public static final Vector2 v2 = new Translator();
+    public static final Vector2 v3 = new Translator();
 
     public static final Vector3 v31 = new Vector3();
     public static final Vector3 v32 = new Vector3();

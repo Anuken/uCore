@@ -265,6 +265,10 @@ public class Window extends Table{
         style.stageBackground.draw(batch, x, y, width, height);
     }
 
+    protected void drawDefaultBackground(Batch batch, float parentAlpha, float x, float y){
+        super.drawBackground(batch, parentAlpha, x, y);
+    }
+
     protected void drawBackground(Batch batch, float parentAlpha, float x, float y){
         super.drawBackground(batch, parentAlpha, x, y);
 
