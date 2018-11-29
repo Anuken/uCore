@@ -472,7 +472,7 @@ public class TextField extends Element implements Disableable{
         }
     }
 
-    void paste(String content, boolean fireChangeEvent){
+    public void paste(String content, boolean fireChangeEvent){
         if(content == null) return;
         StringBuilder buffer = new StringBuilder();
         int textLength = text.length();
