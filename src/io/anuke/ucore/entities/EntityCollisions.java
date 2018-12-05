@@ -6,8 +6,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
 import io.anuke.ucore.entities.trait.Entity;
 import io.anuke.ucore.entities.trait.SolidTrait;
-import io.anuke.ucore.function.TileCollider;
-import io.anuke.ucore.function.TileHitboxProvider;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Physics;
 import io.anuke.ucore.util.QuadTree;
@@ -251,5 +249,17 @@ public class EntityCollisions{
 
             collided.add(entity.getID());
         }
+    }
+
+    public static interface TileCollider{
+        boolean solid(int x, int y);
+    }
+
+    public static interface TileHitboxProvider{
+        void getHitbox(int x, int y, Rectangle out);
+    }
+
+    public static interface BoundingBoxProvider<T>{
+        void getBoundingBox(T type, Rectangle out);
     }
 }

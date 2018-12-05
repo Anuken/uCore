@@ -7,8 +7,6 @@ import io.anuke.ucore.entities.impl.EffectEntity;
 import io.anuke.ucore.entities.trait.PosTrait;
 import io.anuke.ucore.entities.trait.ScaleTrait;
 import io.anuke.ucore.function.Consumer;
-import io.anuke.ucore.function.EffectProvider;
-import io.anuke.ucore.function.EffectRenderer;
 import io.anuke.ucore.util.Mathf;
 import io.anuke.ucore.util.Pooling;
 
@@ -172,4 +170,11 @@ public class Effects{
         }
     }
 
+    public static interface EffectProvider{
+        void createEffect(Effect effect, Color color, float x, float y, float rotation, Object data);
+    }
+
+    public static interface EffectRenderer{
+        void render(EffectContainer effect);
+    }
 }

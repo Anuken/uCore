@@ -2,8 +2,8 @@ package io.anuke.ucore.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Pool.Poolable;
 import com.badlogic.gdx.utils.Timer.Task;
-import io.anuke.ucore.function.DelayRun;
 import io.anuke.ucore.util.Pooling;
 
 public class Timers{
@@ -92,5 +92,17 @@ public class Timers{
 
     public interface DeltaProvider{
         float get();
+    }
+
+    public static class DelayRun implements Poolable{
+        public float delay;
+        public Runnable run;
+        public Runnable finish;
+
+        @Override
+        public void reset(){
+            delay = 0;
+            run = finish = null;
+        }
     }
 }

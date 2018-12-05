@@ -2,7 +2,7 @@ package io.anuke.ucore.util;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import io.anuke.ucore.function.BoundingBoxProvider;
+import io.anuke.ucore.entities.EntityCollisions.BoundingBoxProvider;
 import io.anuke.ucore.function.Consumer;
 
 import java.util.Iterator;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.ucore.function.Consumer;
-import io.anuke.ucore.function.Processor;
+import io.anuke.ucore.function.Function;
 
 import java.util.Comparator;
 
@@ -65,7 +65,7 @@ public class Structs{
         return result;
     }
 
-    public static <T> T findMin(T[] arr, Processor<T, Integer> proc){
+    public static <T> T findMin(T[] arr, Function<T, Integer> proc){
         T result = null;
         int min = Integer.MAX_VALUE;
         for(T t : arr){

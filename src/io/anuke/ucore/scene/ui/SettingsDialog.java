@@ -5,7 +5,6 @@ import io.anuke.ucore.core.Musics;
 import io.anuke.ucore.core.Settings;
 import io.anuke.ucore.core.Sounds;
 import io.anuke.ucore.function.Consumer;
-import io.anuke.ucore.function.StringProcessor;
 import io.anuke.ucore.scene.ui.layout.Table;
 import io.anuke.ucore.util.Bundles;
 
@@ -206,4 +205,7 @@ public class SettingsDialog extends Dialog{
 
     }
 
+    public interface StringProcessor{
+        String get(int i);
+    }
 }

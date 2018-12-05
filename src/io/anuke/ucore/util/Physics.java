@@ -3,7 +3,7 @@ package io.anuke.ucore.util;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import io.anuke.ucore.function.TileCollider;
+import io.anuke.ucore.entities.EntityCollisions.TileCollider;
 
 public class Physics{
     private final static Vector2 vector = new Vector2();

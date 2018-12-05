@@ -2,7 +2,7 @@
 <module>
     <source path="io/anuke/ucore"/>
     <super-source path="emu/"/>
-    <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.function.DelayRun"/>
+    <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.core.Timers.DelayRun"/>
     <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.function.TriFunction"/>
     <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.function.BiFunction"/>
     <extend-configuration-property name="gdx.reflect.include" value="io.anuke.ucore.function.Function"/>

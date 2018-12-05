@@ -3,7 +3,6 @@ package io.anuke.ucore.core;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import io.anuke.ucore.function.Consumer;
-import io.anuke.ucore.function.Event;
 
 public class Events{
     private static ObjectMap<Class<? extends Event>, Array<Consumer<? extends Event>>> events = new ObjectMap<>();
@@ -24,4 +23,7 @@ public class Events{
         }
     }
 
+    public static interface Event{
+
+    }
 }
