@@ -23,7 +23,7 @@ public class Events{
         }
     }
 
-    public static interface Event{
+    public interface Event{
 
     }
 }

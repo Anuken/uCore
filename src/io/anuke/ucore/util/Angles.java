@@ -10,7 +10,6 @@ import io.anuke.ucore.core.Core;
 import io.anuke.ucore.function.Consumer;
 import io.anuke.ucore.function.FloatConsumer;
 import io.anuke.ucore.function.PositionConsumer;
-import io.anuke.ucore.function.PositionFractConsumer;
 
 public class Angles{
     private static final RandomXS128 random = new RandomXS128();
@@ -130,7 +129,7 @@ public class Angles{
     }
 
     public static void randLenVectors(long seed, float fin, int amount, float length,
-                                      float angle, float range, PositionFractConsumer cons){
+                                      float angle, float range, ParticleConsumer cons){
         random.setSeed(seed);
         for(int i = 0; i < amount; i++){
             float scl = length * random.nextFloat() * fin;
@@ -139,5 +138,10 @@ public class Angles{
             cons.accept(rv.x, rv.y, fin * (random.nextFloat()));
         }
     }
+
+    public interface ParticleConsumer{
+        void accept(float x, float y, float fin);
+    }
+
 }
 
